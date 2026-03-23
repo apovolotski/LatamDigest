@@ -1,7 +1,7 @@
 import OpenAI from "openai";
+import { zodTextFormat } from "openai/helpers/zod";
 import { z } from "zod";
 import { config } from "./config.js";
-import { digestSchema } from "./schema.js";
 
 const storySchema = z.object({
   headline: z.string(),
@@ -73,7 +73,7 @@ export async function generateDigest({ countryCode, countryName }) {
 }
 
 async function requestDigest({ countryCode, countryName, timeWindow }) {
-  const response = await getClient().responses.create({
+  const response = await getClient().responses.parse({
     model: config.openaiModel,
     input: `Create a high-quality AI-curated daily news digest for ${countryName} (${countryCode}) focused on the ${timeWindow}.
 
@@ -96,22 +96,87 @@ Requirements:
     max_tool_calls: 8,
     max_output_tokens: 2200,
     text: {
-      format: {
-        type: "json_schema",
-        name: "latam_digest",
-        strict: true,
-        schema: digestSchema
-      }
+      format: zodTextFormat(digestResponseSchema, "latam_digest")
     }
   });
 
-  const parsed = digestResponseSchema.parse(JSON.parse(response.output_text));
+  const parsed = response.output_parsed || parseStructuredResponse(response);
 
   return {
     ...parsed,
     request_id: response._request_id,
     sources: extractSources(response)
   };
+}
+
+function parseStructuredResponse(response) {
+  if (response.output_parsed) {
+    return response.output_parsed;
+  }
+
+  const candidateTexts = [
+    response.output_text,
+    ...extractOutputTexts(response)
+  ]
+    .filter(Boolean)
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  for (const candidate of candidateTexts) {
+    const parsed = tryParseJSON(candidate);
+    if (parsed) {
+      return parsed;
+    }
+
+    const extracted = extractJSONObject(candidate);
+    if (extracted) {
+      const reparsed = tryParseJSON(extracted);
+      if (reparsed) {
+        return reparsed;
+      }
+    }
+  }
+
+  throw new Error(
+    `OpenAI returned no parseable JSON. Request ID: ${response._request_id || "unknown"}`
+  );
+}
+
+function extractOutputTexts(response) {
+  const texts = [];
+
+  for (const item of response.output || []) {
+    for (const content of item.content || []) {
+      if (content.type === "output_text" && content.parsed) {
+        texts.push(JSON.stringify(content.parsed));
+      }
+
+      if (typeof content.text === "string") {
+        texts.push(content.text);
+      }
+    }
+  }
+
+  return texts;
+}
+
+function tryParseJSON(value) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
+function extractJSONObject(value) {
+  const start = value.indexOf("{");
+  const end = value.lastIndexOf("}");
+
+  if (start === -1 || end === -1 || end <= start) {
+    return null;
+  }
+
+  return value.slice(start, end + 1);
 }
 
 function extractSources(response) {
