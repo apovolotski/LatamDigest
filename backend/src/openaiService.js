@@ -12,6 +12,23 @@ const storySchema = z.object({
   why_it_matters: z.string()
 });
 
+const synthesisStorySchema = z.object({
+  headline: z.string().optional(),
+  title: z.string().optional(),
+  source_name: z.string().optional(),
+  source: z.string().optional(),
+  source_url: z.string().optional(),
+  url: z.string().optional(),
+  category: z.string().optional(),
+  summary: z.string().optional(),
+  why_it_matters: z.string().optional()
+});
+
+const synthesisResponseSchema = z.object({
+  daily_summary: z.string().optional(),
+  stories: z.array(synthesisStorySchema)
+});
+
 const digestResponseSchema = z.object({
   country_code: z.string(),
   country_name: z.string(),
@@ -106,7 +123,10 @@ Requirements:
 
   let parsed;
   try {
-    parsed = digestResponseSchema.parse(parseStructuredResponse(response));
+    parsed = normalizeDigestPayload(
+      synthesisResponseSchema.parse(parseStructuredResponse(response)),
+      { countryCode, countryName }
+    );
   } catch (error) {
     const retryResponse = await createSynthesisResponse({
       previousResponseId: searchResponse.id,
@@ -116,7 +136,10 @@ Requirements:
       compact: true
     });
 
-    parsed = digestResponseSchema.parse(parseStructuredResponse(retryResponse));
+    parsed = normalizeDigestPayload(
+      synthesisResponseSchema.parse(parseStructuredResponse(retryResponse)),
+      { countryCode, countryName }
+    );
 
     return {
       ...parsed,
@@ -158,7 +181,9 @@ Requirements:
 - Keep each why_it_matters field to 1 short sentence.
 - Use only stories supported by the gathered search results.
 - Prefer direct reporting URLs, not homepages or PDFs.
-- Do not ask follow-up questions.`
+- Do not ask follow-up questions.
+- Use this exact JSON shape:
+{"daily_summary":"...","stories":[{"title":"...","source":"...","url":"...","category":"...","summary":"...","why_it_matters":"..."}]}`
       : `Using the search results you already gathered for ${countryName} (${countryCode}), produce the final mobile-news digest JSON for the ${timeWindow}.
 
 Requirements:
@@ -167,8 +192,40 @@ Requirements:
 - Use only stories supported by the gathered search results.
 - Prefer direct reporting URLs, not homepages or PDFs.
 - Do not ask follow-up questions.
-- If the strict ${timeWindow} window is sparse, still return the strongest recent stories you found.`,
-    max_output_tokens: compact ? 3200 : 5000
+- If the strict ${timeWindow} window is sparse, still return the strongest recent stories you found.
+- Use this exact JSON shape:
+{"daily_summary":"...","stories":[{"title":"...","source":"...","url":"...","category":"...","summary":"...","why_it_matters":"..."}]}`,
+    max_output_tokens: compact ? 2200 : 3200
+  });
+}
+
+function normalizeDigestPayload(payload, { countryCode, countryName }) {
+  const stories = payload.stories
+    .map((story) => ({
+      headline: story.headline || story.title || "",
+      source_name: story.source_name || story.source || "",
+      source_url: story.source_url || story.url || "",
+      category: story.category || "top",
+      summary: story.summary || "",
+      why_it_matters: story.why_it_matters || ""
+    }))
+    .filter(
+      (story) =>
+        story.headline &&
+        story.source_name &&
+        story.source_url &&
+        story.summary &&
+        story.why_it_matters
+    );
+
+  return digestResponseSchema.parse({
+    country_code: countryCode,
+    country_name: countryName,
+    generated_at: new Date().toISOString(),
+    daily_summary:
+      payload.daily_summary ||
+      `Top recent developments for ${countryName}, curated from reporting sources across politics, business, society, and culture.`,
+    stories
   });
 }
 
