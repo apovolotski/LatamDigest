@@ -41,8 +41,8 @@ final class NewsService {
     /// longer timeout because the hosted backend can take time to wake up.
     private lazy var session: URLSession = {
         let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 60
-        config.timeoutIntervalForResource = 120
+        config.timeoutIntervalForRequest = 180
+        config.timeoutIntervalForResource = 240
         return URLSession(configuration: config)
     }()
 
@@ -69,7 +69,7 @@ final class NewsService {
     }
 
     private func loadArticles(from url: URL) async throws -> [Article] {
-        let retryDelays: [UInt64] = [0, 2_000_000_000, 5_000_000_000]
+        let retryDelays: [UInt64] = [0, 8_000_000_000, 15_000_000_000]
         var lastError: Error?
 
         for delay in retryDelays {
@@ -78,6 +78,7 @@ final class NewsService {
             }
 
             do {
+                try await warmBackendIfNeeded()
                 let (data, response) = try await session.data(from: url)
                 guard let http = response as? HTTPURLResponse else {
                     throw NewsServiceError.invalidResponse
@@ -119,6 +120,13 @@ final class NewsService {
         }
 
         throw NewsServiceError.backendUnavailable
+    }
+
+    private func warmBackendIfNeeded() async throws {
+        let healthURL = baseURL.appendingPathComponent("health")
+        var request = URLRequest(url: healthURL)
+        request.timeoutInterval = 30
+        _ = try? await session.data(for: request)
     }
 }
 
