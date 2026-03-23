@@ -73,7 +73,7 @@ export async function generateDigest({ countryCode, countryName }) {
 }
 
 async function requestDigest({ countryCode, countryName, timeWindow }) {
-  const response = await getClient().responses.parse({
+  const searchResponse = await getClient().responses.create({
     model: config.openaiModel,
     input: `Create a high-quality AI-curated daily news digest for ${countryName} (${countryCode}) focused on the ${timeWindow}.
 
@@ -95,6 +95,21 @@ Requirements:
     include: ["web_search_call.action.sources"],
     max_tool_calls: 8,
     max_output_tokens: 2200,
+  });
+
+  const response = await getClient().responses.parse({
+    model: config.openaiModel,
+    previous_response_id: searchResponse.id,
+    input: `Using the search results you already gathered for ${countryName} (${countryCode}), produce the final mobile-news digest JSON for the ${timeWindow}.
+
+Requirements:
+- Output only JSON matching the schema.
+- Return between 4 and 10 stories when possible.
+- Use only stories supported by the gathered search results.
+- Prefer direct reporting URLs, not homepages or PDFs.
+- Do not ask follow-up questions.
+- If the strict ${timeWindow} window is sparse, still return the strongest recent stories you found.`,
+    max_output_tokens: 2200,
     text: {
       format: zodTextFormat(digestResponseSchema, "latam_digest")
     }
@@ -105,7 +120,10 @@ Requirements:
   return {
     ...parsed,
     request_id: response._request_id,
-    sources: extractSources(response)
+    sources: dedupeSources([
+      ...extractSources(searchResponse),
+      ...extractSources(response)
+    ])
   };
 }
 
