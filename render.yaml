@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: latam-digest-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-5-mini
+      - key: CACHE_TTL_MINUTES
+        value: "360"
+      - key: REFRESH_CRON
+        value: "0 */6 * * *"
