@@ -13,10 +13,8 @@ struct CountryFeedView: View {
 
     var body: some View {
         List {
-            // Picker for selecting feed type
             Picker("Feed", selection: $selectedFeed) {
                 ForEach(CountryFeedViewModel.FeedType.allCases, id: \.self) { feed in
-                    // Hide "other" from the main picker; it's not used.
                     if feed != .other {
                         Text(feed.rawValue)
                             .tag(feed)
@@ -34,8 +32,19 @@ struct CountryFeedView: View {
                 ProgressView()
                     .frame(maxWidth: .infinity)
             } else if let errorMessage = viewModel.errorMessage {
-                Text(errorMessage)
-                    .foregroundColor(.red)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Digest unavailable")
+                        .font(.headline)
+                    Text(errorMessage)
+                        .foregroundColor(.secondary)
+                    Button("Try Again") {
+                        Task {
+                            await viewModel.loadArticles(for: country.id, feed: selectedFeed)
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding(.vertical, 12)
             } else {
                 ForEach(viewModel.articles) { article in
                     ArticleRowView(article: article)

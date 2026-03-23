@@ -35,22 +35,62 @@ function getClient() {
 }
 
 export async function generateDigest({ countryCode, countryName }) {
+  const windows = [
+    {
+      label: "past 24 hours",
+      minimumStories: 4
+    },
+    {
+      label: "past 72 hours",
+      minimumStories: 4
+    },
+    {
+      label: "past 7 days",
+      minimumStories: 4
+    }
+  ];
+
+  let lastDigest = null;
+
+  for (const window of windows) {
+    const result = await requestDigest({
+      countryCode,
+      countryName,
+      timeWindow: window.label
+    });
+
+    lastDigest = result;
+    if (result.stories.length >= window.minimumStories) {
+      return result;
+    }
+  }
+
+  if (lastDigest) {
+    return lastDigest;
+  }
+
+  throw new Error(`Unable to generate a digest for ${countryCode}.`);
+}
+
+async function requestDigest({ countryCode, countryName, timeWindow }) {
   const response = await getClient().responses.create({
     model: config.openaiModel,
-    input: `Create a high-quality AI-curated daily news digest for ${countryName} (${countryCode}) focused on the last 24 hours. 
+    input: `Create a high-quality AI-curated daily news digest for ${countryName} (${countryCode}) focused on the ${timeWindow}.
 
 Requirements:
 - Use web search to find credible recent reporting.
 - Deduplicate overlapping stories.
 - Include the most important political, economic, business, crime, sports, technology, culture, international, and society stories if relevant.
 - Prefer primary reporting and major reputable outlets.
-- Return 6 to 10 stories.
+- Return between 4 and 10 stories.
+- Each story must include the direct article URL from a reporting source, not a homepage.
 - Each summary should be concise and useful in a mobile app.
 - "why_it_matters" should explain relevance in one short paragraph.
-- Use the article URL from the reporting source, not a homepage.
-- Output only data that matches the required JSON schema.`,
+- Do not ask follow-up questions.
+- Do not refuse just because the exact past 24 hours is sparse; use the best important and still-recent stories within the requested window.
+- Output only JSON matching the provided schema.`,
     instructions:
-      "You are the editorial engine for a Latin America news app. Focus on accuracy, recency, and concise synthesis. Avoid sensationalism. If evidence is weak, omit the story instead of guessing.",
+      "You are the editorial engine for a Latin America news app. Be decisive, accurate, and concise. Always return a usable digest. Do not ask clarifying questions. If coverage is thin, return the strongest still-recent verified stories in the requested window.",
     tools: [{ type: "web_search" }],
     include: ["web_search_call.action.sources"],
     max_tool_calls: 8,

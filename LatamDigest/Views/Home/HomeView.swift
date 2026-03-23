@@ -1,8 +1,8 @@
 import SwiftUI
 
-/// The main screen displayed after onboarding.  Shows the user’s
-/// followed countries and a full list of all available countries.  Tapping
-/// a country navigates to its feed.
+/// The main screen displayed after onboarding.  Shows the user's
+/// followed countries and the full country list.  The copy makes it
+/// explicit that tapping a country opens that country's digest.
 struct HomeView: View {
     @AppStorage("selectedCountries") private var selectedCountriesString: String = ""
     @State private var allCountries: [Country] = []
@@ -13,35 +13,61 @@ struct HomeView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                if !selectedCountries.isEmpty {
-                    Section(header: Text("My Countries")) {
-                        ForEach(selectedCountries, id: \.self) { code in
-                            if let country = allCountries.first(where: { $0.id == code }) {
-                                NavigationLink(destination: CountryFeedView(country: country)) {
-                                    Text(country.name)
-                                }
-                            }
-                        }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("LATAM News")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                        Text("Tap any country to open today's digest and source articles.")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
                     }
-                }
 
-                Section(header: Text("All Countries")) {
-                    ForEach(allCountries) { country in
-                        NavigationLink(destination: CountryFeedView(country: country)) {
-                            HStack {
-                                Text(country.name)
-                                if selectedCountries.contains(country.id) {
-                                    Spacer()
-                                    Image(systemName: "star.fill")
-                                        .foregroundColor(.yellow)
+                    if !selectedCountries.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("My Countries")
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.secondary)
+
+                            ForEach(selectedCountries, id: \.self) { code in
+                                if let country = allCountries.first(where: { $0.id == code }) {
+                                    NavigationLink(destination: CountryFeedView(country: country)) {
+                                        countryCard(
+                                            country: country,
+                                            subtitle: "Open your digest",
+                                            isSelected: true
+                                        )
+                                    }
+                                    .buttonStyle(.plain)
                                 }
                             }
                         }
                     }
+
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("All Countries")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.secondary)
+
+                        LazyVStack(spacing: 12) {
+                            ForEach(allCountries) { country in
+                                NavigationLink(destination: CountryFeedView(country: country)) {
+                                    countryCard(
+                                        country: country,
+                                        subtitle: "Browse today's digest",
+                                        isSelected: selectedCountries.contains(country.id)
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
                 }
+                .padding()
             }
-            .navigationTitle("LATAM News")
             .toolbar {
                 NavigationLink(destination: SettingsView()) {
                     Image(systemName: "gearshape")
@@ -51,6 +77,35 @@ struct HomeView: View {
         .onAppear {
             loadCountries()
         }
+    }
+
+    private func countryCard(country: Country, subtitle: String, isSelected: Bool) -> some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(country.name)
+                    .font(.headline)
+                    .foregroundStyle(.primary)
+                Text(subtitle)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            if isSelected {
+                Image(systemName: "star.fill")
+                    .foregroundStyle(.yellow)
+            }
+
+            Image(systemName: "chevron.right")
+                .foregroundStyle(.tertiary)
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(.background)
+                .shadow(color: .black.opacity(0.05), radius: 12, y: 4)
+        )
     }
 
     private func loadCountries() {
