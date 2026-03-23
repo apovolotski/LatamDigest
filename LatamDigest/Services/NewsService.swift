@@ -41,8 +41,8 @@ final class NewsService {
     /// longer timeout because the hosted backend can take time to wake up.
     private lazy var session: URLSession = {
         let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 30
-        config.timeoutIntervalForResource = 60
+        config.timeoutIntervalForRequest = 60
+        config.timeoutIntervalForResource = 120
         return URLSession(configuration: config)
     }()
 
@@ -69,32 +69,56 @@ final class NewsService {
     }
 
     private func loadArticles(from url: URL) async throws -> [Article] {
-        do {
-            let (data, response) = try await session.data(from: url)
-            guard let http = response as? HTTPURLResponse else {
-                throw NewsServiceError.invalidResponse
+        let retryDelays: [UInt64] = [0, 2_000_000_000, 5_000_000_000]
+        var lastError: Error?
+
+        for delay in retryDelays {
+            if delay > 0 {
+                try? await Task.sleep(nanoseconds: delay)
             }
 
-            guard http.statusCode == 200 else {
-                if let apiError = try? JSONDecoder().decode(APIErrorResponse.self, from: data) {
-                    throw NewsServiceError.serverError(apiError.error)
+            do {
+                let (data, response) = try await session.data(from: url)
+                guard let http = response as? HTTPURLResponse else {
+                    throw NewsServiceError.invalidResponse
                 }
 
-                throw NewsServiceError.backendUnavailable
-            }
+                guard http.statusCode == 200 else {
+                    if let apiError = try? JSONDecoder().decode(APIErrorResponse.self, from: data) {
+                        throw NewsServiceError.serverError(apiError.error)
+                    }
 
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .iso8601
-            do {
+                    throw NewsServiceError.backendUnavailable
+                }
+
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
                 return try decoder.decode([Article].self, from: data)
+            } catch let error as DecodingError {
+                lastError = error
+            } catch let error as NewsServiceError {
+                lastError = error
+
+                switch error {
+                case .backendUnavailable:
+                    continue
+                case .serverError, .invalidResponse:
+                    throw error
+                }
             } catch {
-                throw NewsServiceError.invalidResponse
+                lastError = error
             }
-        } catch let error as NewsServiceError {
-            throw error
-        } catch {
-            throw NewsServiceError.backendUnavailable
         }
+
+        if let serviceError = lastError as? NewsServiceError {
+            throw serviceError
+        }
+
+        if lastError is DecodingError {
+            throw NewsServiceError.invalidResponse
+        }
+
+        throw NewsServiceError.backendUnavailable
     }
 }
 
