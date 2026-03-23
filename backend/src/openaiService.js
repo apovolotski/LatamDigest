@@ -1,5 +1,5 @@
 import OpenAI from "openai";
-import { zodTextFormat } from "openai/helpers/zod";
+import { partialParse } from "openai/_vendor/partial-json-parser/parser.js";
 import { z } from "zod";
 import { config } from "./config.js";
 
@@ -97,25 +97,36 @@ Requirements:
     max_output_tokens: 2200,
   });
 
-  const response = await getClient().responses.parse({
-    model: config.openaiModel,
-    previous_response_id: searchResponse.id,
-    input: `Using the search results you already gathered for ${countryName} (${countryCode}), produce the final mobile-news digest JSON for the ${timeWindow}.
-
-Requirements:
-- Output only JSON matching the schema.
-- Return between 4 and 10 stories when possible.
-- Use only stories supported by the gathered search results.
-- Prefer direct reporting URLs, not homepages or PDFs.
-- Do not ask follow-up questions.
-- If the strict ${timeWindow} window is sparse, still return the strongest recent stories you found.`,
-    max_output_tokens: 2200,
-    text: {
-      format: zodTextFormat(digestResponseSchema, "latam_digest")
-    }
+  const response = await createSynthesisResponse({
+    previousResponseId: searchResponse.id,
+    countryCode,
+    countryName,
+    timeWindow
   });
 
-  const parsed = response.output_parsed || parseStructuredResponse(response);
+  let parsed;
+  try {
+    parsed = digestResponseSchema.parse(parseStructuredResponse(response));
+  } catch (error) {
+    const retryResponse = await createSynthesisResponse({
+      previousResponseId: searchResponse.id,
+      countryCode,
+      countryName,
+      timeWindow,
+      compact: true
+    });
+
+    parsed = digestResponseSchema.parse(parseStructuredResponse(retryResponse));
+
+    return {
+      ...parsed,
+      request_id: retryResponse._request_id,
+      sources: dedupeSources([
+        ...extractSources(searchResponse),
+        ...extractSources(retryResponse)
+      ])
+    };
+  }
 
   return {
     ...parsed,
@@ -127,11 +138,41 @@ Requirements:
   };
 }
 
-function parseStructuredResponse(response) {
-  if (response.output_parsed) {
-    return response.output_parsed;
-  }
+async function createSynthesisResponse({
+  previousResponseId,
+  countryCode,
+  countryName,
+  timeWindow,
+  compact = false
+}) {
+  return getClient().responses.create({
+    model: config.openaiModel,
+    previous_response_id: previousResponseId,
+    input: compact
+      ? `Using the search results you already gathered for ${countryName} (${countryCode}), produce compact final JSON for the ${timeWindow}.
 
+Requirements:
+- Output only valid JSON.
+- Return exactly 5 stories.
+- Keep each summary to 1 sentence.
+- Keep each why_it_matters field to 1 short sentence.
+- Use only stories supported by the gathered search results.
+- Prefer direct reporting URLs, not homepages or PDFs.
+- Do not ask follow-up questions.`
+      : `Using the search results you already gathered for ${countryName} (${countryCode}), produce the final mobile-news digest JSON for the ${timeWindow}.
+
+Requirements:
+- Output only valid JSON.
+- Return between 4 and 10 stories when possible.
+- Use only stories supported by the gathered search results.
+- Prefer direct reporting URLs, not homepages or PDFs.
+- Do not ask follow-up questions.
+- If the strict ${timeWindow} window is sparse, still return the strongest recent stories you found.`,
+    max_output_tokens: compact ? 3200 : 5000
+  });
+}
+
+function parseStructuredResponse(response) {
   const candidateTexts = [
     response.output_text,
     ...extractOutputTexts(response)
@@ -144,6 +185,11 @@ function parseStructuredResponse(response) {
     const parsed = tryParseJSON(candidate);
     if (parsed) {
       return parsed;
+    }
+
+    const partial = tryPartialParseJSON(candidate);
+    if (partial) {
+      return partial;
     }
 
     const extracted = extractJSONObject(candidate);
@@ -181,6 +227,14 @@ function extractOutputTexts(response) {
 function tryParseJSON(value) {
   try {
     return JSON.parse(value);
+  } catch {
+    return null;
+  }
+}
+
+function tryPartialParseJSON(value) {
+  try {
+    return partialParse(value);
   } catch {
     return null;
   }
