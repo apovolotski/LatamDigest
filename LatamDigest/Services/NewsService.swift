@@ -1,19 +1,19 @@
 import Foundation
 
-/// A simple networking layer responsible for fetching headlines from the
-/// backend.
+/// A simple networking layer responsible for fetching headlines from a
+/// static JSON feed.
 final class NewsService {
     static let shared = NewsService()
     private init() {}
 
     enum NewsServiceError: LocalizedError {
-        case backendUnavailable
+        case feedUnavailable
         case serverError(String)
         case invalidResponse
 
         var errorDescription: String? {
             switch self {
-            case .backendUnavailable:
+            case .feedUnavailable:
                 return "Latam Digest is temporarily unavailable. Please try again in a minute."
             case .serverError(let message):
                 return message
@@ -23,7 +23,7 @@ final class NewsService {
         }
     }
 
-    /// The base URL of your backend API.  This can be set in the app's
+    /// The base URL of the app's JSON feed. This can be set in the app's
     /// Info.plist via the `LATAM_BACKEND_URL` key.
     var baseURL: URL = {
         if
@@ -34,42 +34,34 @@ final class NewsService {
             return url
         }
 
-        return URL(string: "https://api.example.com")!
+        return URL(string: "https://raw.githubusercontent.com/apovolotski/LatamDigest/main/docs/api")!
     }()
 
-    /// The URLSession used for network requests.  Configured with a
-    /// longer timeout because the hosted backend can take time to wake up.
+    /// The URLSession used for network requests.
     private lazy var session: URLSession = {
         let config = URLSessionConfiguration.default
-        config.timeoutIntervalForRequest = 180
-        config.timeoutIntervalForResource = 240
+        config.timeoutIntervalForRequest = 60
+        config.timeoutIntervalForResource = 90
         return URLSession(configuration: config)
     }()
 
     func fetchTopArticles(countryCode: String) async throws -> [Article] {
-        let requestURL = baseURL.appendingPathComponent("countries")
-            .appendingPathComponent(countryCode)
-            .appendingPathComponent("top")
+        let requestURL = feedURL(components: ["countries", countryCode, "top"])
         return try await loadArticles(from: requestURL)
     }
 
     func fetchLatestArticles(countryCode: String) async throws -> [Article] {
-        let requestURL = baseURL.appendingPathComponent("countries")
-            .appendingPathComponent(countryCode)
-            .appendingPathComponent("latest")
+        let requestURL = feedURL(components: ["countries", countryCode, "latest"])
         return try await loadArticles(from: requestURL)
     }
 
     func fetchArticles(countryCode: String, category: String) async throws -> [Article] {
-        let requestURL = baseURL.appendingPathComponent("countries")
-            .appendingPathComponent(countryCode)
-            .appendingPathComponent("category")
-            .appendingPathComponent(category)
+        let requestURL = feedURL(components: ["countries", countryCode, "category", category])
         return try await loadArticles(from: requestURL)
     }
 
     private func loadArticles(from url: URL) async throws -> [Article] {
-        let retryDelays: [UInt64] = [0, 8_000_000_000, 15_000_000_000]
+        let retryDelays: [UInt64] = [0, 2_000_000_000, 5_000_000_000]
         var lastError: Error?
 
         for delay in retryDelays {
@@ -78,7 +70,6 @@ final class NewsService {
             }
 
             do {
-                try await warmBackendIfNeeded()
                 let (data, response) = try await session.data(from: url)
                 guard let http = response as? HTTPURLResponse else {
                     throw NewsServiceError.invalidResponse
@@ -89,7 +80,7 @@ final class NewsService {
                         throw NewsServiceError.serverError(apiError.error)
                     }
 
-                    throw NewsServiceError.backendUnavailable
+                    throw NewsServiceError.feedUnavailable
                 }
 
                 let decoder = JSONDecoder()
@@ -101,7 +92,7 @@ final class NewsService {
                 lastError = error
 
                 switch error {
-                case .backendUnavailable:
+                case .feedUnavailable:
                     continue
                 case .serverError, .invalidResponse:
                     throw error
@@ -119,14 +110,29 @@ final class NewsService {
             throw NewsServiceError.invalidResponse
         }
 
-        throw NewsServiceError.backendUnavailable
+        throw NewsServiceError.feedUnavailable
     }
 
-    private func warmBackendIfNeeded() async throws {
-        let healthURL = baseURL.appendingPathComponent("health")
-        var request = URLRequest(url: healthURL)
-        request.timeoutInterval = 30
-        _ = try? await session.data(for: request)
+    private func feedURL(components: [String]) -> URL {
+        var url = baseURL
+
+        for component in components {
+            url.appendPathComponent(component)
+        }
+
+        if usesStaticJSON {
+            url.appendPathExtension("json")
+        }
+
+        return url
+    }
+
+    private var usesStaticJSON: Bool {
+        guard let host = baseURL.host?.lowercased() else {
+            return false
+        }
+
+        return host.contains("raw.githubusercontent.com") || host.contains("github.io")
     }
 }
 

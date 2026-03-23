@@ -1,45 +1,51 @@
-# Latam Digest Backend
+# Latam Digest Data Pipeline
 
-Node/Express backend for the Latam Digest iOS app.
+The project now uses a static JSON feed for the iOS app instead of a live
+per-request news backend.
 
 ## What it does
 
-- Uses the OpenAI Responses API with built-in web search to curate country-specific LATAM news digests
-- Returns iOS-friendly article payloads for the current app
-- Keeps a simple in-memory cache to reduce repeated OpenAI calls
-- Optionally refreshes digests on a cron schedule
+- Pulls recent country-specific news from Google News RSS
+- Generates app-ready JSON files under `docs/api`
+- Lets the iOS app read those static files directly from GitHub
+- Refreshes feeds on a GitHub Actions schedule
 
-## Endpoints
-
-- `GET /health`
-- `GET /countries`
-- `GET /countries/:countryCode/top`
-- `GET /countries/:countryCode/latest`
-- `GET /countries/:countryCode/category/:category`
-- `GET /digests/:countryCode`
-
-## Local run
+## Generate feeds locally
 
 ```bash
 cd backend
 npm install
-cp .env.example .env
-npm run dev
+npm run generate:static
 ```
 
-## Deploy
+Generated files are written to:
 
-Render or Railway are the easiest first deployment targets.
+- `docs/api/countries.json`
+- `docs/api/manifest.json`
+- `docs/api/countries/:countryCode/top.json`
+- `docs/api/countries/:countryCode/latest.json`
+- `docs/api/countries/:countryCode/category/:category.json`
 
-Required environment variables:
+## Hosting model
 
-- `OPENAI_API_KEY`
-- `OPENAI_MODEL` (optional, defaults to `gpt-5-mini`)
-- `CACHE_TTL_MINUTES` (optional)
-- `ALLOWED_ORIGINS` (optional)
-- `REFRESH_CRON` (optional)
+For the cheapest MVP path, the app points at the repository's static JSON
+content on GitHub:
+
+- `https://raw.githubusercontent.com/apovolotski/LatamDigest/main/docs/api`
+
+You can later move the same `docs/api` folder to GitHub Pages, Cloudflare Pages,
+or another static host without changing the generator.
+
+## Automation
+
+The workflow at `.github/workflows/refresh-static-feeds.yml` refreshes feeds:
+
+- on demand via `workflow_dispatch`
+- every 6 hours on a schedule
 
 ## Notes
 
-- The current cache is in-memory, which is fine for a first deployment but not ideal for multi-instance scaling.
-- For now, the iOS app can keep using local notifications. Real push notifications would require APNs setup and a device token registration flow.
+- This approach is dramatically cheaper and simpler than live AI-powered
+  news fetching on every app open.
+- Google News links may open through a Google News redirect before landing on
+  the publisher page.
