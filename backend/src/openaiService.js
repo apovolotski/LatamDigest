@@ -6,7 +6,7 @@ import { config } from "./config.js";
 const storySchema = z.object({
   headline: z.string(),
   source_name: z.string(),
-  source_url: z.string().url(),
+  source_url: z.string(),
   category: z.string(),
   summary: z.string(),
   why_it_matters: z.string()
