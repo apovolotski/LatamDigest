@@ -22,8 +22,8 @@ struct SettingsView: View {
 
     var body: some View {
         Form {
-            Section(header: Text("Language")) {
-                Picker("Language", selection: $selectedLanguage) {
+            Section(header: Text(AppLanguage.localized("settings_language_section", languageCode: selectedLanguage))) {
+                Picker(AppLanguage.localized("settings_language_section", languageCode: selectedLanguage), selection: $selectedLanguage) {
                     Text("Español").tag("es")
                     Text("Português").tag("pt")
                     Text("English").tag("en")
@@ -31,9 +31,9 @@ struct SettingsView: View {
                 .pickerStyle(SegmentedPickerStyle())
             }
 
-            Section(header: Text("Countries")) {
+            Section(header: Text(AppLanguage.localized("settings_countries_section", languageCode: selectedLanguage))) {
                 if allCountries.isEmpty {
-                    Text("Loading…")
+                    Text(AppLanguage.localized("settings_loading", languageCode: selectedLanguage))
                         .foregroundColor(.secondary)
                 } else {
                     ForEach(allCountries) { country in
@@ -59,15 +59,15 @@ struct SettingsView: View {
                                 }
                             }
                         )) {
-                            Text(country.name)
+                            Text(country.localizedName(languageCode: selectedLanguage))
                         }
                     }
                 }
             }
 
-            Section(header: Text("Daily Briefing Time")) {
+            Section(header: Text(AppLanguage.localized("settings_daily_briefing_time", languageCode: selectedLanguage))) {
                 DatePicker(
-                    "Time",
+                    AppLanguage.localized("settings_time_label", languageCode: selectedLanguage),
                     selection: Binding(
                         get: { notificationTime },
                         set: { notificationTimeInterval = $0.timeIntervalSince1970 }
@@ -83,12 +83,15 @@ struct SettingsView: View {
                                 languageCode: selectedLanguage
                             )
                         }
-                    }
+                }
             }
         }
-        .navigationTitle("Settings")
+        .navigationTitle(AppLanguage.localized("settings_title", languageCode: selectedLanguage))
         .onAppear {
             loadCountries()
+        }
+        .onChange(of: selectedLanguage) { _, _ in
+            allCountries.sort { $0.localizedName(languageCode: selectedLanguage) < $1.localizedName(languageCode: selectedLanguage) }
         }
     }
 
@@ -99,7 +102,7 @@ struct SettingsView: View {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
                 allCountries = try decoder.decode([Country].self, from: data)
-                allCountries.sort { $0.name < $1.name }
+                allCountries.sort { $0.localizedName(languageCode: selectedLanguage) < $1.localizedName(languageCode: selectedLanguage) }
             } catch {
                 print("Failed to load Countries.json: \(error)")
             }

@@ -18,6 +18,22 @@ final class CountryFeedViewModel: ObservableObject {
         case world = "World"
         case other = "Other"
 
+        var localizationKey: String {
+            switch self {
+            case .top: return "feed_top"
+            case .latest: return "feed_latest"
+            case .politics: return "feed_politics"
+            case .business: return "feed_business"
+            case .sports: return "feed_sports"
+            case .tech: return "feed_tech"
+            case .culture: return "feed_culture"
+            case .crime: return "feed_crime"
+            case .economy: return "feed_economy"
+            case .world: return "feed_world"
+            case .other: return "feed_other"
+            }
+        }
+
         /// Returns a backend category string for non‑standard tabs.
         var categoryKey: String? {
             switch self {

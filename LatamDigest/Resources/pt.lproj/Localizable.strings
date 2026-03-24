@@ -1,2 +1,62 @@
-/* Portuguese localisations */
 "daily_briefing_title" = "Principais manchetes em %@";
+
+"home_title" = "Notícias LATAM";
+"home_subtitle" = "Toque em qualquer país para abrir o resumo de hoje e os artigos de origem.";
+"home_my_countries" = "Meus países";
+"home_open_digest" = "Abrir seu resumo";
+"home_all_countries" = "Todos os países";
+"home_browse_digest" = "Ver o resumo de hoje";
+
+"settings_title" = "Configurações";
+"settings_language_section" = "Idioma";
+"settings_countries_section" = "Países";
+"settings_loading" = "Carregando…";
+"settings_daily_briefing_time" = "Horário do resumo diário";
+"settings_time_label" = "Hora";
+
+"onboarding_choose_language" = "Escolha seu idioma";
+"onboarding_select_countries" = "Selecione seus países";
+"onboarding_search" = "Buscar";
+"onboarding_continue" = "Continuar";
+"onboarding_daily_briefing_time" = "Horário do resumo diário";
+"onboarding_daily_briefing_subtitle" = "Quando você gostaria de receber suas manchetes diárias?";
+"onboarding_finish_setup" = "Concluir configuração";
+
+"feed_top" = "Top";
+"feed_latest" = "Recentes";
+"feed_politics" = "Política";
+"feed_business" = "Negócios";
+"feed_sports" = "Esportes";
+"feed_tech" = "Tecnologia";
+"feed_culture" = "Cultura";
+"feed_crime" = "Crime";
+"feed_economy" = "Economia";
+"feed_world" = "Mundo";
+"feed_other" = "Outros";
+"feed_digest_unavailable" = "Resumo indisponível";
+"feed_try_again" = "Tentar novamente";
+
+"country_AR" = "Argentina";
+"country_BO" = "Bolívia";
+"country_BR" = "Brasil";
+"country_CL" = "Chile";
+"country_CO" = "Colômbia";
+"country_CR" = "Costa Rica";
+"country_CU" = "Cuba";
+"country_DO" = "República Dominicana";
+"country_EC" = "Equador";
+"country_GT" = "Guatemala";
+"country_HN" = "Honduras";
+"country_MX" = "México";
+"country_NI" = "Nicarágua";
+"country_PA" = "Panamá";
+"country_PY" = "Paraguai";
+"country_PE" = "Peru";
+"country_PR" = "Porto Rico";
+"country_SV" = "El Salvador";
+"country_UY" = "Uruguai";
+"country_VE" = "Venezuela";
+"country_TT" = "Trinidad e Tobago";
+"country_SR" = "Suriname";
+"country_GY" = "Guiana";
+"country_GF" = "Guiana Francesa";

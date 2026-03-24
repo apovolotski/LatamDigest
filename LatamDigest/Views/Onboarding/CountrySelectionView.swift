@@ -13,13 +13,13 @@ struct CountrySelectionView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Text("Select your countries")
+            Text(AppLanguage.localized("onboarding_select_countries", languageCode: viewModel.selectedLanguage))
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.top)
 
             // Search bar
-            TextField("Search", text: $searchText)
+            TextField(AppLanguage.localized("onboarding_search", languageCode: viewModel.selectedLanguage), text: $searchText)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.vertical)
 
@@ -30,7 +30,7 @@ struct CountrySelectionView: View {
                         toggleSelection(country)
                     }) {
                         HStack {
-                            Text(country.name)
+                            Text(country.localizedName(languageCode: viewModel.selectedLanguage))
                                 .foregroundColor(.primary)
                             Spacer()
                             if selected.contains(country.id) {
@@ -48,7 +48,7 @@ struct CountrySelectionView: View {
                 viewModel.selectedCountries = Array(selected)
                 viewModel.proceed()
             }) {
-                Text("Continue")
+                Text(AppLanguage.localized("onboarding_continue", languageCode: viewModel.selectedLanguage))
                     .font(.headline)
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -72,7 +72,10 @@ struct CountrySelectionView: View {
         if searchText.isEmpty {
             return countries
         }
-        return countries.filter { $0.name.localizedCaseInsensitiveContains(searchText) || $0.id.localizedCaseInsensitiveContains(searchText) }
+        return countries.filter {
+            $0.localizedName(languageCode: viewModel.selectedLanguage).localizedCaseInsensitiveContains(searchText)
+                || $0.id.localizedCaseInsensitiveContains(searchText)
+        }
     }
 
     private func toggleSelection(_ country: Country) {
@@ -91,8 +94,7 @@ struct CountrySelectionView: View {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
                 countries = try decoder.decode([Country].self, from: data)
-                // Sort alphabetically by name
-                countries.sort { $0.name < $1.name }
+                countries.sort { $0.localizedName(languageCode: viewModel.selectedLanguage) < $1.localizedName(languageCode: viewModel.selectedLanguage) }
             } catch {
                 print("Failed to load Countries.json: \(error)")
                 countries = []

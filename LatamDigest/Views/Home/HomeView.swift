@@ -4,6 +4,7 @@ import SwiftUI
 /// followed countries and the full country list.  The copy makes it
 /// explicit that tapping a country opens that country's digest.
 struct HomeView: View {
+    @AppStorage("preferredLanguage") private var preferredLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
     @AppStorage("selectedCountries") private var selectedCountriesString: String = ""
     @State private var allCountries: [Country] = []
 
@@ -16,17 +17,17 @@ struct HomeView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("LATAM News")
+                        Text(AppLanguage.localized("home_title", languageCode: preferredLanguage))
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                        Text("Tap any country to open today's digest and source articles.")
+                        Text(AppLanguage.localized("home_subtitle", languageCode: preferredLanguage))
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
 
                     if !selectedCountries.isEmpty {
                         VStack(alignment: .leading, spacing: 12) {
-                            Text("My Countries")
+                            Text(AppLanguage.localized("home_my_countries", languageCode: preferredLanguage))
                                 .font(.title3)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.secondary)
@@ -36,7 +37,7 @@ struct HomeView: View {
                                     NavigationLink(destination: CountryFeedView(country: country)) {
                                         countryCard(
                                             country: country,
-                                            subtitle: "Open your digest",
+                                            subtitle: AppLanguage.localized("home_open_digest", languageCode: preferredLanguage),
                                             isSelected: true
                                         )
                                     }
@@ -47,7 +48,7 @@ struct HomeView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("All Countries")
+                        Text(AppLanguage.localized("home_all_countries", languageCode: preferredLanguage))
                             .font(.title3)
                             .fontWeight(.semibold)
                             .foregroundStyle(.secondary)
@@ -57,7 +58,7 @@ struct HomeView: View {
                                 NavigationLink(destination: CountryFeedView(country: country)) {
                                     countryCard(
                                         country: country,
-                                        subtitle: "Browse today's digest",
+                                        subtitle: AppLanguage.localized("home_browse_digest", languageCode: preferredLanguage),
                                         isSelected: selectedCountries.contains(country.id)
                                     )
                                 }
@@ -82,7 +83,7 @@ struct HomeView: View {
     private func countryCard(country: Country, subtitle: String, isSelected: Bool) -> some View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text(country.name)
+                Text(country.localizedName(languageCode: preferredLanguage))
                     .font(.headline)
                     .foregroundStyle(.primary)
                 Text(subtitle)
@@ -115,7 +116,7 @@ struct HomeView: View {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
                 allCountries = try decoder.decode([Country].self, from: data)
-                allCountries.sort { $0.name < $1.name }
+                allCountries.sort { $0.localizedName(languageCode: preferredLanguage) < $1.localizedName(languageCode: preferredLanguage) }
             } catch {
                 print("Failed to load Countries.json: \(error)")
             }

@@ -10,14 +10,18 @@ import SwiftUI
 @main
 struct LatamDigestApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage("preferredLanguage") private var preferredLanguage = Locale.current.language.languageCode?.identifier ?? "es"
 
     var body: some Scene {
         WindowGroup {
-            if hasCompletedOnboarding {
-                HomeView()
-            } else {
-                OnboardingFlowView()
+            Group {
+                if hasCompletedOnboarding {
+                    HomeView()
+                } else {
+                    OnboardingFlowView()
+                }
             }
+            .environment(\.locale, Locale(identifier: preferredLanguage))
         }
     }
 }

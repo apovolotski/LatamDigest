@@ -7,7 +7,7 @@ struct LanguageSelectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 32) {
-            Text("Choose your language")
+            Text("onboarding_choose_language")
                 .font(.title)
                 .fontWeight(.bold)
                 .padding(.top)
