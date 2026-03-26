@@ -82,37 +82,51 @@ enum BriefingComposer {
     }
 
     private static func extractThemes(from articles: [Article], languageCode: String) -> [String] {
-        let dictionary = [
-            ("election", "theme_politics"),
-            ("government", "theme_government"),
-            ("econom", "theme_economy"),
-            ("market", "theme_business"),
-            ("trade", "theme_business"),
-            ("tech", "theme_technology"),
-            ("startup", "theme_technology"),
-            ("crime", "theme_public_safety"),
-            ("security", "theme_public_safety"),
-            ("sport", "theme_sports"),
-            ("cup", "theme_sports"),
-            ("culture", "theme_culture"),
-            ("art", "theme_culture")
+        let themeKeywords: [(key: String, needles: [String])] = [
+            ("theme_politics", ["election", "elections", "president", "senate", "congress", "diputados", "senado", "elección", "elecciones", "oficialismo", "oposición", "golpe"]),
+            ("theme_government", ["government", "ministry", "cabinet", "policy", "gobierno", "ministerio", "decreto", "boletín oficial"]),
+            ("theme_economy", ["econom", "market", "markets", "trade", "inflation", "salary", "labor", "labour", "mercado", "laboral", "salario", "inflación", "empleo", "deuda"]),
+            ("theme_business", ["business", "company", "companies", "startup", "corporate", "empresa", "empresas", "industria"]),
+            ("theme_technology", ["tech", "technology", "ai", "startup", "software", "tecnología", "inteligencia artificial", "digital"]),
+            ("theme_public_safety", ["crime", "security", "violence", "police", "racism", "racismo", "seguridad", "epidemiológico", "epidemiologico", "salud", "dengue", "submarinos", "defensa"]),
+            ("theme_sports", ["sport", "sports", "copa", "mundial", "selección", "seleccion", "partido", "vs.", "vs ", "scaloni", "amistoso", "tyc", "espn"]),
+            ("theme_culture", ["culture", "cultural", "art", "music", "cine", "cultura", "arte", "museo"])
         ]
 
-        let combined = articles.map { "\($0.title) \($0.snippet)".lowercased() }.joined(separator: " ")
-        var themes: [String] = []
+        var scores: [String: Int] = [:]
 
-        for (needle, key) in dictionary where combined.contains(needle) {
-            themes.append(AppLanguage.localized(key, languageCode: languageCode))
+        for article in articles {
+            let text = article.title.lowercased()
+            for theme in themeKeywords {
+                let matches = theme.needles.reduce(into: 0) { partialResult, needle in
+                    if text.contains(needle) {
+                        partialResult += 1
+                    }
+                }
+
+                if matches > 0 {
+                    scores[theme.key, default: 0] += matches
+                }
+            }
         }
 
-        if themes.isEmpty {
-            themes = [
+        let sortedThemes = scores
+            .sorted { lhs, rhs in
+                if lhs.value == rhs.value {
+                    return lhs.key < rhs.key
+                }
+                return lhs.value > rhs.value
+            }
+            .map { AppLanguage.localized($0.key, languageCode: languageCode) }
+
+        if sortedThemes.isEmpty {
+            return [
                 AppLanguage.localized("theme_regional_watch", languageCode: languageCode),
                 AppLanguage.localized("theme_policy_moves", languageCode: languageCode),
                 AppLanguage.localized("theme_public_reaction", languageCode: languageCode)
             ]
         }
 
-        return Array(themes.prefix(3))
+        return Array(sortedThemes.prefix(3))
     }
 }
