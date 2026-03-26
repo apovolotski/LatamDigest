@@ -2,6 +2,13 @@
 
 "home_title" = "LATAM News";
 "home_subtitle" = "Tap any country to open today's digest and source articles.";
+"home_briefing_title" = "Your Daily Briefing";
+"home_briefing_summary" = "Today’s digest covers %1$@ with %2$d major stories already organized for you.";
+"home_briefing_why" = "Start here for the main cross-border developments, then dive deeper into the stories that matter most across %1$@ and the wider region.";
+"home_briefing_region" = "Latin America";
+"home_briefing_loading" = "Preparing your daily briefing…";
+"home_for_you" = "For You";
+"home_saved_section" = "Saved & Offline";
 "home_my_countries" = "My Countries";
 "home_open_digest" = "Open your digest";
 "home_all_countries" = "All Countries";
@@ -35,6 +42,30 @@
 "feed_other" = "Other";
 "feed_digest_unavailable" = "Digest unavailable";
 "feed_try_again" = "Try Again";
+"feed_briefing_title" = "Today in %@";
+"feed_briefing_summary" = "A native briefing for %@ built from %2$d recent stories and reporting from %@.";
+"feed_briefing_why" = "Use this summary to understand the main developments in %@ before opening any source coverage.";
+
+"detail_screen_title" = "Story Brief";
+"detail_native_summary_title" = "Native Summary";
+"detail_why_it_matters_title" = "Why It Matters";
+"detail_key_points_title" = "Key Points";
+"detail_context_summary" = "This story is included in your %@ briefing because it adds local context and source reporting from %@.";
+"detail_save_button" = "Save Offline";
+"detail_saved_button" = "Saved";
+"detail_open_source_button" = "Open Source";
+
+"theme_politics" = "Politics";
+"theme_government" = "Government";
+"theme_economy" = "Economy";
+"theme_business" = "Business";
+"theme_technology" = "Technology";
+"theme_public_safety" = "Public Safety";
+"theme_sports" = "Sports";
+"theme_culture" = "Culture";
+"theme_regional_watch" = "Regional Watch";
+"theme_policy_moves" = "Policy Moves";
+"theme_public_reaction" = "Public Reaction";
 
 "country_AR" = "Argentina";
 "country_BO" = "Bolivia";

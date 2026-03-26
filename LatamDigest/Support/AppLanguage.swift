@@ -14,6 +14,11 @@ enum AppLanguage {
         return NSLocalizedString(key, tableName: "Localizable", bundle: bundle, value: key, comment: "")
     }
 
+    static func localizedFormat(_ key: String, languageCode: String, _ arguments: CVarArg...) -> String {
+        let format = localized(key, languageCode: languageCode)
+        return String(format: format, locale: Locale(identifier: supportedLanguageCode(from: languageCode)), arguments: arguments)
+    }
+
     static func supportedLanguageCode(from languageCode: String) -> String {
         switch languageCode.prefix(2) {
         case "es": return "es"

@@ -8,9 +8,15 @@ import SafariServices
 struct CountryFeedView: View {
     let country: Country
     @AppStorage("preferredLanguage") private var preferredLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
+    @EnvironmentObject private var library: ReadingLibrary
     @StateObject private var viewModel = CountryFeedViewModel()
     @State private var selectedFeed: CountryFeedViewModel.FeedType = .top
     @State private var presentingSafariURL: URL?
+    @State private var selectedArticle: Article?
+
+    private var briefingCard: BriefingCard? {
+        BriefingComposer.countryBriefing(country: country, articles: viewModel.articles, languageCode: preferredLanguage)
+    }
 
     var body: some View {
         List {
@@ -54,6 +60,20 @@ struct CountryFeedView: View {
             .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 4, trailing: 0))
             .listRowBackground(Color.clear)
 
+            if let briefingCard {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(briefingCard.title)
+                        .font(.headline)
+                    Text(briefingCard.summary)
+                        .foregroundStyle(.secondary)
+                    themeRow(themes: briefingCard.themes)
+                    Text(briefingCard.whyItMatters)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 8)
+            }
+
             if viewModel.isLoading {
                 ProgressView()
                     .frame(maxWidth: .infinity)
@@ -73,9 +93,17 @@ struct CountryFeedView: View {
                 .padding(.vertical, 12)
             } else {
                 ForEach(viewModel.articles) { article in
-                    ArticleRowView(article: article)
-                        .onTapGesture {
-                            presentingSafariURL = article.url
+                    ArticleRowView(
+                        article: article,
+                        isSaved: library.isSaved(article),
+                        onToggleSave: {
+                            library.toggleSaved(article)
+                        }
+                    )
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        selectedArticle = article
+                        library.markAsRead(article)
                         }
                 }
             }
@@ -86,8 +114,28 @@ struct CountryFeedView: View {
                 await viewModel.loadArticles(for: country.id, feed: selectedFeed)
             }
         }
+        .navigationDestination(item: $selectedArticle) { article in
+            ArticleDetailView(article: article, countryName: country.localizedName(languageCode: preferredLanguage))
+        }
         .sheet(item: $presentingSafariURL) { url in
             SafariView(url: url)
+        }
+    }
+
+    private func themeRow(themes: [String]) -> some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(themes, id: \.self) { theme in
+                    Text(theme)
+                        .font(.caption.weight(.semibold))
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(
+                            Capsule()
+                                .fill(Color(.secondarySystemBackground))
+                        )
+                }
+            }
         }
     }
 }

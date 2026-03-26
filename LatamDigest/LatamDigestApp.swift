@@ -11,6 +11,7 @@ import SwiftUI
 struct LatamDigestApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @AppStorage("preferredLanguage") private var preferredLanguage = Locale.current.language.languageCode?.identifier ?? "es"
+    @StateObject private var readingLibrary = ReadingLibrary.shared
 
     var body: some Scene {
         WindowGroup {
@@ -22,6 +23,7 @@ struct LatamDigestApp: App {
                 }
             }
             .environment(\.locale, Locale(identifier: preferredLanguage))
+            .environmentObject(readingLibrary)
         }
     }
 }

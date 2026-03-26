@@ -23,6 +23,10 @@ public struct Article: Identifiable, Codable, Equatable {
     /// Publication date and time.
     public let publishedAt: Date
 
+    public var storageKey: String {
+        url.absoluteString
+    }
+
     public enum CodingKeys: String, CodingKey {
         case id
         case title

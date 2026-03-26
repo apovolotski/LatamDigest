@@ -85,7 +85,9 @@ final class NewsService {
 
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
-                return try decoder.decode([Article].self, from: data)
+                let articles = try decoder.decode([Article].self, from: data)
+                persistCache(data: data, for: url)
+                return articles
             } catch let error as DecodingError {
                 lastError = error
             } catch let error as NewsServiceError {
@@ -100,6 +102,10 @@ final class NewsService {
             } catch {
                 lastError = error
             }
+        }
+
+        if let cachedArticles = loadCachedArticles(for: url) {
+            return cachedArticles
         }
 
         if let serviceError = lastError as? NewsServiceError {
@@ -133,6 +139,39 @@ final class NewsService {
         }
 
         return host.contains("raw.githubusercontent.com") || host.contains("github.io")
+    }
+
+    private func persistCache(data: Data, for url: URL) {
+        guard let cacheURL = cacheFileURL(for: url) else { return }
+        try? FileManager.default.createDirectory(
+            at: cacheURL.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
+        try? data.write(to: cacheURL, options: .atomic)
+    }
+
+    private func loadCachedArticles(for url: URL) -> [Article]? {
+        guard
+            let cacheURL = cacheFileURL(for: url),
+            let data = try? Data(contentsOf: cacheURL)
+        else {
+            return nil
+        }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try? decoder.decode([Article].self, from: data)
+    }
+
+    private func cacheFileURL(for url: URL) -> URL? {
+        guard let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
+            return nil
+        }
+
+        let sanitizedPath = url.path.replacingOccurrences(of: "/", with: "_")
+        return cachesDirectory
+            .appendingPathComponent("LatamDigestFeedCache", isDirectory: true)
+            .appendingPathComponent("\(sanitizedPath).json")
     }
 }
 

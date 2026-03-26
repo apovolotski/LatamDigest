@@ -5,6 +5,8 @@ import SwiftUI
 /// triggers navigation to the article (handled in the parent view).
 struct ArticleRowView: View {
     let article: Article
+    let isSaved: Bool
+    let onToggleSave: () -> Void
 
     private var formattedDate: String {
         let formatter = RelativeDateTimeFormatter()
@@ -19,6 +21,11 @@ struct ArticleRowView: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
                 Spacer()
+                Button(action: onToggleSave) {
+                    Image(systemName: isSaved ? "bookmark.fill" : "bookmark")
+                        .foregroundStyle(isSaved ? Color.accentColor : Color.secondary)
+                }
+                .buttonStyle(.plain)
                 Text(formattedDate)
                     .font(.caption2)
                     .foregroundColor(.secondary)

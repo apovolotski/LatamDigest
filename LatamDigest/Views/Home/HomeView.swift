@@ -6,10 +6,25 @@ import SwiftUI
 struct HomeView: View {
     @AppStorage("preferredLanguage") private var preferredLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
     @AppStorage("selectedCountries") private var selectedCountriesString: String = ""
+    @EnvironmentObject private var library: ReadingLibrary
     @State private var allCountries: [Country] = []
+    @State private var briefingArticles: [Article] = []
+    @State private var isLoadingBriefing = false
 
     private var selectedCountries: [String] {
         selectedCountriesString.split(separator: ",").map { String($0) }
+    }
+
+    private var followedCountries: [Country] {
+        allCountries.filter { selectedCountries.contains($0.id) }
+    }
+
+    private var personalizedBriefing: BriefingCard? {
+        BriefingComposer.personalizedBriefing(
+            countries: followedCountries,
+            articles: briefingArticles,
+            languageCode: preferredLanguage
+        )
     }
 
     var body: some View {
@@ -23,6 +38,59 @@ struct HomeView: View {
                         Text(AppLanguage.localized("home_subtitle", languageCode: preferredLanguage))
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
+                    }
+
+                    if isLoadingBriefing {
+                        ProgressView(AppLanguage.localized("home_briefing_loading", languageCode: preferredLanguage))
+                    } else if let personalizedBriefing {
+                        briefingCard(personalizedBriefing)
+                    }
+
+                    if !briefingArticles.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text(AppLanguage.localized("home_for_you", languageCode: preferredLanguage))
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.secondary)
+
+                            ForEach(briefingArticles.prefix(4)) { article in
+                                NavigationLink(destination: ArticleDetailView(
+                                    article: article,
+                                    countryName: followedCountries.first(where: { article.title.localizedCaseInsensitiveContains($0.localizedName(languageCode: preferredLanguage)) })?.localizedName(languageCode: preferredLanguage)
+                                    ?? AppLanguage.localized("home_briefing_region", languageCode: preferredLanguage)
+                                )) {
+                                    ArticleRowView(
+                                        article: article,
+                                        isSaved: library.isSaved(article),
+                                        onToggleSave: { library.toggleSaved(article) }
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                    }
+
+                    if !library.savedArticles.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text(AppLanguage.localized("home_saved_section", languageCode: preferredLanguage))
+                                .font(.title3)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.secondary)
+
+                            ForEach(library.savedArticles.prefix(3)) { article in
+                                NavigationLink(destination: ArticleDetailView(
+                                    article: article,
+                                    countryName: AppLanguage.localized("home_briefing_region", languageCode: preferredLanguage)
+                                )) {
+                                    ArticleRowView(
+                                        article: article,
+                                        isSaved: true,
+                                        onToggleSave: { library.toggleSaved(article) }
+                                    )
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
                     }
 
                     if !selectedCountries.isEmpty {
@@ -77,6 +145,20 @@ struct HomeView: View {
         }
         .onAppear {
             loadCountries()
+            Task {
+                await loadBriefing()
+            }
+        }
+        .onChange(of: selectedCountriesString) { _, _ in
+            Task {
+                await loadBriefing()
+            }
+        }
+        .onChange(of: preferredLanguage) { _, _ in
+            allCountries.sort { $0.localizedName(languageCode: preferredLanguage) < $1.localizedName(languageCode: preferredLanguage) }
+            Task {
+                await loadBriefing()
+            }
         }
     }
 
@@ -121,5 +203,76 @@ struct HomeView: View {
                 print("Failed to load Countries.json: \(error)")
             }
         }
+    }
+
+    private func loadBriefing() async {
+        guard !selectedCountries.isEmpty else {
+            await MainActor.run {
+                briefingArticles = []
+                isLoadingBriefing = false
+            }
+            return
+        }
+
+        await MainActor.run { isLoadingBriefing = true }
+        var aggregated: [Article] = []
+
+        await withTaskGroup(of: [Article].self) { group in
+            for code in selectedCountries.prefix(3) {
+                group.addTask {
+                    (try? await NewsService.shared.fetchTopArticles(countryCode: code)) ?? []
+                }
+            }
+
+            for await result in group {
+                aggregated.append(contentsOf: result.prefix(3))
+            }
+        }
+
+        await MainActor.run {
+            briefingArticles = aggregated
+                .sorted(by: { $0.publishedAt > $1.publishedAt })
+            isLoadingBriefing = false
+        }
+    }
+
+    private func briefingCard(_ briefing: BriefingCard) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(briefing.title)
+                .font(.title2.weight(.bold))
+            Text(briefing.summary)
+                .foregroundStyle(.secondary)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(briefing.themes, id: \.self) { theme in
+                        Text(theme)
+                            .font(.caption.weight(.semibold))
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(
+                                Capsule()
+                                    .fill(Color.white.opacity(0.72))
+                            )
+                    }
+                }
+            }
+            Text(briefing.whyItMatters)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+                .fill(
+                    LinearGradient(
+                        colors: [
+                            Color(red: 0.92, green: 0.96, blue: 1.0),
+                            Color(red: 0.98, green: 0.95, blue: 0.90)
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+        )
     }
 }

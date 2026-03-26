@@ -2,6 +2,13 @@
 
 "home_title" = "Noticias LATAM";
 "home_subtitle" = "Toca cualquier país para abrir el resumen de hoy y los artículos fuente.";
+"home_briefing_title" = "Tu resumen diario";
+"home_briefing_summary" = "El resumen de hoy cubre %1$@ con %2$d historias clave ya organizadas para ti.";
+"home_briefing_why" = "Empieza aquí para entender los principales movimientos transfronterizos y luego profundiza en las historias más importantes de %1$@ y la región.";
+"home_briefing_region" = "América Latina";
+"home_briefing_loading" = "Preparando tu resumen diario…";
+"home_for_you" = "Para ti";
+"home_saved_section" = "Guardado y sin conexión";
 "home_my_countries" = "Mis países";
 "home_open_digest" = "Abrir tu resumen";
 "home_all_countries" = "Todos los países";
@@ -35,6 +42,30 @@
 "feed_other" = "Otros";
 "feed_digest_unavailable" = "Resumen no disponible";
 "feed_try_again" = "Intentar de nuevo";
+"feed_briefing_title" = "Hoy en %@";
+"feed_briefing_summary" = "Un resumen nativo de %@ creado a partir de %2$d historias recientes y reportes de %@.";
+"feed_briefing_why" = "Usa este resumen para entender los movimientos principales en %@ antes de abrir cualquier fuente externa.";
+
+"detail_screen_title" = "Resumen de la historia";
+"detail_native_summary_title" = "Resumen nativo";
+"detail_why_it_matters_title" = "Por qué importa";
+"detail_key_points_title" = "Puntos clave";
+"detail_context_summary" = "Esta historia aparece en tu resumen de %@ porque aporta contexto local y reportes de %@.";
+"detail_save_button" = "Guardar sin conexión";
+"detail_saved_button" = "Guardado";
+"detail_open_source_button" = "Abrir fuente";
+
+"theme_politics" = "Política";
+"theme_government" = "Gobierno";
+"theme_economy" = "Economía";
+"theme_business" = "Negocios";
+"theme_technology" = "Tecnología";
+"theme_public_safety" = "Seguridad pública";
+"theme_sports" = "Deportes";
+"theme_culture" = "Cultura";
+"theme_regional_watch" = "Panorama regional";
+"theme_policy_moves" = "Movimientos de política";
+"theme_public_reaction" = "Reacción pública";
 
 "country_AR" = "Argentina";
 "country_BO" = "Bolivia";

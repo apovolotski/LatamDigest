@@ -2,6 +2,13 @@
 
 "home_title" = "Notícias LATAM";
 "home_subtitle" = "Toque em qualquer país para abrir o resumo de hoje e os artigos de origem.";
+"home_briefing_title" = "Seu resumo diário";
+"home_briefing_summary" = "O resumo de hoje cobre %1$@ com %2$d histórias principais já organizadas para você.";
+"home_briefing_why" = "Comece aqui para entender os principais movimentos regionais e depois aprofunde nas histórias mais importantes de %1$@ e da região.";
+"home_briefing_region" = "América Latina";
+"home_briefing_loading" = "Preparando seu resumo diário…";
+"home_for_you" = "Para você";
+"home_saved_section" = "Salvos e offline";
 "home_my_countries" = "Meus países";
 "home_open_digest" = "Abrir seu resumo";
 "home_all_countries" = "Todos os países";
@@ -35,6 +42,30 @@
 "feed_other" = "Outros";
 "feed_digest_unavailable" = "Resumo indisponível";
 "feed_try_again" = "Tentar novamente";
+"feed_briefing_title" = "Hoje em %@";
+"feed_briefing_summary" = "Um resumo nativo de %@ criado a partir de %2$d histórias recentes e reportagens de %@.";
+"feed_briefing_why" = "Use este resumo para entender os principais acontecimentos em %@ antes de abrir qualquer fonte externa.";
+
+"detail_screen_title" = "Resumo da matéria";
+"detail_native_summary_title" = "Resumo nativo";
+"detail_why_it_matters_title" = "Por que importa";
+"detail_key_points_title" = "Pontos principais";
+"detail_context_summary" = "Esta matéria entra no seu resumo de %@ porque adiciona contexto local e cobertura de %@.";
+"detail_save_button" = "Salvar offline";
+"detail_saved_button" = "Salvo";
+"detail_open_source_button" = "Abrir fonte";
+
+"theme_politics" = "Política";
+"theme_government" = "Governo";
+"theme_economy" = "Economia";
+"theme_business" = "Negócios";
+"theme_technology" = "Tecnologia";
+"theme_public_safety" = "Segurança pública";
+"theme_sports" = "Esportes";
+"theme_culture" = "Cultura";
+"theme_regional_watch" = "Panorama regional";
+"theme_policy_moves" = "Movimentos de política";
+"theme_public_reaction" = "Reação pública";
 
 "country_AR" = "Argentina";
 "country_BO" = "Bolívia";
