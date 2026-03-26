@@ -4,7 +4,7 @@ import Foundation
 /// lightweight information is stored here; the actual content lives on
 /// the publisher’s website and is opened in a WebView.  Conforms to
 /// `Codable` for easy decoding from JSON.
-public struct Article: Identifiable, Codable, Equatable {
+public struct Article: Identifiable, Codable, Equatable, Hashable {
     /// Unique identifier used locally.  The backend should provide its
     /// own identifier; if not, a UUID is generated on decoding.
     public let id: UUID
