@@ -20,38 +20,7 @@ struct CountryFeedView: View {
 
     var body: some View {
         List {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(CountryFeedViewModel.FeedType.allCases, id: \.self) { feed in
-                        if feed != .other {
-                            Button {
-                                selectedFeed = feed
-                            } label: {
-                                Text(AppLanguage.localized(feed.localizationKey, languageCode: preferredLanguage))
-                                    .font(.subheadline.weight(.semibold))
-                                    .foregroundStyle(selectedFeed == feed ? Color.primary : Color.secondary)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 10)
-                                    .background(
-                                        Capsule()
-                                            .fill(selectedFeed == feed ? Color.white : Color.clear)
-                                    )
-                                    .overlay(
-                                        Capsule()
-                                            .stroke(
-                                                selectedFeed == feed
-                                                    ? Color.gray.opacity(0.18)
-                                                    : Color.gray.opacity(0.1),
-                                                lineWidth: 1
-                                            )
-                                    )
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                }
-                .padding(8)
-            }
+            feedPickerRow
             .onChange(of: selectedFeed) { _ in
                 Task {
                     await viewModel.loadArticles(for: country.id, feed: selectedFeed)
@@ -61,51 +30,15 @@ struct CountryFeedView: View {
             .listRowBackground(Color.clear)
 
             if let briefingCard {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(briefingCard.title)
-                        .font(.headline)
-                    Text(briefingCard.summary)
-                        .foregroundStyle(.secondary)
-                    themeRow(themes: briefingCard.themes)
-                    Text(briefingCard.whyItMatters)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-                .padding(.vertical, 8)
+                briefingSection(briefingCard)
             }
 
             if viewModel.isLoading {
-                ProgressView()
-                    .frame(maxWidth: .infinity)
+                loadingSection
             } else if let errorMessage = viewModel.errorMessage {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(AppLanguage.localized("feed_digest_unavailable", languageCode: preferredLanguage))
-                        .font(.headline)
-                    Text(errorMessage)
-                        .foregroundColor(.secondary)
-                    Button(AppLanguage.localized("feed_try_again", languageCode: preferredLanguage)) {
-                        Task {
-                            await viewModel.loadArticles(for: country.id, feed: selectedFeed)
-                        }
-                    }
-                    .buttonStyle(.borderedProminent)
-                }
-                .padding(.vertical, 12)
+                errorSection(errorMessage)
             } else {
-                ForEach(viewModel.articles) { article in
-                    ArticleRowView(
-                        article: article,
-                        isSaved: library.isSaved(article),
-                        onToggleSave: {
-                            library.toggleSaved(article)
-                        }
-                    )
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        selectedArticle = article
-                        library.markAsRead(article)
-                        }
-                }
+                articleRows
             }
         }
         .navigationTitle(country.localizedName(languageCode: preferredLanguage))
@@ -119,6 +52,101 @@ struct CountryFeedView: View {
         }
         .sheet(item: $presentingSafariURL) { url in
             SafariView(url: url)
+        }
+    }
+
+    private var visibleFeeds: [CountryFeedViewModel.FeedType] {
+        CountryFeedViewModel.FeedType.allCases.filter { $0 != .other }
+    }
+
+    private var feedPickerRow: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(visibleFeeds, id: \.self) { feed in
+                    feedButton(for: feed)
+                }
+            }
+            .padding(8)
+        }
+    }
+
+    private func feedButton(for feed: CountryFeedViewModel.FeedType) -> some View {
+        Button {
+            selectedFeed = feed
+        } label: {
+            Text(AppLanguage.localized(feed.localizationKey, languageCode: preferredLanguage))
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(selectedFeed == feed ? Color.primary : Color.secondary)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 10)
+                .background(feedBackground(isSelected: selectedFeed == feed))
+                .overlay(feedBorder(isSelected: selectedFeed == feed))
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func feedBackground(isSelected: Bool) -> some View {
+        Capsule()
+            .fill(isSelected ? Color.white : Color.clear)
+    }
+
+    private func feedBorder(isSelected: Bool) -> some View {
+        Capsule()
+            .stroke(
+                isSelected ? Color.gray.opacity(0.18) : Color.gray.opacity(0.1),
+                lineWidth: 1
+            )
+    }
+
+    private func briefingSection(_ briefingCard: BriefingCard) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(briefingCard.title)
+                .font(.headline)
+            Text(briefingCard.summary)
+                .foregroundStyle(.secondary)
+            themeRow(themes: briefingCard.themes)
+            Text(briefingCard.whyItMatters)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+        .padding(.vertical, 8)
+    }
+
+    private var loadingSection: some View {
+        ProgressView()
+            .frame(maxWidth: .infinity)
+    }
+
+    private func errorSection(_ errorMessage: String) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(AppLanguage.localized("feed_digest_unavailable", languageCode: preferredLanguage))
+                .font(.headline)
+            Text(errorMessage)
+                .foregroundColor(.secondary)
+            Button(AppLanguage.localized("feed_try_again", languageCode: preferredLanguage)) {
+                Task {
+                    await viewModel.loadArticles(for: country.id, feed: selectedFeed)
+                }
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding(.vertical, 12)
+    }
+
+    private var articleRows: some View {
+        ForEach(viewModel.articles) { article in
+            ArticleRowView(
+                article: article,
+                isSaved: library.isSaved(article),
+                onToggleSave: {
+                    library.toggleSaved(article)
+                }
+            )
+            .contentShape(Rectangle())
+            .onTapGesture {
+                selectedArticle = article
+                library.markAsRead(article)
+            }
         }
     }
 
