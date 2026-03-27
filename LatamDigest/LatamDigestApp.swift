@@ -12,18 +12,20 @@ struct LatamDigestApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @AppStorage("preferredLanguage") private var preferredLanguage = Locale.current.language.languageCode?.identifier ?? "es"
     @StateObject private var readingLibrary = ReadingLibrary.shared
+    @StateObject private var workspaceStore = WorkspaceStore.shared
 
     var body: some Scene {
         WindowGroup {
             Group {
                 if hasCompletedOnboarding {
-                    HomeView()
+                    WorkspaceRootView()
                 } else {
                     OnboardingFlowView()
                 }
             }
             .environment(\.locale, Locale(identifier: preferredLanguage))
             .environmentObject(readingLibrary)
+            .environmentObject(workspaceStore)
         }
     }
 }
