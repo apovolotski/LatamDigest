@@ -1,10 +1,29 @@
 import Foundation
 
+enum DossierAssessment: String, Codable, CaseIterable, Identifiable {
+    case exploratory
+    case developing
+    case confirmed
+
+    var id: String { rawValue }
+
+    var localizationKey: String {
+        switch self {
+        case .exploratory: return "dossier_assessment_exploratory"
+        case .developing: return "dossier_assessment_developing"
+        case .confirmed: return "dossier_assessment_confirmed"
+        }
+    }
+}
+
 struct Dossier: Identifiable, Codable, Equatable {
     let id: UUID
     var title: String
     var note: String
     var conclusion: String
+    var recommendation: String
+    var assessment: DossierAssessment
+    var nextReviewAt: Date?
     var topicID: String?
     var countryCode: String?
     var evidence: [Article]
@@ -16,6 +35,9 @@ struct Dossier: Identifiable, Codable, Equatable {
         title: String,
         note: String = "",
         conclusion: String = "",
+        recommendation: String = "",
+        assessment: DossierAssessment = .developing,
+        nextReviewAt: Date? = nil,
         topicID: String? = nil,
         countryCode: String? = nil,
         evidence: [Article] = [],
@@ -26,6 +48,9 @@ struct Dossier: Identifiable, Codable, Equatable {
         self.title = title
         self.note = note
         self.conclusion = conclusion
+        self.recommendation = recommendation
+        self.assessment = assessment
+        self.nextReviewAt = nextReviewAt
         self.topicID = topicID
         self.countryCode = countryCode
         self.evidence = evidence
@@ -43,6 +68,9 @@ struct Dossier: Identifiable, Codable, Equatable {
         case title
         case note
         case conclusion
+        case recommendation
+        case assessment
+        case nextReviewAt
         case topicID
         case countryCode
         case evidence
@@ -56,6 +84,9 @@ struct Dossier: Identifiable, Codable, Equatable {
         title = try container.decode(String.self, forKey: .title)
         note = try container.decodeIfPresent(String.self, forKey: .note) ?? ""
         conclusion = try container.decodeIfPresent(String.self, forKey: .conclusion) ?? ""
+        recommendation = try container.decodeIfPresent(String.self, forKey: .recommendation) ?? ""
+        assessment = try container.decodeIfPresent(DossierAssessment.self, forKey: .assessment) ?? .developing
+        nextReviewAt = try container.decodeIfPresent(Date.self, forKey: .nextReviewAt)
         topicID = try container.decodeIfPresent(String.self, forKey: .topicID)
         countryCode = try container.decodeIfPresent(String.self, forKey: .countryCode)
         evidence = try container.decodeIfPresent([Article].self, forKey: .evidence) ?? []
@@ -87,6 +118,5 @@ struct ComparisonRow: Identifiable, Equatable {
     let momentum: SignalMomentum
     let score: Int
     let evidenceCount: Int
-    let latestHeadline: String?
     let updatedAt: Date?
 }

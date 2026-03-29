@@ -27,7 +27,7 @@ struct DossiersView: View {
                 } else {
                     ForEach(workspaceStore.dossiers) { dossier in
                         NavigationLink {
-                            DossierDetailView(dossierID: dossier.id, languageCode: languageCode)
+                            DossierDetailView(dossierID: dossier.id, countries: countries, languageCode: languageCode)
                         } label: {
                             dossierRow(dossier)
                         }
@@ -61,9 +61,19 @@ struct DossiersView: View {
 
     private func dossierRow(_ dossier: Dossier) -> some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(dossier.title)
-                .font(.headline)
-            if !dossier.conclusion.isEmpty {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Text(dossier.title)
+                    .font(.headline)
+                Spacer(minLength: 0)
+                assessmentBadge(dossier.assessment)
+            }
+
+            if !dossier.recommendation.isEmpty {
+                Text(dossier.recommendation)
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                    .lineLimit(2)
+            } else if !dossier.conclusion.isEmpty {
                 Text(dossier.conclusion)
                     .font(.subheadline)
                     .foregroundStyle(.primary)
@@ -87,28 +97,68 @@ struct DossiersView: View {
             .font(.caption)
             .foregroundStyle(.secondary)
 
-            Text(
-                AppLanguage.localizedFormat(
-                    "dossiers_evidence_count",
-                    languageCode: languageCode,
-                    dossier.evidence.count
+            HStack(spacing: 12) {
+                Text(
+                    AppLanguage.localizedFormat(
+                        "dossiers_evidence_count",
+                        languageCode: languageCode,
+                        dossier.evidence.count
+                    )
                 )
-            )
-            .font(.caption)
-            .foregroundStyle(.secondary)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+                if let nextReviewAt = dossier.nextReviewAt {
+                    Text(
+                        AppLanguage.localizedFormat(
+                            "dossier_row_next_review",
+                            languageCode: languageCode,
+                            formatShortDate(nextReviewAt)
+                        )
+                    )
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                }
+            }
         }
         .padding(.vertical, 6)
+    }
+
+    private func assessmentBadge(_ assessment: DossierAssessment) -> some View {
+        Text(AppLanguage.localized(assessment.localizationKey, languageCode: languageCode))
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.primary)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(
+                Capsule()
+                    .fill(Color.secondary.opacity(0.12))
+            )
+    }
+
+    private func formatShortDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: languageCode)
+        return formatter.string(from: date)
     }
 }
 
 struct DossierDetailView: View {
     let dossierID: UUID
+    let countries: [Country]
     let languageCode: String
 
     @EnvironmentObject private var workspaceStore: WorkspaceStore
     @EnvironmentObject private var library: ReadingLibrary
     @State private var noteDraft = ""
     @State private var conclusionDraft = ""
+    @State private var recommendationDraft = ""
+    @State private var selectedAssessment: DossierAssessment = .developing
+    @State private var nextReviewEnabled = false
+    @State private var nextReviewAt = Calendar.current.date(byAdding: .day, value: 1, to: .now) ?? .now
+    @State private var evidenceExpanded = false
 
     private var dossier: Dossier? {
         workspaceStore.dossiers.first(where: { $0.id == dossierID })
@@ -123,50 +173,118 @@ struct DossierDetailView: View {
                             Text(dossier.title)
                                 .font(.title3.weight(.bold))
 
-                            if let topic = dossier.topic {
-                                Label(AppLanguage.localized(topic.localizationKey, languageCode: languageCode), systemImage: topic.icon)
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
+                            HStack(spacing: 10) {
+                                if let topic = dossier.topic {
+                                    Label(AppLanguage.localized(topic.localizationKey, languageCode: languageCode), systemImage: topic.icon)
+                                        .font(.subheadline)
+                                        .foregroundStyle(.secondary)
+                                }
+                                if let countryName = dossierCountryName(dossier) {
+                                    Label(countryName, systemImage: "globe.americas")
+                                        .font(.subheadline)
+                                        .foregroundStyle(.secondary)
+                                }
                             }
                         }
                         .padding(.vertical, 4)
                     }
 
-                    Section(AppLanguage.localized("dossier_detail_notes", languageCode: languageCode)) {
-                        TextEditor(text: $noteDraft)
-                            .frame(minHeight: 140)
+                    Section(AppLanguage.localized("dossier_detail_status", languageCode: languageCode)) {
+                        Picker(
+                            AppLanguage.localized("dossier_detail_assessment", languageCode: languageCode),
+                            selection: $selectedAssessment
+                        ) {
+                            ForEach(DossierAssessment.allCases) { assessment in
+                                Text(AppLanguage.localized(assessment.localizationKey, languageCode: languageCode))
+                                    .tag(assessment)
+                            }
+                        }
+
+                        Toggle(
+                            AppLanguage.localized("dossier_detail_next_review_toggle", languageCode: languageCode),
+                            isOn: $nextReviewEnabled
+                        )
+
+                        if nextReviewEnabled {
+                            DatePicker(
+                                AppLanguage.localized("dossier_detail_next_review_date", languageCode: languageCode),
+                                selection: $nextReviewAt,
+                                displayedComponents: [.date]
+                            )
+                        } else {
+                            Text(AppLanguage.localized("dossier_detail_next_review_none", languageCode: languageCode))
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    Section(AppLanguage.localized("dossier_detail_recommendation", languageCode: languageCode)) {
+                        editorCard(
+                            text: $recommendationDraft,
+                            placeholder: AppLanguage.localized("dossier_detail_recommendation_placeholder", languageCode: languageCode)
+                        )
                     }
 
                     Section(AppLanguage.localized("dossier_detail_conclusion", languageCode: languageCode)) {
-                        TextEditor(text: $conclusionDraft)
-                            .frame(minHeight: 140)
+                        editorCard(
+                            text: $conclusionDraft,
+                            placeholder: AppLanguage.localized("dossier_detail_conclusion_placeholder", languageCode: languageCode)
+                        )
                     }
 
-                    Section(AppLanguage.localized("dossier_detail_evidence", languageCode: languageCode)) {
-                        ForEach(dossier.evidence) { article in
-                            NavigationLink {
-                                ArticleDetailView(
-                                    article: article,
-                                    countryName: AppLanguage.localized("dashboard_nav_title", languageCode: languageCode)
-                                )
-                            } label: {
-                                ArticleRowView(
-                                    article: article,
-                                    isSaved: library.isSaved(article),
-                                    onToggleSave: { library.toggleSaved(article) }
-                                )
-                            }
-                            .swipeActions {
-                                Button(role: .destructive) {
-                                    workspaceStore.removeArticle(article, from: dossier)
-                                } label: {
-                                    Label(
-                                        AppLanguage.localized("dossier_detail_remove", languageCode: languageCode),
-                                        systemImage: "trash"
-                                    )
+                    Section(AppLanguage.localized("dossier_detail_notes", languageCode: languageCode)) {
+                        editorCard(
+                            text: $noteDraft,
+                            placeholder: AppLanguage.localized("dossier_detail_notes_placeholder", languageCode: languageCode)
+                        )
+                    }
+
+                    Section(AppLanguage.localized("dossier_detail_supporting_evidence", languageCode: languageCode)) {
+                        DisclosureGroup(
+                            isExpanded: $evidenceExpanded,
+                            content: {
+                                if dossier.evidence.isEmpty {
+                                    Text(AppLanguage.localized("dossier_detail_supporting_evidence_empty", languageCode: languageCode))
+                                        .font(.subheadline)
+                                        .foregroundStyle(.secondary)
+                                        .padding(.vertical, 4)
+                                } else {
+                                    ForEach(dossier.evidence) { article in
+                                        NavigationLink {
+                                            ArticleDetailView(
+                                                article: article,
+                                                countryName: dossierCountryName(dossier) ?? AppLanguage.localized("dashboard_nav_title", languageCode: languageCode)
+                                            )
+                                        } label: {
+                                            ArticleRowView(
+                                                article: article,
+                                                isSaved: library.isSaved(article),
+                                                onToggleSave: { library.toggleSaved(article) }
+                                            )
+                                        }
+                                        .swipeActions {
+                                            Button(role: .destructive) {
+                                                workspaceStore.removeArticle(article, from: dossier)
+                                            } label: {
+                                                Label(
+                                                    AppLanguage.localized("dossier_detail_remove", languageCode: languageCode),
+                                                    systemImage: "trash"
+                                                )
+                                            }
+                                        }
+                                    }
                                 }
+                            },
+                            label: {
+                                Text(
+                                    AppLanguage.localizedFormat(
+                                        "dossiers_evidence_count",
+                                        languageCode: languageCode,
+                                        dossier.evidence.count
+                                    )
+                                )
                             }
-                        }
+                        )
                     }
                 }
                 .listStyle(.insetGrouped)
@@ -174,6 +292,10 @@ struct DossierDetailView: View {
                 .onAppear {
                     noteDraft = dossier.note
                     conclusionDraft = dossier.conclusion
+                    recommendationDraft = dossier.recommendation
+                    selectedAssessment = dossier.assessment
+                    nextReviewEnabled = dossier.nextReviewAt != nil
+                    nextReviewAt = dossier.nextReviewAt ?? (Calendar.current.date(byAdding: .day, value: 1, to: .now) ?? .now)
                 }
                 .onDisappear(perform: saveNotes)
             } else {
@@ -187,7 +309,30 @@ struct DossierDetailView: View {
         guard var dossier else { return }
         dossier.note = noteDraft.trimmingCharacters(in: .whitespacesAndNewlines)
         dossier.conclusion = conclusionDraft.trimmingCharacters(in: .whitespacesAndNewlines)
+        dossier.recommendation = recommendationDraft.trimmingCharacters(in: .whitespacesAndNewlines)
+        dossier.assessment = selectedAssessment
+        dossier.nextReviewAt = nextReviewEnabled ? nextReviewAt : nil
         workspaceStore.updateDossier(dossier)
+    }
+
+    private func dossierCountryName(_ dossier: Dossier) -> String? {
+        guard let countryCode = dossier.countryCode else { return nil }
+        return countries.first(where: { $0.id == countryCode })?.localizedName(languageCode: languageCode)
+    }
+
+    private func editorCard(text: Binding<String>, placeholder: String) -> some View {
+        ZStack(alignment: .topLeading) {
+            if text.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                Text(placeholder)
+                    .font(.body)
+                    .foregroundStyle(.tertiary)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 14)
+            }
+
+            TextEditor(text: text)
+                .frame(minHeight: 120)
+        }
     }
 }
 
@@ -202,6 +347,9 @@ private struct DossierComposerSheet: View {
     @State private var note = ""
     @State private var selectedTopic: WatchTopic?
     @State private var selectedCountryCode: String = ""
+    @State private var selectedAssessment: DossierAssessment = .developing
+    @State private var nextReviewEnabled = true
+    @State private var nextReviewAt = Calendar.current.date(byAdding: .day, value: 2, to: .now) ?? .now
 
     var body: some View {
         NavigationStack {
@@ -217,6 +365,31 @@ private struct DossierComposerSheet: View {
                         axis: .vertical
                     )
                     .lineLimit(3...6)
+                }
+
+                Section(AppLanguage.localized("dossier_detail_status", languageCode: languageCode)) {
+                    Picker(
+                        AppLanguage.localized("dossier_detail_assessment", languageCode: languageCode),
+                        selection: $selectedAssessment
+                    ) {
+                        ForEach(DossierAssessment.allCases) { assessment in
+                            Text(AppLanguage.localized(assessment.localizationKey, languageCode: languageCode))
+                                .tag(assessment)
+                        }
+                    }
+
+                    Toggle(
+                        AppLanguage.localized("dossier_detail_next_review_toggle", languageCode: languageCode),
+                        isOn: $nextReviewEnabled
+                    )
+
+                    if nextReviewEnabled {
+                        DatePicker(
+                            AppLanguage.localized("dossier_detail_next_review_date", languageCode: languageCode),
+                            selection: $nextReviewAt,
+                            displayedComponents: [.date]
+                        )
+                    }
                 }
 
                 Section(AppLanguage.localized("dossiers_create_topic_label", languageCode: languageCode)) {
@@ -260,6 +433,8 @@ private struct DossierComposerSheet: View {
                         workspaceStore.createDossier(
                             title: trimmedTitle.isEmpty ? AppLanguage.localized("dossiers_create_untitled", languageCode: languageCode) : trimmedTitle,
                             note: note.trimmingCharacters(in: .whitespacesAndNewlines),
+                            assessment: selectedAssessment,
+                            nextReviewAt: nextReviewEnabled ? nextReviewAt : nil,
                             topic: selectedTopic,
                             countryCode: selectedCountryCode.isEmpty ? nil : selectedCountryCode
                         )

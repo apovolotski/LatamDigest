@@ -67,7 +67,6 @@ enum SignalEngine {
                 momentum: momentum,
                 score: score,
                 evidenceCount: relevant.count,
-                latestHeadline: relevant.first?.title,
                 updatedAt: relevant.first?.publishedAt
             )
         }
@@ -185,6 +184,38 @@ enum SignalEngine {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter.string(from: date)
+    }
+
+    static func recommendedAction(
+        topic: WatchTopic,
+        intensity: SignalIntensity,
+        momentum: SignalMomentum,
+        languageCode: String
+    ) -> String {
+        switch (intensity, momentum) {
+        case (.elevated, .new), (.elevated, .rising):
+            return AppLanguage.localizedFormat(
+                "signal_action_escalate",
+                languageCode: languageCode,
+                AppLanguage.localized(topic.localizationKey, languageCode: languageCode)
+            )
+        case (.elevated, _), (.active, .new), (.active, .rising):
+            return AppLanguage.localizedFormat(
+                "signal_action_active",
+                languageCode: languageCode,
+                AppLanguage.localized(topic.localizationKey, languageCode: languageCode)
+            )
+        default:
+            return AppLanguage.localizedFormat(
+                "signal_action_watch",
+                languageCode: languageCode,
+                AppLanguage.localized(topic.localizationKey, languageCode: languageCode)
+            )
+        }
+    }
+
+    static func operatingQuestion(topic: WatchTopic, languageCode: String) -> String {
+        AppLanguage.localized(topic.questionKey, languageCode: languageCode)
     }
 
     private static func analyzeSignal(

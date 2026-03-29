@@ -44,6 +44,21 @@ enum WatchTopic: String, CaseIterable, Codable, Identifiable {
         }
     }
 
+    var questionKey: String {
+        switch self {
+        case .politics: return "watch_topic_politics_question"
+        case .economy: return "watch_topic_economy_question"
+        case .business: return "watch_topic_business_question"
+        case .publicSafety: return "watch_topic_public_safety_question"
+        case .technology: return "watch_topic_technology_question"
+        case .culture: return "watch_topic_culture_question"
+        case .sports: return "watch_topic_sports_question"
+        case .health: return "watch_topic_health_question"
+        case .energy: return "watch_topic_energy_question"
+        case .labor: return "watch_topic_labor_question"
+        }
+    }
+
     var icon: String {
         switch self {
         case .politics: return "building.columns"

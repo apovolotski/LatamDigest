@@ -127,8 +127,26 @@ final class WorkspaceStore: ObservableObject {
     }
 
     @discardableResult
-    func createDossier(title: String, note: String, topic: WatchTopic?, countryCode: String?) -> Dossier {
-        let dossier = Dossier(title: title, note: note, topicID: topic?.rawValue, countryCode: countryCode)
+    func createDossier(
+        title: String,
+        note: String,
+        conclusion: String = "",
+        recommendation: String = "",
+        assessment: DossierAssessment = .developing,
+        nextReviewAt: Date? = nil,
+        topic: WatchTopic?,
+        countryCode: String?
+    ) -> Dossier {
+        let dossier = Dossier(
+            title: title,
+            note: note,
+            conclusion: conclusion,
+            recommendation: recommendation,
+            assessment: assessment,
+            nextReviewAt: nextReviewAt,
+            topicID: topic?.rawValue,
+            countryCode: countryCode
+        )
         dossiers.insert(dossier, at: 0)
         persistDossiers()
         return dossier

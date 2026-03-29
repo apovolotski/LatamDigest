@@ -1,11 +1,20 @@
 import SwiftUI
 
+private enum WorkspaceTab: Hashable {
+    case dashboard
+    case watchlists
+    case compare
+    case timeline
+    case dossiers
+}
+
 struct WorkspaceRootView: View {
     @AppStorage("preferredLanguage") private var preferredLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
     @AppStorage("selectedCountries") private var selectedCountriesString: String = ""
     @EnvironmentObject private var library: ReadingLibrary
     @EnvironmentObject private var workspaceStore: WorkspaceStore
     @StateObject private var viewModel = MonitoringWorkspaceViewModel()
+    @State private var selectedTab: WorkspaceTab = .dashboard
 
     private var selectedCountryCodes: [String] {
         selectedCountriesString
@@ -31,7 +40,7 @@ struct WorkspaceRootView: View {
     }
 
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             NavigationStack {
                 DashboardView(
                     countries: selectedCountries,
@@ -39,7 +48,8 @@ struct WorkspaceRootView: View {
                     dossiers: workspaceStore.dossiers,
                     snapshots: workspaceStore.snapshots,
                     monitoringPlans: workspaceStore.monitoringPlans,
-                    languageCode: preferredLanguage
+                    languageCode: preferredLanguage,
+                    onSelectTab: { selectedTab = $0 }
                 )
                 .navigationDestination(for: WatchTopic.self) { topic in
                     TopicWorkspaceView(
@@ -61,6 +71,7 @@ struct WorkspaceRootView: View {
                     systemImage: "rectangle.grid.2x2"
                 )
             }
+            .tag(WorkspaceTab.dashboard)
 
             NavigationStack {
                 WatchlistsView(
@@ -83,6 +94,7 @@ struct WorkspaceRootView: View {
                     systemImage: "dot.scope.display"
                 )
             }
+            .tag(WorkspaceTab.watchlists)
 
             NavigationStack {
                 CompareView(
@@ -105,6 +117,7 @@ struct WorkspaceRootView: View {
                     systemImage: "arrow.left.arrow.right.square"
                 )
             }
+            .tag(WorkspaceTab.compare)
 
             NavigationStack {
                 TimelineView(
@@ -118,6 +131,7 @@ struct WorkspaceRootView: View {
                     systemImage: "clock.arrow.trianglehead.counterclockwise.rotate.90"
                 )
             }
+            .tag(WorkspaceTab.timeline)
 
             NavigationStack {
                 DossiersView(
@@ -131,6 +145,7 @@ struct WorkspaceRootView: View {
                     systemImage: "folder"
                 )
             }
+            .tag(WorkspaceTab.dossiers)
         }
         .task(id: selectedCountriesString) {
             await viewModel.load(countryCodes: selectedCountryCodes)
@@ -153,6 +168,7 @@ private struct DashboardView: View {
     let snapshots: [DailySnapshot]
     let monitoringPlans: [TopicMonitoringPlan]
     let languageCode: String
+    let onSelectTab: (WorkspaceTab) -> Void
 
     @EnvironmentObject private var workspaceStore: WorkspaceStore
 
@@ -196,6 +212,34 @@ private struct DashboardView: View {
                 header
                 heroCard
                 metricsRow
+
+                WorkspaceSectionHeader(
+                    title: AppLanguage.localized("dashboard_section_tools", languageCode: languageCode),
+                    subtitle: AppLanguage.localized("dashboard_section_tools_subtitle", languageCode: languageCode)
+                )
+
+                HStack(spacing: 12) {
+                    WorkspaceToolCard(
+                        title: AppLanguage.localized("dashboard_tool_watchlists_title", languageCode: languageCode),
+                        subtitle: AppLanguage.localized("dashboard_tool_watchlists_subtitle", languageCode: languageCode),
+                        systemImage: "dot.scope.display",
+                        action: { onSelectTab(.watchlists) }
+                    )
+
+                    WorkspaceToolCard(
+                        title: AppLanguage.localized("dashboard_tool_compare_title", languageCode: languageCode),
+                        subtitle: AppLanguage.localized("dashboard_tool_compare_subtitle", languageCode: languageCode),
+                        systemImage: "arrow.left.arrow.right.square",
+                        action: { onSelectTab(.compare) }
+                    )
+                }
+
+                WorkspaceToolCard(
+                    title: AppLanguage.localized("dashboard_tool_dossiers_title", languageCode: languageCode),
+                    subtitle: AppLanguage.localized("dashboard_tool_dossiers_subtitle", languageCode: languageCode),
+                    systemImage: "folder.badge.plus",
+                    action: { onSelectTab(.dossiers) }
+                )
 
                 WorkspaceSectionHeader(
                     title: AppLanguage.localized("dashboard_section_signals", languageCode: languageCode),
@@ -289,7 +333,11 @@ private struct DashboardView: View {
                 } else {
                     VStack(spacing: 12) {
                         ForEach(dossiers.prefix(3)) { dossier in
-                            DossierRowCard(dossier: dossier, languageCode: languageCode)
+                            DossierRowCard(
+                                dossier: dossier,
+                                countries: countries,
+                                languageCode: languageCode
+                            )
                         }
                     }
                 }
@@ -408,12 +456,16 @@ private struct WatchlistsView: View {
             Section(AppLanguage.localized("watchlists_section_active", languageCode: languageCode)) {
                 ForEach(workspaceStore.watchedTopics) { topic in
                     NavigationLink(value: topic) {
-                        WatchTopicRow(
+                        WatchlistWorkspaceCard(
                             topic: topic,
+                            rows: comparisonRows(for: topic),
                             activityCount: activityCount(for: topic),
+                            openTaskCount: openTaskCount(for: topic),
+                            plan: workspaceStore.monitoringPlan(for: topic),
                             languageCode: languageCode
                         )
                     }
+                    .buttonStyle(.plain)
                 }
             }
 
@@ -447,11 +499,24 @@ private struct WatchlistsView: View {
         .navigationTitle(AppLanguage.localized("watchlists_nav_title", languageCode: languageCode))
     }
 
+    private func comparisonRows(for topic: WatchTopic) -> [ComparisonRow] {
+        SignalEngine.comparisonRows(
+            topic: topic,
+            countries: countries,
+            articlesByCountry: articlesByCountry,
+            languageCode: languageCode
+        )
+    }
+
     private func activityCount(for topic: WatchTopic) -> Int {
         countries.reduce(into: 0) { partialResult, country in
             let articles = articlesByCountry[country.id] ?? []
             partialResult += SignalEngine.relevantArticles(for: topic, in: articles).count
         }
+    }
+
+    private func openTaskCount(for topic: WatchTopic) -> Int {
+        workspaceStore.tasks(for: topic).filter { !$0.isCompleted }.count
     }
 }
 
@@ -460,7 +525,10 @@ private struct CompareView: View {
     let articlesByCountry: [String: [Article]]
     let languageCode: String
 
+    @EnvironmentObject private var workspaceStore: WorkspaceStore
     @State private var selectedTopic: WatchTopic = .economy
+    @State private var analystConclusionDraft = ""
+    @State private var savedMessage: String?
 
     private var rows: [ComparisonRow] {
         SignalEngine.comparisonRows(
@@ -480,6 +548,39 @@ private struct CompareView: View {
         )
     }
 
+    private var topicEvidence: [Article] {
+        countries
+            .flatMap { country in
+                SignalEngine.relevantArticles(for: selectedTopic, in: articlesByCountry[country.id] ?? [])
+            }
+            .sorted(by: { $0.publishedAt > $1.publishedAt })
+    }
+
+    private var generatedSummary: String {
+        let leadCountry = rows.first?.countryName ?? AppLanguage.localized("compare_lead_fallback_country", languageCode: languageCode)
+        return AppLanguage.localizedFormat(
+            "compare_regional_summary",
+            languageCode: languageCode,
+            AppLanguage.localized(selectedTopic.localizationKey, languageCode: languageCode),
+            leadCountry,
+            rows.count,
+            topicEvidence.count
+        )
+    }
+
+    private var recommendedPosture: String {
+        guard let leadRow = rows.first else {
+            return AppLanguage.localized("compare_posture_empty", languageCode: languageCode)
+        }
+
+        return SignalEngine.recommendedAction(
+            topic: selectedTopic,
+            intensity: leadRow.intensity,
+            momentum: leadRow.momentum,
+            languageCode: languageCode
+        )
+    }
+
     var body: some View {
         List {
             Section {
@@ -493,6 +594,43 @@ private struct CompareView: View {
                     }
                 }
                 .pickerStyle(.menu)
+            }
+
+            Section(AppLanguage.localized("compare_section_brief", languageCode: languageCode)) {
+                VStack(alignment: .leading, spacing: 12) {
+                    Text(AppLanguage.localized("compare_brief_title", languageCode: languageCode))
+                        .font(.headline)
+                    Text(generatedSummary)
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(AppLanguage.localized("compare_posture_title", languageCode: languageCode))
+                            .font(.subheadline.weight(.semibold))
+                        Text(recommendedPosture)
+                            .font(.subheadline)
+                            .foregroundStyle(.primary)
+
+                        Text(AppLanguage.localized("compare_operating_question_title", languageCode: languageCode))
+                            .font(.subheadline.weight(.semibold))
+                            .padding(.top, 4)
+                        Text(SignalEngine.operatingQuestion(topic: selectedTopic, languageCode: languageCode))
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    HStack(spacing: 10) {
+                        WorkspaceMiniStat(
+                            title: AppLanguage.localized("compare_stat_countries", languageCode: languageCode),
+                            value: "\(rows.count)"
+                        )
+                        WorkspaceMiniStat(
+                            title: AppLanguage.localized("compare_stat_evidence", languageCode: languageCode),
+                            value: "\(topicEvidence.count)"
+                        )
+                    }
+                }
+                .padding(.vertical, 6)
             }
 
             Section(AppLanguage.localized("compare_section_insights", languageCode: languageCode)) {
@@ -516,9 +654,83 @@ private struct CompareView: View {
                     }
                 }
             }
+
+            Section(AppLanguage.localized("compare_section_workspace", languageCode: languageCode)) {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text(AppLanguage.localized("compare_workspace_prompt", languageCode: languageCode))
+                        .font(.subheadline.weight(.semibold))
+
+                    TextEditor(text: $analystConclusionDraft)
+                        .frame(minHeight: 140)
+                        .padding(8)
+                        .background(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .fill(Color(.secondarySystemBackground))
+                        )
+
+                    Button {
+                        saveComparisonDossier()
+                    } label: {
+                        Label(
+                            AppLanguage.localized("compare_save_dossier", languageCode: languageCode),
+                            systemImage: "folder.badge.plus"
+                        )
+                    }
+                    .buttonStyle(.borderedProminent)
+
+                    if let savedMessage {
+                        Text(savedMessage)
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .padding(.vertical, 4)
+            }
         }
         .listStyle(.insetGrouped)
         .navigationTitle(AppLanguage.localized("compare_nav_title", languageCode: languageCode))
+        .onChange(of: selectedTopic) { _, _ in
+            savedMessage = nil
+            if analystConclusionDraft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                analystConclusionDraft = generatedSummary
+            }
+        }
+        .onAppear {
+            if analystConclusionDraft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                analystConclusionDraft = generatedSummary
+            }
+        }
+    }
+
+    private func saveComparisonDossier() {
+        let title = AppLanguage.localizedFormat(
+            "compare_dossier_title",
+            languageCode: languageCode,
+            AppLanguage.localized(selectedTopic.localizationKey, languageCode: languageCode)
+        )
+        let trimmedConclusion = analystConclusionDraft.trimmingCharacters(in: .whitespacesAndNewlines)
+        let evidenceCount = topicEvidence.count
+        let seededAssessment: DossierAssessment = evidenceCount >= 6 ? .confirmed : (evidenceCount >= 3 ? .developing : .exploratory)
+        let seededRecommendation = AppLanguage.localized("dossier_auto_recommendation", languageCode: languageCode)
+        var dossier = workspaceStore.createDossier(
+            title: title,
+            note: generatedSummary,
+            conclusion: trimmedConclusion.isEmpty ? generatedSummary : trimmedConclusion,
+            recommendation: seededRecommendation,
+            assessment: seededAssessment,
+            nextReviewAt: Calendar.current.date(byAdding: .day, value: 2, to: .now),
+            topic: selectedTopic,
+            countryCode: nil
+        )
+        for article in topicEvidence.prefix(6) {
+            dossier = workspaceStore.addArticle(article, to: dossier)
+        }
+        workspaceStore.updateDossier(dossier)
+        savedMessage = AppLanguage.localizedFormat(
+            "compare_saved_message",
+            languageCode: languageCode,
+            dossier.title
+        )
     }
 }
 
@@ -534,6 +746,9 @@ struct TopicWorkspaceView: View {
     @State private var dossierCreatedMessage: String?
     @State private var monitoringStatus: MonitoringStatus = .observing
     @State private var monitoringPriority: MonitoringPriority = .active
+    @State private var monitoringConfidence: MonitoringConfidence = .medium
+    @State private var workingThesis: String = ""
+    @State private var decisionSummary: String = ""
     @State private var analystNote: String = ""
     @State private var nextReviewEnabled = false
     @State private var nextReviewAt = Calendar.current.date(byAdding: .day, value: 1, to: .now) ?? .now
@@ -570,6 +785,57 @@ struct TopicWorkspaceView: View {
 
     private var tasks: [AnalystTask] {
         workspaceStore.tasks(for: topic)
+    }
+
+    private var leadComparison: ComparisonRow? {
+        comparisonRows.first
+    }
+
+    private var recommendedAction: String {
+        guard let leadComparison else {
+            return SignalEngine.recommendedAction(
+                topic: topic,
+                intensity: .watch,
+                momentum: .steady,
+                languageCode: languageCode
+            )
+        }
+
+        return SignalEngine.recommendedAction(
+            topic: topic,
+            intensity: leadComparison.intensity,
+            momentum: leadComparison.momentum,
+            languageCode: languageCode
+        )
+    }
+
+    private var operatingQuestion: String {
+        SignalEngine.operatingQuestion(topic: topic, languageCode: languageCode)
+    }
+
+    @ViewBuilder
+    private var signalInsightsSection: some View {
+        Section(AppLanguage.localized("topic_workspace_section_signal", languageCode: languageCode)) {
+            VStack(alignment: .leading, spacing: 14) {
+                if let leadComparison {
+                    TopicWorkspaceInsightCard(
+                        title: AppLanguage.localized("topic_workspace_current_picture_title", languageCode: languageCode),
+                        message: leadComparison.summary
+                    )
+                }
+
+                TopicWorkspaceInsightCard(
+                    title: AppLanguage.localized("topic_workspace_recommended_action_title", languageCode: languageCode),
+                    message: recommendedAction
+                )
+
+                TopicWorkspaceInsightCard(
+                    title: AppLanguage.localized("topic_workspace_operating_question_title", languageCode: languageCode),
+                    message: operatingQuestion
+                )
+            }
+            .padding(.vertical, 4)
+        }
     }
 
     var body: some View {
@@ -614,10 +880,61 @@ struct TopicWorkspaceView: View {
                 .padding(.vertical, 6)
             }
 
+            signalInsightsSection
+
             Section(AppLanguage.localized("topic_workspace_section_plan", languageCode: languageCode)) {
                 VStack(alignment: .leading, spacing: 16) {
                     monitoringStatusPicker
                     monitoringPriorityPicker
+                    monitoringConfidencePicker
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(AppLanguage.localized("topic_workspace_working_thesis", languageCode: languageCode))
+                            .font(.subheadline.weight(.semibold))
+
+                        ZStack(alignment: .topLeading) {
+                            if workingThesis.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                Text(AppLanguage.localized("topic_workspace_working_thesis_placeholder", languageCode: languageCode))
+                                    .font(.body)
+                                    .foregroundStyle(.tertiary)
+                                    .padding(.horizontal, 14)
+                                    .padding(.vertical, 16)
+                            }
+
+                            TextEditor(text: $workingThesis)
+                                .frame(minHeight: 120)
+                                .padding(8)
+                                .background(Color.clear)
+                        }
+                        .background(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .fill(Color(.secondarySystemBackground))
+                        )
+                    }
+
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(AppLanguage.localized("topic_workspace_decision_summary", languageCode: languageCode))
+                            .font(.subheadline.weight(.semibold))
+
+                        ZStack(alignment: .topLeading) {
+                            if decisionSummary.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                Text(AppLanguage.localized("topic_workspace_decision_summary_placeholder", languageCode: languageCode))
+                                    .font(.body)
+                                    .foregroundStyle(.tertiary)
+                                    .padding(.horizontal, 14)
+                                    .padding(.vertical, 16)
+                            }
+
+                            TextEditor(text: $decisionSummary)
+                                .frame(minHeight: 100)
+                                .padding(8)
+                                .background(Color.clear)
+                        }
+                        .background(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .fill(Color(.secondarySystemBackground))
+                        )
+                    }
 
                     Toggle(
                         AppLanguage.localized("topic_workspace_next_review_toggle", languageCode: languageCode),
@@ -683,6 +1000,10 @@ struct TopicWorkspaceView: View {
             }
 
             Section(AppLanguage.localized("topic_workspace_section_evidence", languageCode: languageCode)) {
+                Text(AppLanguage.localized("topic_workspace_evidence_explainer", languageCode: languageCode))
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+
                 if evidence.isEmpty {
                     EmptyWorkspaceCard(
                         title: AppLanguage.localized("topic_workspace_empty_title", languageCode: languageCode),
@@ -722,6 +1043,9 @@ struct TopicWorkspaceView: View {
         .onAppear(perform: loadPlanState)
         .onChange(of: monitoringStatus) { _, _ in savePlanState() }
         .onChange(of: monitoringPriority) { _, _ in savePlanState() }
+        .onChange(of: monitoringConfidence) { _, _ in savePlanState() }
+        .onChange(of: workingThesis) { _, _ in savePlanState() }
+        .onChange(of: decisionSummary) { _, _ in savePlanState() }
         .onChange(of: analystNote) { _, _ in savePlanState() }
         .onChange(of: nextReviewEnabled) { _, _ in savePlanState() }
         .onChange(of: nextReviewAt) { _, _ in
@@ -786,9 +1110,14 @@ struct TopicWorkspaceView: View {
             AppLanguage.localized(topic.localizationKey, languageCode: languageCode)
         )
         let note = AppLanguage.localized(topic.subtitleKey, languageCode: languageCode)
+        let seededAssessment: DossierAssessment = evidence.count >= 5 ? .developing : .exploratory
+        let seededRecommendation = AppLanguage.localized("dossier_auto_recommendation", languageCode: languageCode)
         var dossier = workspaceStore.createDossier(
             title: title,
             note: note,
+            recommendation: seededRecommendation,
+            assessment: seededAssessment,
+            nextReviewAt: Calendar.current.date(byAdding: .day, value: 2, to: .now),
             topic: topic,
             countryCode: focusCountryCode
         )
@@ -857,11 +1186,32 @@ struct TopicWorkspaceView: View {
         }
     }
 
+    private var monitoringConfidencePicker: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(AppLanguage.localized("topic_workspace_confidence_label", languageCode: languageCode))
+                .font(.subheadline.weight(.semibold))
+
+            Picker(
+                AppLanguage.localized("topic_workspace_confidence_label", languageCode: languageCode),
+                selection: $monitoringConfidence
+            ) {
+                ForEach(MonitoringConfidence.allCases) { confidence in
+                    Text(AppLanguage.localized(confidence.localizationKey, languageCode: languageCode))
+                        .tag(confidence)
+                }
+            }
+            .pickerStyle(.segmented)
+        }
+    }
+
     private func loadPlanState() {
         let plan = currentPlan
         workspaceStore.seedDefaultTasksIfNeeded(for: topic)
         monitoringStatus = plan.status
         monitoringPriority = plan.priority
+        monitoringConfidence = plan.confidence
+        workingThesis = plan.workingThesis
+        decisionSummary = plan.decisionSummary
         analystNote = plan.analystNote
         nextReviewEnabled = plan.nextReviewAt != nil
         nextReviewAt = plan.nextReviewAt ?? (Calendar.current.date(byAdding: .day, value: 1, to: .now) ?? .now)
@@ -871,6 +1221,9 @@ struct TopicWorkspaceView: View {
         var plan = currentPlan
         plan.status = monitoringStatus
         plan.priority = monitoringPriority
+        plan.confidence = monitoringConfidence
+        plan.workingThesis = workingThesis.trimmingCharacters(in: .whitespacesAndNewlines)
+        plan.decisionSummary = decisionSummary.trimmingCharacters(in: .whitespacesAndNewlines)
         plan.analystNote = analystNote.trimmingCharacters(in: .whitespacesAndNewlines)
         plan.nextReviewAt = nextReviewEnabled ? nextReviewAt : nil
         plan.lastUpdatedAt = .now
@@ -963,10 +1316,38 @@ private struct SignalCardView: View {
             }
 
             Text(
-                AppLanguage.localizedFormat(
-                    "signal_evidence_count",
-                    languageCode: preferredLanguage,
-                    signal.evidence.count
+                AppLanguage.localized(
+                    "signal_action_label",
+                    languageCode: preferredLanguage
+                )
+            )
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+
+            Text(
+                SignalEngine.recommendedAction(
+                    topic: signal.topic,
+                    intensity: signal.intensity,
+                    momentum: signal.momentum,
+                    languageCode: preferredLanguage
+                )
+            )
+                .font(.subheadline)
+                .foregroundStyle(.primary)
+
+            Text(
+                AppLanguage.localized(
+                    "signal_question_label",
+                    languageCode: preferredLanguage
+                )
+            )
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(.secondary)
+
+            Text(
+                SignalEngine.operatingQuestion(
+                    topic: signal.topic,
+                    languageCode: preferredLanguage
                 )
             )
                 .font(.caption)
@@ -976,6 +1357,27 @@ private struct SignalCardView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 22, style: .continuous)
+                .fill(Color(.secondarySystemBackground))
+        )
+    }
+}
+
+private struct TopicWorkspaceInsightCard: View {
+    let title: String
+    let message: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.subheadline.weight(.semibold))
+            Text(message)
+                .font(.body)
+                .foregroundStyle(.secondary)
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
                 .fill(Color(.secondarySystemBackground))
         )
     }
@@ -998,6 +1400,221 @@ private struct TopicChipCard: View {
         .frame(width: 180, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(Color(.secondarySystemBackground))
+        )
+    }
+}
+
+private struct WorkspaceToolCard: View {
+    let title: String
+    let subtitle: String
+    let systemImage: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(alignment: .top, spacing: 14) {
+                Image(systemName: systemImage)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(Color.accentColor)
+                    .frame(width: 36, height: 36)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .fill(Color.accentColor.opacity(0.12))
+                    )
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(title)
+                        .font(.headline)
+                        .foregroundStyle(.primary)
+
+                    Text(subtitle)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.leading)
+                }
+
+                Spacer(minLength: 8)
+
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+                    .padding(.top, 4)
+            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .fill(Color(.secondarySystemBackground))
+            )
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+private struct WorkspaceMiniStat: View {
+    let title: String
+    let value: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(value)
+                .font(.headline.weight(.bold))
+                .foregroundStyle(.primary)
+
+            Text(title)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color(.secondarySystemBackground))
+        )
+    }
+}
+
+private struct WatchlistWorkspaceCard: View {
+    let topic: WatchTopic
+    let rows: [ComparisonRow]
+    let activityCount: Int
+    let openTaskCount: Int
+    let plan: TopicMonitoringPlan
+    let languageCode: String
+
+    private var nextReviewText: String {
+        guard let nextReviewAt = plan.nextReviewAt else {
+            return AppLanguage.localized("watchlists_card_no_review", languageCode: languageCode)
+        }
+
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        formatter.locale = Locale(identifier: AppLanguage.supportedLanguageCode(from: languageCode))
+        return formatter.string(from: nextReviewAt)
+    }
+
+    private var leadCountries: String {
+        let names = rows.prefix(3).map(\.countryName)
+        if names.isEmpty {
+            return AppLanguage.localized("watchlists_card_no_activity", languageCode: languageCode)
+        }
+        return names.joined(separator: " • ")
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: topic.icon)
+                    .font(.title3.weight(.semibold))
+                    .foregroundStyle(Color.accentColor)
+                    .frame(width: 40, height: 40)
+                    .background(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .fill(Color.accentColor.opacity(0.12))
+                    )
+
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(AppLanguage.localized(topic.localizationKey, languageCode: languageCode))
+                        .font(.headline)
+                        .foregroundStyle(.primary)
+
+                    Text(AppLanguage.localized(topic.subtitleKey, languageCode: languageCode))
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(2)
+                }
+
+                Spacer(minLength: 8)
+
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text(AppLanguage.localized(plan.status.localizationKey, languageCode: languageCode))
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.secondary)
+
+                    Text(AppLanguage.localized(plan.priority.localizationKey, languageCode: languageCode))
+                        .font(.caption2.weight(.semibold))
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            Capsule(style: .continuous)
+                                .fill(Color(.tertiarySystemBackground))
+                        )
+                }
+            }
+
+            HStack(spacing: 10) {
+                WorkspaceMiniStat(
+                    title: AppLanguage.localized("watchlists_card_activity", languageCode: languageCode),
+                    value: "\(activityCount)"
+                )
+                WorkspaceMiniStat(
+                    title: AppLanguage.localized("watchlists_card_tasks", languageCode: languageCode),
+                    value: "\(openTaskCount)"
+                )
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(AppLanguage.localized("watchlists_card_priority", languageCode: languageCode))
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+
+                Text(leadCountries)
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                    .lineLimit(2)
+            }
+
+            VStack(alignment: .leading, spacing: 6) {
+                Text(AppLanguage.localized("watchlists_card_confidence", languageCode: languageCode))
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+
+                Text(AppLanguage.localized(plan.confidence.localizationKey, languageCode: languageCode))
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+
+                if !plan.workingThesis.isEmpty {
+                    Text(AppLanguage.localized("watchlists_card_thesis", languageCode: languageCode))
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.secondary)
+
+                    Text(plan.workingThesis)
+                        .font(.subheadline)
+                        .foregroundStyle(.primary)
+                        .lineLimit(3)
+                } else if !plan.decisionSummary.isEmpty {
+                    Text(plan.decisionSummary)
+                        .font(.subheadline)
+                        .foregroundStyle(.primary)
+                        .lineLimit(3)
+                }
+            }
+
+            HStack {
+                Text(
+                    AppLanguage.localizedFormat(
+                        "watchlists_card_next_review",
+                        languageCode: languageCode,
+                        nextReviewText
+                    )
+                )
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.tertiary)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 22, style: .continuous)
                 .fill(Color(.secondarySystemBackground))
         )
     }
@@ -1067,12 +1684,6 @@ private struct ComparisonRowCard: View {
                     title: AppLanguage.localized("signal_badge_momentum", languageCode: preferredLanguage),
                     value: AppLanguage.localized(row.momentum.localizationKey, languageCode: preferredLanguage)
                 )
-            }
-
-            if let latestHeadline = row.latestHeadline {
-                Text(latestHeadline)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
 
             Text(
@@ -1180,11 +1791,16 @@ private struct SnapshotRowCard: View {
 
 private struct DossierRowCard: View {
     let dossier: Dossier
+    let countries: [Country]
     let languageCode: String
 
     var body: some View {
         NavigationLink {
-            DossierDetailView(dossierID: dossier.id, languageCode: languageCode)
+            DossierDetailView(
+                dossierID: dossier.id,
+                countries: countries,
+                languageCode: languageCode
+            )
         } label: {
             VStack(alignment: .leading, spacing: 8) {
                 Text(dossier.title)
@@ -1255,6 +1871,16 @@ private struct ActionQueueCard: View {
                 .font(.subheadline)
                 .foregroundStyle(.primary)
 
+            HStack(spacing: 8) {
+                Text(AppLanguage.localized("dashboard_action_queue_confidence", languageCode: languageCode))
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.secondary)
+
+                Text(AppLanguage.localized(plan.confidence.localizationKey, languageCode: languageCode))
+                    .font(.caption)
+                    .foregroundStyle(.primary)
+            }
+
             Text(
                 AppLanguage.localizedFormat(
                     "dashboard_action_queue_next_review",
@@ -1265,7 +1891,23 @@ private struct ActionQueueCard: View {
             .font(.caption)
             .foregroundStyle(.secondary)
 
-            if !plan.analystNote.isEmpty {
+            if !plan.decisionSummary.isEmpty {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(AppLanguage.localized("dashboard_action_queue_decision", languageCode: languageCode))
+                        .font(.caption.weight(.semibold))
+                        .foregroundStyle(.secondary)
+
+                    Text(plan.decisionSummary)
+                        .font(.subheadline)
+                        .foregroundStyle(.primary)
+                        .lineLimit(3)
+                }
+            } else if !plan.workingThesis.isEmpty {
+                Text(plan.workingThesis)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(3)
+            } else if !plan.analystNote.isEmpty {
                 Text(plan.analystNote)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
