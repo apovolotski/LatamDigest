@@ -172,16 +172,25 @@ private struct DashboardView: View {
 
     @EnvironmentObject private var workspaceStore: WorkspaceStore
 
-    private var topSignals: [SignalCard] {
-        Array(signals.prefix(5))
-    }
-
     private var latestSnapshot: DailySnapshot? {
         snapshots.first
     }
 
-    private var activeSignals: [SignalCard] {
-        topSignals.filter { $0.intensity != .watch || $0.momentum == .new || $0.momentum == .rising }
+    private var topSignals: [SignalCard] {
+        Array(signals.prefix(5))
+    }
+
+    private var prioritizedWatchTopics: [WatchTopic] {
+        workspaceStore.watchedTopics.sorted { lhs, rhs in
+            let lhsActivity = activityCount(for: lhs)
+            let rhsActivity = activityCount(for: rhs)
+
+            if lhsActivity == rhsActivity {
+                return openTaskCount(for: lhs) > openTaskCount(for: rhs)
+            }
+
+            return lhsActivity > rhsActivity
+        }
     }
 
     private var actionPlans: [TopicMonitoringPlan] {
@@ -206,12 +215,74 @@ private struct DashboardView: View {
             }
     }
 
+    private func comparisonRows(for topic: WatchTopic) -> [ComparisonRow] {
+        signals
+            .filter { $0.topic == topic }
+            .sorted { lhs, rhs in
+                if lhs.score == rhs.score {
+                    return lhs.updatedAt > rhs.updatedAt
+                }
+                return lhs.score > rhs.score
+            }
+            .map { signal in
+                ComparisonRow(
+                    id: signal.id,
+                    countryCode: signal.countryCode,
+                    countryName: signal.countryName,
+                    summary: signal.summary,
+                    intensity: signal.intensity,
+                    momentum: signal.momentum,
+                    score: signal.score,
+                    evidenceCount: signal.evidence.count,
+                    updatedAt: signal.updatedAt
+                )
+            }
+    }
+
+    private func activityCount(for topic: WatchTopic) -> Int {
+        signals
+            .filter { $0.topic == topic }
+            .reduce(0) { $0 + $1.evidence.count }
+    }
+
+    private func openTaskCount(for topic: WatchTopic) -> Int {
+        workspaceStore.tasks(for: topic).filter { !$0.isCompleted }.count
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
                 header
                 heroCard
                 metricsRow
+
+                WorkspaceSectionHeader(
+                    title: AppLanguage.localized("dashboard_section_watchlists", languageCode: languageCode),
+                    subtitle: AppLanguage.localized("dashboard_section_watchlists_subtitle", languageCode: languageCode)
+                )
+
+                if prioritizedWatchTopics.isEmpty {
+                    EmptyWorkspaceCard(
+                        title: AppLanguage.localized("dashboard_empty_title", languageCode: languageCode),
+                        message: AppLanguage.localized("dashboard_empty_message", languageCode: languageCode)
+                    )
+                } else {
+                    VStack(spacing: 14) {
+                        ForEach(prioritizedWatchTopics.prefix(3)) { topic in
+                            NavigationLink(value: topic) {
+                                WatchlistWorkspaceCard(
+                                    topic: topic,
+                                    rows: comparisonRows(for: topic),
+                                    activityCount: activityCount(for: topic),
+                                    openTaskCount: openTaskCount(for: topic),
+                                    plan: workspaceStore.monitoringPlan(for: topic),
+                                    languageCode: languageCode
+                                )
+                            }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
 
                 WorkspaceSectionHeader(
                     title: AppLanguage.localized("dashboard_section_tools", languageCode: languageCode),
@@ -240,44 +311,6 @@ private struct DashboardView: View {
                     systemImage: "folder.badge.plus",
                     action: { onSelectTab(.dossiers) }
                 )
-
-                WorkspaceSectionHeader(
-                    title: AppLanguage.localized("dashboard_section_signals", languageCode: languageCode),
-                    subtitle: AppLanguage.localized("dashboard_section_signals_subtitle", languageCode: languageCode)
-                )
-
-                if activeSignals.isEmpty {
-                    EmptyWorkspaceCard(
-                        title: AppLanguage.localized("dashboard_empty_title", languageCode: languageCode),
-                        message: AppLanguage.localized("dashboard_empty_message", languageCode: languageCode)
-                    )
-                } else {
-                    VStack(spacing: 14) {
-                        ForEach(activeSignals) { signal in
-                            NavigationLink(value: signal.topic) {
-                                SignalCardView(signal: signal)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                }
-
-                WorkspaceSectionHeader(
-                    title: AppLanguage.localized("dashboard_section_watchlists", languageCode: languageCode),
-                    subtitle: AppLanguage.localized("dashboard_section_watchlists_subtitle", languageCode: languageCode)
-                )
-
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 12) {
-                        ForEach(workspaceStore.watchedTopics) { topic in
-                            NavigationLink(value: topic) {
-                                TopicChipCard(topic: topic, languageCode: languageCode)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                    .padding(.horizontal, 1)
-                }
 
                 WorkspaceSectionHeader(
                     title: AppLanguage.localized("dashboard_section_action_queue", languageCode: languageCode),
