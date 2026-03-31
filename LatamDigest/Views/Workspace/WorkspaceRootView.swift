@@ -171,6 +171,7 @@ private struct DashboardView: View {
     let onSelectTab: (WorkspaceTab) -> Void
 
     @EnvironmentObject private var workspaceStore: WorkspaceStore
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     private var latestSnapshot: DailySnapshot? {
         snapshots.first
@@ -289,20 +290,38 @@ private struct DashboardView: View {
                     subtitle: AppLanguage.localized("dashboard_section_tools_subtitle", languageCode: languageCode)
                 )
 
-                HStack(spacing: 12) {
-                    WorkspaceToolCard(
-                        title: AppLanguage.localized("dashboard_tool_watchlists_title", languageCode: languageCode),
-                        subtitle: AppLanguage.localized("dashboard_tool_watchlists_subtitle", languageCode: languageCode),
-                        systemImage: "dot.scope.display",
-                        action: { onSelectTab(.watchlists) }
-                    )
+                if horizontalSizeClass == .compact {
+                    VStack(spacing: 12) {
+                        WorkspaceToolCard(
+                            title: AppLanguage.localized("dashboard_tool_watchlists_title", languageCode: languageCode),
+                            subtitle: AppLanguage.localized("dashboard_tool_watchlists_subtitle", languageCode: languageCode),
+                            systemImage: "dot.scope.display",
+                            action: { onSelectTab(.watchlists) }
+                        )
 
-                    WorkspaceToolCard(
-                        title: AppLanguage.localized("dashboard_tool_compare_title", languageCode: languageCode),
-                        subtitle: AppLanguage.localized("dashboard_tool_compare_subtitle", languageCode: languageCode),
-                        systemImage: "arrow.left.arrow.right.square",
-                        action: { onSelectTab(.compare) }
-                    )
+                        WorkspaceToolCard(
+                            title: AppLanguage.localized("dashboard_tool_compare_title", languageCode: languageCode),
+                            subtitle: AppLanguage.localized("dashboard_tool_compare_subtitle", languageCode: languageCode),
+                            systemImage: "arrow.left.arrow.right.square",
+                            action: { onSelectTab(.compare) }
+                        )
+                    }
+                } else {
+                    HStack(spacing: 12) {
+                        WorkspaceToolCard(
+                            title: AppLanguage.localized("dashboard_tool_watchlists_title", languageCode: languageCode),
+                            subtitle: AppLanguage.localized("dashboard_tool_watchlists_subtitle", languageCode: languageCode),
+                            systemImage: "dot.scope.display",
+                            action: { onSelectTab(.watchlists) }
+                        )
+
+                        WorkspaceToolCard(
+                            title: AppLanguage.localized("dashboard_tool_compare_title", languageCode: languageCode),
+                            subtitle: AppLanguage.localized("dashboard_tool_compare_subtitle", languageCode: languageCode),
+                            systemImage: "arrow.left.arrow.right.square",
+                            action: { onSelectTab(.compare) }
+                        )
+                    }
                 }
 
                 WorkspaceToolCard(
@@ -907,8 +926,10 @@ struct TopicWorkspaceView: View {
                             AppLanguage.localized("topic_workspace_create_dossier", languageCode: languageCode),
                             systemImage: "folder.badge.plus"
                         )
+                        .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
                 }
                 .padding(.vertical, 6)
             }
