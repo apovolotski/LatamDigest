@@ -20,16 +20,20 @@ enum AppLanguage {
     }
 
     static func supportedLanguageCode(from languageCode: String) -> String {
+        #if JAPAN_EDITION
+        return "ja"
+        #else
         switch languageCode.prefix(2) {
         case "es": return "es"
         case "pt": return "pt"
         default: return "en"
         }
+        #endif
     }
 }
 
 extension Country {
     func localizedName(languageCode: String) -> String {
-        AppLanguage.localized("country_\(id)", languageCode: languageCode)
+        AppEdition.isJapan ? name : AppLanguage.localized("country_\(id)", languageCode: languageCode)
     }
 }

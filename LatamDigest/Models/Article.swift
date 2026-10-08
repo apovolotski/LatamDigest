@@ -5,7 +5,7 @@ import CryptoKit
 /// lightweight information is stored here; the actual content lives on
 /// the publisher’s website and is opened in a WebView.  Conforms to
 /// `Codable` for easy decoding from JSON.
-public struct Article: Identifiable, Codable, Equatable, Hashable {
+public nonisolated struct Article: Identifiable, Codable, Equatable, Hashable {
     /// Unique identifier used locally.  Decoded feeds derive this from the source URL.
     public let id: UUID
     /// Headline title.

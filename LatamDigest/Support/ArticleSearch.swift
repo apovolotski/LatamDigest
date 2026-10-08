@@ -6,7 +6,7 @@ enum ArticleSearch {
         guard !terms.isEmpty else { return articles }
         return articles.filter { article in
             let text = "\(article.title) \(article.snippet) \(article.sourceName)"
-            return terms.allSatisfy { text.range(of: $0, options: [.caseInsensitive, .diacriticInsensitive]) != nil }
+            return terms.allSatisfy { text.range(of: $0, options: [.caseInsensitive, .diacriticInsensitive, .widthInsensitive]) != nil }
         }
     }
 }

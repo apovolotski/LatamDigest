@@ -5,7 +5,7 @@ import SwiftUI
 /// persisted via `@AppStorage` and notifications are rescheduled
 /// automatically.
 struct SettingsView: View {
-    @AppStorage("preferredLanguage") private var selectedLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
+    @AppStorage("preferredLanguage") private var selectedLanguage: String = AppEdition.defaultLanguage
     @AppStorage("selectedCountries") private var selectedCountriesString: String = ""
     @AppStorage("dailyDigestTimeInterval") private var notificationTimeInterval: Double = (Calendar.current.date(bySettingHour: 7, minute: 30, second: 0, of: Date()) ?? Date()).timeIntervalSince1970
     @EnvironmentObject private var library: ReadingLibrary

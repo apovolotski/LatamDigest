@@ -4,13 +4,17 @@ struct ArticleDetailView: View {
     let article: Article
     let countryName: String
 
-    @AppStorage("preferredLanguage") private var preferredLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
+    @AppStorage("preferredLanguage") private var preferredLanguage: String = AppEdition.defaultLanguage
     @EnvironmentObject private var library: ReadingLibrary
+    #if JAPAN_EDITION
+    @State private var notebookArticle: Article?
+    #endif
     @State private var presentingSafariURL: URL?
 
     private var relativeDate: String {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .full
+        formatter.locale = Locale(identifier: AppLanguage.supportedLanguageCode(from: preferredLanguage))
         return formatter.localizedString(for: article.publishedAt, relativeTo: Date())
     }
 
@@ -31,12 +35,15 @@ struct ArticleDetailView: View {
 
                     HStack(spacing: 12) {
                         Label(relativeDate, systemImage: "clock")
-                        Label(countryName, systemImage: "globe.americas")
+                        Label(countryName, systemImage: AppEdition.globeSymbol)
                     }
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 }
 
+                #if JAPAN_EDITION
+                nativeCard(title: "記事について", body: "この記事の見出しは公開ニュースフィードから取得しています。本文は配信元のサイトでお読みください。購読やログインが必要な場合があります。")
+                #else
                 nativeCard(
                     title: AppLanguage.localized("detail_native_summary_title", languageCode: preferredLanguage),
                     body: article.snippet
@@ -63,6 +70,11 @@ struct ArticleDetailView: View {
                     }
                 }
 
+                #endif
+                #if JAPAN_EDITION
+                Button { notebookArticle = article } label: { Label("手帖に追加", systemImage: "book.closed") }
+                    .buttonStyle(.bordered)
+                #endif
                 HStack(spacing: 12) {
                     Button {
                         library.toggleSaved(article)
@@ -93,6 +105,9 @@ struct ArticleDetailView: View {
         }
         .navigationTitle(AppLanguage.localized("detail_screen_title", languageCode: preferredLanguage))
         .navigationBarTitleDisplayMode(.inline)
+        #if JAPAN_EDITION
+        .sheet(item: $notebookArticle) { JapanNotebookPicker(article: $0) }
+        #endif
         .onAppear {
             library.markAsRead(article)
         }

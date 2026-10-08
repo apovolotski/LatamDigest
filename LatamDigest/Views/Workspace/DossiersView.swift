@@ -91,7 +91,7 @@ struct DossiersView: View {
                 }
                 if let countryCode = dossier.countryCode,
                    let country = countries.first(where: { $0.id == countryCode }) {
-                    Label(country.localizedName(languageCode: languageCode), systemImage: "globe.americas")
+                    Label(country.localizedName(languageCode: languageCode), systemImage: AppEdition.globeSymbol)
                 }
             }
             .font(.caption)
@@ -139,6 +139,7 @@ struct DossiersView: View {
     private func formatShortDate(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
+        formatter.locale = Locale(identifier: AppLanguage.supportedLanguageCode(from: languageCode))
         formatter.timeStyle = .none
         formatter.locale = Locale(identifier: languageCode)
         return formatter.string(from: date)
@@ -180,7 +181,7 @@ struct DossierDetailView: View {
                                         .foregroundStyle(.secondary)
                                 }
                                 if let countryName = dossierCountryName(dossier) {
-                                    Label(countryName, systemImage: "globe.americas")
+                                    Label(countryName, systemImage: AppEdition.globeSymbol)
                                         .font(.subheadline)
                                         .foregroundStyle(.secondary)
                                 }

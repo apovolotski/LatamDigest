@@ -75,6 +75,9 @@ enum WatchTopic: String, CaseIterable, Codable, Identifiable {
     }
 
     var keywords: [String] {
+        #if JAPAN_EDITION
+        return japaneseKeywords
+        #else
         switch self {
         case .politics:
             return ["election", "elección", "elecciones", "president", "presidente", "senate", "senado", "congress", "congreso", "diputados", "oposición", "oficialismo", "parliament", "golpe"]
@@ -97,7 +100,25 @@ enum WatchTopic: String, CaseIterable, Codable, Identifiable {
         case .labor:
             return ["labor", "labour", "laboral", "trabajo", "empleo", "employment", "salary", "salario", "union", "sindicato", "workers", "trabajadores"]
         }
+        #endif
     }
+
+    #if JAPAN_EDITION
+    var japaneseKeywords: [String] {
+        switch self {
+        case .politics: return ["政治", "選挙", "国会", "首相", "内閣", "衆院", "参院", "自民", "政党", "外交", "大統領"]
+        case .economy: return ["経済", "物価", "金利", "日銀", "為替", "円安", "円高", "景気", "インフレ", "gdp", "財政", "関税", "貿易"]
+        case .business: return ["企業", "会社", "業績", "決算", "投資", "株式", "市場", "買収", "銀行", "メーカー", "小売", "経営"]
+        case .publicSafety: return ["事件", "逮捕", "警察", "裁判", "犯罪", "事故", "地震", "台風", "災害", "避難", "大雨", "防災"]
+        case .technology: return ["技術", "半導体", "人工知能", "ai", "デジタル", "ソフト", "通信", "ロボット", "宇宙", "サイバー", "データ"]
+        case .culture: return ["文化", "映画", "音楽", "美術", "芸術", "アニメ", "出版", "書籍", "博物館", "文学"]
+        case .sports: return ["スポーツ", "野球", "サッカー", "大相撲", "五輪", "オリンピック", "優勝", "選手", "大会", "リーグ", "試合"]
+        case .health: return ["医療", "健康", "感染", "病院", "ワクチン", "ウイルス", "保険", "がん", "介護"]
+        case .energy: return ["エネルギー", "電力", "原発", "石油", "ガス", "再生可能", "太陽光", "蓄電", "水素", "資源"]
+        case .labor: return ["労働", "賃金", "雇用", "働き", "採用", "労組", "ストライキ", "人手不足", "給与", "春闘"]
+        }
+    }
+    #endif
 
     static let defaultTopics: [WatchTopic] = [.politics, .economy, .publicSafety]
 }

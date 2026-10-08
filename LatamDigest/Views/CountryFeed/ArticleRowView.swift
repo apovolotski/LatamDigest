@@ -8,9 +8,12 @@ struct ArticleRowView: View {
     let isSaved: Bool
     let onToggleSave: () -> Void
 
+    @Environment(\.locale) private var locale
+
     private var formattedDate: String {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .abbreviated
+        formatter.locale = locale
         return formatter.localizedString(for: article.publishedAt, relativeTo: Date())
     }
 
@@ -26,6 +29,7 @@ struct ArticleRowView: View {
                         .foregroundStyle(isSaved ? Color.accentColor : Color.secondary)
                 }
                 .buttonStyle(.plain)
+                .accessibilityLabel(AppLanguage.localized(isSaved ? "detail_saved_button" : "detail_save_button", languageCode: locale.identifier))
                 Text(formattedDate)
                     .font(.caption2)
                     .foregroundColor(.secondary)

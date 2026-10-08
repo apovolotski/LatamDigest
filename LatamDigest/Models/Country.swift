@@ -1,12 +1,12 @@
 import Foundation
 
-/// Represents a Latin American country available in the app.  The list
-/// is loaded from `Resources/Countries.json`.  Conforms to `Codable` for
-/// decoding and `Identifiable` for use in SwiftUI lists.
+/// A feed group: a country in Latam Digest or a publisher in the Japanese edition.
+/// CountryCatalog supplies the active edition’s list. Codable and Identifiable
+/// preserve the shared reading/notebook data model.
 public struct Country: Identifiable, Codable, Equatable {
-    /// ISO‑3166 alpha‑2 country code (e.g. “MX”).
+    /// Country code (e.g. MX) or stable Japanese publisher key (e.g. NH).
     public let id: String
-    /// Human‑readable country name (e.g. “Mexico”).
+    /// Display name for this feed group.
     public let name: String
 
     public init(id: String, name: String) {

@@ -2,6 +2,10 @@
 
 Native SwiftUI news and monitoring workspace for iOS 17 and later. The app reads public country/category feeds and keeps watchlists, reading lists, notes, dossiers, and snapshots on the device.
 
+## Japanese edition
+
+Open `JapanDigest.xcodeproj` for **日本ニュース手帖**, the Japanese news reading and notebook app. See [Japanese edition guide](JAPAN-EDITION.md) for source selection, Japanese interface, tests, and release preparation.
+
 ## Open and build
 
 Open `LatamDigest.xcodeproj` and select the `LatamDigest` scheme. Choose an installed iPhone or iPad simulator. Signing uses the existing project team for device builds.

@@ -10,20 +10,37 @@ import SwiftUI
 @main
 struct LatamDigestApp: App {
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
-    @AppStorage("preferredLanguage") private var preferredLanguage = Locale.current.language.languageCode?.identifier ?? "es"
+    @AppStorage("preferredLanguage") private var preferredLanguage = AppEdition.defaultLanguage
     @StateObject private var readingLibrary = ReadingLibrary.shared
     @StateObject private var workspaceStore = WorkspaceStore.shared
+
+    #if JAPAN_EDITION && DEBUG
+    init() {
+        // Only an explicit UI-test launch resets this app's local test state.
+        if ProcessInfo.processInfo.arguments.contains("--japan-ui-test-reset"), let id = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: id)
+        }
+    }
+    #endif
 
     var body: some Scene {
         WindowGroup {
             Group {
                 if hasCompletedOnboarding {
+                    #if JAPAN_EDITION
+                    JapanRootView()
+                    #else
                     WorkspaceRootView()
+                    #endif
                 } else {
+                    #if JAPAN_EDITION
+                    JapanOnboardingView()
+                    #else
                     OnboardingFlowView()
+                    #endif
                 }
             }
-            .environment(\.locale, Locale(identifier: preferredLanguage))
+            .environment(\.locale, Locale(identifier: AppLanguage.supportedLanguageCode(from: preferredLanguage)))
             .environmentObject(readingLibrary)
             .environmentObject(workspaceStore)
             .task(id: hasCompletedOnboarding) {

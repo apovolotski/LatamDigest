@@ -4,7 +4,7 @@ import SwiftUI
 /// followed countries and the full country list.  The copy makes it
 /// explicit that tapping a country opens that country's digest.
 struct HomeView: View {
-    @AppStorage("preferredLanguage") private var preferredLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
+    @AppStorage("preferredLanguage") private var preferredLanguage: String = AppEdition.defaultLanguage
     @AppStorage("selectedCountries") private var selectedCountriesString: String = ""
     @EnvironmentObject private var library: ReadingLibrary
     @State private var allCountries: [Country] = []

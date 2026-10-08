@@ -27,7 +27,7 @@ final class NotificationManager {
         let pending = await center.pendingNotificationRequests()
         guard scheduleID == id else { return }
         center.removePendingNotificationRequests(withIdentifiers: pending.map(\.identifier).filter { $0.hasPrefix("daily_digest_") })
-        let enabled = UserDefaults.standard.object(forKey: "dailyRemindersEnabled") as? Bool ?? true
+        let enabled = UserDefaults.standard.object(forKey: "dailyRemindersEnabled") as? Bool ?? !AppEdition.isJapan
         guard enabled, !countries.isEmpty else { return }
         var settings = await center.notificationSettings()
         if settings.authorizationStatus == .notDetermined {
@@ -36,13 +36,18 @@ final class NotificationManager {
         }
         guard scheduleID == id, [.authorized, .provisional, .ephemeral].contains(settings.authorizationStatus) else { return }
         let components = Calendar.current.dateComponents([.hour, .minute], from: time)
-        for country in Set(countries).sorted() {
+        let reminderCodes = AppEdition.isJapan ? ["JP"] : Set(countries).sorted()
+        for country in reminderCodes {
             guard scheduleID == id else { return }
             let content = Self.reminderContent(countryCode: country, languageCode: languageCode)
             let request = UNNotificationRequest(identifier: "daily_digest_\(country)", content: content,
                 trigger: UNCalendarNotificationTrigger(dateMatching: components, repeats: true))
             try? await center.add(request)
         }
+    }
+
+    func notificationsDenied() async -> Bool {
+        await center.notificationSettings().authorizationStatus == .denied
     }
 
     static func reminderContent(countryCode: String, languageCode: String) -> UNMutableNotificationContent {

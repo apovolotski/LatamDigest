@@ -7,7 +7,7 @@ import SafariServices
 /// `CountryFeedViewModel`.
 struct CountryFeedView: View {
     let country: Country
-    @AppStorage("preferredLanguage") private var preferredLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
+    @AppStorage("preferredLanguage") private var preferredLanguage: String = AppEdition.defaultLanguage
     @EnvironmentObject private var library: ReadingLibrary
     @StateObject private var viewModel = CountryFeedViewModel()
     @State private var selectedFeed: CountryFeedViewModel.FeedType = .top

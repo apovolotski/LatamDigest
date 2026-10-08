@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ReadingLibraryView: View {
     @EnvironmentObject private var library: ReadingLibrary
-    @AppStorage("preferredLanguage") private var languageCode = "es"
+    @AppStorage("preferredLanguage") private var languageCode = AppEdition.defaultLanguage
     @State private var searchText = ""
     @State private var showingHistory = false
     @State private var selectedArticle: Article?

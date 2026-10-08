@@ -11,15 +11,19 @@ struct FeedResult {
 @MainActor
 final class NewsService {
     static let shared = NewsService()
+    #if JAPAN_EDITION
+    static let defaultURL = URL(string: "https://news.google.com/rss/search")!
+    #else
     static let defaultURL = URL(string: "https://raw.githubusercontent.com/apovolotski/LatamDigest/main/docs/api")!
+    #endif
 
     enum NewsServiceError: LocalizedError {
         case feedUnavailable, invalidResponse, invalidConfiguration
         var errorDescription: String? {
             switch self {
-            case .feedUnavailable: return "Latam Digest is temporarily unavailable. Please try again."
-            case .invalidResponse: return "Latam Digest returned data in an unexpected format."
-            case .invalidConfiguration: return "The news feed must use a secure HTTPS address."
+            case .feedUnavailable: return AppEdition.isJapan ? "ニュースを取得できません。接続を確認して再度お試しください。" : "Latam Digest is temporarily unavailable. Please try again."
+            case .invalidResponse: return AppEdition.isJapan ? "ニュースフィードを読み込めませんでした。" : "Latam Digest returned data in an unexpected format."
+            case .invalidConfiguration: return AppEdition.isJapan ? "配信元の設定を確認してください。" : "The news feed must use a secure HTTPS address."
             }
         }
     }
@@ -38,7 +42,7 @@ final class NewsService {
         configuration.timeoutIntervalForResource = 30
         self.session = session ?? URLSession(configuration: configuration)
         self.cacheDirectory = cacheDirectory ?? FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?
-            .appendingPathComponent("LatamDigestFeedCache-v2", isDirectory: true)
+            .appendingPathComponent(AppEdition.isJapan ? "JapanDigestFeedCache-v1" : "LatamDigestFeedCache-v2", isDirectory: true)
         self.retryDelays = retryDelays.isEmpty ? [0] : retryDelays
     }
 
@@ -58,6 +62,12 @@ final class NewsService {
     func fetchFeed(countryCode: String, feed: CountryFeedViewModel.FeedType) async throws -> FeedResult {
         guard baseURL.scheme?.lowercased() == "https", baseURL.host != nil,
               baseURL.user == nil, baseURL.password == nil else { throw NewsServiceError.invalidConfiguration }
+        #if JAPAN_EDITION
+        guard let source = JapanSource.all.first(where: { $0.id == countryCode }), baseURL == Self.defaultURL else {
+            throw NewsServiceError.invalidConfiguration
+        }
+        return try await loadArticles(from: JapanSource.feedURL(sourceID: countryCode, feed: feed), source: source)
+        #else
         guard countryCode.count == 2, countryCode.unicodeScalars.allSatisfy({ (65...90).contains(Int($0.value)) }) else {
             throw NewsServiceError.invalidResponse
         }
@@ -67,9 +77,20 @@ final class NewsService {
         let host = baseURL.host?.lowercased() ?? ""
         if host == "raw.githubusercontent.com" || host.hasSuffix(".github.io") { url.appendPathExtension("json") }
         return try await loadArticles(from: url)
+        #endif
     }
 
+    #if JAPAN_EDITION
+    private func loadArticles(from url: URL, source: JapanSource) async throws -> FeedResult {
+        try await loadFeed(from: url) { data in try JapanRSSParser(source: source).decode(data) }
+    }
+    #else
     private func loadArticles(from url: URL) async throws -> FeedResult {
+        try await loadFeed(from: url, decode: Self.decodeArticles)
+    }
+    #endif
+
+    private func loadFeed(from url: URL, decode: (Data) throws -> [Article]) async throws -> FeedResult {
         var lastError: Error = NewsServiceError.feedUnavailable
         for (attempt, delay) in retryDelays.enumerated() {
             try Task.checkCancellation()
@@ -89,7 +110,7 @@ final class NewsService {
                     throw NewsServiceError.feedUnavailable
                 }
                 guard data.count <= 2_000_000 else { throw NewsServiceError.invalidResponse }
-                let articles = try Self.decodeArticles(data)
+                let articles = try decode(data)
                 let fetchedAt = Date()
                 persistCache(articles: articles, fetchedAt: fetchedAt, for: url)
                 return FeedResult(articles: articles, fetchedAt: fetchedAt, isCached: false)

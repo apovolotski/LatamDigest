@@ -9,7 +9,7 @@ private enum WorkspaceTab: Hashable {
 }
 
 struct WorkspaceRootView: View {
-    @AppStorage("preferredLanguage") private var preferredLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
+    @AppStorage("preferredLanguage") private var preferredLanguage: String = AppEdition.defaultLanguage
     @AppStorage("selectedCountries") private var selectedCountriesString: String = ""
     @EnvironmentObject private var library: ReadingLibrary
     @EnvironmentObject private var workspaceStore: WorkspaceStore
@@ -1363,7 +1363,7 @@ struct EmptyWorkspaceCard: View {
 
 private struct SignalCardView: View {
     let signal: SignalCard
-    @AppStorage("preferredLanguage") private var preferredLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
+    @AppStorage("preferredLanguage") private var preferredLanguage: String = AppEdition.defaultLanguage
 
     private var relativeDate: String {
         let formatter = RelativeDateTimeFormatter()
@@ -1736,7 +1736,7 @@ private struct WatchTopicRow: View {
 
 private struct ComparisonRowCard: View {
     let row: ComparisonRow
-    @AppStorage("preferredLanguage") private var preferredLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
+    @AppStorage("preferredLanguage") private var preferredLanguage: String = AppEdition.defaultLanguage
 
     private var relativeDate: String? {
         guard let updatedAt = row.updatedAt else { return nil }

@@ -18,7 +18,7 @@ final class OnboardingViewModel: ObservableObject {
     @Published var currentStep: Step = .language
     /// The selected language code (“es”, “pt”, or “en”).  Persisted via
     /// `@AppStorage` so it can be used across the app.
-    @AppStorage("preferredLanguage") var selectedLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
+    @AppStorage("preferredLanguage") var selectedLanguage: String = AppEdition.defaultLanguage
     /// The list of selected country codes.  Persisted via `@AppStorage`.
     @AppStorage("selectedCountries") var selectedCountriesString: String = ""
     /// The time of day for the daily digest persisted as a timestamp because
