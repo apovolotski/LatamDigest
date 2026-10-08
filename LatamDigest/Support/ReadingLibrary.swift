@@ -30,6 +30,7 @@ final class ReadingLibrary: ObservableObject {
             savedArticles.removeAll { $0.storageKey == article.storageKey }
         } else {
             savedArticles.insert(article, at: 0)
+            savedArticles = Array(savedArticles.prefix(500))
         }
 
         persist(savedArticles, key: savedKey)
@@ -40,6 +41,11 @@ final class ReadingLibrary: ObservableObject {
         readingHistory.insert(article, at: 0)
         readingHistory = Array(readingHistory.prefix(30))
         persist(readingHistory, key: historyKey)
+    }
+
+    func clearHistory() {
+        readingHistory = []
+        defaults.removeObject(forKey: historyKey)
     }
 
     private func loadPersistedState() {

@@ -13,6 +13,11 @@ struct CountryFeedView: View {
     @State private var selectedFeed: CountryFeedViewModel.FeedType = .top
     @State private var presentingSafariURL: URL?
     @State private var selectedArticle: Article?
+    @State private var searchText = ""
+
+    private var filteredArticles: [Article] {
+        ArticleSearch.filter(viewModel.articles, query: searchText)
+    }
 
     private var briefingCard: BriefingCard? {
         BriefingComposer.countryBriefing(country: country, articles: viewModel.articles, languageCode: preferredLanguage)
@@ -21,14 +26,12 @@ struct CountryFeedView: View {
     var body: some View {
         List {
             feedPickerRow
-            .onChange(of: selectedFeed) { _ in
-                Task {
-                    await viewModel.loadArticles(for: country.id, feed: selectedFeed)
-                }
-            }
             .listRowInsets(EdgeInsets(top: 8, leading: 0, bottom: 4, trailing: 0))
             .listRowBackground(Color.clear)
 
+            if let result = viewModel.feedResult {
+                FeedStatusView(result: result, languageCode: preferredLanguage)
+            }
             if let briefingCard {
                 briefingSection(briefingCard)
             }
@@ -42,10 +45,12 @@ struct CountryFeedView: View {
             }
         }
         .navigationTitle(country.localizedName(languageCode: preferredLanguage))
-        .onAppear {
-            Task {
-                await viewModel.loadArticles(for: country.id, feed: selectedFeed)
-            }
+        .searchable(text: $searchText, prompt: AppLanguage.localized("news_search", languageCode: preferredLanguage))
+        .task(id: selectedFeed) {
+            await viewModel.loadArticles(for: country.id, feed: selectedFeed)
+        }
+        .refreshable {
+            await viewModel.loadArticles(for: country.id, feed: selectedFeed)
         }
         .navigationDestination(item: $selectedArticle) { article in
             ArticleDetailView(article: article, countryName: country.localizedName(languageCode: preferredLanguage))
@@ -83,11 +88,12 @@ struct CountryFeedView: View {
                 .overlay(feedBorder(isSelected: selectedFeed == feed))
         }
         .buttonStyle(.plain)
+        .accessibilityAddTraits(selectedFeed == feed ? .isSelected : [])
     }
 
     private func feedBackground(isSelected: Bool) -> some View {
         Capsule()
-            .fill(isSelected ? Color.white : Color.clear)
+            .fill(isSelected ? Color(.secondarySystemBackground) : Color.clear)
     }
 
     private func feedBorder(isSelected: Bool) -> some View {
@@ -133,8 +139,15 @@ struct CountryFeedView: View {
         .padding(.vertical, 12)
     }
 
+    @ViewBuilder
     private var articleRows: some View {
-        ForEach(viewModel.articles) { article in
+        if filteredArticles.isEmpty {
+            ContentUnavailableView(
+                AppLanguage.localized(searchText.isEmpty ? "news_empty" : "news_no_matches", languageCode: preferredLanguage),
+                systemImage: "newspaper"
+            )
+        }
+        ForEach(filteredArticles) { article in
             ArticleRowView(
                 article: article,
                 isSaved: library.isSaved(article),

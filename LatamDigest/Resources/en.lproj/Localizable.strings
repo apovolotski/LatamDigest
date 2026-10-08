@@ -334,3 +334,22 @@
 "country_SR" = "Suriname";
 "country_GY" = "Guyana";
 "country_GF" = "French Guiana";
+
+// Feed reliability and reading library
+"news_search" = "Search headlines and sources";
+"news_empty" = "No stories in this feed yet";
+"news_no_matches" = "No matching stories";
+"news_cached" = "Offline copy";
+"news_updated" = "Last checked";
+"news_cached_detail" = "Showing saved news. Pull to refresh when connected.";
+"news_partial" = "Unavailable feeds: %@";
+"library_title" = "Library";
+"library_saved" = "Saved";
+"library_history" = "Recently read";
+"library_empty" = "Your reading library is empty";
+"notifications_enabled" = "Daily reminders";
+"notifications_body" = "Open Latam Digest for the latest news from %@.";
+"privacy_clear_history" = "Clear reading history";
+"privacy_clear_history_message" = "This removes your recently read list from this device. Saved stories stay in your library.";
+"privacy_policy" = "Privacy policy";
+"notifications_denied" = "Notifications are disabled in iOS Settings.";

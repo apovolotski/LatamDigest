@@ -26,6 +26,19 @@ struct LatamDigestApp: App {
             .environment(\.locale, Locale(identifier: preferredLanguage))
             .environmentObject(readingLibrary)
             .environmentObject(workspaceStore)
+            .task(id: hasCompletedOnboarding) {
+                guard hasCompletedOnboarding else { return }
+                let defaults = UserDefaults.standard
+                let countries = (defaults.string(forKey: "selectedCountries") ?? "").split(separator: ",").map(String.init)
+                let reminderTime: Date
+                if let storedTime = defaults.object(forKey: "dailyDigestTimeInterval") as? Double {
+                    reminderTime = Date(timeIntervalSince1970: storedTime)
+                } else {
+                    reminderTime = Calendar.current.date(bySettingHour: 7, minute: 30, second: 0, of: Date()) ?? Date()
+                }
+                await NotificationManager.shared.scheduleDailyDigest(for: countries,
+                    at: reminderTime, languageCode: preferredLanguage)
+            }
         }
     }
 }

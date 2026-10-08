@@ -9,6 +9,11 @@ final class MonitoringWorkspaceViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
 
+    @Published private(set) var cachedCountryCodes: [String] = []
+    @Published private(set) var unavailableCountryCodes: [String] = []
+    @Published private(set) var lastUpdated: Date?
+    private var loadID = UUID()
+
     init() {
         allCountries = CountryCatalog.loadCountries()
     }
@@ -20,39 +25,35 @@ final class MonitoringWorkspaceViewModel: ObservableObject {
     }
 
     func load(countryCodes: [String]) async {
-        guard !countryCodes.isEmpty else {
-            articlesByCountry = [:]
-            return
-        }
-
+        let id = UUID()
+        loadID = id
+        let codes = Array(Set(countryCodes)).sorted()
         isLoading = true
         errorMessage = nil
-
-        var loaded: [String: [Article]] = [:]
-
-        await withTaskGroup(of: (String, [Article]?).self) { group in
-            for code in countryCodes {
+        defer { if loadID == id { isLoading = false } }
+        guard !codes.isEmpty else {
+            articlesByCountry = [:]
+            cachedCountryCodes = []
+            unavailableCountryCodes = []
+            lastUpdated = nil
+            return
+        }
+        var results: [String: FeedResult] = [:]
+        await withTaskGroup(of: (String, FeedResult?).self) { group in
+            for code in codes {
                 group.addTask {
-                    do {
-                        let articles = try await NewsService.shared.fetchTopArticles(countryCode: code)
-                        return (code, articles)
-                    } catch {
-                        return (code, nil)
-                    }
+                    do { return (code, try await NewsService.shared.fetchFeed(countryCode: code, feed: .top)) }
+                    catch { return (code, nil) }
                 }
             }
-
-            for await result in group {
-                loaded[result.0] = (result.1 ?? []).sorted(by: { $0.publishedAt > $1.publishedAt })
-            }
+            for await (code, result) in group { if let result { results[code] = result } }
         }
-
-        articlesByCountry = loaded
-        isLoading = false
-
-        if loaded.values.allSatisfy(\.isEmpty) {
-            errorMessage = NewsService.NewsServiceError.feedUnavailable.localizedDescription
-        }
+        guard !Task.isCancelled, loadID == id else { return }
+        articlesByCountry = results.mapValues(\.articles)
+        cachedCountryCodes = codes.filter { results[$0]?.isCached == true }
+        unavailableCountryCodes = codes.filter { results[$0] == nil }
+        lastUpdated = results.values.map(\.fetchedAt).min()
+        if !unavailableCountryCodes.isEmpty { errorMessage = NewsService.NewsServiceError.feedUnavailable.localizedDescription }
     }
 
     func evidence(for countryCode: String) -> [Article] {

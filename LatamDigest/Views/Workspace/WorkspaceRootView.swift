@@ -59,10 +59,19 @@ struct WorkspaceRootView: View {
                         languageCode: preferredLanguage
                     )
                 }
+                .safeAreaInset(edge: .top) { feedStatus }
+                .refreshable { await refreshWorkspace() }
                 .toolbar {
+                    NavigationLink(destination: ReadingLibraryView()) {
+                        Image(systemName: "books.vertical")
+                    }
+                    .accessibilityLabel(AppLanguage.localized("library_title", languageCode: preferredLanguage))
+                    .accessibilityIdentifier("open-reading-library")
                     NavigationLink(destination: SettingsView()) {
                         Image(systemName: "gearshape")
                     }
+                    .accessibilityLabel(AppLanguage.localized("settings_title", languageCode: preferredLanguage))
+                    .accessibilityIdentifier("app-settings")
                 }
             }
             .tabItem {
@@ -147,17 +156,41 @@ struct WorkspaceRootView: View {
             }
             .tag(WorkspaceTab.dossiers)
         }
-        .task(id: selectedCountriesString) {
-            await viewModel.load(countryCodes: selectedCountryCodes)
-            if let snapshot = SignalEngine.dailySnapshot(
-                countries: selectedCountries,
-                watchedTopics: workspaceStore.watchedTopics,
-                signals: dashboardSignals,
-                languageCode: preferredLanguage
-            ) {
-                workspaceStore.recordSnapshot(snapshot)
+        .task(id: selectedCountriesString) { await refreshWorkspace() }
+    }
+
+    private func refreshWorkspace() async {
+        await viewModel.load(countryCodes: selectedCountryCodes)
+        guard !Task.isCancelled, viewModel.errorMessage == nil, viewModel.cachedCountryCodes.isEmpty,
+              !viewModel.articlesByCountry.values.allSatisfy(\.isEmpty) else { return }
+        if let snapshot = SignalEngine.dailySnapshot(countries: selectedCountries,
+            watchedTopics: workspaceStore.watchedTopics, signals: dashboardSignals, languageCode: preferredLanguage) {
+            workspaceStore.recordSnapshot(snapshot)
+        }
+    }
+
+    @ViewBuilder
+    private var feedStatus: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if viewModel.isLoading {
+                ProgressView(AppLanguage.localized("settings_loading", languageCode: preferredLanguage))
+            } else {
+                if let date = viewModel.lastUpdated {
+                    FeedStatusView(result: FeedResult(articles: [], fetchedAt: date, isCached: !viewModel.cachedCountryCodes.isEmpty), languageCode: preferredLanguage)
+                }
+                if !viewModel.unavailableCountryCodes.isEmpty {
+                    Text(AppLanguage.localizedFormat("news_partial", languageCode: preferredLanguage, viewModel.unavailableCountryCodes.joined(separator: ", ")))
+                        .font(.caption).foregroundStyle(.secondary)
+                    Button(AppLanguage.localized("feed_try_again", languageCode: preferredLanguage)) {
+                        Task { await refreshWorkspace() }
+                    }
+                }
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal)
+        .padding(.vertical, 6)
+        .background(.regularMaterial)
     }
 }
 

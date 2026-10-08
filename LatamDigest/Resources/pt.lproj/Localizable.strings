@@ -334,3 +334,22 @@
 "country_SR" = "Suriname";
 "country_GY" = "Guiana";
 "country_GF" = "Guiana Francesa";
+
+// Feed reliability and reading library
+"news_search" = "Buscar manchetes e fontes";
+"news_empty" = "Ainda não há notícias nesta seção";
+"news_no_matches" = "Nenhuma notícia encontrada";
+"news_cached" = "Cópia offline";
+"news_updated" = "Última consulta";
+"news_cached_detail" = "Mostrando notícias salvas. Puxe para atualizar quando houver conexão.";
+"news_partial" = "Fontes indisponíveis: %@";
+"library_title" = "Biblioteca";
+"library_saved" = "Salvas";
+"library_history" = "Lidas recentemente";
+"library_empty" = "Sua biblioteca está vazia";
+"notifications_enabled" = "Lembretes diários";
+"notifications_body" = "Abra o Latam Digest para ver as últimas notícias de %@.";
+"privacy_clear_history" = "Limpar histórico de leitura";
+"privacy_clear_history_message" = "Isso remove a lista de leituras recentes deste dispositivo. As notícias salvas permanecem na biblioteca.";
+"privacy_policy" = "Política de privacidade";
+"notifications_denied" = "As notificações estão desativadas nos Ajustes do iOS.";

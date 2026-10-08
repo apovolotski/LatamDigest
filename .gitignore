@@ -1,0 +1,14 @@
+# Local credentials and build products
+.env
+.env.*
+!.env.example
+*.p8
+*.p12
+*.mobileprovision
+*.xcarchive/
+*.ipa
+DerivedData/
+build/
+node_modules/
+.DS_Store
+xcuserdata/

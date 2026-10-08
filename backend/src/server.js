@@ -1,112 +1,45 @@
-import crypto from "node:crypto";
 import cors from "cors";
 import cron from "node-cron";
 import express from "express";
+import { pathToFileURL } from "node:url";
 import { config } from "./config.js";
 import { toArticles } from "./articleMapper.js";
 import { countries, isSupportedCountry } from "./countries.js";
-import { getDigest } from "./digestStore.js";
+import { getDigest, getCachedDigest } from "./digestStore.js";
 
-const app = express();
+export function createApp({ readDigest = getCachedDigest } = {}) {
+  const app = express();
+  app.disable("x-powered-by");
+  app.use(cors({ origin: config.allowedOrigins === "*" ? true : config.allowedOrigins.split(",").map(value => value.trim()) }));
+  app.use((_req, res, next) => { res.set("X-Content-Type-Options", "nosniff"); next(); });
+  app.get("/health", (_req, res) => res.json({ ok: true, service: "latam-digest-backend" }));
+  app.get("/countries", (_req, res) => res.json(countries));
+  const serveDigest = articles => (req, res) => {
+    const code = req.params.countryCode.toUpperCase();
+    if (!isSupportedCountry(code)) return res.status(404).json({ error: "Unsupported country." });
+    if (req.query.refresh !== undefined) return res.status(403).json({ error: "Refresh is performed by the scheduled worker only." });
+    const digest = readDigest(code);
+    if (!digest) return res.status(503).json({ error: "News is temporarily unavailable. Please try again later." });
+    res.set("Cache-Control", "public, max-age=300");
+    res.json(articles ? toArticles(digest, req.params.category) : digest);
+  };
+  app.get("/digests/:countryCode", serveDigest(false));
+  app.get("/countries/:countryCode/top", serveDigest(true));
+  app.get("/countries/:countryCode/latest", serveDigest(true));
+  app.get("/countries/:countryCode/category/:category", serveDigest(true));
+  app.use((_error, _req, res, _next) => res.status(500).json({ error: "News is temporarily unavailable. Please try again later." }));
+  return app;
+}
 
-app.use(express.json());
-app.use(
-  cors({
-    origin:
-      config.allowedOrigins === "*"
-        ? true
-        : config.allowedOrigins.split(",").map((value) => value.trim())
-  })
-);
-
-app.get("/health", (_req, res) => {
-  res.json({
-    ok: true,
-    service: "latam-digest-backend",
-    model: config.openaiModel
-  });
-});
-
-app.get("/countries", (_req, res) => {
-  res.json(countries);
-});
-
-app.get("/digests/:countryCode", async (req, res, next) => {
-  try {
-    const countryCode = normalizeCountryCode(req.params.countryCode);
-    const refresh = req.query.refresh === "true";
-    const digest = await getDigest(countryCode, { forceRefresh: refresh });
-    res.json(digest);
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.get("/countries/:countryCode/top", async (req, res, next) => {
-  try {
-    const digest = await getDigest(normalizeCountryCode(req.params.countryCode), {
-      forceRefresh: req.query.refresh === "true"
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  if (config.openaiApiKey) {
+    if (!cron.validate(config.refreshCron)) throw new Error("Invalid REFRESH_CRON configuration.");
+    cron.schedule(config.refreshCron, async () => {
+      for (const country of countries) {
+        try { await getDigest(country.id); }
+        catch { console.error(`Failed to refresh ${country.id}`); }
+      }
     });
-    res.json(toArticles(digest));
-  } catch (error) {
-    next(error);
   }
-});
-
-app.get("/countries/:countryCode/latest", async (req, res, next) => {
-  try {
-    const digest = await getDigest(normalizeCountryCode(req.params.countryCode), {
-      forceRefresh: req.query.refresh === "true"
-    });
-    res.json(toArticles(digest));
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.get("/countries/:countryCode/category/:category", async (req, res, next) => {
-  try {
-    const digest = await getDigest(normalizeCountryCode(req.params.countryCode), {
-      forceRefresh: req.query.refresh === "true"
-    });
-    res.json(toArticles(digest, req.params.category));
-  } catch (error) {
-    next(error);
-  }
-});
-
-app.use((error, _req, res, _next) => {
-  console.error(error);
-  res.status(error.statusCode || 500).json({
-    error: error.message || "Unexpected server error"
-  });
-});
-
-cron.schedule(config.refreshCron, async () => {
-  console.log(`Refreshing LATAM digests on schedule ${config.refreshCron}`);
-
-  for (const country of countries) {
-    try {
-      await getDigest(country.id, { forceRefresh: true });
-      console.log(`Refreshed ${country.id}`);
-    } catch (error) {
-      console.error(`Failed to refresh ${country.id}:`, error.message);
-    }
-  }
-});
-
-app.listen(config.port, () => {
-  console.log(`Latam Digest backend listening on port ${config.port}`);
-});
-
-function normalizeCountryCode(countryCode) {
-  const normalized = (countryCode || "").toUpperCase();
-
-  if (!isSupportedCountry(normalized)) {
-    const error = new Error(`Unsupported country code: ${countryCode}`);
-    error.statusCode = 404;
-    throw error;
-  }
-
-  return normalized;
+  createApp().listen(config.port, () => console.log(`Latam Digest backend listening on port ${config.port}`));
 }

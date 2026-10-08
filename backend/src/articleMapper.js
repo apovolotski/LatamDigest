@@ -1,8 +1,11 @@
+import { articleID, isWebURL } from "./articleIdentity.js";
+
 export function toArticles(digest, category = null) {
   const normalizedCategory = category?.toLowerCase() || null;
 
   return digest.stories
     .filter((story) => {
+      if (!isWebURL(story.source_url)) return false;
       if (!normalizedCategory) {
         return true;
       }
@@ -10,7 +13,7 @@ export function toArticles(digest, category = null) {
       return story.category.toLowerCase() === normalizedCategory;
     })
     .map((story, index) => ({
-      id: crypto.randomUUID(),
+      id: articleID(story.source_url),
       title: story.headline,
       snippet: `${story.summary} ${story.why_it_matters}`.trim(),
       url: story.source_url,

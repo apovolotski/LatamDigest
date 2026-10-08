@@ -1,10 +1,7 @@
 import fs from "node:fs";
-import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const countriesPath = path.resolve(
-  process.cwd(),
-  "../LatamDigest/Resources/Countries.json"
-);
+const countriesPath = fileURLToPath(new URL("../../LatamDigest/Resources/Countries.json", import.meta.url));
 
 export const countries = JSON.parse(fs.readFileSync(countriesPath, "utf8"));
 

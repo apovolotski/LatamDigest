@@ -4,6 +4,7 @@ import SwiftUI
 
 /// View model for displaying a list of articles for a selected country.
 /// Supports loading top headlines, latest headlines or specific categories.
+@MainActor
 final class CountryFeedViewModel: ObservableObject {
     enum FeedType: String, CaseIterable {
         case top = "Top"
@@ -52,40 +53,32 @@ final class CountryFeedViewModel: ObservableObject {
         }
     }
 
-    @Published var articles: [Article] = []
-    @Published var isLoading: Bool = false
-    @Published var errorMessage: String?
+    @Published private(set) var articles: [Article] = []
+    @Published private(set) var isLoading = false
+    @Published private(set) var errorMessage: String?
+    @Published private(set) var feedResult: FeedResult?
+    private var loadID = UUID()
+    private let service: NewsService
 
-    /// Loads articles from the `NewsService` depending on the selected feed type.
+    init(service: NewsService? = nil) { self.service = service ?? .shared }
+
     func loadArticles(for country: String, feed: FeedType) async {
-        DispatchQueue.main.async {
-            self.isLoading = true
-            self.errorMessage = nil
-        }
+        let id = UUID()
+        loadID = id
+        isLoading = true
+        errorMessage = nil
+        articles = []
+        feedResult = nil
+        defer { if loadID == id { isLoading = false } }
         do {
-            let result: [Article]
-            switch feed {
-            case .top:
-                result = try await NewsService.shared.fetchTopArticles(countryCode: country)
-            case .latest:
-                result = try await NewsService.shared.fetchLatestArticles(countryCode: country)
-            default:
-                if let category = feed.categoryKey {
-                    result = try await NewsService.shared.fetchArticles(countryCode: country, category: category)
-                } else {
-                    result = []
-                }
-            }
-            DispatchQueue.main.async {
-                self.articles = result.sorted(by: { $0.publishedAt > $1.publishedAt })
-                self.isLoading = false
-            }
+            let result = try await service.fetchFeed(countryCode: country, feed: feed)
+            try Task.checkCancellation()
+            guard loadID == id else { return }
+            articles = result.articles
+            feedResult = result
         } catch {
-            DispatchQueue.main.async {
-                self.articles = []
-                self.isLoading = false
-                self.errorMessage = error.localizedDescription
-            }
+            guard loadID == id, !Task.isCancelled, !(error is CancellationError) else { return }
+            errorMessage = error.localizedDescription
         }
     }
 }

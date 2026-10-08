@@ -7,7 +7,10 @@ import SwiftUI
 struct SettingsView: View {
     @AppStorage("preferredLanguage") private var selectedLanguage: String = Locale.current.language.languageCode?.identifier ?? "es"
     @AppStorage("selectedCountries") private var selectedCountriesString: String = ""
-    @AppStorage("dailyDigestTimeInterval") private var notificationTimeInterval: Double = Date().timeIntervalSince1970
+    @AppStorage("dailyDigestTimeInterval") private var notificationTimeInterval: Double = (Calendar.current.date(bySettingHour: 7, minute: 30, second: 0, of: Date()) ?? Date()).timeIntervalSince1970
+    @EnvironmentObject private var library: ReadingLibrary
+    @AppStorage("dailyRemindersEnabled") private var remindersEnabled = true
+    @State private var showingClearHistory = false
     @State private var allCountries: [Country] = []
 
     private var selectedCountriesList: [String] {
@@ -66,6 +69,7 @@ struct SettingsView: View {
             }
 
             Section(header: Text(AppLanguage.localized("settings_daily_briefing_time", languageCode: selectedLanguage))) {
+                Toggle(AppLanguage.localized("notifications_enabled", languageCode: selectedLanguage), isOn: $remindersEnabled)
                 DatePicker(
                     AppLanguage.localized("settings_time_label", languageCode: selectedLanguage),
                     selection: Binding(
@@ -85,14 +89,28 @@ struct SettingsView: View {
                         }
                 }
             }
+            Section {
+                Link(AppLanguage.localized("privacy_policy", languageCode: selectedLanguage), destination: URL(string: "https://apovolotski.github.io/LatamDigest/privacy")!)
+                Button(AppLanguage.localized("privacy_clear_history", languageCode: selectedLanguage), role: .destructive) { showingClearHistory = true }
+                    .disabled(library.readingHistory.isEmpty)
+            }
         }
         .navigationTitle(AppLanguage.localized("settings_title", languageCode: selectedLanguage))
+        .confirmationDialog(AppLanguage.localized("privacy_clear_history_message", languageCode: selectedLanguage), isPresented: $showingClearHistory, titleVisibility: .visible) {
+            Button(AppLanguage.localized("privacy_clear_history", languageCode: selectedLanguage), role: .destructive) { library.clearHistory() }
+        }
+        .onChange(of: remindersEnabled) { _, _ in rescheduleReminders() }
         .onAppear {
             loadCountries()
         }
         .onChange(of: selectedLanguage) { _, _ in
             allCountries.sort { $0.localizedName(languageCode: selectedLanguage) < $1.localizedName(languageCode: selectedLanguage) }
+            rescheduleReminders()
         }
+    }
+
+    private func rescheduleReminders() {
+        Task { await NotificationManager.shared.scheduleDailyDigest(for: selectedCountriesList, at: notificationTime, languageCode: selectedLanguage) }
     }
 
     private func loadCountries() {

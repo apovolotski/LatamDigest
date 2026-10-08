@@ -334,3 +334,22 @@
 "country_SR" = "Surinam";
 "country_GY" = "Guyana";
 "country_GF" = "Guayana Francesa";
+
+// Feed reliability and reading library
+"news_search" = "Buscar titulares y fuentes";
+"news_empty" = "Todavía no hay noticias en esta sección";
+"news_no_matches" = "No hay noticias coincidentes";
+"news_cached" = "Copia sin conexión";
+"news_updated" = "Última consulta";
+"news_cached_detail" = "Se muestran noticias guardadas. Desliza para actualizar cuando tengas conexión.";
+"news_partial" = "Fuentes no disponibles: %@";
+"library_title" = "Biblioteca";
+"library_saved" = "Guardadas";
+"library_history" = "Leídas recientemente";
+"library_empty" = "Tu biblioteca está vacía";
+"notifications_enabled" = "Recordatorios diarios";
+"notifications_body" = "Abre Latam Digest para ver las últimas noticias de %@.";
+"privacy_clear_history" = "Borrar historial de lectura";
+"privacy_clear_history_message" = "Se borrará la lista de lecturas recientes de este dispositivo. Las noticias guardadas permanecerán en tu biblioteca.";
+"privacy_policy" = "Política de privacidad";
+"notifications_denied" = "Las notificaciones están desactivadas en Ajustes de iOS.";

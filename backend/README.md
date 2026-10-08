@@ -1,51 +1,21 @@
-# Latam Digest Data Pipeline
+# Latam Digest data pipeline
 
-The project now uses a static JSON feed for the iOS app instead of a live
-per-request news backend.
+The shipping iOS app uses public static JSON feeds. This pipeline needs Node.js 24 or later and does not need an OpenAI credential.
 
-## What it does
-
-- Pulls recent country-specific news from Google News RSS
-- Generates app-ready JSON files under `docs/api`
-- Lets the iOS app read those static files directly from GitHub
-- Refreshes feeds on a GitHub Actions schedule
-
-## Generate feeds locally
-
-```bash
-cd backend
-npm install
+```sh
+npm ci
+npm run check
+npm test
+npm audit --omit=dev
 npm run generate:static
 ```
 
-Generated files are written to:
+The generator reads Google News RSS and writes `docs/api/countries.json`, `manifest.json`, and country/category feeds. It uses bounded request timeouts, browser-safe URLs, stable article IDs, and atomic file replacements. Invalid publication dates are rejected. Failed or empty upstream responses preserve recent successful data for up to seven days; the manifest retains the original update time and marks that feed stale. If every request fails, the process exits unsuccessfully so Actions does not publish the refresh.
 
-- `docs/api/countries.json`
-- `docs/api/manifest.json`
-- `docs/api/countries/:countryCode/top.json`
-- `docs/api/countries/:countryCode/latest.json`
-- `docs/api/countries/:countryCode/category/:category.json`
+The GitHub Actions job runs on demand and every six hours, serializes overlapping runs, and validates dependencies and tests before generating feeds. Static data is served from this repository; publisher links may pass through Google News redirects.
 
-## Hosting model
+## Optional AI worker
 
-For the cheapest MVP path, the app points at the repository's static JSON
-content on GitHub:
+`npm start` serves the legacy cached-digest API. Its public routes cannot trigger AI generation or use `?refresh=true`. Empty caches return 503. AI generation runs only on the configured cron schedule when `OPENAI_API_KEY` exists on the server; the first scheduled run warms the cache. Concurrent refreshes coalesce into a single provider request, and failures keep the prior digest.
 
-- `https://raw.githubusercontent.com/apovolotski/LatamDigest/main/docs/api`
-
-You can later move the same `docs/api` folder to GitHub Pages, Cloudflare Pages,
-or another static host without changing the generator.
-
-## Automation
-
-The workflow at `.github/workflows/refresh-static-feeds.yml` refreshes feeds:
-
-- on demand via `workflow_dispatch`
-- every 6 hours on a schedule
-
-## Notes
-
-- This approach is dramatically cheaper and simpler than live AI-powered
-  news fetching on every app open.
-- Google News links may open through a Google News redirect before landing on
-  the publisher page.
+The app's default static pipeline does not use this worker. Deploying it requires separately configuring the host, a fresh server-only secret, quotas, monitoring, and the intended feed URL. These are not configured by the source changes alone. Do not restore or reuse the key exposed in the earlier conversation. Never send it to iOS or commit `.env` files.

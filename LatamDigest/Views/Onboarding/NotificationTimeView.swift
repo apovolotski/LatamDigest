@@ -5,6 +5,8 @@ import SwiftUI
 struct NotificationTimeView: View {
     @ObservedObject var viewModel: OnboardingViewModel
 
+    @AppStorage("dailyRemindersEnabled") private var remindersEnabled = true
+
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
             Text(AppLanguage.localized("onboarding_daily_briefing_time", languageCode: viewModel.selectedLanguage))
@@ -15,9 +17,12 @@ struct NotificationTimeView: View {
             Text(AppLanguage.localized("onboarding_daily_briefing_subtitle", languageCode: viewModel.selectedLanguage))
                 .foregroundColor(.secondary)
 
+            Toggle(AppLanguage.localized("notifications_enabled", languageCode: viewModel.selectedLanguage), isOn: $remindersEnabled)
+
             DatePicker(AppLanguage.localized("settings_time_label", languageCode: viewModel.selectedLanguage), selection: $viewModel.notificationTime, displayedComponents: .hourAndMinute)
                 .datePickerStyle(WheelDatePickerStyle())
                 .labelsHidden()
+                .disabled(!remindersEnabled)
 
             Spacer()
 

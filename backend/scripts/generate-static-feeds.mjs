@@ -1,7 +1,7 @@
-import crypto from "node:crypto";
+import { articleID, isWebURL } from "../src/articleIdentity.js";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { pathToFileURL, fileURLToPath } from "node:url";
 import { XMLParser } from "fast-xml-parser";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -75,68 +75,58 @@ const feedConfigs = [
   }
 ];
 
-const countries = JSON.parse(await fs.readFile(countriesPath, "utf8"));
-
-await fs.rm(outputRoot, { recursive: true, force: true });
-await fs.mkdir(outputRoot, { recursive: true });
-
-await writeJson(path.join(outputRoot, "countries.json"), countries);
-
-const manifest = {
-  generatedAt: new Date().toISOString(),
-  source: "Google News RSS",
-  feeds: feedConfigs.map(({ key, label }) => ({ key, label })),
-  countries: []
-};
-
-for (const country of countries) {
-  const countryDir = path.join(outputRoot, "countries", country.id);
-  await fs.mkdir(path.join(countryDir, "category"), { recursive: true });
-
-  const countryManifest = {
-    id: country.id,
-    name: country.name,
-    feeds: {}
-  };
-
-  for (const feedConfig of feedConfigs) {
-    try {
-      const articles = await fetchArticlesForFeed(country, feedConfig);
-      const relativePath =
-        feedConfig.key === "top" || feedConfig.key === "latest"
-          ? path.join(countryDir, `${feedConfig.key}.json`)
-          : path.join(countryDir, "category", `${feedConfig.key}.json`);
-
-      await writeJson(relativePath, articles);
-
-      countryManifest.feeds[feedConfig.key] = {
-        count: articles.length,
-        updatedAt: new Date().toISOString()
-      };
-    } catch (error) {
-      console.error(`Failed generating ${country.id}/${feedConfig.key}: ${error.message}`);
-      const relativePath =
-        feedConfig.key === "top" || feedConfig.key === "latest"
-          ? path.join(countryDir, `${feedConfig.key}.json`)
-          : path.join(countryDir, "category", `${feedConfig.key}.json`);
-
-      await writeJson(relativePath, []);
-      countryManifest.feeds[feedConfig.key] = {
-        count: 0,
-        updatedAt: new Date().toISOString(),
-        error: error.message
-      };
+export async function generateFeeds({
+  countries,
+  destination = outputRoot,
+  fetchFeed = fetchArticlesForFeed,
+  feeds = feedConfigs
+} = {}) {
+  countries ??= JSON.parse(await fs.readFile(countriesPath, "utf8"));
+  let previous = { countries: [] };
+  try { previous = JSON.parse(await fs.readFile(path.join(destination, "manifest.json"), "utf8")); } catch {}
+  await fs.mkdir(destination, { recursive: true });
+  await writeJson(path.join(destination, "countries.json"), countries);
+  const manifest = { generatedAt: new Date().toISOString(), source: "Google News RSS",
+    feeds: feeds.map(({ key, label }) => ({ key, label })), countries: [] };
+  let succeeded = 0;
+  for (const country of countries) {
+    const countryManifest = { id: country.id, name: country.name, feeds: {} };
+    for (const feed of feeds) {
+      const file = path.join(destination, "countries", country.id,
+        ...(["top", "latest"].includes(feed.key) ? [`${feed.key}.json`] : ["category", `${feed.key}.json`]));
+      const oldStatus = previous.countries.find(item => item.id === country.id)?.feeds?.[feed.key];
+      try {
+        const articles = await fetchFeed(country, feed);
+        if (!articles.length) throw new Error("No recent articles returned.");
+        await writeJson(file, articles);
+        countryManifest.feeds[feed.key] = { count: articles.length, updatedAt: new Date().toISOString(), stale: false };
+        succeeded += 1;
+      } catch {
+        let retained = [];
+        if (oldStatus && Date.now() - Date.parse(oldStatus.updatedAt) <= 7 * 24 * 3600_000) {
+          try { retained = JSON.parse(await fs.readFile(file, "utf8")); } catch {}
+        }
+        if (!Array.isArray(retained)) retained = [];
+        await writeJson(file, retained);
+        countryManifest.feeds[feed.key] = { count: retained.length,
+          updatedAt: retained.length ? oldStatus.updatedAt : null,
+          stale: true, error: "Feed refresh unavailable." };
+        console.error(`Refresh unavailable for ${country.id}/${feed.key}; retained ${retained.length} articles.`);
+      }
     }
+    manifest.countries.push(countryManifest);
   }
-
-  manifest.countries.push(countryManifest);
+  await writeJson(path.join(destination, "manifest.json"), manifest);
+  return { manifest, succeeded };
 }
 
-await writeJson(path.join(outputRoot, "manifest.json"), manifest);
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const { succeeded } = await generateFeeds();
+  if (!succeeded) throw new Error("All RSS requests failed; do not publish this refresh.");
+  console.log(`Static feeds generated in ${outputRoot}`);
+}
 
-console.log(`Static feeds generated in ${outputRoot}`);
-
-async function fetchArticlesForFeed(country, feedConfig) {
+export async function fetchArticlesForFeed(country, feedConfig) {
   const locale = localeForCountry(country.id);
   const query = feedConfig.query({ countryName: country.name, countryCode: country.id });
   const url = new URL("https://news.google.com/rss/search");
@@ -146,6 +136,7 @@ async function fetchArticlesForFeed(country, feedConfig) {
   url.searchParams.set("ceid", locale.ceid);
 
   const response = await fetch(url, {
+    signal: AbortSignal.timeout(20_000),
     headers: {
       "user-agent": "LatamDigestStaticFeedGenerator/1.0"
     }
@@ -156,6 +147,7 @@ async function fetchArticlesForFeed(country, feedConfig) {
   }
 
   const xml = await response.text();
+  if (xml.length > 2_000_000 || /<!DOCTYPE/i.test(xml)) throw new Error("Unexpected RSS content.");
   const parsed = parser.parse(xml);
   let items = parsed?.rss?.channel?.item ?? [];
 
@@ -187,19 +179,20 @@ async function fetchArticlesForFeed(country, feedConfig) {
   );
 }
 
-function toArticle(item, country, feedConfig) {
+export function toArticle(item, country, feedConfig) {
   const rawTitle = text(item.title);
   const sourceName = normalizeSourceName(item.source, rawTitle);
   const title = stripSourceSuffix(rawTitle, sourceName);
   const url = text(item.link);
 
-  if (!title || !url) {
+  if (!title || !isWebURL(url)) {
     return null;
   }
 
   const publishedAt = normalizeDate(item.pubDate);
+  if (!publishedAt) return null;
   const snippet = buildSnippet(country, feedConfig, sourceName);
-  const id = crypto.randomUUID();
+  const id = articleID(url);
 
   return {
     id,
@@ -245,10 +238,9 @@ function buildSnippet(country, feedConfig, sourceName) {
 }
 
 function normalizeDate(value) {
-  const date = new Date(value || Date.now());
-  if (Number.isNaN(date.getTime())) {
-    return new Date().toISOString();
-  }
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
   return date.toISOString();
 }
 
@@ -274,5 +266,7 @@ function localeForCountry(countryCode) {
 
 async function writeJson(filePath, payload) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, JSON.stringify(payload, null, 2) + "\n", "utf8");
+  const temporary = filePath + ".tmp";
+  await fs.writeFile(temporary, JSON.stringify(payload, null, 2) + "\n", "utf8");
+  await fs.rename(temporary, filePath);
 }

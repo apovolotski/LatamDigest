@@ -60,6 +60,8 @@ final class OnboardingViewModel: ObservableObject {
 
     /// Completes onboarding, persists the flag and schedules notifications.
     private func finishOnboarding() {
+        // Persist the displayed default too, even if the time picker was never changed.
+        UserDefaults.standard.set(notificationTime.timeIntervalSince1970, forKey: "dailyDigestTimeInterval")
         // Mark onboarding as completed.
         UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
 
