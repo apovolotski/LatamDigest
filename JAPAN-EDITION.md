@@ -42,7 +42,7 @@ swift tools/generate-japan-icon.swift LatamDigest/Assets.xcassets/JapanIcon.appi
 
 ## App Store preparation
 
-This is a separate app identity, not a replacement binary for the submitted Latam Digest 1.1 release. It needs its own App Store Connect app record, Japanese primary language, suitable news category, Japanese screenshots/support/privacy URLs, content-rights declarations, current age rating, signing registration, and review submission before public release. Publisher/aggregator usage permissions must be established for the intended distribution; accessing a public feed is not a representation that a distribution license has been obtained. No publisher permission or new App Store listing has been represented as verified.
+This is a separate app identity, not a replacement binary for the submitted Latam Digest 1.1 release. It needs its own App Store Connect app record, Japanese primary language, suitable news category, Japanese screenshots/support/privacy URLs, content-rights declarations, current age rating, signing registration, and review submission before public release. Publisher/aggregator usage permissions must be established for the intended distribution; accessing a public feed is not a representation that a distribution license has been obtained. Publisher and aggregator distribution permissions remain unverified.
 
 A Japanese metadata draft is in `release/JapanDigest-AppStore-ja.txt`. Physical-device behavior and publisher paywall outcomes require separate verification before release.
 
@@ -54,4 +54,8 @@ A Japanese metadata draft is in `release/JapanDigest-AppStore-ja.txt`. Physical-
 - The running Japanese app fetched and accepted 60 Japanese headlines per source, 360 total, with publisher attribution and no copied descriptions.
 - Simulator interaction verified NHK publisher filtering, article details, and creating a notebook with the selected live article attached.
 - A source scan found no matching OpenAI credential.
-- The device archive is unsigned. No Japanese App Store app record, signing registration, upload, or review submission was performed in this task.
+- A signed Release archive was built for version 1.0 (1). App Store distribution export/upload was attempted but Apple rejected the expired Xcode account session; no successful upload is represented.
+- The separate Japanese App Store Connect record was created: https://appstoreconnect.apple.com/apps/6820698260/distribution. Japanese product metadata, three iPhone and three iPad screenshots, and an 18+ calculated news age rating were saved. The privacy label was published as Data Not Collected. Pricing is free, with Japan as the base storefront; availability is Japan only on app release, with automatic release after approval.
+- iPad navigation passed after correcting the UI test for iPad tab placement. Full-resolution iPhone and iPad screenshots are available in the task outputs.
+- Public Japanese support and privacy pages return HTTP 200: https://apovolotski.github.io/LatamDigest/japan/support.html and https://apovolotski.github.io/LatamDigest/japan/privacy.html. Settings links to both pages.
+- Review submission and public release remain pending account refresh and accurate content-rights/reviewer-contact declarations.

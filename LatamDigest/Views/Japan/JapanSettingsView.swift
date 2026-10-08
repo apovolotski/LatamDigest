@@ -71,6 +71,8 @@ struct JapanSettingsView: View {
             }
             Section("言語") { LabeledContent("表示言語", value: "日本語") }
             Section("プライバシー") {
+                Link("プライバシーポリシー", destination: URL(string: "https://apovolotski.github.io/LatamDigest/japan/privacy.html")!)
+                Link("お問い合わせ・サポート", destination: URL(string: "https://apovolotski.github.io/LatamDigest/japan/support.html")!)
                 Button("閲覧履歴を消去", role: .destructive) { showingClear = true }
                     .disabled(library.readingHistory.isEmpty)
                 Text("保存した記事、手帖、閲覧履歴はこの端末に保存されます。アカウント登録は不要です。")
