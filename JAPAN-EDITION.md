@@ -54,8 +54,8 @@ A Japanese metadata draft is in `release/JapanDigest-AppStore-ja.txt`. Physical-
 - The running Japanese app fetched and accepted 60 Japanese headlines per source, 360 total, with publisher attribution and no copied descriptions.
 - Simulator interaction verified NHK publisher filtering, article details, and creating a notebook with the selected live article attached.
 - A source scan found no matching OpenAI credential.
-- A signed Release archive was built for version 1.0 (1). App Store distribution export/upload was attempted but Apple rejected the expired Xcode account session; no successful upload is represented.
+- A signed Release archive was built for version 1.0 (1). The initial upload failed because the Xcode Apple account session expired. After the account was restored, App Store distribution export/upload succeeded; Apple received version 1.0, build 1. Processing completed with Ready to Submit status, and build 1 was selected and saved in the version 1.0 release.
 - The separate Japanese App Store Connect record was created: https://appstoreconnect.apple.com/apps/6820698260/distribution. Japanese product metadata, three iPhone and three iPad screenshots, and an 18+ calculated news age rating were saved. The privacy label was published as Data Not Collected. Pricing is free, with Japan as the base storefront; availability is Japan only on app release, with automatic release after approval.
 - iPad navigation passed after correcting the UI test for iPad tab placement. Full-resolution iPhone and iPad screenshots are available in the task outputs.
 - Public Japanese support and privacy pages return HTTP 200: https://apovolotski.github.io/LatamDigest/japan/support.html and https://apovolotski.github.io/LatamDigest/japan/privacy.html. Settings links to both pages.
-- Review submission and public release remain pending account refresh and accurate content-rights/reviewer-contact declarations.
+- The existing Apple reviewer contact was reused with authorization. Review submission and public release remain pending confirmation of the content-rights declaration.
