@@ -1,8 +1,15 @@
 import AppKit
+import ImageIO
+import UniformTypeIdentifiers
 let size = 1024
-let bitmap = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: size, pixelsHigh: size, bitsPerSample: 8, samplesPerPixel: 3, hasAlpha: false, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
+// AppKit cannot draw into a packed 24-bit RGB bitmap. Use an opaque 32-bit
+// Core Graphics surface, then export its image without an alpha channel.
+let context = CGContext(data: nil, width: size, height: size,
+                        bitsPerComponent: 8, bytesPerRow: size * 4,
+                        space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                        bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
 NSGraphicsContext.saveGraphicsState()
-NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: bitmap)
+NSGraphicsContext.current = NSGraphicsContext(cgContext: context, flipped: false)
 NSColor(calibratedRed: 0.96, green: 0.95, blue: 0.92, alpha: 1).setFill()
 NSBezierPath(rect: NSRect(x: 0, y: 0, width: size, height: size)).fill()
 NSColor(calibratedRed: 0.74, green: 0.13, blue: 0.18, alpha: 1).setFill()
@@ -21,4 +28,7 @@ for y in [361.0, 297.0] {
     line.lineWidth = 20; line.lineCapStyle = .round; line.stroke()
 }
 NSGraphicsContext.restoreGraphicsState()
-try bitmap.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: CommandLine.arguments[1]))
+let image = context.makeImage()!
+let destination = CGImageDestinationCreateWithURL(URL(fileURLWithPath: CommandLine.arguments[1]) as CFURL, UTType.png.identifier as CFString, 1, nil)!
+CGImageDestinationAddImage(destination, image, nil)
+precondition(CGImageDestinationFinalize(destination), "Icon export failed")
