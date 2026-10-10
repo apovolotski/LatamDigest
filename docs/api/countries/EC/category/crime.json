@@ -1,14 +1,5 @@
 [
   {
-    "id": "6c8d5c7d-6440-483f-71bc-575466fc3475",
-    "title": "El crimen de Daniel Sancho en Netflix: El caso se convertirá en una miniserie de ficción",
-    "snippet": "Crime coverage for Ecuador via El Universo on Google News. Curated from recent crime reporting.",
-    "url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxNcXJHZDdRNFVZaFJfbDZuUUgxOHZ4d2txY2xSa3NwbXVrNFhXZUJVbTFHT0ZtNUpmZmNPNjlaOV90U3k1aFJHaUZjQTgySmxkM3JoRXBUZnJOOGl3MlRKMTBqZUw3bTJPRzA3MWNsWlVjenFYOXBaaGZybVhwVnJUWEVWYzhZOFk5aW1EMENfRGhLaWtYSjZtNmZGbHdteHM5VWJSd1Q5M2EyRWRnUS02WDZxRnBaN3h3TmE0a1g1NWJMeFhaYzF5WFpGWl9RSmhOTlFJZnJkZ1pWSVZFWEIwZWNZUk85NGxTdkHSAf4BQVVfeXFMTVQxUWFQSl9fNTUySTVKckxMdnFTSWlFTUZwdnFPa1VMMU9na2dwc2pBbFJiRUR0SlpRUF9raXp2aTZEZlZJVG0zVWMxOWdGZm9xdnN1NS1RZElEbl92OTlCcW5FUHNnek1OOVFBVXZmS0dNZ0t2bDltY1RycGFNM0tzQlBpRmZwZTFuVFpKVzZNZUFIbmlRVG9KU19mdy1oa2NtdVpLcFl2RUVqbFA4c3VZWmFEQmxKVVFIODJMXzJkYi1OUTYzSlA1TUtYQlJrYVl0a1ZrRjJIVUROdElILVk5SDVTT0RtamJRQ0NZSFdjaWdyRDNPcS1hSHIyeFE?oc=5",
-    "sourceName": "El Universo",
-    "sourceLogoURL": null,
-    "publishedAt": "2026-10-09T20:46:00.000Z"
-  },
-  {
     "id": "5910c362-fe5c-0f02-489d-34606d8ee930",
     "title": "La policía de Ecuador y Europol desmantelan una red dedicada al tráfico de droga a Europa",
     "snippet": "Crime coverage for Ecuador via France 24 on Google News. Curated from recent crime reporting.",
@@ -16,6 +7,15 @@
     "sourceName": "France 24",
     "sourceLogoURL": null,
     "publishedAt": "2026-10-09T08:53:01.000Z"
+  },
+  {
+    "id": "c04d18fe-b19b-c512-df15-35d397ef6592",
+    "title": "Deportivo Maldonado empató con Liverpool y quedó a cuatro puntos del líder del Clausura",
+    "snippet": "Crime coverage for Ecuador via FM Gente on Google News. Curated from recent crime reporting.",
+    "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQckZyazZmUGE5aTZJZmI1TjlPenVvOXU1NGt2LWphS3RUaWROMlNSS1JYRWlqbDhjYlJCSkxlSHR2ZUdUV0tjLWVIaXZ6Q2k0NUZYS3FqQVQ1M1R0Y3VkdElLQ1ctblduQzc5RFlYdG9ESHZLU1JaYzVNbHFLWUoyeW03d1g2VTg0M2FBQ1lNdHVTd00?oc=5",
+    "sourceName": "FM Gente",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-10-09T03:00:00.000Z"
   },
   {
     "id": "d4646ad9-3060-f07d-8f92-39ae6a05de7e",
@@ -97,14 +97,5 @@
     "sourceName": "Ecuavisa",
     "sourceLogoURL": null,
     "publishedAt": "2026-10-05T15:35:36.000Z"
-  },
-  {
-    "id": "22a541fa-79eb-4be1-2084-674a64fe1d1c",
-    "title": "Policía detiene en Riobamba a dos sujetos que simulaban ser mecánicos para estafar a sus clientes",
-    "snippet": "Crime coverage for Ecuador via El Universo on Google News. Curated from recent crime reporting.",
-    "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPRTBJYWNac3RBMkFYNV93ZXBLc3JYbjV2QTRDMlNfSWJmZ3JFWEVmNEZjUXlFb1g0WGVVUXFfVktlR2FDd2UtMUtocl9JLVl4ZE1hUUE3bmlSWmdJV1JYYUtlR0ZYQ1JLMHpyNVNiNV9vOU00S2hVTjlmVm1aNG1LYlAzdGl2VlBoZXNGbzZaa0dBSXloNmU3TWZtd2J6aGstcjFsV2dmT2FMSmNJNTZmUl9Pblkwd2c1VFNVZ0lycHVRUHNpcDJnQktCVVBfNkNEMklhZ28xYWVYV1RJRGtRMjc5UdIB9wFBVV95cUxNbFJ0TTlDbG1wNHVRTG93emVES2RZQXNEcEJHTnR6U1k0STJBWjRJTkNfV0JCUy1nR2YzX3lneTJXX24wMDV2SG9Mb3pWRzREbkFxeHN4blAxZ21vQ185XzcyanNVZ2RsT3U4Nk9XdXkwMzM3WDdScXFNc3E2b2syV0MxRlBWVEJMQ3owOVRweW9iTFdjb29LRHdxc2tpR0JjNGI3M0k4UlIzd0loSXVOWU5JRTdUOXZEMkcxUlR1LTVSZ0t2dXYzcTEtYkxCTlRnSFdRT3Y3Mll2aGpVZU85S29PWHY2NEZEcUt1cF9UUzVlMkJFRUhv?oc=5",
-    "sourceName": "El Universo",
-    "sourceLogoURL": null,
-    "publishedAt": "2026-10-03T13:25:00.000Z"
   }
 ]
