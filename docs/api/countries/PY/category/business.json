@@ -18,15 +18,6 @@
     "publishedAt": "2026-10-09T16:28:14.000Z"
   },
   {
-    "id": "dbdb8c5b-c181-17c3-b739-bae09fac14b1",
-    "title": "RCS - ATOME PLC - Villeta Update - Response to Media Coverage",
-    "snippet": "Business coverage for Paraguay via TradingView on Google News. Curated from recent business reporting.",
-    "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPZ0d4YnU5cWJZU2pXWnU2UUttX2lxSUtkMDZRMS1CaUlIQUxzS1RQOXduY2pUQ0YzS1pLY0MtVTR3azZlNzByXzMxU2JHT0Z4SWthNHRWYUtaY3BJLVlMdWM5bWpSWEN3enFaT1M4UDdkaUg2RkowZGNmcFlrWk1zRl9SNXFiQ2EwRHhoMG0yV1Vmd3dEVmQzdDc3LXFpNUpBalN4bXBQeFFWc0swYmQxaEZ5WHN4THdPSElBaXlIanNHRHVFUHBxNlRR?oc=5",
-    "sourceName": "TradingView",
-    "sourceLogoURL": null,
-    "publishedAt": "2026-10-09T07:21:43.000Z"
-  },
-  {
     "id": "52eb7a07-2fba-34fd-758c-ae9cfa33c1ec",
     "title": "Ver Paraguay vs. France Online en Vivo | DAZN US",
     "snippet": "Business coverage for Paraguay via DAZN on Google News. Curated from recent business reporting.",
@@ -43,6 +34,15 @@
     "sourceName": "hangar x",
     "sourceLogoURL": null,
     "publishedAt": "2026-10-08T20:35:18.000Z"
+  },
+  {
+    "id": "e5595e90-c9cc-1897-4721-37494645c106",
+    "title": "El comercio electrónico en Paraguay ya mueve cerca de 3000 millones de dólares",
+    "snippet": "Business coverage for Paraguay via FashionNetwork France on Google News. Curated from recent business reporting.",
+    "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPc1Fnd1FsZlhDVVJncEowLUVMaGstVWNUVThabW5hTnBYdmdXVzQ5OVpTUFRNZU1oWjM4aU9uYV9TWGxHeks1RXpoRUN3NVd6a2drcHM4TlFrUnF0ei1wYjFUa1h6SlFaYUwwbXg5NDdpemg3a2hRX0E1aDB4eTVKaTdqaTUxYkFnZGQ4b3pQU1FDQVNzX2RudW1JVS1xR2tfNVJxTFk2MnVjQkFHc2I4eGFtWXRVTWliR2FqU0hORW9xa2tw?oc=5",
+    "sourceName": "FashionNetwork France",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-10-08T03:51:53.000Z"
   },
   {
     "id": "41aad6be-b67a-6bb1-7171-82973a9c8a57",
@@ -90,6 +90,15 @@
     "publishedAt": "2026-10-05T18:06:00.000Z"
   },
   {
+    "id": "785dd60e-7320-60ad-4091-bce3cf3c8d9a",
+    "title": "Maersk implements peak season surcharge on South America-North America routes",
+    "snippet": "Business coverage for Paraguay via Data Portuaria on Google News. Curated from recent business reporting.",
+    "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPLUhtdmFWWEthcjNMLTJCTHRmWWplNEdaeGRwLXd0NUpaTWZfQld5ZnJrNnJWUWxudDlaMzVIeXhnWmlPTVY0N1JqNUctc212azUxSlBaRXBnSGlKS2gyekQwMHdhalN0VHFhMEtjbVdYZ01VbVhiZjV2TzRwdHN1OFN2d3AwWEx3MElPMmVvYXdLZnR1aUxxd1huTlBzRS1sMGRjaFZlYU42WWd2QkN1QUhkaVlEcmJjRTR5emNUUkVtV0VIdEwzbUYtbE55MUpld3c?oc=5",
+    "sourceName": "Data Portuaria",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-10-05T11:10:07.000Z"
+  },
+  {
     "id": "8e64e144-8ac2-4d6e-b705-078ddb37db0e",
     "title": "Paraguay - Detailed squad 1962 (Detailed view)",
     "snippet": "Business coverage for Paraguay via Transfermarkt on Google News. Curated from recent business reporting.",
@@ -97,14 +106,5 @@
     "sourceName": "Transfermarkt",
     "sourceLogoURL": null,
     "publishedAt": "2026-10-05T06:58:54.000Z"
-  },
-  {
-    "id": "5b3aec2c-41cd-5ffc-1ad5-759eb8adc5ce",
-    "title": "Oposición gana terreno en elecciones municipales de Paraguay y apunta a la contienda de 2028",
-    "snippet": "Business coverage for Paraguay via MarketScreener España on Google News. Curated from recent business reporting.",
-    "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxNbGNUSl9Gb1JMMUh0ajBGbHZaTUxhNjl1cDN1blBDbklmYm9oeDZfdFFzZzluZm1oM3FKd1BIOURtTUhzWHV3ak1Vdjd2ZEN2VzI4bHNFeFpvMm1YQnN1Z0pOQnZsUGh5NHNXYVVHSXdPQ21MQmpVLVVEMnZvODdRaFVvc19GUDFRdTJBaXczNzhldFdvM0VMVUotYnA3LU1RV2ZLamhDR3JKcGI1NnBBRjBrMXB6X1ZKZ3B4RWpneFFiZURadm1jTmRGOUpwcXNvR095aVlRRHBsaHl2M2ZJQnVB?oc=5",
-    "sourceName": "MarketScreener España",
-    "sourceLogoURL": null,
-    "publishedAt": "2026-10-04T23:48:25.000Z"
   }
 ]
