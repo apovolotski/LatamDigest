@@ -2,7 +2,7 @@ import { articleID, isWebURL } from "../src/articleIdentity.js";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
-import { XMLParser } from "fast-xml-parser";
+import { FeedRequestError, feedFailureLabel, fetchRSS } from "../src/rssClient.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,11 +12,6 @@ const countriesPath = path.resolve(
   "../../LatamDigest/Resources/Countries.json"
 );
 const outputRoot = path.resolve(__dirname, "../../docs/api");
-
-const parser = new XMLParser({
-  ignoreAttributes: false,
-  attributeNamePrefix: "@_"
-});
 
 const feedConfigs = [
   { key: "top", label: "Top", query: ({ countryName }) => `${countryName} when:3d` },
@@ -79,54 +74,84 @@ export async function generateFeeds({
   countries,
   destination = outputRoot,
   fetchFeed = fetchArticlesForFeed,
-  feeds = feedConfigs
+  feeds = feedConfigs,
+  signal = AbortSignal.timeout(20 * 60_000)
 } = {}) {
   countries ??= JSON.parse(await fs.readFile(countriesPath, "utf8"));
   let previous = { countries: [] };
   try { previous = JSON.parse(await fs.readFile(path.join(destination, "manifest.json"), "utf8")); } catch {}
-  await fs.mkdir(destination, { recursive: true });
-  await writeJson(path.join(destination, "countries.json"), countries);
+  const pending = [];
   const manifest = { generatedAt: new Date().toISOString(), source: "Google News RSS",
     feeds: feeds.map(({ key, label }) => ({ key, label })), countries: [] };
   let succeeded = 0;
+  let consecutiveUpstreamFailures = 0;
+  const failures = new Map();
   for (const country of countries) {
     const countryManifest = { id: country.id, name: country.name, feeds: {} };
     for (const feed of feeds) {
+      if (signal.aborted) throw new Error("Refresh deadline exceeded; no files published.");
       const file = path.join(destination, "countries", country.id,
         ...(["top", "latest"].includes(feed.key) ? [`${feed.key}.json`] : ["category", `${feed.key}.json`]));
       const oldStatus = previous.countries.find(item => item.id === country.id)?.feeds?.[feed.key];
+      let articles;
       try {
-        const articles = await fetchFeed(country, feed);
-        if (!articles.length) throw new Error("No recent articles returned.");
-        await writeJson(file, articles);
+        articles = await fetchFeed(country, feed, { signal });
+        if (!articles.length) throw new FeedRequestError("empty-feed");
+      } catch (error) {
+        if (signal.aborted) throw new Error("Refresh deadline exceeded; no files published.");
+        const label = feedFailureLabel(error);
+        failures.set(label, (failures.get(label) ?? 0) + 1);
+        consecutiveUpstreamFailures = error instanceof FeedRequestError && error.code !== "empty-feed"
+          ? consecutiveUpstreamFailures + 1 : 0;
+        console.error(`Refresh unavailable for ${country.id}/${feed.key}: ${label}.`);
+        if (consecutiveUpstreamFailures >= 5) {
+          throw new Error(`RSS upstream failed for 5 consecutive feeds (${label}); no files published.`);
+        }
+        articles = null;
+      }
+      if (articles) {
+        consecutiveUpstreamFailures = 0;
+        pending.push([file, articles]);
         countryManifest.feeds[feed.key] = { count: articles.length, updatedAt: new Date().toISOString(), stale: false };
         succeeded += 1;
-      } catch {
+      } else {
         let retained = [];
         if (oldStatus && Date.now() - Date.parse(oldStatus.updatedAt) <= 7 * 24 * 3600_000) {
           try { retained = JSON.parse(await fs.readFile(file, "utf8")); } catch {}
         }
         if (!Array.isArray(retained)) retained = [];
-        await writeJson(file, retained);
+        pending.push([file, retained]);
         countryManifest.feeds[feed.key] = { count: retained.length,
           updatedAt: retained.length ? oldStatus.updatedAt : null,
           stale: true, error: "Feed refresh unavailable." };
-        console.error(`Refresh unavailable for ${country.id}/${feed.key}; retained ${retained.length} articles.`);
+        console.error(`Retained ${retained.length} articles for ${country.id}/${feed.key}.`);
       }
     }
     manifest.countries.push(countryManifest);
   }
-  await writeJson(path.join(destination, "manifest.json"), manifest);
+  console.log(`Feed refresh: ${succeeded}/${countries.length * feeds.length} refreshed; failures=${JSON.stringify(Object.fromEntries(failures))}`);
+  // A total outage must leave the entire previous publication byte-for-byte intact.
+  if (succeeded) {
+    if (signal.aborted) throw new Error("Refresh deadline exceeded; no files published.");
+    for (const [file, payload] of pending) await writeJson(file, payload);
+    await writeJson(path.join(destination, "countries.json"), countries);
+    await writeJson(path.join(destination, "manifest.json"), manifest);
+  }
   return { manifest, succeeded };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  const { succeeded } = await generateFeeds();
-  if (!succeeded) throw new Error("All RSS requests failed; do not publish this refresh.");
-  console.log(`Static feeds generated in ${outputRoot}`);
+  try {
+    const { succeeded } = await generateFeeds();
+    if (!succeeded) throw new Error("All feeds failed; no files published.");
+    console.log(`Static feeds generated in ${outputRoot}`);
+  } catch (error) {
+    console.error(error.message);
+    process.exitCode = 1;
+  }
 }
 
-export async function fetchArticlesForFeed(country, feedConfig) {
+export async function fetchArticlesForFeed(country, feedConfig, options) {
   const locale = localeForCountry(country.id);
   const query = feedConfig.query({ countryName: country.name, countryCode: country.id });
   const url = new URL("https://news.google.com/rss/search");
@@ -135,20 +160,7 @@ export async function fetchArticlesForFeed(country, feedConfig) {
   url.searchParams.set("gl", locale.gl);
   url.searchParams.set("ceid", locale.ceid);
 
-  const response = await fetch(url, {
-    signal: AbortSignal.timeout(20_000),
-    headers: {
-      "user-agent": "LatamDigestStaticFeedGenerator/1.0"
-    }
-  });
-
-  if (!response.ok) {
-    throw new Error(`RSS request failed with ${response.status}`);
-  }
-
-  const xml = await response.text();
-  if (xml.length > 2_000_000 || /<!DOCTYPE/i.test(xml)) throw new Error("Unexpected RSS content.");
-  const parsed = parser.parse(xml);
+  const parsed = await fetchRSS(url, options);
   let items = parsed?.rss?.channel?.item ?? [];
 
   if (!Array.isArray(items)) {

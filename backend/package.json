@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "check": "node --check src/server.js && node --check scripts/generate-static-feeds.mjs",
+    "check": "node --check src/server.js && node --check src/rssClient.js && node --check scripts/generate-static-feeds.mjs",
     "generate:static": "node scripts/generate-static-feeds.mjs",
     "test": "node --test test/*.test.js"
   },

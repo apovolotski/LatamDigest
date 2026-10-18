@@ -37,6 +37,7 @@ jobs:
         working-directory: backend
 
       - name: Generate static feeds
+        timeout-minutes: 22
         run: npm run generate:static
         working-directory: backend
 
