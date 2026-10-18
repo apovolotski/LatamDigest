@@ -41,6 +41,10 @@ jobs:
         run: npm run generate:static
         working-directory: backend
 
+      - name: Verify country and category coverage
+        run: npm run check:coverage
+        working-directory: backend
+
       - name: Commit and push feed updates
         run: |
           git config user.name "github-actions[bot]"

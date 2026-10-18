@@ -1,7 +1,7 @@
 import { setTimeout as delay } from "node:timers/promises";
 import { XMLParser, XMLValidator } from "fast-xml-parser";
 
-const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "@_" });
+const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "@_", parseTagValue: false });
 
 // Only these controlled fields reach logs. Never include response bodies, URLs,
 // headers, or the original exception (which can contain credentials).

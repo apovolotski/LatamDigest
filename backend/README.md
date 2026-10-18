@@ -8,6 +8,7 @@ npm run check
 npm test
 npm audit --omit=dev
 npm run generate:static
+npm run check:coverage
 ```
 
 The generator reads Google News RSS and writes `docs/api/countries.json`, `manifest.json`, and country/category feeds. It uses browser-safe URLs, stable article IDs, and atomic file replacements. Invalid publication dates are rejected. Failed or empty upstream responses preserve recent successful data for up to seven days; a partially successful refresh retains the original update time and marks those feeds stale. If every feed fails, the process exits unsuccessfully and leaves all previously published files untouched.
@@ -15,6 +16,16 @@ The generator reads Google News RSS and writes `docs/api/countries.json`, `manif
 RSS requests have a 20-second deadline covering headers and body, with at most three attempts. Network failures, timeouts, HTTP 408/429/5xx, and invalid RSS responses use exponential backoff with jitter. `Retry-After` seconds and dates are honored; a delay over 60 seconds ends that request instead of retrying too soon. Permanent HTTP failures and valid empty feeds are not retried. Five consecutive upstream failures after request retries stop the run before any files are written. Empty feeds do not count toward that circuit breaker. The generator also has a 20-minute overall deadline and the Actions generation step has a 22-minute backstop inside the 30-minute job.
 
 Diagnostics report a controlled failure category, HTTP status where available, attempt count, and a final refresh count. Response bodies, request URLs, headers, and raw provider exceptions are never logged or written to public feed metadata. An outage remains a failed workflow rather than publishing old data as fresh.
+
+## Country and category coverage
+
+All 24 countries have ten feed definitions. Searches use Spanish, Brazilian Portuguese, French, Dutch (Suriname), or English with local country names and category vocabulary. `Latest` searches for recent reporting rather than requiring the literal English words “latest news”. This fixes the six empty queries observed on October 18: Dominican Republic/economy, Nicaragua/economy, and French Guiana/latest, culture, economy, and world. Direct RSS probes found 0 results for each old query; localized economy queries returned 81 results for the Dominican Republic and 71 for Nicaragua.
+
+A feed with fewer than three relevant articles expands its search from 3 to 7 days for headlines, or 7 to 14 days for categories. A final English-language search uses the same country and category when needed. Queries use at most six topical alternatives; overly long OR expressions returned mostly historical matches in live probes, so publication dates are checked independently. Trinidad and Tobago searches include both island names and recognize the local abbreviation “T&T”. Searches never substitute another country or general news for a category. Articles must have a country/place/demonym and category vocabulary in the headline, a safe URL, and a publication date within the chosen window. These are conservative keyword relevance checks, not a semantic classifier. French Guiana recognizes local place names and excludes Porsche Cayenne name collisions. All candidates are deduplicated by URL identity and headline/source, then sorted before taking the newest twelve. RSS text remains text, including numeric publisher names such as `442`.
+
+The manifest records search languages, lookback window, fallback use, and aggregate coverage counts. Publication dates are never rewritten to make older stories appear new. Cached fallback keeps the original refresh timestamp, is retained for at most seven days, and also excludes stories older than fourteen days or failing the same relevance checks. Small news markets may legitimately have only one or two matching stories; those are reported as sparse rather than padded with unrelated headlines.
+
+`npm run check:coverage` verifies the complete country/category matrix and every feed file before Actions can commit. Missing or empty feeds, mismatched counts, duplicate IDs, unsafe URLs, expired timestamps, and articles failing headline/date checks block publication. Recent cache use and sparse feeds produce visible workflow warnings. Regression tests cover localized and expanded searches, English fallback, wrong-country/category results, numeric publishers, date limits, deduplication, and coverage verification.
 
 The GitHub Actions job runs on demand and every six hours, serializes overlapping runs, and validates dependencies and tests before generating feeds. Static data is served from this repository; publisher links may pass through Google News redirects.
 

@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
 import { FeedRequestError, feedFailureLabel, fetchRSS } from "../src/rssClient.js";
+import { feedConfigs, searchPlans, isRelevantArticle } from "../src/feedSearch.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,63 +13,6 @@ const countriesPath = path.resolve(
   "../../LatamDigest/Resources/Countries.json"
 );
 const outputRoot = path.resolve(__dirname, "../../docs/api");
-
-const feedConfigs = [
-  { key: "top", label: "Top", query: ({ countryName }) => `${countryName} when:3d` },
-  {
-    key: "latest",
-    label: "Latest",
-    query: ({ countryName }) => `${countryName} latest news when:3d`
-  },
-  {
-    key: "politics",
-    label: "Politics",
-    query: ({ countryName }) =>
-      `${countryName} (politics OR government OR congress OR election) when:7d`
-  },
-  {
-    key: "business",
-    label: "Business",
-    query: ({ countryName }) =>
-      `${countryName} (business OR company OR market OR investment) when:7d`
-  },
-  {
-    key: "sports",
-    label: "Sports",
-    query: ({ countryName }) =>
-      `${countryName} (sports OR football OR soccer OR tournament) when:7d`
-  },
-  {
-    key: "tech",
-    label: "Tech",
-    query: ({ countryName }) =>
-      `${countryName} (technology OR startup OR AI OR software) when:7d`
-  },
-  {
-    key: "culture",
-    label: "Culture",
-    query: ({ countryName }) =>
-      `${countryName} (culture OR music OR film OR art OR books) when:7d`
-  },
-  {
-    key: "crime",
-    label: "Crime",
-    query: ({ countryName }) =>
-      `${countryName} (crime OR police OR court OR violence) when:7d`
-  },
-  {
-    key: "economy",
-    label: "Economy",
-    query: ({ countryName }) =>
-      `${countryName} (economy OR inflation OR central bank OR GDP) when:7d`
-  },
-  {
-    key: "world",
-    label: "World",
-    query: ({ countryName }) =>
-      `${countryName} (foreign affairs OR diplomacy OR international) when:7d`
-  }
-];
 
 export async function generateFeeds({
   countries,
@@ -112,7 +56,8 @@ export async function generateFeeds({
       if (articles) {
         consecutiveUpstreamFailures = 0;
         pending.push([file, articles]);
-        countryManifest.feeds[feed.key] = { count: articles.length, updatedAt: new Date().toISOString(), stale: false };
+        countryManifest.feeds[feed.key] = { count: articles.length, updatedAt: new Date().toISOString(), stale: false,
+          ...(articles.coverage ? { coverage: articles.coverage } : {}) };
         succeeded += 1;
       } else {
         let retained = [];
@@ -120,6 +65,10 @@ export async function generateFeeds({
           try { retained = JSON.parse(await fs.readFile(file, "utf8")); } catch {}
         }
         if (!Array.isArray(retained)) retained = [];
+        retained = retained.filter(article => isWebURL(article.url) &&
+          Date.parse(article.publishedAt) >= Date.now() - 14 * 86_400_000 &&
+          Date.parse(article.publishedAt) <= Date.now() + 3600_000 &&
+          (!feedConfigs.includes(feed) || isRelevantArticle(article, country, feed, { lookbackDays: 14 })));
         pending.push([file, retained]);
         countryManifest.feeds[feed.key] = { count: retained.length,
           updatedAt: retained.length ? oldStatus.updatedAt : null,
@@ -128,7 +77,13 @@ export async function generateFeeds({
       }
     }
     manifest.countries.push(countryManifest);
+    console.log(`${country.id}: ${Object.values(countryManifest.feeds).filter(status => !status.stale).length}/${feeds.length} feeds refreshed.`);
   }
+  const statuses = manifest.countries.flatMap(country => Object.values(country.feeds));
+  manifest.coverage = { totalFeeds: statuses.length, freshFeeds: succeeded,
+    staleFeeds: statuses.filter(status => status.stale).length,
+    emptyFeeds: statuses.filter(status => !status.count).length,
+    sparseFeeds: statuses.filter(status => status.count > 0 && status.count < 3).length };
   console.log(`Feed refresh: ${succeeded}/${countries.length * feeds.length} refreshed; failures=${JSON.stringify(Object.fromEntries(failures))}`);
   // A total outage must leave the entire previous publication byte-for-byte intact.
   if (succeeded) {
@@ -152,46 +107,52 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
 }
 
 export async function fetchArticlesForFeed(country, feedConfig, options) {
-  const locale = localeForCountry(country.id);
-  const query = feedConfig.query({ countryName: country.name, countryCode: country.id });
-  const url = new URL("https://news.google.com/rss/search");
-  url.searchParams.set("q", query);
-  url.searchParams.set("hl", locale.hl);
-  url.searchParams.set("gl", locale.gl);
-  url.searchParams.set("ceid", locale.ceid);
-
-  const parsed = await fetchRSS(url, options);
-  let items = parsed?.rss?.channel?.item ?? [];
-
-  if (!Array.isArray(items)) {
-    items = items ? [items] : [];
-  }
-
+  // Custom queries remain injectable for focused tests and callers. Production
+  // feeds always use the localized plans and headline/date relevance checks.
+  const plans = feedConfig.query ? [{ query: feedConfig.query({ countryName: country.name, countryCode: country.id }),
+    locale: localeForCountry(country.id) }] : searchPlans(country, feedConfig);
   const deduped = new Map();
-
-  for (const item of items) {
-    const article = toArticle(item, country, feedConfig);
-
-    if (!article) {
-      continue;
-    }
-
-    const dedupeKey = `${article.title.toLowerCase()}|${article.sourceName.toLowerCase()}`;
-    if (!deduped.has(dedupeKey)) {
-      deduped.set(dedupeKey, article);
-    }
-
-    if (deduped.size >= 12) {
+  const seenHeadlines = new Set();
+  const languages = new Set();
+  let searches = 0;
+  let lookbackDays = 0;
+  let fallbackUnavailable = false;
+  for (const plan of plans) {
+    const url = new URL("https://news.google.com/rss/search");
+    url.searchParams.set("q", plan.query);
+    for (const [key, value] of Object.entries(plan.locale)) url.searchParams.set(key, value);
+    let parsed;
+    searches++;
+    try { parsed = await fetchRSS(url, options); }
+    catch (error) {
+      if (!deduped.size || options?.signal?.aborted) throw error;
+      fallbackUnavailable = true;
       break;
     }
+    lookbackDays = Math.max(lookbackDays, plan.lookbackDays ?? 0);
+    languages.add(plan.language);
+    let items = parsed?.rss?.channel?.item ?? [];
+    if (!Array.isArray(items)) items = items ? [items] : [];
+    for (const item of items) {
+      const article = toArticle(item, country, feedConfig);
+      if (!article || (!feedConfig.query && !isRelevantArticle(article, country, feedConfig, plan))) continue;
+      const dedupeKey = `${article.title.toLowerCase()}|${article.sourceName.toLowerCase()}`;
+      if (!deduped.has(article.id) && !seenHeadlines.has(dedupeKey)) {
+        deduped.set(article.id, article);
+        seenHeadlines.add(dedupeKey);
+      }
+    }
+    if (deduped.size >= 3 || feedConfig.query) break;
   }
-
-  return Array.from(deduped.values()).sort((left, right) =>
-    right.publishedAt.localeCompare(left.publishedAt)
-  );
+  const articles = Array.from(deduped.values()).sort((left, right) =>
+    right.publishedAt.localeCompare(left.publishedAt)).slice(0, 12);
+  if (!feedConfig.query) articles.coverage = { languages: [...languages], lookbackDays,
+    searches, fallbackUsed: searches > 1, fallbackUnavailable };
+  return articles;
 }
 
 export function toArticle(item, country, feedConfig) {
+  if (!item || typeof item !== "object" || Array.isArray(item)) return null;
   const rawTitle = text(item.title);
   const sourceName = normalizeSourceName(item.source, rawTitle);
   const title = stripSourceSuffix(rawTitle, sourceName);
@@ -218,14 +179,10 @@ export function toArticle(item, country, feedConfig) {
 }
 
 function normalizeSourceName(sourceNode, rawTitle) {
-  const source =
-    typeof sourceNode === "string"
-      ? sourceNode
-      : sourceNode?.["#text"] || sourceNode?.text || null;
-
-  if (source?.trim()) {
-    return source.trim();
-  }
+  const rawSource = typeof sourceNode === "string" || typeof sourceNode === "number"
+    ? sourceNode : sourceNode?.["#text"] ?? sourceNode?.text;
+  const source = typeof rawSource === "number" ? String(rawSource) : text(rawSource);
+  if (source) return source;
 
   const match = rawTitle.match(/\s-\s([^–-]+)$/);
   return match ? match[1].trim() : "Google News";
