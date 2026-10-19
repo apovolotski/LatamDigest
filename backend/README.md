@@ -11,11 +11,27 @@ npm run generate:static
 npm run check:coverage
 ```
 
-The generator reads Google News RSS and writes `docs/api/countries.json`, `manifest.json`, and country/category feeds. It uses browser-safe URLs, stable article IDs, and atomic file replacements. Invalid publication dates are rejected. Failed or empty upstream responses preserve recent successful data for up to seven days; a partially successful refresh retains the original update time and marks those feeds stale. If every feed fails, the process exits unsuccessfully and leaves all previously published files untouched.
+The generator reads Google News RSS and writes `docs/api/countries.json`, `manifest.json`, and country/category feeds. It uses browser-safe URLs, stable article IDs, and atomic file replacements. Invalid publication dates are rejected. Failed or empty upstream responses preserve recent successful data for up to seven days; a partially successful refresh retains the original update time and marks those feeds stale. The low-level generator fails if every feed fails. The production command stages output and validates it before replacing the publication; the recovery behavior for provider outages is described below.
 
 RSS requests have a 20-second deadline covering headers and body, with at most three attempts. Network failures, timeouts, HTTP 408/429/5xx, and invalid RSS responses use exponential backoff with jitter. `Retry-After` seconds and dates are honored; a delay over 60 seconds ends that request instead of retrying too soon. Permanent HTTP failures and valid empty feeds are not retried. Five consecutive upstream failures after request retries stop the run before any files are written. Empty feeds do not count toward that circuit breaker. The generator also has a 20-minute overall deadline and the Actions generation step has a 22-minute backstop inside the 30-minute job.
 
-Diagnostics report a controlled failure category, HTTP status where available, attempt count, and a final refresh count. Response bodies, request URLs, headers, and raw provider exceptions are never logged or written to public feed metadata. An outage remains a failed workflow rather than publishing old data as fresh.
+Diagnostics report a controlled failure category, HTTP status where available, attempt count, and a final refresh count. Response bodies, request URLs, headers, and raw provider exceptions are never logged or written to public feed metadata. Provider outages never publish old data as fresh. The production recovery wrapper can retain a complete verified publication while explicitly reporting degraded health.
+
+## Provider outage recovery
+
+`npm run generate:static` runs `scripts/refresh-static-feeds.mjs`. Each full attempt runs in an isolated copy of the current publication; invalid or failed candidates cannot overwrite published feeds. A complete candidate must pass the same coverage checks used by Actions before a directory swap replaces the publication.
+
+If five consecutive feeds exhaust request retries with a transient upstream error, the wrapper waits at least 60 seconds and retries the entire refresh once. Provider `Retry-After` is honored; delays over five minutes skip the extra attempt rather than issuing a premature request or overrunning the job budget. Cancellation, permanent HTTP errors, filesystem problems, unexpected programming errors, empty refreshes and invalid generated coverage remain fatal.
+
+If the provider remains unavailable, recovery succeeds **only** when all country/category files pass coverage, URL, identity, relevance, and publication-date checks and every feed's actual `updatedAt` is within the last 24 hours. A missing, corrupt, expired or incomplete cache still fails the workflow. This recovery limit is stricter than ordinary per-feed cache retention. Repeated recovery runs never renew it.
+
+During cached recovery publication dates, the manifest generation time, and each feed’s actual refresh timestamp remain unchanged. Articles that cross the fourteen-day limit between scheduled runs are pruned; coverage must still be complete after pruning. The manifest marks all retained feeds stale and reports zero newly refreshed feeds. A separate public `docs/api/refresh-status.json` records `state: degraded`, `mode: cached`, zero newly refreshed feeds, the preserved publication timestamp, the number of cached feeds, attempt count and a sanitized provider error. Normal refreshes record healthy or partial/degraded status. Actions also shows the outcome in its job summary and logs a warning for cached recovery. Thus a temporary provider outage with working recent feeds does not send a failed-job email, while real coverage failures and prolonged outages remain visible failures. This changes recovery behavior, not GitHub notification settings.
+
+### October 19, 2026 incident
+
+[Run 39257124872](https://github.com/apovolotski/LatamDigest/actions/runs/39257124872) passed all 32 tests and the dependency audit. Google News returned HTTP 503 for each of three attempts on the first five feeds (15 requests). The generator then opened its circuit breaker and exited after about 2 minutes 28 seconds. The prior publication from 04:34 UTC still contained all 240 valid feeds. The missing behavior was a full-run cooldown/retry and verified cache recovery after the circuit opened; it was not a timeout, parsing failure or Git push failure.
+
+Regression tests reproduce all 30 HTTP 503 responses across both full attempts, successful provider recovery, damaged and expired caches, unchanged timestamps across repeated outages, permanent HTTP failures, programming errors, cancellation, validation failure, partial refreshes and first publication. Time-dependent test articles use relative dates so tests do not fail merely as calendar time advances.
 
 ## Country and category coverage
 

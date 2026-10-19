@@ -10,7 +10,7 @@ import { fetchArticlesForFeed, generateFeeds } from "../scripts/generate-static-
 const country = { id: "MX", name: "Mexico" };
 const top = { key: "top", label: "Top", query: () => "Mexico when:3d" };
 const latest = { ...top, key: "latest", label: "Latest" };
-const article = { title: "News", url: "https://example.com/story", publishedAt: "2026-10-18T12:00:00.000Z" };
+const article = { title: "News", url: "https://example.com/story", publishedAt: new Date(Date.now() - 3600_000).toISOString() };
 const xml = `<rss version="2.0"><channel><item><title>News - Example</title><link>${article.url}</link><source>Example</source><pubDate>${article.publishedAt}</pubDate></item></channel></rss>`;
 const noWait = { sleep: async () => {}, random: () => 0 };
 

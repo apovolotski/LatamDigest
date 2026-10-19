@@ -36,7 +36,7 @@ jobs:
         run: npm run check && npm test && npm audit --omit=dev
         working-directory: backend
 
-      - name: Generate static feeds
+      - name: Refresh static feeds with outage recovery
         timeout-minutes: 22
         run: npm run generate:static
         working-directory: backend

@@ -7,9 +7,10 @@ import { createApp } from '../src/server.js';
 import { createDigestStore } from '../src/digestStore.js';
 import { articleID, isWebURL } from '../src/articleIdentity.js';
 import { toArticles } from '../src/articleMapper.js';
+import { FeedRequestError } from '../src/rssClient.js';
 import { generateFeeds, toArticle } from '../scripts/generate-static-feeds.mjs';
 
-const article = { id: articleID('https://example.com/story'), title: 'Election news', url: 'https://example.com/story', sourceName: 'Example', publishedAt: '2026-10-07T12:00:00.000Z' };
+const article = { id: articleID('https://example.com/story'), title: 'Election news', url: 'https://example.com/story', sourceName: 'Example', publishedAt: new Date(Date.now() - 3600_000).toISOString() };
 const story = { headline: article.title, source_url: article.url, source_name: article.sourceName, category: 'politics', summary: 'Summary', why_it_matters: 'Impact' };
 const digest = { generated_at: article.publishedAt, stories: [story] };
 
@@ -64,7 +65,7 @@ test('static refresh retains successful feed and original timestamp after upstre
   const options = { countries: [{ id: 'MX', name: 'Mexico' }], destination, feeds: [{ key: 'top', label: 'Top' }] };
   try {
     const first = await generateFeeds({ ...options, fetchFeed: async () => [article] });
-    const second = await generateFeeds({ ...options, fetchFeed: async () => { throw Error('upstream failure'); } });
+    const second = await generateFeeds({ ...options, fetchFeed: async () => { throw new FeedRequestError('network', { retryable: true }); } });
     assert.equal(second.succeeded, 0);
     assert.equal(second.manifest.countries[0].feeds.top.stale, true);
     assert.equal(second.manifest.countries[0].feeds.top.updatedAt, first.manifest.countries[0].feeds.top.updatedAt);

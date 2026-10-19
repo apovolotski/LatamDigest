@@ -59,7 +59,15 @@ export async function checkCoverage({ destination = root, countries, now = Date.
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const report = await checkCoverage();
   console.log(`Coverage: ${report.populated}/${report.total} populated; ${report.stale} stale; ${report.sparse} sparse; ${report.fallback} used fallback.`);
-  for (const warning of report.warnings) console.log(`::warning::${warning}`);
+  let cachedRecovery = false;
+  try {
+    const health = JSON.parse(await fs.readFile(path.join(root, "refresh-status.json"), "utf8"));
+    cachedRecovery = health.mode === "cached";
+    console.log(`Refresh health: ${health.state}; ${health.refreshedFeeds} new feeds; ${health.cachedFeeds} cached; mode=${health.mode}.`);
+  } catch (error) { if (error.code !== "ENOENT") throw error; }
+  for (const warning of report.warnings) {
+    if (!cachedRecovery || !warning.endsWith(": serving recent cached articles.")) console.log(`::warning::${warning}`);
+  }
   for (const issue of report.issues) console.error(issue);
   if (report.issues.length) process.exitCode = 1;
 }

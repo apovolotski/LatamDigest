@@ -2,7 +2,7 @@ import { articleID, isWebURL } from "../src/articleIdentity.js";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
-import { FeedRequestError, feedFailureLabel, fetchRSS } from "../src/rssClient.js";
+import { FeedRequestError, UpstreamUnavailableError, feedFailureLabel, fetchRSS } from "../src/rssClient.js";
 import { feedConfigs, searchPlans, isRelevantArticle } from "../src/feedSearch.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -43,13 +43,14 @@ export async function generateFeeds({
         if (!articles.length) throw new FeedRequestError("empty-feed");
       } catch (error) {
         if (signal.aborted) throw new Error("Refresh deadline exceeded; no files published.");
+        if (!(error instanceof FeedRequestError)) throw new Error(`Unexpected feed error for ${country.id}/${feed.key}; no files published.`);
         const label = feedFailureLabel(error);
         failures.set(label, (failures.get(label) ?? 0) + 1);
         consecutiveUpstreamFailures = error instanceof FeedRequestError && error.code !== "empty-feed"
           ? consecutiveUpstreamFailures + 1 : 0;
         console.error(`Refresh unavailable for ${country.id}/${feed.key}: ${label}.`);
         if (consecutiveUpstreamFailures >= 5) {
-          throw new Error(`RSS upstream failed for 5 consecutive feeds (${label}); no files published.`);
+          throw new UpstreamUnavailableError(error);
         }
         articles = null;
       }

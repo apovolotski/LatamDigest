@@ -16,6 +16,15 @@ export class FeedRequestError extends Error {
   }
 }
 
+export class UpstreamUnavailableError extends Error {
+  constructor(failure) {
+    super(`RSS upstream failed for 5 consecutive feeds (${feedFailureLabel(failure)}); no files published.`);
+    this.retryable = failure.retryable && ["network", "timeout", "invalid-rss", "http"].includes(failure.code);
+    this.retryAfterMs = failure.retryAfterMs;
+    this.failure = { code: failure.code, ...(failure.status ? { status: failure.status } : {}), attempts: failure.attempts };
+  }
+}
+
 export function feedFailureLabel(error) {
   return error instanceof FeedRequestError
     ? `${error.code}${error.status ? ` HTTP ${error.status}` : ""}; attempts=${error.attempts}`
