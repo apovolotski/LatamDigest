@@ -1,10 +1,17 @@
 {
-  "state": "healthy",
-  "mode": "refreshed",
-  "checkedAt": "2026-10-19T13:26:49.935Z",
+  "state": "degraded",
+  "mode": "cached",
+  "checkedAt": "2026-10-19T22:23:51.021Z",
   "lastSuccessfulRefreshAt": "2026-10-19T13:24:43.868Z",
   "totalFeeds": 240,
-  "refreshedFeeds": 240,
-  "cachedFeeds": 0,
-  "attempts": 1
+  "refreshedFeeds": 0,
+  "cachedFeeds": 240,
+  "attempts": 2,
+  "cacheLimitHours": 24,
+  "expiredArticlesRemoved": 0,
+  "failure": {
+    "code": "http",
+    "status": 503,
+    "attempts": 3
+  }
 }
