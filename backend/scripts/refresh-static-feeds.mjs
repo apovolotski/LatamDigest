@@ -6,6 +6,7 @@ import { generateFeeds } from "./generate-static-feeds.mjs";
 import { checkCoverage } from "./check-feed-coverage.mjs";
 import { UpstreamUnavailableError } from "../src/rssClient.js";
 import { feedConfigs } from "../src/feedSearch.js";
+import { MAX_ARTICLE_AGE_MS, MAX_PUBLICATION_AGE_MS, PUBLICATION_SAFETY_MS } from "../src/feedFreshness.js";
 
 const outputRoot = fileURLToPath(new URL("../../docs/api", import.meta.url));
 const MAX_CACHE_AGE_MS = 24 * 3600_000;
@@ -24,6 +25,7 @@ async function verifiedCache(destination, countries, now) {
     throw new Error("Cached feed refresh timestamps exceed the 24-hour recovery limit.");
   }
   let expiredArticlesRemoved = 0;
+  let expiringArticlesRemoved = 0;
   for (const country of countries) {
     const entry = manifest.countries.find(item => item.id === country.id);
     if (JSON.stringify(Object.keys(entry.feeds).sort()) !== JSON.stringify(feedConfigs.map(feed => feed.key).sort())) {
@@ -37,11 +39,15 @@ async function verifiedCache(destination, countries, now) {
       catch { throw new Error("Cached coverage is incomplete or invalid; refresh cannot recover safely."); }
       const status = entry.feeds[feed.key];
       if (!Array.isArray(articles) || articles.length !== status.count) throw new Error("Cached coverage is incomplete or invalid; refresh cannot recover safely.");
-      // An article can cross its age limit after the last successful run. Prune
-      // only expired dates, retaining original dates and the feed refresh time.
-      const retained = articles.filter(article => !(Number.isFinite(Date.parse(article.publishedAt)) &&
-        Date.parse(article.publishedAt) < now - 14 * 86_400_000));
-      expiredArticlesRemoved += articles.length - retained.length;
+      // Leave a full recovery window before the validator's hard age limit.
+      // Invalid or future dates remain present so validation still rejects them.
+      const retained = articles.filter(article => {
+        const published = Date.parse(article.publishedAt);
+        if (!Number.isFinite(published) || published >= now - MAX_PUBLICATION_AGE_MS) return true;
+        if (published < now - MAX_ARTICLE_AGE_MS) expiredArticlesRemoved++;
+        else expiringArticlesRemoved++;
+        return false;
+      });
       if (retained.length !== articles.length) await fs.writeFile(file, JSON.stringify(retained, null, 2) + "\n");
       entry.feeds[feed.key] = { ...status, count: retained.length, stale: true, error: "Feed refresh unavailable." };
     }
@@ -51,9 +57,9 @@ async function verifiedCache(destination, countries, now) {
     emptyFeeds: current.filter(status => !status.count).length,
     sparseFeeds: current.filter(status => status.count > 0 && status.count < 3).length };
   await fs.writeFile(path.join(destination, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
-  const report = await checkCoverage({ destination, countries, now });
+  const report = await checkCoverage({ destination, countries, now, minimumFreshnessMs: PUBLICATION_SAFETY_MS });
   if (report.issues.length) throw new Error("Cached coverage is incomplete or invalid; refresh cannot recover safely.");
-  return { report, manifest, expiredArticlesRemoved };
+  return { report, manifest, expiredArticlesRemoved, expiringArticlesRemoved };
 }
 
 async function publishVerified(staged, destination, workspace) {
@@ -74,8 +80,9 @@ async function recordStatus(destination, status, summaryFile) {
       `- Refreshed feeds: ${status.refreshedFeeds}/${status.totalFeeds}\n` +
       `- Cached feeds: ${status.cachedFeeds}\n` +
       `- Refresh attempts: ${status.attempts}\n` +
+      `- Publication freshness safety margin: ${status.publicationSafetyHours} hours\n` +
       `- Last successful publication: ${status.lastSuccessfulRefreshAt}\n` +
-      (status.mode === "cached" ? `\nGoogle News remains unavailable. Verified recent feeds retained; article dates and refresh timestamps are unchanged. ${status.expiredArticlesRemoved} expired articles removed. Recovery cache expires after 24 hours.\n` : ""));
+      (status.mode === "cached" ? `\nGoogle News remains unavailable. Verified recent feeds retained; article dates and refresh timestamps are unchanged. ${status.expiredArticlesRemoved} expired and ${status.expiringArticlesRemoved} expiring articles removed. Recovery cache expires after 24 hours.\n` : ""));
   }
 }
 
@@ -110,10 +117,11 @@ export async function refreshFeeds({
       signal.throwIfAborted();
       if (result) {
         if (!result.succeeded) throw new Error("No feeds refreshed; refusing to publish an empty refresh.");
-        const report = await checkCoverage({ destination: staged, countries, now: now() });
+        const report = await checkCoverage({ destination: staged, countries, now: now(), minimumFreshnessMs: PUBLICATION_SAFETY_MS });
         if (report.issues.length) throw new Error(`Generated feed validation failed: ${report.issues.join(" ")}`);
         const status = { state: report.stale ? "degraded" : "healthy", mode: "refreshed",
           checkedAt: new Date(now()).toISOString(), lastSuccessfulRefreshAt: result.manifest.generatedAt,
+          publicationSafetyHours: PUBLICATION_SAFETY_MS / 3600_000,
           totalFeeds: report.total, refreshedFeeds: result.succeeded, cachedFeeds: report.stale, attempts: attempt };
         await recordStatus(staged, status);
         // Swap only verified output. Roll back if the second rename fails.
@@ -136,11 +144,12 @@ export async function refreshFeeds({
   const staged = path.join(workspace, "candidate");
   try {
     await fs.cp(destination, staged, { recursive: true });
-    const { report, manifest, expiredArticlesRemoved } = await verifiedCache(staged, countries, now());
+    const { report, manifest, expiredArticlesRemoved, expiringArticlesRemoved } = await verifiedCache(staged, countries, now());
     const status = { state: "degraded", mode: "cached", checkedAt: new Date(now()).toISOString(),
       lastSuccessfulRefreshAt: manifest.generatedAt, totalFeeds: report.total,
       refreshedFeeds: 0, cachedFeeds: report.total, attempts, cacheLimitHours: 24,
-      expiredArticlesRemoved, failure: upstreamFailure.failure };
+      publicationSafetyHours: PUBLICATION_SAFETY_MS / 3600_000,
+      expiredArticlesRemoved, expiringArticlesRemoved, failure: upstreamFailure.failure };
     signal.throwIfAborted();
     await recordStatus(staged, status);
     await publishVerified(staged, destination, workspace);

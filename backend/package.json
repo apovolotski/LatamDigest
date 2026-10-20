@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "check": "node --check src/server.js && node --check src/rssClient.js && node --check src/feedSearch.js && node --check scripts/generate-static-feeds.mjs && node --check scripts/refresh-static-feeds.mjs && node --check scripts/check-feed-coverage.mjs",
+    "check": "node --check src/server.js && node --check src/rssClient.js && node --check src/feedSearch.js && node --check src/feedFreshness.js && node --check scripts/generate-static-feeds.mjs && node --check scripts/refresh-static-feeds.mjs && node --check scripts/check-feed-coverage.mjs",
     "generate:static": "node scripts/refresh-static-feeds.mjs",
     "test": "node --test test/*.test.js",
     "check:coverage": "node scripts/check-feed-coverage.mjs"

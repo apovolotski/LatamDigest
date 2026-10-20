@@ -244,3 +244,36 @@ test("articles that expire between schedules are pruned without expiring an othe
   assert.equal(current.countries[0].feeds.top.stale, true);
   assert.deepEqual((await checkCoverage(f)).issues, []);
 });
+
+test("cached publication remains valid for a full day after publication, including across midnight", async t => {
+  const f = await fixture(t), now = Date.now();
+  const file = path.join(f.destination, "countries/NI/top.json");
+  const { articleID } = await import("../src/articleIdentity.js");
+  const nearExpiry = { ...article(), url: "https://example.com/near-expiry", publishedAt: new Date(now - 13.5 * 86_400_000).toISOString() };
+  nearExpiry.id = articleID(nearExpiry.url);
+  await writeFile(file, JSON.stringify([article(), nearExpiry]));
+  const manifestFile = path.join(f.destination, "manifest.json");
+  const original = JSON.parse(await readFile(manifestFile));
+  original.countries[0].feeds.top.count = 2;
+  await writeFile(manifestFile, JSON.stringify(original));
+  const status = await refreshFeeds({ ...f, sleep: instant, now: () => now, generate: unavailable });
+  assert.equal(status.expiredArticlesRemoved, 0);
+  assert.equal(status.expiringArticlesRemoved, 1);
+  assert.equal(status.publicationSafetyHours, 24);
+  assert.equal(JSON.parse(await readFile(file)).length, 1);
+  assert.deepEqual((await checkCoverage({ ...f, now: now + 24 * 3600_000 })).issues, []);
+  const current = JSON.parse(await readFile(manifestFile));
+  assert.equal(current.countries[0].feeds.top.updatedAt, original.countries[0].feeds.top.updatedAt);
+});
+
+test("new output must satisfy the publication freshness margin before replacing valid feeds", async t => {
+  const f = await fixture(t), before = await f.snapshot();
+  await assert.rejects(refreshFeeds({ ...f, sleep: instant, generate: async ({ destination }) => {
+    const file = path.join(destination, "countries/NI/top.json");
+    const articles = JSON.parse(await readFile(file));
+    articles[0].publishedAt = new Date(Date.now() - 13.5 * 86_400_000).toISOString();
+    await writeFile(file, JSON.stringify(articles));
+    return { succeeded: 10, manifest: { generatedAt: new Date().toISOString() } };
+  } }), /Generated feed validation failed/);
+  assert.deepEqual(await f.snapshot(), before);
+});

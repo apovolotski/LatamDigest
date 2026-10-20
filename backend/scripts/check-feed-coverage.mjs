@@ -3,11 +3,12 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { feedConfigs, isRelevantArticle } from "../src/feedSearch.js";
 import { articleID, isWebURL } from "../src/articleIdentity.js";
+import { MAX_ARTICLE_AGE_MS } from "../src/feedFreshness.js";
 
 const root = fileURLToPath(new URL("../../docs/api", import.meta.url));
 const countriesFile = fileURLToPath(new URL("../../LatamDigest/Resources/Countries.json", import.meta.url));
 
-export async function checkCoverage({ destination = root, countries, now = Date.now() } = {}) {
+export async function checkCoverage({ destination = root, countries, now = Date.now(), minimumFreshnessMs = 0 } = {}) {
   countries ??= JSON.parse(await fs.readFile(countriesFile, "utf8"));
   const manifest = JSON.parse(await fs.readFile(path.join(destination, "manifest.json"), "utf8"));
   const issues = [];
@@ -41,7 +42,7 @@ export async function checkCoverage({ destination = root, countries, now = Date.
       const seen = new Set();
       for (const article of articles) {
         if (!isWebURL(article.url) || article.id !== articleID(article.url) || !article.title || !article.sourceName ||
-            !isRelevantArticle(article, country, feed, { lookbackDays: 14 }, now)) {
+            !isRelevantArticle(article, country, feed, { lookbackDays: (MAX_ARTICLE_AGE_MS - minimumFreshnessMs) / 86_400_000 }, now)) {
           issues.push(`${label}: invalid, outdated, or unrelated article.`);
         }
         if (seen.has(article.id)) issues.push(`${label}: duplicate article ID.`);

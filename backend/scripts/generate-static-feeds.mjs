@@ -4,6 +4,7 @@ import path from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
 import { FeedRequestError, UpstreamUnavailableError, feedFailureLabel, fetchRSS } from "../src/rssClient.js";
 import { feedConfigs, searchPlans, isRelevantArticle } from "../src/feedSearch.js";
+import { MAX_PUBLICATION_AGE_MS } from "../src/feedFreshness.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -67,7 +68,7 @@ export async function generateFeeds({
         }
         if (!Array.isArray(retained)) retained = [];
         retained = retained.filter(article => isWebURL(article.url) &&
-          Date.parse(article.publishedAt) >= Date.now() - 14 * 86_400_000 &&
+          Date.parse(article.publishedAt) >= Date.now() - MAX_PUBLICATION_AGE_MS &&
           Date.parse(article.publishedAt) <= Date.now() + 3600_000 &&
           (!feedConfigs.includes(feed) || isRelevantArticle(article, country, feed, { lookbackDays: 14 })));
         pending.push([file, retained]);
@@ -136,7 +137,8 @@ export async function fetchArticlesForFeed(country, feedConfig, options) {
     if (!Array.isArray(items)) items = items ? [items] : [];
     for (const item of items) {
       const article = toArticle(item, country, feedConfig);
-      if (!article || (!feedConfig.query && !isRelevantArticle(article, country, feedConfig, plan))) continue;
+      if (!article || (!feedConfig.query && (!isRelevantArticle(article, country, feedConfig, plan) ||
+          Date.parse(article.publishedAt) < Date.now() - MAX_PUBLICATION_AGE_MS))) continue;
       const dedupeKey = `${article.title.toLowerCase()}|${article.sourceName.toLowerCase()}`;
       if (!deduped.has(article.id) && !seenHeadlines.has(dedupeKey)) {
         deduped.set(article.id, article);

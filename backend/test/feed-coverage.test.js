@@ -187,3 +187,16 @@ test("ambiguous French prix and a technology-branded golf event do not fill unre
   const mx = getCountry("MX"), tech = getFeed("tech");
   assert.equal(isRelevantArticle(story("México jugará el World Wide Technology Championship"), mx, tech, searchPlans(mx, tech)[0]), false);
 });
+
+test("extended searches do not publish stories that will expire before the next refresh", async () => {
+  const nearExpiry = story("Nicaragua: economía cerca del límite", 13.5);
+  const fresh = [story("Nicaragua: economía diez días", 10), story("Nicaragua: economía once días", 11)];
+  let calls = 0;
+  const result = await fetchArticlesForFeed(getCountry("NI"), getFeed("economy"), { ...options,
+    fetchImpl: async () => new Response(rss(++calls === 1 ? [] : [nearExpiry, ...fresh]))
+  });
+  assert.equal(result.length, 2);
+  assert.equal(result.coverage.fallbackUsed, true);
+  assert.equal(result.some(article => article.title === nearExpiry.title), false);
+  assert.equal(result[0].publishedAt, fresh[0].publishedAt);
+});
