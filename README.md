@@ -42,7 +42,9 @@ npm audit --omit=dev
 npm run generate:static
 ```
 
-Use Node.js 24 or later. The scheduled GitHub Actions workflow checks the pipeline before generating feeds. Failed requests preserve the prior feed for up to seven days and retain its original timestamp in the manifest; a total outage fails the workflow rather than publishing an empty replacement. The app's last-checked time describes its fetch, not the publication date of every story.
+Use Node.js 24 or later. The scheduled GitHub Actions workflow checks the pipeline before generating feeds. Failed requests can retain verified feeds for up to 24 hours, including during partial refreshes, without renewing their timestamps. Provider outages get bounded retries and can recover from this verified cache with explicitly degraded health. Invalid, empty, expired or unrelated output cannot replace the published feed. Every new publication reserves a 24-hour article freshness margin before the 14-day article limit. The app's last-checked time describes its fetch, not the publication date of every story.
+
+Run 39946815347 exposed a Suriname culture matching defect: `surinam*` did not match Dutch `Surinaamse`, and exact topic words missed `muziekformatie`, `cultureel`, `concert` and `cinema`. This rejected fresh RSS reporting until the sole previously accepted story reached the publication age cutoff. The search and coverage validator now share explicit Dutch adjective/compound terms and English cultural terms, while retaining country, category, URL and age validation. Regression fixtures use headlines from the incident and reproduce an aging one-story cache being replaced by fresh reporting.
 
 ## Credentials
 

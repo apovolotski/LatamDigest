@@ -14,6 +14,28 @@ const story = (title, daysAgo = 0, key = title) => ({ title, url: `https://examp
   sourceName: "Example", publishedAt: new Date(Date.now() - daysAgo * 86_400_000).toISOString() });
 const rss = articles => `<rss><channel>${articles.map(article => `<item><title>${article.title}</title><link>${article.url}</link><source>${article.sourceName}</source><pubDate>${article.publishedAt}</pubDate></item>`).join("")}</channel></rss>`;
 const options = { sleep: async () => {} };
+const cultureIncident = JSON.parse(await readFile(new URL("fixtures/suriname-culture.json", import.meta.url)));
+
+test("incident 39946815347: Surinamese adjectives and Dutch cultural compounds retain real reporting", async () => {
+  const country = getCountry("SR"), feed = getFeed("culture"), plan = searchPlans(country, feed)[0];
+  const articles = cultureIncident.map((item, i) => ({ ...story(item.title, item.daysAgo, `incident-${i}`), sourceName: item.sourceName }));
+  for (const article of articles.slice(0, 4)) assert.equal(isRelevantArticle(article, country, feed, plan), true, article.title);
+  assert.equal(isRelevantArticle(articles[4], country, feed, plan), false);
+  for (const title of ["Surinaamse economie groeit", "Suriname gebruikt kunstmatige intelligentie", "Indonesië organiseert concert"]) {
+    assert.equal(isRelevantArticle(story(title), country, feed, plan), false, title);
+  }
+  assert.equal(isRelevantArticle(story(articles[0].title, 15), country, feed, { lookbackDays: 14 }), false);
+  const result = await fetchArticlesForFeed(country, feed, { ...options, fetchImpl: async () => new Response(rss(articles)) });
+  assert.equal(result.length, 4);
+  assert.equal(result.some(article => article.title.includes("Kolkata")), false);
+});
+
+test("English cultural fallback accepts cultural reporting while preserving geographic and date checks", () => {
+  const country = getCountry("SR"), feed = getFeed("culture"), plan = { lookbackDays: 14 };
+  assert.equal(isRelevantArticle(story("RI proposes cultural cooperation to strengthen ties with Suriname"), country, feed, plan), true);
+  assert.equal(isRelevantArticle(story("Surinamese film wins award"), country, feed, plan), true);
+  assert.equal(isRelevantArticle(story("RI proposes cultural cooperation with Indonesia"), country, feed, plan), false);
+});
 
 test("all 24 countries and ten feeds have bounded country-scoped search plans", () => {
   assert.equal(countries.length * feedConfigs.length, 240);

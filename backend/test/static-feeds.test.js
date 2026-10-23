@@ -150,7 +150,7 @@ test("five consecutive upstream failures stop early without publishing even pend
   await assert.rejects(readFile(path.join(options.destination, "countries/MX/category/feed0.json")), { code: "ENOENT" });
 });
 
-test("partial refresh retains recent cache and timestamp, expires cache older than seven days", async t => {
+test("partial refresh retains recent cache and timestamp, expires cache older than 24 hours", async t => {
   const { destination, options } = await fixture(t);
   const manifestPath = path.join(destination, "manifest.json");
   const first = JSON.parse(await readFile(manifestPath));
@@ -160,7 +160,7 @@ test("partial refresh retains recent cache and timestamp, expires cache older th
   assert.equal(manifest.countries[0].feeds.top.updatedAt, first.countries[0].feeds.top.updatedAt);
   assert.equal(manifest.countries[0].feeds.top.stale, true);
   assert.deepEqual(JSON.parse(await readFile(path.join(destination, "countries/MX/top.json"))), [article]);
-  manifest.countries[0].feeds.top.updatedAt = new Date(Date.now() - 8 * 24 * 3600_000).toISOString();
+  manifest.countries[0].feeds.top.updatedAt = new Date(Date.now() - 25 * 3600_000).toISOString();
   await writeFile(manifestPath, JSON.stringify(manifest));
   await generateFeeds({ ...options, fetchFeed });
   manifest = JSON.parse(await readFile(manifestPath));

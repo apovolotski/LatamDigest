@@ -6,10 +6,9 @@ import { generateFeeds } from "./generate-static-feeds.mjs";
 import { checkCoverage } from "./check-feed-coverage.mjs";
 import { UpstreamUnavailableError } from "../src/rssClient.js";
 import { feedConfigs } from "../src/feedSearch.js";
-import { MAX_ARTICLE_AGE_MS, MAX_PUBLICATION_AGE_MS, PUBLICATION_SAFETY_MS } from "../src/feedFreshness.js";
+import { MAX_ARTICLE_AGE_MS, MAX_CACHE_AGE_MS, MAX_PUBLICATION_AGE_MS, PUBLICATION_SAFETY_MS } from "../src/feedFreshness.js";
 
 const outputRoot = fileURLToPath(new URL("../../docs/api", import.meta.url));
-const MAX_CACHE_AGE_MS = 24 * 3600_000;
 
 // A provider outage is recoverable only while every published feed is valid and
 // was actually refreshed in the last day. Reading a cache never renews its age.
@@ -119,9 +118,16 @@ export async function refreshFeeds({
         if (!result.succeeded) throw new Error("No feeds refreshed; refusing to publish an empty refresh.");
         const report = await checkCoverage({ destination: staged, countries, now: now(), minimumFreshnessMs: PUBLICATION_SAFETY_MS });
         if (report.issues.length) throw new Error(`Generated feed validation failed: ${report.issues.join(" ")}`);
+        const candidateManifest = JSON.parse(await fs.readFile(path.join(staged, "manifest.json"), "utf8"));
+        const cached = candidateManifest.countries.flatMap(country => Object.values(country.feeds)).filter(status => status.stale);
+        if (cached.some(status => !Number.isFinite(Date.parse(status.updatedAt)) ||
+            now() - Date.parse(status.updatedAt) > MAX_CACHE_AGE_MS || Date.parse(status.updatedAt) > now() + 3600_000)) {
+          throw new Error("Cached feed refresh timestamps exceed the 24-hour recovery limit.");
+        }
         const status = { state: report.stale ? "degraded" : "healthy", mode: "refreshed",
           checkedAt: new Date(now()).toISOString(), lastSuccessfulRefreshAt: result.manifest.generatedAt,
           publicationSafetyHours: PUBLICATION_SAFETY_MS / 3600_000,
+          cacheLimitHours: MAX_CACHE_AGE_MS / 3600_000,
           totalFeeds: report.total, refreshedFeeds: result.succeeded, cachedFeeds: report.stale, attempts: attempt };
         await recordStatus(staged, status);
         // Swap only verified output. Roll back if the second rename fails.

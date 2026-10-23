@@ -46,6 +46,31 @@ async function assertRetained(f, before) {
 const unavailable = async () => { throw failure(); };
 const instant = async () => {};
 
+test("incident 39946815347: fresh Suriname culture replaces the lone aging story before validation", async t => {
+  const f = await fixture(t), sr = { id: "SR", name: "Suriname" };
+  const srArticle = () => toArticle({ title: "Suriname: politiek, bedrijven, sport, technologie, cultuur, criminaliteit, economie en internationaal nieuws",
+    link: "https://example.com/sr-news", source: "Example", pubDate: new Date().toISOString() }, sr, { label: "Top" });
+  await generateFeeds({ ...f, countries: [sr], fetchFeed: async () => [srArticle()] });
+  const file = path.join(f.destination, "countries/SR/category/culture.json");
+  const old = srArticle();
+  old.title = "Jeangu Macrooy keert terug naar Suriname voor gratis Potpourri Festival";
+  old.publishedAt = new Date(Date.now() - 13.2 * 86_400_000).toISOString();
+  await writeFile(file, JSON.stringify([old]));
+  const inputs = JSON.parse(await readFile(new URL("fixtures/suriname-culture.json", import.meta.url)));
+  const status = await refreshFeeds({ ...f, countries: [sr], generate: options => generateFeeds({ ...options,
+    fetchFeed: (country, feed) => feed.key !== "culture" ? Promise.resolve([srArticle()]) : fetchArticlesForFeed(country, feed, {
+      fetchImpl: async () => new Response(`<rss><channel>${inputs.map((item, i) => `<item><title>${item.title}</title><link>https://example.com/culture-${i}</link><source>${item.sourceName}</source><pubDate>${new Date(Date.now() - item.daysAgo * 86_400_000).toISOString()}</pubDate></item>`).join("")}</channel></rss>`)
+    })
+  }) });
+  assert.equal(status.state, "healthy");
+  assert.equal(status.refreshedFeeds, 10);
+  assert.equal(status.cachedFeeds, 0);
+  const articles = JSON.parse(await readFile(file));
+  assert.equal(articles.length, 4);
+  assert.equal(articles.some(a => a.title === old.title), false);
+  assert.deepEqual((await checkCoverage({ ...f, countries: [sr] })).issues, []);
+});
+
 test("incident regression: thirty HTTP 503 responses preserve verified coverage and report degraded health", async t => {
   const f = await fixture(t), before = await f.snapshot();
   let requests = 0;
@@ -208,8 +233,31 @@ test("a partial refresh explicitly reports cached feeds without changing their t
   assert.equal(status.mode, "refreshed");
   assert.equal(status.refreshedFeeds, 9);
   assert.equal(status.cachedFeeds, 1);
+  assert.equal(status.cacheLimitHours, 24);
   const current = JSON.parse(await readFile(path.join(f.destination, "manifest.json")));
   assert.equal(current.countries[0].feeds.world.updatedAt, previous.countries[0].feeds.world.updatedAt);
+});
+
+test("partial refresh cannot publish a cached feed older than 24 hours or renew its age", async t => {
+  const f = await fixture(t), file = path.join(f.destination, "manifest.json");
+  const manifest = JSON.parse(await readFile(file));
+  manifest.countries[0].feeds.world.updatedAt = new Date(Date.now() - 25 * 3600_000).toISOString();
+  await writeFile(file, JSON.stringify(manifest));
+  const before = await f.snapshot();
+  await assert.rejects(refreshFeeds({ ...f,
+    generate: options => generateFeeds({ ...options, fetchFeed: async (country, feed) => feed.key === "world" ? [] : [article()] })
+  }), /Generated feed validation failed: NI\/world: empty feed/);
+  assert.deepEqual(await f.snapshot(), before);
+  // Defense in depth also checks the per-feed age in an otherwise valid candidate.
+  await assert.rejects(refreshFeeds({ ...f, generate: async options => {
+    const result = await generateFeeds({ ...options, fetchFeed: async () => [article()] });
+    const cached = result.manifest.countries[0].feeds.world;
+    cached.updatedAt = manifest.countries[0].feeds.world.updatedAt;
+    cached.stale = true;
+    await writeFile(path.join(options.destination, "manifest.json"), JSON.stringify(result.manifest));
+    return result;
+  } }), /24-hour recovery limit/);
+  assert.deepEqual(await f.snapshot(), before);
 });
 
 test("a first healthy publication can be created without any prior cache", async t => {

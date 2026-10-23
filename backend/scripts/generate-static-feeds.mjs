@@ -4,7 +4,7 @@ import path from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
 import { FeedRequestError, UpstreamUnavailableError, feedFailureLabel, fetchRSS } from "../src/rssClient.js";
 import { feedConfigs, searchPlans, isRelevantArticle } from "../src/feedSearch.js";
-import { MAX_PUBLICATION_AGE_MS } from "../src/feedFreshness.js";
+import { MAX_CACHE_AGE_MS, MAX_PUBLICATION_AGE_MS } from "../src/feedFreshness.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -63,7 +63,8 @@ export async function generateFeeds({
         succeeded += 1;
       } else {
         let retained = [];
-        if (oldStatus && Date.now() - Date.parse(oldStatus.updatedAt) <= 7 * 24 * 3600_000) {
+        const updated = Date.parse(oldStatus?.updatedAt), now = Date.now();
+        if (Number.isFinite(updated) && now - updated <= MAX_CACHE_AGE_MS && updated <= now + 3600_000) {
           try { retained = JSON.parse(await fs.readFile(file, "utf8")); } catch {}
         }
         if (!Array.isArray(retained)) retained = [];

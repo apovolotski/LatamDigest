@@ -28,7 +28,7 @@ const profiles = {
   UY: ["es", "Uruguay", "urugua*"],
   VE: ["es", "Venezuela", "venez*"],
   TT: ["en", "Trinidad and Tobago", "Trinidad|Tobago|Trinbagonian*|T&T|TTOC|Port of Spain"],
-  SR: ["nl", "Suriname", "surinam*|Paramaribo"],
+  SR: ["nl", "Suriname", "surinam*|surinaam*|Paramaribo"],
   GY: ["en", "Guyana", "Guyana|Guyanese"],
   GF: ["fr", "Guyane", "Guyane|guyanais*|guyanaise*|Cayenne|Kourou|Macouria|Matoury|Saint Laurent du Maroni"]
 };
@@ -102,6 +102,14 @@ const extraStems = {
   fr: "", nl: "", en: ""
 };
 
+// Dutch compounds and adjectives are common in actual cultural headlines.
+// These are match terms, not query wildcards. Do not use kunst*: that would
+// also classify kunstmatige intelligentie (artificial intelligence) as culture.
+const topicMatchTerms = {
+  "nl/culture": "cultureel|culturele|muziek*|film*|bioscoop*|cinema|concert*|documentaire*|kunsten|kunstenaar*|theater*|literair*|erfgoed",
+  "en/culture": "cultural|cinema|concert|documentary|heritage"
+};
+
 function normalized(value) {
   return value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().replace(/[^\p{L}\p{N}*]+/gu, " ").trim();
 }
@@ -150,7 +158,10 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   if (feed.key === "tech" && /world wide technology championship/i.test(article.title)) return false;
   if (feed.key === "world" && /\b(football|soccer|cricket|basketball|pageant|world cup)\b/i.test(article.title) &&
       !/\b(foreign|diploma\w*|bilateral|minister|ambassador|cooperation|united nations|high commissioner|caricom)\b/i.test(article.title)) return false;
-  const terms = [...new Set([localLanguage, "en"])].flatMap(language => topics[language][feed.key].split("|"));
+  const terms = [...new Set([localLanguage, "en"])].flatMap(language => [
+    ...topics[language][feed.key].split("|"),
+    ...(topicMatchTerms[`${language}/${feed.key}`] ?? "").split("|").filter(Boolean)
+  ]);
   // Inflected adjectives are common in Romance-language headlines.
   const stems = (extraStems[localLanguage] || "").split("|").filter(Boolean)
     .filter(stem => terms.some(term => normalized(term).startsWith(normalized(stem).slice(0, -1))));
