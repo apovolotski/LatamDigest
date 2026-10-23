@@ -48,7 +48,7 @@ const instant = async () => {};
 
 test("incident 39946815347: fresh Suriname culture replaces the lone aging story before validation", async t => {
   const f = await fixture(t), sr = { id: "SR", name: "Suriname" };
-  const srArticle = () => toArticle({ title: "Suriname: politiek, bedrijven, sport, technologie, cultuur, criminaliteit, economie en internationaal nieuws",
+  const srArticle = () => toArticle({ title: "Suriname: politiek, bedrijven, sport, technologie, cultuur, criminaliteit, economie en diplomatie",
     link: "https://example.com/sr-news", source: "Example", pubDate: new Date().toISOString() }, sr, { label: "Top" });
   await generateFeeds({ ...f, countries: [sr], fetchFeed: async () => [srArticle()] });
   const file = path.join(f.destination, "countries/SR/category/culture.json");

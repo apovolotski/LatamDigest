@@ -12,7 +12,7 @@ const profiles = {
   BR: ["pt", "Brasil", "brasil*|brazil*"],
   CL: ["es", "Chile", "chile*|chileno*|chilena*"],
   CO: ["es", "Colombia", "colombi*"],
-  CR: ["es", "Costa Rica", "Costa Rica|costarricense*"],
+  CR: ["es", "Costa Rica", "Costa Rica|costarricense*|Costa Rican*"],
   CU: ["es", "Cuba", "cuba*"],
   DO: ["es", "República Dominicana", "República Dominicana|dominican*"],
   EC: ["es", "Ecuador", "ecuador*|ecuatorian*"],
@@ -23,14 +23,14 @@ const profiles = {
   PA: ["es", "Panamá", "panam*"],
   PY: ["es", "Paraguay", "paragua*"],
   PE: ["es", "Perú", "peru*"],
-  PR: ["es", "Puerto Rico", "Puerto Rico|puertorriqueñ*"],
+  PR: ["es", "Puerto Rico", "Puerto Rico|puertorriqueñ*|boricua*|Puerto Rican*"],
   SV: ["es", "El Salvador", "El Salvador|salvadoreñ*|salvadoran*"],
   UY: ["es", "Uruguay", "urugua*"],
   VE: ["es", "Venezuela", "venez*"],
-  TT: ["en", "Trinidad and Tobago", "Trinidad|Tobago|Trinbagonian*|T&T|TTOC|Port of Spain"],
+  TT: ["en", "Trinidad and Tobago", "Trinidad|Tobago|Trinidadian*|Tobagonian*|Trinbagonian*|T&T|TTOC|Port of Spain"],
   SR: ["nl", "Suriname", "surinam*|surinaam*|Paramaribo"],
   GY: ["en", "Guyana", "Guyana|Guyanese"],
-  GF: ["fr", "Guyane", "Guyane|guyanais*|guyanaise*|Cayenne|Kourou|Macouria|Matoury|Saint Laurent du Maroni"]
+  GF: ["fr", "Guyane", "Guyane|guyanais*|guyanaise*|French Guianese|French Guianan*|Cayenne|Kourou|Macouria|Matoury|Saint Laurent du Maroni"]
 };
 
 // Stems (*) are for headline matching only; queries use complete words.
@@ -63,11 +63,11 @@ const topics = {
     culture: "culture|musique|cinéma|art|livres|festival|théâtre|littérature",
     crime: "crime|police|justice|meurtre|violence|homicide|trafic",
     economy: "économie|inflation|banque centrale|PIB|emploi|croissance|exportations|budget|salaires|pétrole|carburant|diesel",
-    world: "international|diplomatie|affaires étrangères|coopération|Brésil|Suriname"
+    world: "international|diplomatie|affaires étrangères|coopération|ambassadeur|frontière"
   },
   nl: {
     politics: "politiek|regering|parlement|verkiezingen|president|assemblee",
-    business: "bedrijven|handel|investeringen|industrie|ondernemers|zaken",
+    business: "bedrijven|handel|investeringen|industrie|ondernemers|ondernemingen",
     sports: "sport|voetbal|basketbal|toernooi|kampioenschap|atletiek",
     tech: "technologie|innovatie|software|telecom|kunstmatige intelligentie|digitaal",
     culture: "cultuur|muziek|film|kunst|boeken|festival|theater|literatuur",
@@ -96,19 +96,67 @@ const queryTopics = {
   "fr/tech": "technologie|innovation|intelligence artificielle|numérique|spatial|Ariane"
 };
 
-const extraStems = {
-  es: "polític*|eleccio*|deport*|tecnol*|económ*|empresar*|cultur*|delincuen*",
-  pt: "polític*|eleiç*|esport*|tecnol*|econôm*|empresar*|cultur*",
-  fr: "", nl: "", en: ""
+// Inflections belong to one language AND category. Deriving a language-wide
+// stem from "política exterior" made all domestic politics pass as World news.
+// Keep stems bounded: art*/kunst* would match artificial intelligence, invest*
+// would match investigation, and polici* would match English policies.
+// These terms match headlines; queries continue to use complete words.
+const topicMatchTerms = {
+  "es/politics": "polític*|eleccio*|electoral*|parlament*|congres*|diputad*|senad*|presiden*|ministr*|votación",
+  "es/business": "empresa*|comerci*|inversi*|industri*|negocio*|corporativ*",
+  "es/sports": "deport*|futbol*|beisbol*|baloncest*|campeon*|bicampeon*|tenis*|tenista*|rugby|futsal|premundial|mundial femenino|mundial sub",
+  "es/tech": "tecnolog*|innov*|informátic*|telecom*|digital*|ciber*|IA|robot*|5G|6G",
+  "es/culture": "cultur*|music*|cine*|cinematograf*|artista*|artístic*|literar*|teatr*|conciert*|documental*|patrimonio",
+  "es/crime": "criminal*|policia*|asesinat*|homicid*|femicid*|feminicid*|detenid*|delit*|delincuen*|corrup*|narcotraf*",
+  "es/economy": "econom*|inflacion*|export*|presupuest*|desempleo|arancel*|salarial*",
+  "es/world": "internacional*|diplomat*|embajad*|consulad*|canciller*|bilateral*|relaciones internacionales|consultas políticas|ONU|OTAN|UNESCO",
+  "pt/politics": "polític*|eleiç*|eleitor*|parlament*|deputad*|senad*|presiden*|ministr*|voto*",
+  "pt/business": "empresa*|comerci*|investidor*|investimento*|industri*|negócio*|corporativ*",
+  "pt/sports": "esport*|futebol*|basquet*|campeon*|atlet*|rúgbi|rugby|futsal|copa do brasil|copa do mundo|copa américa",
+  "pt/tech": "tecnolog*|inova*|informátic*|telecom*|digital*|digitais|ciber*|IA|robot*|5G|6G",
+  "pt/culture": "cultur*|musica*|cinema*|artista*|artístic*|literári*|teatr*|concerto*|documentári*|patrimônio",
+  "pt/crime": "criminal*|criminos*|policia*|assassin*|homicid*|feminicid*|presa|preso|prisão|prisões|detid*|corrup*|trafic*",
+  "pt/economy": "econom*|inflaç*|export*|orçament*|desemprego|tarifa*|salarial*",
+  "pt/world": "internaciona*|diplomat*|embaixad*|consulad*|chanceler*|bilatera*|relações internacionais|ONU|OTAN|UNESCO",
+  "fr/politics": "politiqu*|gouvernement*|parlement*|électora*|déput*|présiden*|sénat*|minist*",
+  "fr/business": "entreprise*|entrepreneur*|commerc*|investiss*|industri*|comptabl*",
+  "fr/sports": "sport*|football*|basket*|tournoi*|champion*|athlét*|rugby*|futsal|tennis|handball|cyclis*",
+  "fr/tech": "technolog*|innovat*|informatiqu*|informaticien*|télécom*|numériqu*|cyber*|IA|robot*|5G|6G|réseaux mobiles",
+  "fr/culture": "culturel*|culturelle*|musical*|musicien*|cinéma*|artiste*|artistiqu*|littér*|théâtr*|opéra*|concert*|documentaire*|patrimoine",
+  "fr/crime": "crimin*|policier*|judici*|assassin*|homicid*|violent*|interpell*|corrupt*|trafic*",
+  "fr/economy": "économ*|export*|inflation*|budgétair*|pétrol*|salarial*|chômage",
+  "fr/world": "internationa*|diplomat*|ambassad*|consulat*|bilatéra*|relations internationales|frontali*|ONU|OTAN|UNESCO",
+  "nl/politics": "politiek*|regering*|parlement*|verkiezing*|presiden*|minister*|kabinet*",
+  "nl/business": "bedrijf*|bedrijv*|handels*|invester*|investeer*|industri*|ondernemer*|onderneming*",
+  "nl/sports": "sport*|voetbal*|basketbal*|toernooi*|kampioen*|atlet*|rugby*|futsal|tennis",
+  "nl/tech": "technolog*|innovat*|digita*|telecom*|cyber*|informatica*|AI|robot*|5G|6G",
+  "nl/culture": "cultureel|culturele|muziek*|muzik*|film*|bioscoop*|cinema|concert*|documentaire*|kunsten|kunstenaar*|kunstenar*|artiest*|artistiek*|theater*|literair*|erfgoed",
+  "nl/crime": "crimi*|justiti*|moord*|misdrijf*|aangehoud*|arrestatie*|corrupt*|cocaïne|drug*|politieagent*|politiebureau*|politieonderzoek*",
+  "nl/economy": "econom*|inflati*|export*|begrot*|werkgelegen*|centrale bank*|groeicijfers",
+  "nl/world": "internationa*|diplomat*|ambassad*|consulaat*|bilatera*|verdrag*|buitenlandse betrekkingen|VN|NAVO|UNESCO",
+  "en/politics": "politic*|parliament*|congress*|presiden*|electoral|legislat*|prime minister|PM|senator*",
+  "en/business": "industr*|firm*|commercial|commerce|investor*|investment*|corporat*|entrepreneur*",
+  "en/sports": "sport*|football*|basketball*|champion*|athlet*|rugby*|futsal|tennis|touchdown*",
+  "en/tech": "technolog*|innovat*|telecom*|cyber*|AI|broadband|robot*|5G|6G|data centre|data center",
+  "en/culture": "cultural|music*|artist*|cinema*|concert*|documentar*|heritage|literar*|theatr*|carnival*",
+  "en/crime": "criminal*|arrest*|detain*|violent*|homicid*|corrupt*|robber*|fraud*|kidnap*|traffick*|femicide*",
+  "en/economy": "econom*|inflation*|export*|unemployment|recession|tariff*|interest rates",
+  "en/world": "diplomat*|ambassador*|envoy*|embass*|consular|consulate*|bilateral*|treaty|treaties|UNESCO|NATO"
 };
 
-// Dutch compounds and adjectives are common in actual cultural headlines.
-// These are match terms, not query wildcards. Do not use kunst*: that would
-// also classify kunstmatige intelligentie (artificial intelligence) as culture.
-const topicMatchTerms = {
-  "nl/culture": "cultureel|culturele|muziek*|film*|bioscoop*|cinema|concert*|documentaire*|kunsten|kunstenaar*|theater*|literair*|erfgoed",
-  "en/culture": "cultural|cinema|concert|documentary|heritage"
+// Remove known people/place names before looking for country evidence. A real
+// country reference elsewhere in the same headline still qualifies the story.
+const countryAmbiguities = {
+  TT: /\btrinidad (?:jay )?chambliss\b|\btrinidad tidings\b/g,
+  CU: /\bmark cuban\b/g,
+  MX: /\bnew mexico\b/g,
+  PA: /\bpanama city (?:beach )?florida\b/g,
+  CL: /\b(?:green|red|hatch) chiles?\b|\bchile peppers?\b/g
 };
+
+const honoraryAmbassadors = /\b(?:cultural|brand) ambassador\w*\b|\bembajador(?:a|es|as)? (?:de (?:la )?marca|cultural(?:es)?)\b|\bembaixador(?:a|es|as)? (?:(?:da|de) marca|cultura(?:l|is))\b|\bambassad(?:eur|rice)s? (?:de marque|culturel(?:le)?s?)\b|\b(?:cultureel|culturele) ambassadeur\b/g;
+const weakWorldTerms = new Set(["international", "internacional", "internationaal", "internacional*", "internaciona*", "internationa*"]);
+const entertainmentTerms = "gira|tour|tournee|tournée|turnê|pageant|miss|beauty|belleza|beleza|festival|concert*|conciert*|concerto*|carnival*|carnaval*|muziek*|music*|musica*|musical*|film*|cinema*".split("|");
 
 function normalized(value) {
   return value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().replace(/[^\p{L}\p{N}*]+/gu, " ").trim();
@@ -117,7 +165,8 @@ function matches(text, term) {
   const value = ` ${normalized(text)} `;
   const word = normalized(term);
   if (word.endsWith("*")) return value.includes(` ${word.slice(0, -1)}`);
-  return [word, `${word}s`, ...(word.endsWith("s") ? [word.slice(0, -1)] : [])]
+  // "congress" is not a plural of French "congrès" (a conference).
+  return [word, `${word}s`, ...(word.endsWith("s") && !word.endsWith("ss") ? [word.slice(0, -1)] : [])]
     .some(form => value.includes(` ${form} `));
 }
 const quoted = value => `"${value}"`;
@@ -128,13 +177,19 @@ export function searchPlans(country, feed) {
   const [language, name] = profile;
   const headline = ["top", "latest"].includes(feed.key);
   const days = headline ? [3, 7] : [7, 14];
-  const countryQuery = country.id === "TT" ? '("Trinidad" OR "Tobago")' : quoted(name);
+  const countryQuery = country.id === "TT" ? '("Trinidad and Tobago" OR "Tobago")' : quoted(name);
   const plans = days.map(lookbackDays => ({ language, lookbackDays, countryQuery }));
   if (language !== "en") plans.push({ language: "en", lookbackDays: days[1], countryQuery: quoted(country.name) });
-  return plans.map(plan => ({ ...plan,
-    query: `${plan.countryQuery}${headline ? "" : ` (${(queryTopics[`${plan.language}/${feed.key}`] ?? topics[plan.language][feed.key]).split("|").slice(0, 6).map(quoted).join(" OR ")})`} when:${plan.lookbackDays}d`,
-    locale: localeFor(country.id, plan.language)
-  }));
+  return plans.map((plan, index) => {
+    const terms = headline ? [] : (queryTopics[`${plan.language}/${feed.key}`] ?? topics[plan.language][feed.key]).split("|");
+    // The widened local search must also try vocabulary previously truncated
+    // from every query, such as teatro/literatura or detenido/homicidio.
+    const rotated = index === 1 ? [...terms.slice(6), ...terms.slice(0, 6)] : terms;
+    return { ...plan,
+      query: `${plan.countryQuery}${headline ? "" : ` (${rotated.slice(0, 6).map(quoted).join(" OR ")})`} when:${plan.lookbackDays}d`,
+      locale: localeFor(country.id, plan.language)
+    };
+  });
 }
 
 function localeFor(countryCode, language) {
@@ -148,22 +203,32 @@ function localeFor(countryCode, language) {
 export function isRelevantArticle(article, country, feed, plan, now = Date.now()) {
   const published = Date.parse(article.publishedAt);
   if (!Number.isFinite(published) || published < now - plan.lookbackDays * 86_400_000 || published > now + 3600_000) return false;
+  // Google can assign a recent crawl date to evergreen sports database pages.
+  // Country and sports keywords do not turn standings/statistics into news.
+  if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b/.test(normalized(article.title))) return false;
   const [localLanguage, , aliases] = profiles[country.id];
-  // Cayenne is also a Porsche model; it alone is not geographic evidence.
-  if (country.id === "GF" && /\b(porsche|taycan)\b/i.test(article.title) &&
-      !["Guyane", "guyanais*", "guyanaise*", "Kourou"].some(term => matches(article.title, term))) return false;
   const countryTerms = `${aliases}|${country.name}`.split("|");
-  if (!countryTerms.some(term => matches(article.title, term))) return false;
+  let geographicTitle = normalized(article.title);
+  if (countryAmbiguities[country.id]) geographicTitle = geographicTitle.replace(countryAmbiguities[country.id], " ");
+  // Cayenne alone is weak evidence in a Porsche story; retain every other
+  // explicit country/city/demonym, including English fallback demonyms.
+  if (country.id === "GF" && /\b(porsche|taycan)\b/i.test(article.title)) geographicTitle = geographicTitle.replace(/\bcayenne\b/g, " ");
+  if (!countryTerms.some(term => matches(geographicTitle, term))) return false;
   if (["top", "latest"].includes(feed.key)) return true;
   if (feed.key === "tech" && /world wide technology championship/i.test(article.title)) return false;
-  if (feed.key === "world" && /\b(football|soccer|cricket|basketball|pageant|world cup)\b/i.test(article.title) &&
-      !/\b(foreign|diploma\w*|bilateral|minister|ambassador|cooperation|united nations|high commissioner|caricom)\b/i.test(article.title)) return false;
-  const terms = [...new Set([localLanguage, "en"])].flatMap(language => [
+  const languages = [...new Set([localLanguage, "en"])];
+  const terms = languages.flatMap(language => [
     ...topics[language][feed.key].split("|"),
     ...(topicMatchTerms[`${language}/${feed.key}`] ?? "").split("|").filter(Boolean)
   ]);
-  // Inflected adjectives are common in Romance-language headlines.
-  const stems = (extraStems[localLanguage] || "").split("|").filter(Boolean)
-    .filter(stem => terms.some(term => normalized(term).startsWith(normalized(stem).slice(0, -1))));
-  return [...terms, ...stems].some(term => matches(article.title, term));
+  let title = article.title;
+  if (feed.key === "politics") title = normalized(title).replace(/\b\d{1,2}(?: \d{2})? pm\b/g, " ");
+  if (feed.key === "world") {
+    title = normalized(title).replace(honoraryAmbassadors, " ");
+    const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
+    if ([...sports, ...entertainmentTerms].some(term => matches(title, term)) &&
+        !terms.filter(term => !weakWorldTerms.has(term)).some(term => matches(title, term))) return false;
+  }
+  if (feed.key === "sports" && /\bseleccion (?:de )?(?:jueces|magistrados|candidatos|personal)\b/.test(normalized(title))) return false;
+  return terms.some(term => matches(title, term));
 }

@@ -1,0 +1,185 @@
+{
+  "audit": "2026-10-23: 240 primary RSS queries, 19,388 input headlines. Dates are supplied by tests so fixtures never silently expire.",
+  "cases": [
+    {
+      "country": "AR",
+      "feed": "politics",
+      "title": "Diputado PRO advirtió que “la Argentina tiene que cuidar el rumbo y no volver al pasado”",
+      "sourceName": "ANDigital"
+    },
+    {
+      "country": "AR",
+      "feed": "business",
+      "title": "La Argentina e Israel preparan una misión comercial con foco en tecnología, inversiones y carne",
+      "sourceName": "Infobae"
+    },
+    {
+      "country": "AR",
+      "feed": "sports",
+      "title": "Tenis de mesa: Argentina, bicampeón de América",
+      "sourceName": "Argentina.gob.ar"
+    },
+    {
+      "country": "AR",
+      "feed": "tech",
+      "title": "Aseguradoras en Argentina suman IA y autos conectados para el negocio",
+      "sourceName": "iProfesional"
+    },
+    {
+      "country": "AR",
+      "feed": "culture",
+      "title": "Primavera Sound Argentina 2026: qué artistas tocan, dónde es y cómo conseguir entradas",
+      "sourceName": "Clarin.com"
+    },
+    {
+      "country": "AR",
+      "feed": "crime",
+      "title": "Femicidios en Argentina: se registraron casi 200 en lo que va de 2026 y advierten sobre fallas en las medidas cautelares",
+      "sourceName": "EQSnotas"
+    },
+    {
+      "country": "CR",
+      "feed": "economy",
+      "title": "Jerarca de Cepal pide a Costa Rica reforzar competitividad y diversificar mercados de exportación",
+      "sourceName": "La Nación Costa Rica"
+    },
+    {
+      "country": "BR",
+      "feed": "politics",
+      "title": "Lula tem 51% dos votos válidos, e Flávio Bolsonaro, 49%, diz pesquisa Vox Brasil",
+      "sourceName": "JOTA Info"
+    },
+    {
+      "country": "BR",
+      "feed": "sports",
+      "title": "Gana 3 x 3 Brasil | Copa do Mundo Feminina Sub-17: melhores momentos",
+      "sourceName": "ge"
+    },
+    {
+      "country": "BR",
+      "feed": "tech",
+      "title": "Brasil se prepara para entrar na era do 6G sem ter sequer completado a adoção do 5G",
+      "sourceName": "VEJA"
+    },
+    {
+      "country": "BR",
+      "feed": "culture",
+      "title": "Cena Musical, da TV Brasil, celebra vida e obra de Roberto Menescal",
+      "sourceName": "Agência Brasil"
+    },
+    {
+      "country": "BR",
+      "feed": "crime",
+      "title": "Brasil tem queda de 4,5% nos feminicídios em 2026; tentativas sobem e chegam a 12 casos por dia",
+      "sourceName": "Folha de S.Paulo"
+    },
+    {
+      "country": "BR",
+      "feed": "economy",
+      "title": "Brasil define cotas para exportar com tarifas reduzidas para a Noruega",
+      "sourceName": "Agência Brasil"
+    },
+    {
+      "country": "BR",
+      "feed": "world",
+      "title": "Países do Golfo reforçam coordenação diplomática e diálogo com o Brasil",
+      "sourceName": "Diplomacia Business"
+    },
+    {
+      "country": "GF",
+      "feed": "sports",
+      "title": "\"On jouait sur tout et n’importe quoi\" : Pierre Bonnecase, l’homme qui fit décoller le rugby en Guyane",
+      "sourceName": "Rugbyrama"
+    },
+    {
+      "country": "GF",
+      "feed": "culture",
+      "title": "L'Opéra de Paris danse une dernière fois en Guyane",
+      "sourceName": "PÉYI GUYANE"
+    },
+    {
+      "country": "SR",
+      "feed": "politics",
+      "title": "Nederlandse parlementariër Don Ceder stelt Kamervragen over vermissing Rodney Leysner in Suriname",
+      "sourceName": "Waterkant"
+    },
+    {
+      "country": "SR",
+      "feed": "business",
+      "title": "Simons wil banken meer laten investeren in Surinaamse economie",
+      "sourceName": "Suriname Herald"
+    },
+    {
+      "country": "SR",
+      "feed": "tech",
+      "title": "Nieuwe Indiase ambassadeur brengt ervaring in cyberdiplomatie mee naar Suriname",
+      "sourceName": "Times of Suriname"
+    },
+    {
+      "country": "SR",
+      "feed": "crime",
+      "title": "Taskforce opgericht voor bestrijding en preventie corruptie in Suriname",
+      "sourceName": "Sun News Suriname"
+    },
+    {
+      "country": "SR",
+      "feed": "economy",
+      "title": "Vietnam wil Suriname helpen uitbouwen tot regionaal exportcentrum voor rijst",
+      "sourceName": "Waterkant"
+    },
+    {
+      "country": "SR",
+      "feed": "world",
+      "title": "Suriname en Spanje vieren 50 jaar diplomatieke betrekkingen met concert",
+      "sourceName": "Suriname Herald"
+    },
+    {
+      "country": "TT",
+      "feed": "politics",
+      "title": "Trinidad PM Kamla Persad-Bissessar rejects recession claims",
+      "sourceName": "Caribbean National Weekly"
+    },
+    {
+      "country": "TT",
+      "feed": "business",
+      "title": "T&T maintaining investor confidence, says professional services MD",
+      "sourceName": "Trinidad Guardian"
+    },
+    {
+      "country": "TT",
+      "feed": "sports",
+      "title": "T&T U19 Women dethrone defending champions Barbados to lift CWI Rising Stars title",
+      "sourceName": "Trinidad Guardian"
+    },
+    {
+      "country": "TT",
+      "feed": "tech",
+      "title": "Plans for Tobago data centre shelved",
+      "sourceName": "Trinidad Guardian"
+    },
+    {
+      "country": "TT",
+      "feed": "culture",
+      "title": "Caribbean Airlines adds flights as Tobago gears up for Carnival 2026",
+      "sourceName": "WIC News"
+    },
+    {
+      "country": "TT",
+      "feed": "crime",
+      "title": "25 suspected illegal immigrants detained off western Trinidad",
+      "sourceName": "Jamaica Observer"
+    },
+    {
+      "country": "TT",
+      "feed": "economy",
+      "title": "What is the average US tariff rate for Trinidad and Tobago?",
+      "sourceName": "USAFacts"
+    },
+    {
+      "country": "GY",
+      "feed": "world",
+      "title": "Indian envoy presents credentials to Guyana President, emphasises strengthening ties",
+      "sourceName": "The Tribune"
+    }
+  ]
+}

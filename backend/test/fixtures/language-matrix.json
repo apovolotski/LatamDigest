@@ -1,0 +1,284 @@
+{
+  "countries": [
+    {
+      "id": "AR",
+      "language": "es",
+      "nativePrefixes": [
+        "Argentina",
+        "Noticias argentinas"
+      ],
+      "englishPrefix": "Argentinian report"
+    },
+    {
+      "id": "BO",
+      "language": "es",
+      "nativePrefixes": [
+        "Bolivia",
+        "Noticias bolivianas"
+      ],
+      "englishPrefix": "Bolivian report"
+    },
+    {
+      "id": "BR",
+      "language": "pt",
+      "nativePrefixes": [
+        "Brasil",
+        "Notícias brasileiras"
+      ],
+      "englishPrefix": "Brazilian report"
+    },
+    {
+      "id": "CL",
+      "language": "es",
+      "nativePrefixes": [
+        "Chile",
+        "Noticias chilenas"
+      ],
+      "englishPrefix": "Chilean report"
+    },
+    {
+      "id": "CO",
+      "language": "es",
+      "nativePrefixes": [
+        "Colombia",
+        "Noticias colombianas"
+      ],
+      "englishPrefix": "Colombian report"
+    },
+    {
+      "id": "CR",
+      "language": "es",
+      "nativePrefixes": [
+        "Costa Rica",
+        "Noticias costarricenses"
+      ],
+      "englishPrefix": "Costa Rican report"
+    },
+    {
+      "id": "CU",
+      "language": "es",
+      "nativePrefixes": [
+        "Cuba",
+        "Noticias cubanas"
+      ],
+      "englishPrefix": "Cuban report"
+    },
+    {
+      "id": "DO",
+      "language": "es",
+      "nativePrefixes": [
+        "República Dominicana",
+        "Noticias dominicanas"
+      ],
+      "englishPrefix": "Dominican report"
+    },
+    {
+      "id": "EC",
+      "language": "es",
+      "nativePrefixes": [
+        "Ecuador",
+        "Noticias ecuatorianas"
+      ],
+      "englishPrefix": "Ecuadorian report"
+    },
+    {
+      "id": "GT",
+      "language": "es",
+      "nativePrefixes": [
+        "Guatemala",
+        "Noticias guatemaltecas"
+      ],
+      "englishPrefix": "Guatemalan report"
+    },
+    {
+      "id": "HN",
+      "language": "es",
+      "nativePrefixes": [
+        "Honduras",
+        "Noticias hondureñas"
+      ],
+      "englishPrefix": "Honduran report"
+    },
+    {
+      "id": "MX",
+      "language": "es",
+      "nativePrefixes": [
+        "México",
+        "Noticias mexicanas"
+      ],
+      "englishPrefix": "Mexican report"
+    },
+    {
+      "id": "NI",
+      "language": "es",
+      "nativePrefixes": [
+        "Nicaragua",
+        "Noticias nicaragüenses"
+      ],
+      "englishPrefix": "Nicaraguan report"
+    },
+    {
+      "id": "PA",
+      "language": "es",
+      "nativePrefixes": [
+        "Panamá",
+        "Noticias panameñas"
+      ],
+      "englishPrefix": "Panamanian report"
+    },
+    {
+      "id": "PY",
+      "language": "es",
+      "nativePrefixes": [
+        "Paraguay",
+        "Noticias paraguayas"
+      ],
+      "englishPrefix": "Paraguayan report"
+    },
+    {
+      "id": "PE",
+      "language": "es",
+      "nativePrefixes": [
+        "Perú",
+        "Noticias peruanas"
+      ],
+      "englishPrefix": "Peruvian report"
+    },
+    {
+      "id": "PR",
+      "language": "es",
+      "nativePrefixes": [
+        "Puerto Rico",
+        "Noticias puertorriqueñas",
+        "Noticias boricuas"
+      ],
+      "englishPrefix": "Puerto Rican report"
+    },
+    {
+      "id": "SV",
+      "language": "es",
+      "nativePrefixes": [
+        "El Salvador",
+        "Noticias salvadoreñas"
+      ],
+      "englishPrefix": "Salvadoran report"
+    },
+    {
+      "id": "UY",
+      "language": "es",
+      "nativePrefixes": [
+        "Uruguay",
+        "Noticias uruguayas"
+      ],
+      "englishPrefix": "Uruguayan report"
+    },
+    {
+      "id": "VE",
+      "language": "es",
+      "nativePrefixes": [
+        "Venezuela",
+        "Noticias venezolanas"
+      ],
+      "englishPrefix": "Venezuelan report"
+    },
+    {
+      "id": "TT",
+      "language": "en",
+      "nativePrefixes": [
+        "Trinidad and Tobago",
+        "Trinidadian news",
+        "Tobagonian news"
+      ],
+      "englishPrefix": "Trinbagonian report"
+    },
+    {
+      "id": "SR",
+      "language": "nl",
+      "nativePrefixes": [
+        "Suriname",
+        "Surinaamse berichten"
+      ],
+      "englishPrefix": "Surinamese report"
+    },
+    {
+      "id": "GY",
+      "language": "en",
+      "nativePrefixes": [
+        "Guyana",
+        "Guyanese news"
+      ],
+      "englishPrefix": "Guyanese report"
+    },
+    {
+      "id": "GF",
+      "language": "fr",
+      "nativePrefixes": [
+        "Guyane",
+        "Actualités guyanaises"
+      ],
+      "englishPrefix": "French Guianese report"
+    }
+  ],
+  "headlines": {
+    "es": {
+      "top": "Noticias de la jornada",
+      "latest": "Últimas noticias de la jornada",
+      "politics": "El debate parlamentario abre una nueva etapa",
+      "business": "Nuevas inversiones impulsan el sector industrial",
+      "sports": "Tenistas preparan una final de campeonato",
+      "tech": "Las redes digitales incorporan IA",
+      "culture": "Artistas presentan una obra cinematográfica",
+      "crime": "Una detenida afronta cargos por femicidio",
+      "economy": "La exportación sostiene las cuentas nacionales",
+      "world": "Llegan embajadores para una reunión diplomática"
+    },
+    "pt": {
+      "top": "Notícias do dia",
+      "latest": "Últimas notícias do dia",
+      "politics": "As deputadas apresentam uma reforma parlamentar",
+      "business": "Novos investidores ampliam a atividade comercial",
+      "sports": "Atletas se preparam para uma prova de rúgbi",
+      "tech": "Novas redes digitais reforçam a cibersegurança",
+      "culture": "Artistas apresentam um espetáculo musical",
+      "crime": "Duas suspeitas foram presas após feminicídios",
+      "economy": "Exportadores reagem às tarifas",
+      "world": "Embaixadores assinam acordo em reunião diplomática"
+    },
+    "fr": {
+      "top": "Les nouvelles du jour",
+      "latest": "Les dernières nouvelles du jour",
+      "politics": "Les députées débattent de la réforme parlementaire",
+      "business": "L’activité commerciale séduit les investisseurs",
+      "sports": "Les athlètes remportent une épreuve de rugby",
+      "tech": "La cybersécurité protège les réseaux mobiles",
+      "culture": "Des artistes préparent un spectacle musical",
+      "crime": "Des policières mènent une enquête judiciaire",
+      "economy": "Les exportateurs publient leurs perspectives économiques",
+      "world": "Des ambassadeurs organisent une rencontre diplomatique"
+    },
+    "nl": {
+      "top": "Het nieuws van vandaag",
+      "latest": "Het laatste nieuws van vandaag",
+      "politics": "Politieke partijen bespreken een parlementaire hervorming",
+      "business": "Het bedrijfsleven steunt jonge ondernemingen",
+      "sports": "Voetballers bereiden zich voor op een rugbyduel",
+      "tech": "Digitale netwerken verhogen de cyberveiligheid",
+      "culture": "Muzikanten presenteren een artistieke voorstelling",
+      "crime": "Justitiële diensten onderzoeken corruptiezaken",
+      "economy": "Economische vooruitzichten tonen hogere exportcijfers",
+      "world": "Diplomatieke vertegenwoordigers bezoeken een ambassade"
+    },
+    "en": {
+      "top": "Today’s local headlines",
+      "latest": "The latest local headlines",
+      "politics": "Parliamentary committee debates electoral reform",
+      "business": "Industrial firms report commercial gains",
+      "sports": "Athletes prepare for a rugby final",
+      "tech": "Researchers improve broadband connectivity",
+      "culture": "Musicians celebrate an artistic anniversary",
+      "crime": "Detectives detain suspects in a criminal investigation",
+      "economy": "Economic forecast highlights rising unemployment",
+      "world": "Envoys sign a treaty at the embassy"
+    }
+  }
+}
