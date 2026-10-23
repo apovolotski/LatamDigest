@@ -26,7 +26,7 @@ const synthesisStorySchema = z.object({
 
 const synthesisResponseSchema = z.object({
   daily_summary: z.string().optional(),
-  stories: z.array(synthesisStorySchema)
+  stories: z.array(synthesisStorySchema).max(10)
 });
 
 const digestResponseSchema = z.object({
@@ -34,7 +34,7 @@ const digestResponseSchema = z.object({
   country_name: z.string(),
   generated_at: z.string(),
   daily_summary: z.string(),
-  stories: z.array(storySchema)
+  stories: z.array(storySchema).max(10)
 });
 
 let client;
@@ -51,7 +51,7 @@ function getClient() {
   return client;
 }
 
-export async function generateDigest({ countryCode, countryName }) {
+export async function generateDigest({ countryCode, countryName }, { client = getClient() } = {}) {
   const windows = [
     {
       label: "past 24 hours",
@@ -71,6 +71,7 @@ export async function generateDigest({ countryCode, countryName }) {
 
   for (const window of windows) {
     const result = await requestDigest({
+      client,
       countryCode,
       countryName,
       timeWindow: window.label
@@ -89,8 +90,8 @@ export async function generateDigest({ countryCode, countryName }) {
   throw new Error(`Unable to generate a digest for ${countryCode}.`);
 }
 
-async function requestDigest({ countryCode, countryName, timeWindow }) {
-  const searchResponse = await getClient().responses.create({
+async function requestDigest({ client, countryCode, countryName, timeWindow }) {
+  const searchResponse = await client.responses.create({
     model: config.openaiModel,
     input: `Create a high-quality AI-curated daily news digest for ${countryName} (${countryCode}) focused on the ${timeWindow}.
 
@@ -115,6 +116,7 @@ Requirements:
   });
 
   const response = await createSynthesisResponse({
+    client,
     previousResponseId: searchResponse.id,
     countryCode,
     countryName,
@@ -129,6 +131,7 @@ Requirements:
     );
   } catch (error) {
     const retryResponse = await createSynthesisResponse({
+      client,
       previousResponseId: searchResponse.id,
       countryCode,
       countryName,
@@ -162,13 +165,14 @@ Requirements:
 }
 
 async function createSynthesisResponse({
+  client,
   previousResponseId,
   countryCode,
   countryName,
   timeWindow,
   compact = false
 }) {
-  return getClient().responses.create({
+  return client.responses.create({
     model: config.openaiModel,
     previous_response_id: previousResponseId,
     input: compact
