@@ -85,7 +85,9 @@ const negatives = [
   ["TT", "sports", "Busta Cup, 2000/01 - Trinidad & Tobago Cricket Team Records & Stats"],
   ["GY", "sports", "Guyana (Basketball Women) :: Standings History"],
   ["SR", "sports", "Suriname Football National Team - Games, Standings, Squad and Stats"],
-  ["SR", "top", "Suriname National Football Schedule for the International Football Season"]
+  ["SR", "top", "Suriname National Football Schedule for the International Football Season"],
+  ["MX", "culture", "México estudia energía cinética y software"],
+  ["GF", "culture", "Guyane : la valeur littérale d'une commande informatique"]
 ];
 for (const [id, key, title] of negatives) {
   test(`ambiguity regression: ${id}/${key}: ${title}`, () => {
