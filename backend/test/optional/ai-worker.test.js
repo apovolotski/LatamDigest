@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import OpenAI from "openai";
-import { generateDigest } from "../src/openaiService.js";
+import { generateDigest } from "../../src/openaiService.js";
 
 const country = { countryCode: "MX", countryName: "Mexico" };
 const story = index => ({

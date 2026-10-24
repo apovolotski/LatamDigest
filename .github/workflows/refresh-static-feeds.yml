@@ -28,21 +28,24 @@ jobs:
           cache: npm
           cache-dependency-path: backend/package-lock.json
 
-      - name: Install backend dependencies
-        run: npm ci
+      - name: Install static feed dependencies
+        run: npm ci --workspace=@latam-digest/static-feeds --include-workspace-root=false
         working-directory: backend
 
       - name: Check pipeline
-        run: npm run check && npm test && npm audit --omit=dev
+        run: |
+          npm run check --workspace=@latam-digest/static-feeds
+          npm test --workspace=@latam-digest/static-feeds
+          npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false
         working-directory: backend
 
       - name: Refresh static feeds with outage recovery
         timeout-minutes: 22
-        run: npm run generate:static
+        run: npm run generate:static --workspace=@latam-digest/static-feeds
         working-directory: backend
 
       - name: Verify country and category coverage
-        run: npm run check:coverage
+        run: npm run check:coverage --workspace=@latam-digest/static-feeds
         working-directory: backend
 
       - name: Commit and push feed updates

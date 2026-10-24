@@ -1,0 +1,16 @@
+{
+  "name": "@latam-digest/static-feeds",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24.0.0" },
+  "scripts": {
+    "check": "node --check ../../src/rssClient.js && node --check ../../src/feedSearch.js && node --check ../../src/feedFreshness.js && node --check ../../scripts/generate-static-feeds.mjs && node --check ../../scripts/refresh-static-feeds.mjs && node --check ../../scripts/check-feed-coverage.mjs && node ../../scripts/check-static-dependencies.mjs",
+    "test": "node --test ../../test/*.test.js",
+    "generate:static": "node ../../scripts/refresh-static-feeds.mjs",
+    "check:coverage": "node ../../scripts/check-feed-coverage.mjs"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.2.5"
+  }
+}

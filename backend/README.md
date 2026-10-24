@@ -3,12 +3,12 @@
 The shipping iOS app uses public static JSON feeds. This pipeline needs Node.js 24 or later and does not need an OpenAI credential.
 
 ```sh
-npm ci
-npm run check
-npm test
-npm audit --omit=dev
-npm run generate:static
-npm run check:coverage
+npm ci --workspace=@latam-digest/static-feeds --include-workspace-root=false
+npm run check --workspace=@latam-digest/static-feeds
+npm test --workspace=@latam-digest/static-feeds
+npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false
+npm run generate:static --workspace=@latam-digest/static-feeds
+npm run check:coverage --workspace=@latam-digest/static-feeds
 ```
 
 The generator reads Google News RSS and writes `docs/api/countries.json`, `manifest.json`, and country/category feeds. It uses browser-safe URLs, stable article IDs, and atomic file replacements. Invalid publication dates are rejected. Failed or empty upstream responses preserve recent successful data for up to seven days; a partially successful refresh retains the original update time and marks those feeds stale. The low-level generator fails if every feed fails. The production command stages output and validates it before replacing the publication; the recovery behavior for provider outages is described below.
@@ -23,7 +23,7 @@ Diagnostics report a controlled failure category, HTTP status where available, a
 
 If five consecutive feeds exhaust request retries with a transient upstream error, the wrapper waits at least 60 seconds and retries the entire refresh once. Provider `Retry-After` is honored; delays over five minutes skip the extra attempt rather than issuing a premature request or overrunning the job budget. Cancellation, permanent HTTP errors, filesystem problems, unexpected programming errors, empty refreshes and invalid generated coverage remain fatal.
 
-If the provider remains unavailable, recovery succeeds **only** when all country/category files pass coverage, URL, identity, relevance, and publication-date checks and every feed's actual `updatedAt` is within the last 24 hours. A missing, corrupt, expired or incomplete cache still fails the workflow. This recovery limit is stricter than ordinary per-feed cache retention. Repeated recovery runs never renew it.
+If the provider remains unavailable, recovery succeeds **only** when all country/category files pass coverage, URL, identity, relevance, and publication-date checks and every feed's actual `updatedAt` is within the last 24 hours. A missing, corrupt, expired or incomplete cache still fails the workflow. Partial refreshes enforce the same 24-hour limit. Repeated recovery runs never renew it.
 
 During cached recovery publication dates, the manifest generation time, and each feed’s actual refresh timestamp remain unchanged. Articles older than thirteen days are pruned before publication, leaving a full 24-hour margin before the validator’s fourteen-day limit. Both fresh and cached candidates must pass this publication margin; coverage must still be complete after pruning. The manifest marks all retained feeds stale and reports zero newly refreshed feeds. A separate public `docs/api/refresh-status.json` records `state: degraded`, `mode: cached`, zero newly refreshed feeds, the preserved publication timestamp, the number of cached feeds, attempt count and a sanitized provider error. Normal refreshes record healthy or partial/degraded status. Actions also shows the outcome in its job summary and logs a warning for cached recovery. Thus a temporary provider outage with working recent feeds does not send a failed-job email, while real coverage failures and prolonged outages remain visible failures. This changes recovery behavior, not GitHub notification settings.
 
@@ -57,9 +57,17 @@ The old generator tried each request once and discarded every underlying excepti
 
 The backend now requires Zod 4.6.7 or newer and a compatible OpenAI SDK 6. The AI worker limits response arrays to ten stories before item validation. Regression tests use the actual SDK with a simulated transport to cover normal synthesis, truncated JSON recovery, malformed and oversized arrays, compact retries and sparse windows without credentials or paid requests. The lockfile and blocking dependency audit remain part of the workflow; future advisories may still require another tested dependency update.
 
+### Separate feed and optional backend dependencies
+
+Manual reproduction [40059808308](https://github.com/apovolotski/LatamDigest/actions/runs/40059808308) exposed another newly reported advisory, [GHSA-27r3-jxmh-p828](https://github.com/advisories/GHSA-27r3-jxmh-p828), in Express's body-parser 1.20.8. All 151 tests passed before the audit blocked generation. The lockfile now uses patched body-parser 1.20.9.
+
+The underlying coupling is also removed: the static publisher installs only the `@latam-digest/static-feeds` workspace and its RSS parser dependencies. Its clean-install check fails if optional Express/AI packages are present. All 145 feed tests, the workspace dependency audit, and all publication/recovery checks remain mandatory. A separate **Backend Checks** workflow runs the complete 151-test suite and full dependency audit on backend pushes, pull requests and daily; it also tests a clean feed-only install. No tests were discarded: six optional server/AI tests live in `test/optional/` and run in that complete suite. Dependabot checks for npm updates daily.
+
+The regression scenario was verified with body-parser 1.20.8 restored only in a disposable lockfile: the full backend audit correctly failed while the isolated feed audit remained clean and the unused server packages were absent. An accidental full install is independently rejected by `check-static-dependencies.mjs`. This keeps server advisories visible in the server checks without stopping a feed job that neither installs nor executes that code. Advisories affecting the RSS runtime still block publication and require repair.
+
 ## Optional AI worker
 
-`npm start` serves the legacy cached-digest API. Its public routes cannot trigger AI generation or use `?refresh=true`. Empty caches return 503. AI generation runs only on the configured cron schedule when `OPENAI_API_KEY` exists on the server; the first scheduled run warms the cache. Concurrent refreshes coalesce into a single provider request, and failures keep the prior digest.
+Run `npm ci`, `npm run check`, `npm test` and `npm audit --omit=dev` from `backend/` for the complete optional backend installation and validation. `npm start` serves the legacy cached-digest API. Its public routes cannot trigger AI generation or use `?refresh=true`. Empty caches return 503. AI generation runs only on the configured cron schedule when `OPENAI_API_KEY` exists on the server; the first scheduled run warms the cache. Concurrent refreshes coalesce into a single provider request, and failures keep the prior digest.
 
 The app's default static pipeline does not use this worker. Deploying it requires separately configuring the host, a fresh server-only secret, quotas, monitoring, and the intended feed URL. These are not configured by the source changes alone. Do not restore or reuse the key exposed in the earlier conversation. Never send it to iOS or commit `.env` files.
 

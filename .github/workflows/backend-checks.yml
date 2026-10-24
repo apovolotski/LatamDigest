@@ -1,0 +1,51 @@
+name: Backend Checks
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["backend/**", ".github/workflows/backend-checks.yml"]
+  pull_request:
+    paths: ["backend/**", ".github/workflows/backend-checks.yml"]
+  schedule:
+    - cron: "43 10 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run check
+      - run: npm test
+      - run: npm audit --omit=dev
+
+  static-feeds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci --workspace=@latam-digest/static-feeds --include-workspace-root=false
+      - run: npm run check --workspace=@latam-digest/static-feeds
+      - run: npm test --workspace=@latam-digest/static-feeds
+      - run: npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false
