@@ -1,8 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { latestSlot, recoveryDecision, recordScheduled, validateHealth, mainRun } from "../../src/watchdogPolicy.js";
-import { GitHub, Ledger, reserveAndDispatch } from "../../scripts/hosted-watchdog.mjs";
+import { GitHub, Ledger, reserveAndDispatch, coverage, decodeJSON } from "../../scripts/hosted-watchdog.mjs";
 
 const HOUR = 3_600_000;
 const now = Date.parse("2026-10-28T20:30:00Z");
@@ -14,6 +17,28 @@ const publication = (age = 8) => ({ valid: true, commit: "a".repeat(40), oldestU
 const decide = overrides => recoveryDecision({ kind: "feeds", now, runs: [success()], publication: publication(), receipts: {}, ...overrides });
 const seed = () => ({ schemaVersion: 1, repository, cutoff: "2026-10-28T18:29:36Z", inspected: {}, receipts: {}, alerts: {},
   milestone: Object.fromEntries(["backend", "feeds"].map(kind => [kind, { runIds: [], attempts: {}, history: [] }])) });
+
+test("Linux realpaths cannot activate the imported validator's CLI or pollute its JSON", async () => {
+  const temporary = await fs.mkdtemp(path.join(os.tmpdir(), "watchdog-realpath-test-"));
+  const directory = await fs.realpath(temporary); // Reproduce Linux even on a symlinked macOS tmpdir.
+  try {
+    const scripts = path.join(directory, "backend/scripts"); await fs.mkdir(scripts, { recursive: true });
+    const module = path.join(scripts, "check-feed-coverage.mjs");
+    await fs.writeFile(module, `import {pathToFileURL} from 'node:url';
+      export async function checkCoverage(options){return {total:240,populated:240,issues:[],time:options.now,margin:options.minimumFreshnessMs};}
+      if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href)console.log('Coverage: human-readable CLI output');`);
+    const old = `import {pathToFileURL} from 'node:url';const {checkCoverage}=await import(pathToFileURL(process.argv[1]));console.log(JSON.stringify(await checkCoverage({})));`;
+    const oldOutput = execFileSync("node", ["--input-type=module", "-e", old, module], { encoding: "utf8" });
+    assert.throws(() => JSON.parse(oldOutput));
+    const result = await coverage(directory, now, 86_400_000);
+    assert.deepEqual(result, { total: 240, populated: 240, issues: [], time: now, margin: 86_400_000 });
+  } finally { await fs.rm(temporary, { recursive: true, force: true }); }
+});
+
+test("invalid JSON diagnostics identify the operation without exposing source contents", () => {
+  assert.throws(() => decodeJSON('private-provider-secret', 'coverage report'), error =>
+    error.message.includes('coverage report') && !error.message.includes('private-provider-secret'));
+});
 
 test("UTC schedules handle exact slots, midnight, month/year boundaries and leap days", () => {
   for (const [kind, at, expected] of [

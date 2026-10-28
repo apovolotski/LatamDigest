@@ -11,6 +11,10 @@ const stateBranch = "latam-monitor-state";
 const statePath = "monitor/state.json";
 const hash = data => createHash("sha256").update(data).digest("hex");
 const iso = now => new Date(now).toISOString();
+export function decodeJSON(value, context) {
+  try { return JSON.parse(value); }
+  catch { throw new Error(`Invalid JSON in ${context}; source contents are not logged.`); }
+}
 const runCommand = (command, args, options = {}) => {
   try { return execFileSync(command, args, { cwd: root, encoding: "utf8", timeout: 60_000, maxBuffer: 32_000_000, ...options }); }
   catch { throw new Error(`Monitor ${command} operation failed; inspect the associated workflow, not raw provider output.`); }
@@ -43,7 +47,7 @@ export class GitHub {
       if (!response.ok) throw Object.assign(new Error(`GitHub ${method} request failed (HTTP ${response.status}); access or service review required.`), {
         transient: response.status >= 500 || response.status === 429 || (response.status === 403 && response.headers?.get("x-ratelimit-remaining") === "0")
       });
-      return response.status === 204 ? null : response.json();
+      return response.status === 204 ? null : decodeJSON(await response.text(), `GitHub ${method} ${endpoint}`);
     }
   }
   async pages(endpoint, field) {
@@ -71,7 +75,7 @@ export class Ledger {
     const file = await this.api.request(`contents/${statePath}?ref=${stateBranch}`, { missing: true });
     if (file) {
       this.sha = file.sha;
-      const state = JSON.parse(Buffer.from(file.content, "base64"));
+      const state = decodeJSON(Buffer.from(file.content, "base64"), "hosted ledger");
       if (state.schemaVersion !== 1 || state.repository !== this.api.repository) throw new Error("Invalid hosted monitor ledger.");
       return state;
     }
@@ -122,18 +126,21 @@ function snapshot(commit) {
   return directory;
 }
 
-async function coverage(directory, now, margin = 0) {
-  const source = `import {pathToFileURL} from 'node:url'; const {checkCoverage}=await import(pathToFileURL(process.argv[1])); console.log(JSON.stringify(await checkCoverage({destination:process.argv[2],now:Number(process.argv[3]),minimumFreshnessMs:Number(process.argv[4])})));`;
-  return JSON.parse(runCommand("node", ["--input-type=module", "-e", source,
-    path.join(directory, "backend/scripts/check-feed-coverage.mjs"), path.join(directory, "docs/api"), String(now), String(margin)]));
+export async function coverage(directory, now, margin = 0) {
+  // argv[1] must not be the imported coverage module: on Linux that makes
+  // its standalone-CLI guard true and mixes human-readable output into JSON.
+  // macOS /var -> /private/var realpath resolution had hidden that collision.
+  const source = `import {pathToFileURL} from 'node:url'; const {checkCoverage}=await import(pathToFileURL(process.argv[2])); console.log(JSON.stringify(await checkCoverage({destination:process.argv[3],now:Number(process.argv[4]),minimumFreshnessMs:Number(process.argv[5])})));`;
+  return decodeJSON(runCommand("node", ["--input-type=module", "-e", source,
+    "watchdog-coverage-eval", path.join(directory, "backend/scripts/check-feed-coverage.mjs"), path.join(directory, "docs/api"), String(now), String(margin)]), "matching-source coverage report");
 }
 
 async function inspectPublication(commit, now, { publicationTime = false } = {}) {
   const directory = snapshot(commit);
   try {
     const destination = path.join(directory, "docs/api");
-    const manifest = JSON.parse(await fs.readFile(path.join(destination, "manifest.json")));
-    const health = JSON.parse(await fs.readFile(path.join(destination, "refresh-status.json")));
+    const manifest = decodeJSON(await fs.readFile(path.join(destination, "manifest.json")), "published manifest");
+    const health = decodeJSON(await fs.readFile(path.join(destination, "refresh-status.json")), "published health");
     const checked = Date.parse(health.checkedAt);
     // The matching source uses only built-in modules for coverage/relevance.
     const at = publicationTime ? checked : now;
@@ -145,7 +152,7 @@ async function inspectPublication(commit, now, { publicationTime = false } = {})
       for (const key of Object.keys(country.feeds)) {
         const relative = `countries/${country.id}/${["top", "latest"].includes(key) ? "" : "category/"}${key}.json`;
         if (!/^[\w/.-]+$/.test(relative) || relative.includes("..")) throw new Error("Unsafe publication path.");
-        const articles = JSON.parse(await fs.readFile(path.join(destination, relative)));
+        const articles = decodeJSON(await fs.readFile(path.join(destination, relative)), "published feed");
         dates.push(...articles.map(article => Date.parse(article.publishedAt) + 14 * 86_400_000));
         relativeFiles.push(relative);
       }
@@ -230,7 +237,7 @@ async function inspectRun(api, kind, run, now) {
         if (!(Date.parse(publication.health.checkedAt) >= start && Date.parse(publication.health.checkedAt) <= end)) {
           result.issues.push("Health timestamp falls outside production generation.");
         }
-        const before = JSON.parse(runCommand("git", ["show", `${run.head_sha}:docs/api/manifest.json`]));
+        const before = decodeJSON(runCommand("git", ["show", `${run.head_sha}:docs/api/manifest.json`]), "source manifest");
         if (publication.health.mode === "cached") {
           if (publication.manifest.generatedAt !== before.generatedAt) result.issues.push("Cached publication time was renewed.");
         } else if (Date.parse(publication.manifest.generatedAt) < start || Date.parse(publication.manifest.generatedAt) > end) {
@@ -243,8 +250,8 @@ async function inspectRun(api, kind, run, now) {
                 result.issues.push("Cached feed timestamp was renewed.");
               }
               const relative = `docs/api/countries/${country.id}/${["top", "latest"].includes(key) ? "" : "category/"}${key}.json`;
-              const oldArticles = JSON.parse(runCommand("git", ["show", `${run.head_sha}:${relative}`]));
-              const articles = JSON.parse(await fs.readFile(path.join(publication.directory, relative)));
+              const oldArticles = decodeJSON(runCommand("git", ["show", `${run.head_sha}:${relative}`]), "source cached feed");
+              const articles = decodeJSON(await fs.readFile(path.join(publication.directory, relative)), "retained cached feed");
               if (articles.some(article => !oldArticles.some(old => old.id === article.id && old.url === article.url && old.publishedAt === article.publishedAt))) {
                 result.issues.push("Cached article identity or original date was changed.");
               }
@@ -375,11 +382,11 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     const repository = process.env.GITHUB_REPOSITORY;
     const api = new GitHub({ repository, token: process.env.GH_TOKEN });
     const ledger = new Ledger(api);
-    const seed = JSON.parse(await fs.readFile(new URL("../monitor-seed.json", import.meta.url)));
+    const seed = decodeJSON(await fs.readFile(new URL("../monitor-seed.json", import.meta.url)), "monitor seed");
     const state = await ledger.load(seed);
     const outputDirectory = path.join(root, "watchdog-evidence");
     await fs.mkdir(outputDirectory, { recursive: true });
-    const event = JSON.parse(await fs.readFile(process.env.GITHUB_EVENT_PATH));
+    const event = decodeJSON(await fs.readFile(process.env.GITHUB_EVENT_PATH), "GitHub event payload");
     const exercise = process.env.GITHUB_EVENT_NAME === "workflow_dispatch" && [true, "true"].includes(event.inputs?.exercise_dispatch)
       ? process.env.GITHUB_RUN_ID : undefined;
     const result = await monitor({ api, ledger, state, exercise, outputDirectory });
