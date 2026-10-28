@@ -120,5 +120,71 @@
     }
   },
   "alerts": {},
-  "status": "seeded"
+  "status": "recovery_pending",
+  "latest": {
+    "checkedAt": "2026-10-28T23:37:01.861Z",
+    "workflows": {
+      "feeds": {
+        "due": "2026-10-28T18:17:00.000Z",
+        "state": "active",
+        "active": []
+      },
+      "backend": {
+        "due": "2026-10-28T10:43:00.000Z",
+        "state": "active",
+        "active": []
+      }
+    },
+    "decisions": {
+      "feeds": {
+        "dispatch": true,
+        "key": "probe-40788557235-feeds",
+        "kind": "feeds",
+        "due": "2026-10-28T18:17:00.000Z",
+        "reason": "transport_exercise"
+      },
+      "backend": {
+        "dispatch": true,
+        "key": "probe-40788557235-backend",
+        "kind": "backend",
+        "due": "2026-10-28T10:43:00.000Z",
+        "reason": "transport_exercise"
+      }
+    },
+    "problems": [],
+    "publication": {
+      "commit": "0d0b29a2457bab29a597ddb1fc138c6229a93189",
+      "valid": true,
+      "health": {
+        "state": "healthy",
+        "mode": "refreshed",
+        "checkedAt": "2026-10-28T22:32:35.400Z",
+        "lastSuccessfulRefreshAt": "2026-10-28T22:30:50.043Z",
+        "publicationSafetyHours": 24,
+        "cacheLimitHours": 24,
+        "totalFeeds": 240,
+        "refreshedFeeds": 240,
+        "cachedFeeds": 0,
+        "attempts": 1
+      },
+      "report": {
+        "total": 240,
+        "populated": 240,
+        "stale": 0,
+        "sparse": 3,
+        "fallback": 13,
+        "issues": [],
+        "warnings": [
+          "GF/business: only 1 relevant articles.",
+          "GF/tech: only 2 relevant articles.",
+          "GF/world: only 1 relevant articles."
+        ]
+      },
+      "issues": [],
+      "expiresAt": "2026-10-29T22:30:50.582Z",
+      "appFacingFilesMatched": 243
+    }
+  },
+  "checkedAt": "2026-10-28T23:37:01.861Z",
+  "activeAlerts": []
 }
