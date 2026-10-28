@@ -108,6 +108,15 @@
       "reason": "transport_exercise",
       "reservedAt": "2026-10-28T23:37:01.861Z",
       "status": "dispatched"
+    },
+    "probe-40788557235-backend": {
+      "dispatch": true,
+      "key": "probe-40788557235-backend",
+      "kind": "backend",
+      "due": "2026-10-28T10:43:00.000Z",
+      "reason": "transport_exercise",
+      "reservedAt": "2026-10-28T23:37:01.861Z",
+      "status": "reserved"
     }
   },
   "alerts": {},
