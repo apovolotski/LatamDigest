@@ -1,7 +1,13 @@
 name: Refresh Static Feeds
+run-name: ${{ github.workflow }}${{ inputs.maintenance_key && format(' [{0}]', inputs.maintenance_key) || '' }}
 
 on:
   workflow_dispatch:
+    inputs:
+      maintenance_key:
+        description: Hosted monitor dispatch receipt
+        type: string
+        default: ""
   schedule:
     - cron: "17 */6 * * *"
 

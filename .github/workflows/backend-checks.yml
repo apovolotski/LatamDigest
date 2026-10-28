@@ -1,8 +1,13 @@
 name: Backend Checks
+run-name: ${{ github.workflow }}${{ inputs.maintenance_key && format(' [{0}]', inputs.maintenance_key) || '' }}
 
 on:
   workflow_dispatch:
     inputs:
+      maintenance_key:
+        description: Hosted monitor dispatch receipt
+        type: string
+        default: ""
       verify_maintenance:
         description: Exercise security repair with vulnerable lockfile metadata; no vulnerable package is installed or published
         type: boolean
@@ -56,6 +61,7 @@ jobs:
         run: npm run maintain:security
       - run: npm ci --ignore-scripts
       - run: npm run check
+      - run: npm run check:watchdog && npm run test:watchdog
       - run: npm test
       - run: npm audit --omit=dev
       - name: Preserve exact validated lockfile

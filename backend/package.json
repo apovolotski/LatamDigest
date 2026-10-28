@@ -16,7 +16,9 @@
     "generate:static": "node scripts/refresh-static-feeds.mjs",
     "test": "node --test test/*.test.js test/optional/*.test.js",
     "check:coverage": "node scripts/check-feed-coverage.mjs",
-    "maintain:security": "node scripts/repair-dependency-audit.mjs"
+    "maintain:security": "node scripts/repair-dependency-audit.mjs",
+    "check:watchdog": "node --check src/watchdogPolicy.js && node --check scripts/hosted-watchdog.mjs",
+    "test:watchdog": "node --test test/maintenance/*.test.js"
   },
   "dependencies": {
     "cors": "^2.8.5",

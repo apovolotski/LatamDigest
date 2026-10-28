@@ -1,0 +1,79 @@
+name: Hosted Maintenance
+
+on:
+  workflow_dispatch:
+    inputs:
+      exercise_dispatch:
+        description: Verify hosted dispatch of both real workflows without changing feed timestamps or validation
+        type: boolean
+        default: false
+  schedule:
+    - cron: "29 * * * *"
+  workflow_run:
+    workflows: [Backend Checks, Refresh Static Feeds]
+    types: [completed]
+    branches: [main]
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/hosted-maintenance.yml
+      - backend/src/watchdogPolicy.js
+      - backend/scripts/hosted-watchdog.mjs
+      - backend/test/maintenance/**
+      - backend/monitor-seed.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hosted-maintenance
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    if: >-
+      github.repository == 'apovolotski/LatamDigest' &&
+      (github.event_name != 'workflow_run' ||
+        (github.event.workflow_run.head_repository.full_name == github.repository &&
+         github.event.workflow_run.head_branch == 'main' &&
+         github.event.workflow_run.event != 'pull_request'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    permissions:
+      contents: write
+      actions: write
+      checks: read
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - name: Install only isolated RSS dependencies
+        run: npm ci --workspace=@latam-digest/static-feeds --include-workspace-root=false --ignore-scripts
+      - name: Verify controller and dependency boundary
+        run: |
+          npm run check:watchdog
+          npm run test:watchdog
+          node scripts/check-static-dependencies.mjs
+          npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false
+      - name: Monitor and catch up independently of the owner's computer
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node scripts/hosted-watchdog.mjs
+      - name: Retain verification evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2, Node 24
+        with:
+          name: hosted-monitor-${{ github.run_id }}-${{ github.run_attempt }}
+          path: watchdog-evidence
+          if-no-files-found: ignore
+          retention-days: 30

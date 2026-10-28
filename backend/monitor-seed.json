@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "repository": "apovolotski/LatamDigest",
+  "continuous": true,
+  "cutoff": "2026-10-28T18:29:36Z",
+  "milestone": {
+    "backend": { "runIds": [], "attempts": {}, "history": [] },
+    "feeds": {
+      "runIds": [40780510391],
+      "attempts": { "40780510391:1": { "conclusion": "success", "verifiedAt": "2026-10-28T22:40:53.041Z" } },
+      "history": []
+    }
+  },
+  "inspected": {
+    "40780510391:1": {
+      "id": 40780510391,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-28T22:30:40Z",
+      "source": "0a670f7b89bfcf7edf33b6c191c443cb9be6714f",
+      "publication": "0d0b29a2457bab29a597ddb1fc138c6229a93189",
+      "conclusion": "success",
+      "valid": true,
+      "completeLogSha256": "ccbff6e5cda2ea6655257e27f6c026f2a1463d02fec80173eb4ec953ba1fa7e4"
+    }
+  },
+  "receipts": {},
+  "alerts": {},
+  "status": "seeded"
+}
