@@ -1,5 +1,4 @@
 name: Refresh Static Feeds
-run-name: ${{ github.workflow }}${{ inputs.maintenance_key && format(' [{0}]', inputs.maintenance_key) || '' }}
 
 on:
   workflow_dispatch:
@@ -34,6 +33,10 @@ jobs:
           cache: npm
           cache-dependency-path: backend/package-lock.json
 
+      - name: Record hosted monitor receipt
+        env:
+          MAINTENANCE_KEY: ${{ inputs.maintenance_key }}
+        run: node -e 'const k=process.env.MAINTENANCE_KEY;if(/^[A-Za-z0-9-]{1,120}$/.test(k))console.log("Maintenance receipt:",k)'
       - name: Install static feed dependencies
         run: npm ci --workspace=@latam-digest/static-feeds --include-workspace-root=false
         working-directory: backend

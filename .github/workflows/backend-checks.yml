@@ -1,5 +1,4 @@
 name: Backend Checks
-run-name: ${{ github.workflow }}${{ inputs.maintenance_key && format(' [{0}]', inputs.maintenance_key) || '' }}
 
 on:
   workflow_dispatch:
@@ -46,6 +45,10 @@ jobs:
           node-version: 24
           cache: npm
           cache-dependency-path: backend/package-lock.json
+      - name: Record hosted monitor receipt
+        env:
+          MAINTENANCE_KEY: ${{ inputs.maintenance_key }}
+        run: node -e 'const k=process.env.MAINTENANCE_KEY;if(/^[A-Za-z0-9-]{1,120}$/.test(k))console.log("Maintenance receipt:",k)'
       - name: Exercise repair using metadata only
         if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.verify_maintenance
         run: |

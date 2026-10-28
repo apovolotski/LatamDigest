@@ -15,6 +15,11 @@ export function decodeJSON(value, context) {
   try { return JSON.parse(value); }
   catch { throw new Error(`Invalid JSON in ${context}; source contents are not logged.`); }
 }
+export function receiptFromLogs(logs) {
+  const values = [...new Set([...logs.matchAll(/Maintenance receipt: ([A-Za-z0-9-]{1,120})(?:\s|$)/g)].map(match => match[1]))];
+  if (values.length > 1) throw new Error("Conflicting hosted dispatch receipts in run logs.");
+  return values[0];
+}
 const runCommand = (command, args, options = {}) => {
   try { return execFileSync(command, args, { cwd: root, encoding: "utf8", timeout: 60_000, maxBuffer: 32_000_000, ...options }); }
   catch { throw new Error(`Monitor ${command} operation failed; inspect the associated workflow, not raw provider output.`); }
@@ -201,6 +206,7 @@ async function inspectRun(api, kind, run, now) {
     source: run.head_sha, conclusion: run.conclusion, url: run.html_url, verifiedAt: iso(now),
     jobs: jobs.map(job => ({ name: job.name, conclusion: job.conclusion })),
     annotations, completeLogSha256: hash(logs), completeLogLines: logs.split("\n").length,
+    maintenanceKey: receiptFromLogs(logs),
     valid: false, issues: [] };
   if (run.conclusion !== "success") result.issues.push("Workflow failed; inspect its complete logs and annotations.");
   if (annotations.some(item => item.annotation_level === "failure")) result.issues.push("Failure annotations remain.");
@@ -299,7 +305,8 @@ export async function monitor({ api, ledger, state, now = Date.now(), exercise, 
       if (outputDirectory) await fs.writeFile(path.join(outputDirectory, `run-${run.id}-${run.run_attempt}.json`), JSON.stringify(inspected, null, 2));
     }
     for (const receipt of Object.values(state.receipts)) {
-      const run = runs.find(item => item.display_title?.includes(`[${receipt.key}]`));
+      const run = runs.find(item => state.inspected[`${item.id}:${item.run_attempt}`]?.maintenanceKey === receipt.key ||
+        item.display_title?.includes(`[${receipt.key}]`)); // Also reconcile the original deployment proof.
       if (run) Object.assign(receipt, { runId: run.id, status: run.status, conclusion: run.conclusion, url: run.html_url });
     }
     const latest = runs[0];
@@ -335,7 +342,7 @@ export async function monitor({ api, ledger, state, now = Date.now(), exercise, 
       }
     }
   } finally { if (publication) await publication.cleanup(); }
-  const recovering = Object.values(state.receipts).some(receipt =>
+  const recovering = Object.values(evidence.workflows).some(workflow => workflow.active.length > 0) || Object.values(state.receipts).some(receipt =>
     ["queued", "in_progress", "pending", "waiting", "requested"].includes(receipt.status) ||
     (["reserved", "dispatched"].includes(receipt.status) && now - Date.parse(receipt.reservedAt) < 3_600_000));
   for (const receipt of Object.values(state.receipts)) {

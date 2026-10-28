@@ -5,7 +5,7 @@ import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { latestSlot, recoveryDecision, recordScheduled, validateHealth, mainRun } from "../../src/watchdogPolicy.js";
-import { GitHub, Ledger, reserveAndDispatch, coverage, decodeJSON } from "../../scripts/hosted-watchdog.mjs";
+import { GitHub, Ledger, reserveAndDispatch, coverage, decodeJSON, receiptFromLogs } from "../../scripts/hosted-watchdog.mjs";
 
 const HOUR = 3_600_000;
 const now = Date.parse("2026-10-28T20:30:00Z");
@@ -38,6 +38,17 @@ test("Linux realpaths cannot activate the imported validator's CLI or pollute it
 test("invalid JSON diagnostics identify the operation without exposing source contents", () => {
   assert.throws(() => decodeJSON('private-provider-secret', 'coverage report'), error =>
     error.message.includes('coverage report') && !error.message.includes('private-provider-secret'));
+});
+
+test("dispatch receipts do not change workflow names used by completion triggers", async () => {
+  assert.equal(receiptFromLogs('timestamp Maintenance receipt: probe-123-feeds\n'), 'probe-123-feeds');
+  assert.equal(receiptFromLogs('normal scheduled run without a receipt'), undefined);
+  assert.throws(() => receiptFromLogs('Maintenance receipt: one\nMaintenance receipt: two\n'), /Conflicting/);
+  for (const name of ['backend-checks.yml', 'refresh-static-feeds.yml']) {
+    const source = await fs.readFile(new URL('../../../.github/workflows/'+name, import.meta.url), 'utf8');
+    assert.doesNotMatch(source, /^run-name:/m);
+    assert.match(source, /Record hosted monitor receipt/);
+  }
 });
 
 test("UTC schedules handle exact slots, midnight, month/year boundaries and leap days", () => {
