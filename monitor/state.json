@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "repository": "apovolotski/LatamDigest",
+  "continuous": true,
+  "cutoff": "2026-10-28T18:29:36Z",
+  "milestone": {
+    "backend": {
+      "runIds": [],
+      "attempts": {},
+      "history": []
+    },
+    "feeds": {
+      "runIds": [
+        40780510391
+      ],
+      "attempts": {
+        "40780510391:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-10-28T22:40:53.041Z"
+        }
+      },
+      "history": []
+    }
+  },
+  "inspected": {
+    "40780510391:1": {
+      "id": 40780510391,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-28T22:30:40Z",
+      "source": "0a670f7b89bfcf7edf33b6c191c443cb9be6714f",
+      "publication": "0d0b29a2457bab29a597ddb1fc138c6229a93189",
+      "conclusion": "success",
+      "valid": true,
+      "completeLogSha256": "ccbff6e5cda2ea6655257e27f6c026f2a1463d02fec80173eb4ec953ba1fa7e4"
+    },
+    "40787802600:1": {
+      "id": 40787802600,
+      "attempt": 1,
+      "event": "push",
+      "createdAt": "2026-10-28T23:30:12Z",
+      "source": "79aba8bf251e783385e761d6b644ea534fbeee85",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40787802600",
+      "verifiedAt": "2026-10-28T23:37:01.861Z",
+      "jobs": [
+        {
+          "name": "check",
+          "conclusion": "success"
+        },
+        {
+          "name": "static-feeds",
+          "conclusion": "success"
+        },
+        {
+          "name": "publish-security-update",
+          "conclusion": "skipped"
+        }
+      ],
+      "completeLogSha256": "d40cc68158cfb47a9ca8552f72e5751f7e1811c9f7efe2b27f17a5fc06032413",
+      "completeLogLines": 1174,
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "check": 0,
+        "static-feeds": 0
+      }
+    },
+    "40788445095:1": {
+      "id": 40788445095,
+      "attempt": 1,
+      "event": "push",
+      "createdAt": "2026-10-28T23:35:41Z",
+      "source": "6617ad1c7618205ff8618a4594358e8e5a65a835",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40788445095",
+      "verifiedAt": "2026-10-28T23:37:01.861Z",
+      "jobs": [
+        {
+          "name": "check",
+          "conclusion": "success"
+        },
+        {
+          "name": "static-feeds",
+          "conclusion": "success"
+        },
+        {
+          "name": "publish-security-update",
+          "conclusion": "skipped"
+        }
+      ],
+      "completeLogSha256": "88bc5becd4cf0a8390a0a68d2f80845871578c1732891cf50a188a44c2af281c",
+      "completeLogLines": 1176,
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "check": 0,
+        "static-feeds": 0
+      }
+    }
+  },
+  "receipts": {
+    "probe-40788557235-feeds": {
+      "dispatch": true,
+      "key": "probe-40788557235-feeds",
+      "kind": "feeds",
+      "due": "2026-10-28T18:17:00.000Z",
+      "reason": "transport_exercise",
+      "reservedAt": "2026-10-28T23:37:01.861Z",
+      "status": "reserved"
+    }
+  },
+  "alerts": {},
+  "status": "seeded"
+}
