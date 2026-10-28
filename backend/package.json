@@ -6,14 +6,17 @@
   "engines": {
     "node": ">=24.0.0"
   },
-  "workspaces": ["packages/static-feeds"],
+  "workspaces": [
+    "packages/static-feeds"
+  ],
   "scripts": {
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
-    "check": "node --check src/server.js && node --check src/rssClient.js && node --check src/feedSearch.js && node --check src/feedFreshness.js && node --check scripts/generate-static-feeds.mjs && node --check scripts/refresh-static-feeds.mjs && node --check scripts/check-feed-coverage.mjs",
+    "check": "node --check src/server.js && node --check src/rssClient.js && node --check src/feedSearch.js && node --check src/feedFreshness.js && node --check scripts/generate-static-feeds.mjs && node --check scripts/refresh-static-feeds.mjs && node --check scripts/check-feed-coverage.mjs && node --check scripts/repair-dependency-audit.mjs && bash -n scripts/publish-security-lock.sh",
     "generate:static": "node scripts/refresh-static-feeds.mjs",
     "test": "node --test test/*.test.js test/optional/*.test.js",
-    "check:coverage": "node scripts/check-feed-coverage.mjs"
+    "check:coverage": "node scripts/check-feed-coverage.mjs",
+    "maintain:security": "node scripts/repair-dependency-audit.mjs"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -24,6 +27,6 @@
     "zod": "^4.6.7"
   },
   "overrides": {
-    "qs": "^6.16.0"
+    "qs": "^6.16.1"
   }
 }

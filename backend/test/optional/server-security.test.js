@@ -3,10 +3,20 @@ import assert from 'node:assert/strict';
 import { createApp } from '../../src/server.js';
 import { createDigestStore } from '../../src/digestStore.js';
 import { articleID } from '../../src/articleIdentity.js';
+import qs from 'qs';
 
 const article = { id: articleID('https://example.com/story'), title: 'Election news', url: 'https://example.com/story', sourceName: 'Example', publishedAt: new Date(Date.now() - 3600_000).toISOString() };
 const story = { headline: article.title, source_url: article.url, source_name: article.sourceName, category: 'politics', summary: 'Summary', why_it_matters: 'Impact' };
 const digest = { generated_at: article.publishedAt, stories: [story] };
+
+test('incident 40729599050: hostile query values cannot crash comma serialization', () => {
+  for (const input of [{ a: [{ toString: 'x' }] }, qs.parse('a[0][toString]=x', { allowPrototypes: true }), qs.parse('a[][b]=c', { plainObjects: true })]) {
+    for (const encodeValuesOnly of [false, true]) {
+      assert.doesNotThrow(() => qs.stringify(input, { arrayFormat: 'comma', encodeValuesOnly }));
+    }
+  }
+  assert.equal(qs.stringify({ a: ['one', 'two'] }, { arrayFormat: 'comma' }), 'a=one%2Ctwo');
+});
 
 test('concurrent refreshes generate once, failures preserve last successful digest', async () => {
   let calls = 0;

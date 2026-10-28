@@ -2,6 +2,11 @@ name: Backend Checks
 
 on:
   workflow_dispatch:
+    inputs:
+      verify_maintenance:
+        description: Exercise security repair with vulnerable lockfile metadata; no vulnerable package is installed or published
+        type: boolean
+        default: false
   push:
     branches: [main]
     paths: ["backend/**", ".github/workflows/backend-checks.yml"]
@@ -13,26 +18,58 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: backend-checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
+    outputs:
+      has_updates: ${{ steps.maintenance.outputs.has-updates || 'false' }}
+      lock_sha256: ${{ steps.maintenance.outputs.lock-sha256 }}
     defaults:
       run:
         working-directory: backend
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24
           cache: npm
           cache-dependency-path: backend/package-lock.json
-      - run: npm ci
+      - name: Exercise repair using metadata only
+        if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && inputs.verify_maintenance
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs/promises';
+          const lock = JSON.parse(await fs.readFile('package-lock.json'));
+          lock.packages['node_modules/qs'] = JSON.parse(await fs.readFile('test/fixtures/qs-6.16.0-lock-entry.json'));
+          await fs.writeFile('package-lock.json', JSON.stringify(lock, null, 2) + '\n');
+          EOF
+      - name: Prepare compatible security repairs
+        id: maintenance
+        if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        run: npm run maintain:security
+      - run: npm ci --ignore-scripts
       - run: npm run check
       - run: npm test
       - run: npm audit --omit=dev
+      - name: Preserve exact validated lockfile
+        if: steps.maintenance.outputs.has-updates == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: security-lock-${{ github.run_id }}
+          path: backend/package-lock.json
+          if-no-files-found: error
+          retention-days: 1
 
   static-feeds:
+    needs: check
+    if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 10
     defaults:
@@ -40,12 +77,42 @@ jobs:
         working-directory: backend
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Load the validated repair candidate
+        if: needs.check.result == 'success' && needs.check.outputs.has_updates == 'true'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: security-lock-${{ github.run_id }}
+          path: backend
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24
           cache: npm
           cache-dependency-path: backend/package-lock.json
-      - run: npm ci --workspace=@latam-digest/static-feeds --include-workspace-root=false
+      - run: npm ci --workspace=@latam-digest/static-feeds --include-workspace-root=false --ignore-scripts
       - run: npm run check --workspace=@latam-digest/static-feeds
       - run: npm test --workspace=@latam-digest/static-feeds
       - run: npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false
+
+  publish-security-update:
+    needs: [check, static-feeds]
+    if: needs.check.result == 'success' && needs.static-feeds.result == 'success' && needs.check.outputs.has_updates == 'true' && github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: security-lock-${{ github.run_id }}
+          path: ${{ runner.temp }}/security-lock
+      - name: Publish only the tested lockfile
+        env:
+          SOURCE_REVISION: ${{ github.sha }}
+          LOCK_SHA256: ${{ needs.check.outputs.lock_sha256 }}
+          LOCK_FILE: ${{ runner.temp }}/security-lock/package-lock.json
+        run: bash backend/scripts/publish-security-lock.sh
