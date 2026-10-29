@@ -5,8 +5,15 @@
   "cutoff": "2026-10-28T18:29:36Z",
   "milestone": {
     "backend": {
-      "runIds": [],
-      "attempts": {},
+      "runIds": [
+        40917660711
+      ],
+      "attempts": {
+        "40917660711:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-10-29T17:04:39.882Z"
+        }
+      },
       "history": []
     },
     "feeds": {
@@ -240,6 +247,38 @@
       "audits": {
         "refresh": 0
       }
+    },
+    "40917660711:1": {
+      "id": 40917660711,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-29T17:03:44Z",
+      "source": "90e3fcaaee96b24b7ea7a2e9a6dfa5dd18728e97",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40917660711",
+      "verifiedAt": "2026-10-29T17:04:39.882Z",
+      "jobs": [
+        {
+          "name": "check",
+          "conclusion": "success"
+        },
+        {
+          "name": "static-feeds",
+          "conclusion": "success"
+        },
+        {
+          "name": "publish-security-update",
+          "conclusion": "skipped"
+        }
+      ],
+      "completeLogSha256": "41b4033ad86c76e7f520f60c353fb9bfdb1e354f604399fd077c3a4b45a23450",
+      "completeLogLines": 1193,
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "check": 0,
+        "static-feeds": 0
+      }
     }
   },
   "receipts": {
@@ -271,7 +310,7 @@
   "alerts": {},
   "status": "healthy",
   "latest": {
-    "checkedAt": "2026-10-29T12:56:55.790Z",
+    "checkedAt": "2026-10-29T17:04:39.882Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-29T12:17:00.000Z",
@@ -287,12 +326,12 @@
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "schedule_grace",
+        "reason": "publication_current",
         "due": "2026-10-29T12:17:00.000Z"
       },
       "backend": {
         "dispatch": false,
-        "reason": "cooldown",
+        "reason": "daily_check_covered",
         "due": "2026-10-29T10:43:00.000Z"
       }
     },
@@ -331,6 +370,6 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-29T12:56:55.790Z",
+  "checkedAt": "2026-10-29T17:04:39.882Z",
   "activeAlerts": []
 }
