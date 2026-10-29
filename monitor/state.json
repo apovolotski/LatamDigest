@@ -11,12 +11,17 @@
     },
     "feeds": {
       "runIds": [
-        40780510391
+        40780510391,
+        40824869679
       ],
       "attempts": {
         "40780510391:1": {
           "conclusion": "success",
           "verifiedAt": "2026-10-28T22:40:53.041Z"
+        },
+        "40824869679:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-10-29T05:44:04.429Z"
         }
       },
       "history": []
@@ -184,6 +189,29 @@
         "check": 0,
         "static-feeds": 0
       }
+    },
+    "40824869679:1": {
+      "id": 40824869679,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-29T05:41:44Z",
+      "source": "20e3ebaa0f40c9ab41ad79f4b376a3a9506ff8b7",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40824869679",
+      "verifiedAt": "2026-10-29T05:44:04.429Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success"
+        }
+      ],
+      "completeLogSha256": "0bcb5b3728b7e290857fa0676c013cd0a280efd4bfb65e13f1152d41212ccef7",
+      "completeLogLines": 605,
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "refresh": 0
+      }
     }
   },
   "receipts": {
@@ -215,7 +243,7 @@
   "alerts": {},
   "status": "healthy",
   "latest": {
-    "checkedAt": "2026-10-29T03:59:27.154Z",
+    "checkedAt": "2026-10-29T05:44:04.429Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-29T00:17:00.000Z",
@@ -242,13 +270,13 @@
     },
     "problems": [],
     "publication": {
-      "commit": "d726f7b7d6eeedb9c332203e7ff9ed0690c94e55",
+      "commit": "f4d41d8136aeb26e46a021e3ba4d6f73533f5dba",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-10-28T23:39:12.189Z",
-        "lastSuccessfulRefreshAt": "2026-10-28T23:37:26.326Z",
+        "checkedAt": "2026-10-29T05:43:37.941Z",
+        "lastSuccessfulRefreshAt": "2026-10-29T05:41:54.136Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -264,17 +292,17 @@
         "fallback": 13,
         "issues": [],
         "warnings": [
-          "SR/politics: only 2 relevant articles.",
+          "SR/politics: only 1 relevant articles.",
           "GF/business: only 1 relevant articles.",
           "GF/tech: only 2 relevant articles.",
           "GF/world: only 1 relevant articles."
         ]
       },
       "issues": [],
-      "expiresAt": "2026-10-29T23:37:26.861Z",
+      "expiresAt": "2026-10-30T05:41:54.702Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-29T03:59:27.154Z",
+  "checkedAt": "2026-10-29T05:44:04.429Z",
   "activeAlerts": []
 }
