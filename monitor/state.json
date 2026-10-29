@@ -310,7 +310,7 @@
   "alerts": {},
   "status": "healthy",
   "latest": {
-    "checkedAt": "2026-10-29T17:04:39.882Z",
+    "checkedAt": "2026-10-29T17:31:52.732Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-29T12:17:00.000Z",
@@ -370,6 +370,6 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-29T17:04:39.882Z",
+  "checkedAt": "2026-10-29T17:31:52.732Z",
   "activeAlerts": []
 }
