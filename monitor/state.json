@@ -12,7 +12,8 @@
     "feeds": {
       "runIds": [
         40780510391,
-        40824869679
+        40824869679,
+        40877168669
       ],
       "attempts": {
         "40780510391:1": {
@@ -22,6 +23,10 @@
         "40824869679:1": {
           "conclusion": "success",
           "verifiedAt": "2026-10-29T05:44:04.429Z"
+        },
+        "40877168669:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-10-29T12:56:55.790Z"
         }
       },
       "history": []
@@ -212,6 +217,29 @@
       "audits": {
         "refresh": 0
       }
+    },
+    "40877168669:1": {
+      "id": 40877168669,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-29T12:54:21Z",
+      "source": "f4d41d8136aeb26e46a021e3ba4d6f73533f5dba",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40877168669",
+      "verifiedAt": "2026-10-29T12:56:55.790Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success"
+        }
+      ],
+      "completeLogSha256": "5278492b5cdf5ef09cd6ab838302051509f2c667f21172f6b16247b9137bbc3f",
+      "completeLogLines": 605,
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "refresh": 0
+      }
     }
   },
   "receipts": {
@@ -243,10 +271,10 @@
   "alerts": {},
   "status": "healthy",
   "latest": {
-    "checkedAt": "2026-10-29T11:03:44.981Z",
+    "checkedAt": "2026-10-29T12:56:55.790Z",
     "workflows": {
       "feeds": {
-        "due": "2026-10-29T06:17:00.000Z",
+        "due": "2026-10-29T12:17:00.000Z",
         "state": "active",
         "active": []
       },
@@ -259,24 +287,24 @@
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "publication_current",
-        "due": "2026-10-29T06:17:00.000Z"
+        "reason": "schedule_grace",
+        "due": "2026-10-29T12:17:00.000Z"
       },
       "backend": {
         "dispatch": false,
-        "reason": "schedule_grace",
+        "reason": "cooldown",
         "due": "2026-10-29T10:43:00.000Z"
       }
     },
     "problems": [],
     "publication": {
-      "commit": "f4d41d8136aeb26e46a021e3ba4d6f73533f5dba",
+      "commit": "90e3fcaaee96b24b7ea7a2e9a6dfa5dd18728e97",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-10-29T05:43:37.941Z",
-        "lastSuccessfulRefreshAt": "2026-10-29T05:41:54.136Z",
+        "checkedAt": "2026-10-29T12:56:28.718Z",
+        "lastSuccessfulRefreshAt": "2026-10-29T12:54:30.513Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -289,20 +317,20 @@
         "populated": 240,
         "stale": 0,
         "sparse": 4,
-        "fallback": 13,
+        "fallback": 11,
         "issues": [],
         "warnings": [
-          "SR/politics: only 1 relevant articles.",
+          "SR/politics: only 2 relevant articles.",
           "GF/business: only 1 relevant articles.",
-          "GF/tech: only 2 relevant articles.",
+          "GF/tech: only 1 relevant articles.",
           "GF/world: only 1 relevant articles."
         ]
       },
       "issues": [],
-      "expiresAt": "2026-10-30T05:41:54.702Z",
+      "expiresAt": "2026-10-30T12:54:31.153Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-29T11:03:44.981Z",
+  "checkedAt": "2026-10-29T12:56:55.790Z",
   "activeAlerts": []
 }
