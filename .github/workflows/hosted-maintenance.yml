@@ -8,7 +8,7 @@ on:
         type: boolean
         default: false
   schedule:
-    - cron: "29 * * * *"
+    - cron: "37 * * * *"
   workflow_run:
     workflows: [Backend Checks, Refresh Static Feeds]
     types: [completed]
