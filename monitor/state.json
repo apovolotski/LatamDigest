@@ -317,12 +317,12 @@
     }
   },
   "alerts": {},
-  "status": "healthy",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-10-29T17:31:52.732Z",
+    "checkedAt": "2026-10-29T21:58:05.944Z",
     "workflows": {
       "feeds": {
-        "due": "2026-10-29T12:17:00.000Z",
+        "due": "2026-10-29T18:17:00.000Z",
         "state": "active",
         "active": []
       },
@@ -334,9 +334,11 @@
     },
     "decisions": {
       "feeds": {
-        "dispatch": false,
-        "reason": "publication_current",
-        "due": "2026-10-29T12:17:00.000Z"
+        "dispatch": true,
+        "key": "feeds-20261029181700000",
+        "kind": "feeds",
+        "due": "2026-10-29T18:17:00.000Z",
+        "reason": "late_schedule"
       },
       "backend": {
         "dispatch": false,
@@ -379,6 +381,6 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-29T17:31:52.732Z",
+  "checkedAt": "2026-10-29T21:58:05.944Z",
   "activeAlerts": []
 }
