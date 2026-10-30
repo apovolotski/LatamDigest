@@ -386,6 +386,39 @@
       "audits": {
         "refresh": 0
       }
+    },
+    "41058370929:1": {
+      "id": 41058370929,
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "createdAt": "2026-10-30T12:50:15Z",
+      "source": "891f27ec1992fe1e2dd88b9782c4bb699cadce80",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41058370929",
+      "verifiedAt": "2026-10-30T16:11:26.757Z",
+      "jobs": [
+        {
+          "name": "check",
+          "conclusion": "success"
+        },
+        {
+          "name": "static-feeds",
+          "conclusion": "success"
+        },
+        {
+          "name": "publish-security-update",
+          "conclusion": "skipped"
+        }
+      ],
+      "completeLogSha256": "ee94cd4533751f3fdc2dfa661af69e98414c73e9f526b1129e12b18840a176f2",
+      "completeLogLines": 1194,
+      "maintenanceKey": "backend-20261030104300000",
+      "valid": false,
+      "issues": [
+        "check: missing clean production audit evidence.",
+        "static-feeds: missing clean production audit evidence."
+      ],
+      "audits": {}
     }
   },
   "receipts": {
@@ -432,13 +465,23 @@
       "due": "2026-10-30T10:43:00.000Z",
       "reason": "late_schedule",
       "reservedAt": "2026-10-30T12:49:56.116Z",
-      "status": "dispatched"
+      "status": "completed",
+      "runId": 41058370929,
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41058370929"
     }
   },
-  "alerts": {},
-  "status": "recovery_pending",
+  "alerts": {
+    "53f7c9bd4a2bd73496e34aa5518c910b8a52a18f570bcf089290f117e15e678d": {
+      "firstRaisedAt": "2026-10-30T16:11:26.757Z",
+      "problems": [
+        "Backend Checks remains failed; see run 41058370929."
+      ]
+    }
+  },
+  "status": "attention_required",
   "latest": {
-    "checkedAt": "2026-10-30T12:49:56.116Z",
+    "checkedAt": "2026-10-30T16:11:26.757Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-30T12:17:00.000Z",
@@ -448,24 +491,25 @@
       "backend": {
         "due": "2026-10-30T10:43:00.000Z",
         "state": "active",
-        "active": []
+        "active": [],
+        "failed": 41058370929
       }
     },
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "schedule_grace",
+        "reason": "publication_current",
         "due": "2026-10-30T12:17:00.000Z"
       },
       "backend": {
-        "dispatch": true,
-        "key": "backend-20261030104300000",
-        "kind": "backend",
-        "due": "2026-10-30T10:43:00.000Z",
-        "reason": "late_schedule"
+        "dispatch": false,
+        "reason": "cooldown",
+        "due": "2026-10-30T10:43:00.000Z"
       }
     },
-    "problems": [],
+    "problems": [
+      "Backend Checks remains failed; see run 41058370929."
+    ],
     "publication": {
       "commit": "891f27ec1992fe1e2dd88b9782c4bb699cadce80",
       "valid": true,
@@ -501,6 +545,8 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-30T12:49:56.116Z",
-  "activeAlerts": []
+  "checkedAt": "2026-10-30T16:11:26.757Z",
+  "activeAlerts": [
+    "53f7c9bd4a2bd73496e34aa5518c910b8a52a18f570bcf089290f117e15e678d"
+  ]
 }
