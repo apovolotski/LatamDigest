@@ -436,17 +436,17 @@
     }
   },
   "alerts": {},
-  "status": "healthy",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-10-30T08:56:09.451Z",
+    "checkedAt": "2026-10-30T12:49:56.116Z",
     "workflows": {
       "feeds": {
-        "due": "2026-10-30T06:17:00.000Z",
+        "due": "2026-10-30T12:17:00.000Z",
         "state": "active",
         "active": []
       },
       "backend": {
-        "due": "2026-10-29T10:43:00.000Z",
+        "due": "2026-10-30T10:43:00.000Z",
         "state": "active",
         "active": []
       }
@@ -454,24 +454,26 @@
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "publication_current",
-        "due": "2026-10-30T06:17:00.000Z"
+        "reason": "schedule_grace",
+        "due": "2026-10-30T12:17:00.000Z"
       },
       "backend": {
-        "dispatch": false,
-        "reason": "daily_check_covered",
-        "due": "2026-10-29T10:43:00.000Z"
+        "dispatch": true,
+        "key": "backend-20261030104300000",
+        "kind": "backend",
+        "due": "2026-10-30T10:43:00.000Z",
+        "reason": "late_schedule"
       }
     },
     "problems": [],
     "publication": {
-      "commit": "b8fb1ca343d57b87c281b1e9b22e526a82e6e11a",
+      "commit": "891f27ec1992fe1e2dd88b9782c4bb699cadce80",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-10-30T05:42:59.635Z",
-        "lastSuccessfulRefreshAt": "2026-10-30T05:41:08.895Z",
+        "checkedAt": "2026-10-30T12:49:24.380Z",
+        "lastSuccessfulRefreshAt": "2026-10-30T12:47:41.716Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -483,21 +485,22 @@
         "total": 240,
         "populated": 240,
         "stale": 0,
-        "sparse": 4,
-        "fallback": 12,
+        "sparse": 5,
+        "fallback": 15,
         "issues": [],
         "warnings": [
           "SR/politics: only 2 relevant articles.",
-          "GY/culture: only 2 relevant articles.",
+          "GY/culture: only 1 relevant articles.",
           "GF/business: only 1 relevant articles.",
+          "GF/crime: only 2 relevant articles.",
           "GF/world: only 1 relevant articles."
         ]
       },
       "issues": [],
-      "expiresAt": "2026-10-31T05:41:09.426Z",
+      "expiresAt": "2026-10-31T12:47:42.381Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-30T08:56:09.451Z",
+  "checkedAt": "2026-10-30T12:49:56.116Z",
   "activeAlerts": []
 }
