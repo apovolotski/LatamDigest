@@ -828,9 +828,9 @@
       ]
     }
   },
-  "status": "healthy",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-10-30T16:49:44.608Z",
+    "checkedAt": "2026-10-30T18:13:02.262Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-30T12:17:00.000Z",
@@ -840,7 +840,9 @@
       "backend": {
         "due": "2026-10-30T10:43:00.000Z",
         "state": "active",
-        "active": []
+        "active": [
+          41104929285
+        ]
       }
     },
     "decisions": {
@@ -851,8 +853,7 @@
       },
       "backend": {
         "dispatch": false,
-        "reason": "daily_check_covered",
-        "due": "2026-10-30T10:43:00.000Z"
+        "reason": "run_active"
       }
     },
     "problems": [],
@@ -890,6 +891,6 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-30T16:49:44.608Z",
+  "checkedAt": "2026-10-30T18:13:02.262Z",
   "activeAlerts": []
 }
