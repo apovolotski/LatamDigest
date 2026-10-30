@@ -768,6 +768,60 @@
           "jobLogLines": 553
         }
       }
+    },
+    "41104929285:1": {
+      "id": 41104929285,
+      "attempt": 1,
+      "event": "push",
+      "createdAt": "2026-10-30T18:12:45Z",
+      "inspectionVersion": 4,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "a7b8effcdd9e83207392a235da7771d7a61ed972",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41104929285",
+      "verifiedAt": "2026-10-30T18:14:12.193Z",
+      "jobs": [
+        {
+          "name": "check",
+          "conclusion": "success"
+        },
+        {
+          "name": "static-feeds",
+          "conclusion": "success"
+        },
+        {
+          "name": "publish-security-update",
+          "conclusion": "skipped"
+        }
+      ],
+      "completeLogSha256": "981f36cd3fbf97d9b205e84fdf75e65728583d06e8c7359da9c187b3dd0b3825",
+      "completeLogLines": 1207,
+      "jobLogs": [
+        {
+          "id": 124231957512,
+          "name": "check",
+          "sha256": "4d457061eb9efdc34963474dfe01ca0301527dfd159d4b5f1ce2ab2a045891ed",
+          "lines": 653
+        },
+        {
+          "id": 124232430903,
+          "name": "static-feeds",
+          "sha256": "423f7775ef4d0c80253b53ca688e9084fc4983fb9dc78665443930a9b024e131",
+          "lines": 553
+        }
+      ],
+      "valid": false,
+      "issues": [
+        "check: retained test suite evidence is incomplete.",
+        "static-feeds: retained test suite evidence is incomplete.",
+        "static-feeds: dependency isolation evidence is incomplete.",
+        "check: missing clean production audit evidence.",
+        "static-feeds: missing clean production audit evidence."
+      ],
+      "tests": {},
+      "testEvidence": {},
+      "audits": {},
+      "auditEvidence": {}
     }
   },
   "receipts": {
@@ -826,11 +880,17 @@
       "problems": [
         "Backend Checks remains failed; see run 41058370929."
       ]
+    },
+    "2f89a78fd818ae9fb415b70fd8f0fd3a3b85d41d315bb59829eac5885caa6eee": {
+      "firstRaisedAt": "2026-10-30T18:14:12.193Z",
+      "problems": [
+        "Backend Checks verification incomplete; see run 41104929285."
+      ]
     }
   },
-  "status": "recovery_pending",
+  "status": "attention_required",
   "latest": {
-    "checkedAt": "2026-10-30T18:13:02.262Z",
+    "checkedAt": "2026-10-30T18:14:12.193Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-30T12:17:00.000Z",
@@ -840,9 +900,8 @@
       "backend": {
         "due": "2026-10-30T10:43:00.000Z",
         "state": "active",
-        "active": [
-          41104929285
-        ]
+        "active": [],
+        "verificationFailed": 41104929285
       }
     },
     "decisions": {
@@ -853,10 +912,13 @@
       },
       "backend": {
         "dispatch": false,
-        "reason": "run_active"
+        "reason": "cooldown",
+        "due": "2026-10-30T10:43:00.000Z"
       }
     },
-    "problems": [],
+    "problems": [
+      "Backend Checks verification incomplete; see run 41104929285."
+    ],
     "publication": {
       "commit": "0d8f01f788ea5d2932f7c43d553a3d341460ee4f",
       "valid": true,
@@ -891,6 +953,8 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-30T18:13:02.262Z",
-  "activeAlerts": []
+  "checkedAt": "2026-10-30T18:14:12.193Z",
+  "activeAlerts": [
+    "2f89a78fd818ae9fb415b70fd8f0fd3a3b85d41d315bb59829eac5885caa6eee"
+  ]
 }
