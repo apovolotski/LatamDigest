@@ -6,12 +6,17 @@
   "milestone": {
     "backend": {
       "runIds": [
-        40917660711
+        40917660711,
+        41093274541
       ],
       "attempts": {
         "40917660711:1": {
           "conclusion": "success",
           "verifiedAt": "2026-10-29T17:04:39.882Z"
+        },
+        "41093274541:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-10-30T16:49:44.608Z"
         }
       },
       "history": []
@@ -699,6 +704,70 @@
           "jobLogLines": 606
         }
       }
+    },
+    "41093274541:1": {
+      "id": 41093274541,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-30T16:48:54Z",
+      "inspectionVersion": 3,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "0d8f01f788ea5d2932f7c43d553a3d341460ee4f",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41093274541",
+      "verifiedAt": "2026-10-30T16:49:44.608Z",
+      "jobs": [
+        {
+          "name": "check",
+          "conclusion": "success"
+        },
+        {
+          "name": "static-feeds",
+          "conclusion": "success"
+        },
+        {
+          "name": "publish-security-update",
+          "conclusion": "skipped"
+        }
+      ],
+      "completeLogSha256": "4718b4a7889b0afc08583648e7bd6cbddc779ae82b636b4a32166a0fcb814345",
+      "completeLogLines": 1208,
+      "jobLogs": [
+        {
+          "id": 124192375086,
+          "name": "check",
+          "sha256": "b9687e02e5b6305020ed5dd65810d2cf1e2edd397945d8df22508404f9c75f60",
+          "lines": 654
+        },
+        {
+          "id": 124192508908,
+          "name": "static-feeds",
+          "sha256": "a1b55315d186e706d54b7db4768c578c13be8b5541ba92886054d1ac5fce5613",
+          "lines": 553
+        }
+      ],
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "check": 0,
+        "static-feeds": 0
+      },
+      "auditEvidence": {
+        "check": {
+          "jobId": 124192375086,
+          "stepNumber": 11,
+          "command": "npm audit --omit=dev",
+          "jobLogSha256": "b9687e02e5b6305020ed5dd65810d2cf1e2edd397945d8df22508404f9c75f60",
+          "jobLogLines": 654
+        },
+        "static-feeds": {
+          "jobId": 124192508908,
+          "stepNumber": 8,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "jobLogSha256": "a1b55315d186e706d54b7db4768c578c13be8b5541ba92886054d1ac5fce5613",
+          "jobLogLines": 553
+        }
+      }
     }
   },
   "receipts": {
@@ -761,7 +830,7 @@
   },
   "status": "healthy",
   "latest": {
-    "checkedAt": "2026-10-30T16:39:11.466Z",
+    "checkedAt": "2026-10-30T16:49:44.608Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-30T12:17:00.000Z",
@@ -821,6 +890,6 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-30T16:39:11.466Z",
+  "checkedAt": "2026-10-30T16:49:44.608Z",
   "activeAlerts": []
 }
