@@ -11,7 +11,7 @@ const stateBranch = "latam-monitor-state";
 const statePath = "monitor/state.json";
 const hash = data => createHash("sha256").update(data).digest("hex");
 const iso = now => new Date(now).toISOString();
-export const INSPECTION_VERSION = 4;
+export const INSPECTION_VERSION = 5;
 export const needsInspection = previous => !previous ||
   (previous.valid === false && (previous.inspectionVersion ?? 1) < INSPECTION_VERSION);
 export function recordInspection(state, run, inspected) {
@@ -98,6 +98,10 @@ export class GitHub {
     const archive = runCommand("gh", ["api", endpoint], { encoding: null });
     return readJobLogArchive(archive, jobs);
   }
+  workflowSource(kind, run) {
+    if (!WORKFLOWS[kind] || !/^[a-f0-9]{40}$/.test(run.head_sha)) throw new Error("Invalid workflow source identity.");
+    return runCommand("git", ["show", `${run.head_sha}:.github/workflows/${WORKFLOWS[kind].file}`]);
+  }
 }
 
 export async function readJobLogArchive(archive, jobs) {
@@ -118,7 +122,52 @@ export async function readJobLogArchive(archive, jobs) {
   } finally { await fs.rm(directory, { recursive: true, force: true }); }
 }
 
-export function inspectAudits(kind, jobs, jobLogs) {
+// Reviewed source contracts: these exact workflows run the required commands
+// with bash -e and no continue-on-error. A source change must be reviewed and
+// this contract regression updated before it can use the metadata fallback.
+const blockingWorkflows = {
+  backend: "28408fbf6dbaf28c6392cc18701ffe8405d5becf8908777c185a5cb09cc44003",
+  feeds: "da3d2de6b1dcaba07902a7e3654a1fc28bff65ed7cb5702887d582b383fd0e44"
+};
+export function workflowContract(kind, source) {
+  const sha256 = typeof source === "string" ? hash(source) : undefined;
+  return sha256 && sha256 === blockingWorkflows[kind] ? { kind, sha256 } : undefined;
+}
+
+export function commandEvidence(jobs, jobLogs, spec, contract) {
+  const matching = jobs.filter(job => job.name === spec.job), job = matching[0];
+  if (matching.length !== 1 || job.conclusion !== "success") return;
+  const raw = jobLogs[job.id] ?? "", rawLines = raw.split(/\r?\n/);
+  const lines = rawLines.map(line => line.replace(/\uFEFF/g, "")
+    .replace(/^\d{4}-\d{2}-\d{2}T[\d:.]+Z\s*/, "")
+    .replace(/\x1b\[[0-?]*[ -/]*[@-~]/g, "").trim());
+  const starts = lines.flatMap((line, i) => line === `##[group]Run ${spec.commands[0]}` ? [i] : []);
+  if (starts.length !== 1) return;
+  const start = starts[0], next = lines.findIndex((line, i) => i > start && line.startsWith("##[group]"));
+  const block = lines.slice(start + 1, next < 0 ? undefined : next), headerEnd = block.indexOf("##[endgroup]");
+  if (headerEnd < 0 || !spec.commands.every(command => block.slice(0, headerEnd).includes(command))) return;
+  const steps = job.steps?.filter(step => step.name === spec.step) ?? [];
+  const metadataMissing = Array.isArray(job.steps) && job.steps.length === 0;
+  let source, stepNumber;
+  if (!metadataMissing) {
+    // Explicit skipped/failed/missing/ambiguous steps can never use fallback.
+    if (steps.length !== 1 || steps[0].conclusion !== "success") return;
+    source = "github-step-and-original-log"; stepNumber = steps[0].number;
+  } else {
+    if (!contract || contract.sha256 !== blockingWorkflows[contract.kind] ||
+        !block.slice(0, headerEnd).includes("shell: /usr/bin/bash -e {0}")) return;
+    source = "original-log-and-reviewed-blocking-workflow";
+  }
+  const output = block.slice(headerEnd + 1);
+  if (output.some(line => /##\[error\]Process completed with exit code [1-9]/.test(line))) return;
+  const timestamp = index => Date.parse(rawLines[index]?.replace(/\uFEFF/g, "").match(/^(\d{4}-\d{2}-\d{2}T[\d:.]+Z)/)?.[1]);
+  return { output, startedAt: timestamp(start), completedAt: timestamp(next),
+    proof: { jobId: job.id, ...(stepNumber ? { stepNumber } : {}), source,
+      ...(metadataMissing ? { workflowSha256: contract.sha256 } : {}),
+      jobLogSha256: hash(raw), jobLogLines: rawLines.length } };
+}
+
+export function inspectAudits(kind, jobs, jobLogs, contract) {
   const scoped = "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false";
   const specs = kind === "feeds" ? [{ job: "refresh", step: "Check pipeline", commands: [
     "npm run check --workspace=@latam-digest/static-feeds", "npm test --workspace=@latam-digest/static-feeds", scoped
@@ -128,30 +177,15 @@ export function inspectAudits(kind, jobs, jobLogs) {
   ];
   const audits = {}, evidence = {}, issues = [];
   for (const spec of specs) {
-    const matching = jobs.filter(job => job.name === spec.job);
-    const job = matching[0];
-    const steps = job?.steps?.filter(step => step.name === spec.step) ?? [];
-    const raw = jobLogs[job?.id] ?? "";
-    const lines = raw.split(/\r?\n/).map(line => line.replace(/\uFEFF/g, "")
-      .replace(/^\d{4}-\d{2}-\d{2}T[\d:.]+Z\s*/, "")
-      .replace(/\x1b\[[0-?]*[ -/]*[@-~]/g, "").trim());
-    const starts = lines.flatMap((line, index) => line === `##[group]Run ${spec.commands[0]}` ? [index] : []);
-    const start = starts[0];
-    const next = starts.length === 1 ? lines.findIndex((line, index) => index > start && line.startsWith("##[group]")) : -1;
-    const block = starts.length === 1 ? lines.slice(start + 1, next < 0 ? undefined : next) : [];
-    const headerEnd = block.indexOf("##[endgroup]");
+    const executed = commandEvidence(jobs, jobLogs, spec, contract?.kind === kind ? contract : undefined);
     // A clean install, another job, a skipped audit, or an echoed success
     // string cannot substitute for this successful production audit step.
-    if (matching.length !== 1 || job.conclusion !== "success" || steps.length !== 1 ||
-        steps[0].conclusion !== "success" || headerEnd < 0 ||
-        !spec.commands.every(command => block.slice(0, headerEnd).includes(command)) ||
-        !block.slice(headerEnd + 1).includes("found 0 vulnerabilities")) {
+    if (!executed?.output.includes("found 0 vulnerabilities")) {
       issues.push(`${spec.job}: missing clean production audit evidence.`);
       continue;
     }
     audits[spec.job] = 0;
-    evidence[spec.job] = { jobId: job.id, stepNumber: steps[0].number, command: spec.commands.at(-1),
-      jobLogSha256: hash(raw), jobLogLines: raw.split("\n").length };
+    evidence[spec.job] = { ...executed.proof, command: spec.commands.at(-1) };
   }
   return { audits, evidence, issues };
 }
@@ -160,7 +194,7 @@ export function inspectAudits(kind, jobs, jobLogs) {
 // adding a passing regression must not invalidate a healthy publication.
 // Keep each summary inside its successful command and original job so a
 // controller suite or another job cannot cover up missing feed/backend tests.
-export function inspectTests(kind, jobs, jobLogs) {
+export function inspectTests(kind, jobs, jobLogs, contract) {
   const feedCheck = "npm run check --workspace=@latam-digest/static-feeds";
   const feedTest = "npm test --workspace=@latam-digest/static-feeds";
   const specs = kind === "feeds" ? [
@@ -173,19 +207,8 @@ export function inspectTests(kind, jobs, jobLogs) {
   ];
   const tests = {}, evidence = {}, issues = [];
   for (const spec of specs) {
-    const matching = jobs.filter(job => job.name === spec.job);
-    const job = matching[0];
-    const steps = job?.steps?.filter(step => step.name === spec.step) ?? [];
-    const raw = jobLogs[job?.id] ?? "";
-    const lines = raw.split(/\r?\n/).map(line => line.replace(/\uFEFF/g, "")
-      .replace(/^\d{4}-\d{2}-\d{2}T[\d:.]+Z\s*/, "")
-      .replace(/\x1b\[[0-?]*[ -/]*[@-~]/g, "").trim());
-    const starts = lines.flatMap((line, index) => line === `##[group]Run ${spec.commands[0]}` ? [index] : []);
-    const start = starts[0];
-    const next = starts.length === 1 ? lines.findIndex((line, index) => index > start && line.startsWith("##[group]")) : -1;
-    const block = starts.length === 1 ? lines.slice(start + 1, next < 0 ? undefined : next) : [];
-    const headerEnd = block.indexOf("##[endgroup]");
-    const output = block.slice(headerEnd + 1);
+    const executed = commandEvidence(jobs, jobLogs, spec, contract?.kind === kind ? contract : undefined);
+    const output = executed?.output ?? [];
     const summary = {};
     for (const field of ["tests", "pass", "fail", "cancelled", "skipped", "todo"]) {
       const values = output.flatMap(line => {
@@ -197,16 +220,14 @@ export function inspectTests(kind, jobs, jobLogs) {
     const passed = !spec.minimum || (summary.pass >= spec.minimum && summary.tests === summary.pass &&
       ["fail", "cancelled", "skipped", "todo"].every(field => summary[field] === 0));
     const isolated = !spec.isolation || output.includes("Static feed dependency isolation verified; optional backend packages are absent.");
-    if (matching.length !== 1 || job.conclusion !== "success" || steps.length !== 1 ||
-        steps[0].conclusion !== "success" || headerEnd < 0 ||
-        !spec.commands.every(command => block.slice(0, headerEnd).includes(command)) || !passed || !isolated) {
+    if (!executed || !passed || !isolated) {
       issues.push(`${spec.job}: ${spec.minimum ? "retained test suite" : "dependency isolation"} evidence is incomplete.`);
       continue;
     }
     if (spec.minimum) tests[spec.job] = summary.pass;
-    evidence[`${spec.job}:${steps[0].number}`] = { jobId: job.id, stepNumber: steps[0].number,
+    evidence[`${spec.job}:${executed.proof.stepNumber ?? spec.commands[0]}`] = { ...executed.proof,
       command: spec.commands.join("\n"), ...(spec.minimum ? { minimum: spec.minimum, summary } : {}),
-      ...(spec.isolation ? { isolation: true } : {}), jobLogSha256: hash(raw) };
+      ...(spec.isolation ? { isolation: true } : {}) };
   }
   return { tests, evidence, issues };
 }
@@ -339,11 +360,14 @@ export async function inspectRun(api, kind, run, now) {
   const annotations = [];
   for (const job of jobs) annotations.push(...await api.pages(`check-runs/${job.id}/annotations`));
   const jobLogs = await api.runLogs(run, jobs);
+  const metadataMissing = jobs.filter(job => job.conclusion === "success" && job.steps?.length === 0).map(job => job.name);
+  const contract = metadataMissing.length ? workflowContract(kind, await api.workflowSource?.(kind, run)) : undefined;
   const logs = [...jobs].sort((a, b) => a.id - b.id).map(job => jobLogs[job.id] ?? "").join("\n");
   const result = { id: run.id, attempt: run.run_attempt, event: run.event, createdAt: run.created_at,
     inspectionVersion: INSPECTION_VERSION, completeLogFormat: "github-run-archive-v1",
     source: run.head_sha, conclusion: run.conclusion, url: run.html_url, verifiedAt: iso(now),
-    jobs: jobs.map(job => ({ name: job.name, conclusion: job.conclusion })),
+    jobs: jobs.map(job => ({ name: job.name, conclusion: job.conclusion, stepMetadataCount: job.steps?.length ?? null })),
+    ...(metadataMissing.length ? { missingStepMetadata: metadataMissing, reviewedWorkflowSha256: contract?.sha256 } : {}),
     annotations, completeLogSha256: hash(logs), completeLogLines: logs.split("\n").length,
     jobLogs: jobs.filter(job => jobLogs[job.id] !== undefined).map(job => ({ id: job.id, name: job.name,
       sha256: hash(jobLogs[job.id]), lines: jobLogs[job.id].split("\n").length })),
@@ -355,11 +379,11 @@ export async function inspectRun(api, kind, run, now) {
     result.issues.push("A required job did not pass.");
   }
   if (run.conclusion === "success") {
-    const tested = inspectTests(kind, jobs, jobLogs);
+    const tested = inspectTests(kind, jobs, jobLogs, contract);
     result.tests = tested.tests;
     result.testEvidence = tested.evidence;
     result.issues.push(...tested.issues);
-    const audit = inspectAudits(kind, jobs, jobLogs);
+    const audit = inspectAudits(kind, jobs, jobLogs, contract);
     result.audits = audit.audits;
     result.auditEvidence = audit.evidence;
     result.issues.push(...audit.issues);
@@ -372,8 +396,14 @@ export async function inspectRun(api, kind, run, now) {
       try {
         result.publication = { commit, health: publication.health, report: publication.report, horizon: publication.horizon };
         result.issues.push(...publication.issues);
-        const production = jobs.flatMap(job => job.steps).find(step => step.name === "Refresh static feeds with outage recovery");
-        const start = Date.parse(production?.started_at), end = Date.parse(production?.completed_at) + 1_000;
+        const production = jobs.flatMap(job => job.steps ?? []).find(step => step.name === "Refresh static feeds with outage recovery");
+        const executed = commandEvidence(jobs, jobLogs, { job: "refresh", step: "Refresh static feeds with outage recovery",
+          commands: ["npm run generate:static --workspace=@latam-digest/static-feeds"] }, contract);
+        const start = production?.conclusion === "success" ? Date.parse(production.started_at) : executed?.startedAt;
+        const end = production?.conclusion === "success" ? Date.parse(production.completed_at) + 1_000 : executed?.completedAt;
+        if (executed && Number.isFinite(start) && Number.isFinite(end)) {
+          result.productionEvidence = { ...executed.proof, startedAt: iso(start), completedAt: iso(end) };
+        }
         if (!(Date.parse(publication.health.checkedAt) >= start && Date.parse(publication.health.checkedAt) <= end)) {
           result.issues.push("Health timestamp falls outside production generation.");
         }

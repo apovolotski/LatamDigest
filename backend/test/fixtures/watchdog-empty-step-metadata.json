@@ -1,0 +1,29 @@
+{
+  "sourceRun": 41104929285,
+  "sourceCommit": "a7b8effcdd9e83207392a235da7771d7a61ed972",
+  "description": "Original command headers and result excerpts with the actually empty GitHub step metadata returned for successful jobs; provider output and environment omitted.",
+  "jobs": [
+    {
+      "id": 124231957512,
+      "name": "check",
+      "conclusion": "success",
+      "steps": []
+    },
+    {
+      "id": 124232430903,
+      "name": "static-feeds",
+      "conclusion": "success",
+      "steps": []
+    },
+    {
+      "id": 124232569598,
+      "name": "publish-security-update",
+      "conclusion": "skipped",
+      "steps": []
+    }
+  ],
+  "logs": {
+    "124231957512": "2026-10-30T18:12:58.5398486Z ##[group]Run npm test\n2026-10-30T18:12:58.5398776Z \u001b[36;1mnpm test\u001b[0m\n2026-10-30T18:12:58.5429152Z shell: /usr/bin/bash -e {0}\n2026-10-30T18:12:58.5429436Z ##[endgroup]\n2026-10-30T18:13:00.4826298Z \u2139 tests 161\n2026-10-30T18:13:00.4826787Z \u2139 pass 161\n2026-10-30T18:13:00.4827016Z \u2139 fail 0\n2026-10-30T18:13:00.4827234Z \u2139 cancelled 0\n2026-10-30T18:13:00.4827479Z \u2139 skipped 0\n2026-10-30T18:13:00.4827702Z \u2139 todo 0\n2026-10-30T18:13:00.4985256Z ##[group]Run npm audit --omit=dev\n2026-10-30T18:13:00.4985594Z \u001b[36;1mnpm audit --omit=dev\u001b[0m\n2026-10-30T18:13:00.5016316Z shell: /usr/bin/bash -e {0}\n2026-10-30T18:13:00.5016585Z ##[endgroup]\n2026-10-30T18:13:00.9245532Z found 0 vulnerabilities\n",
+    "124232430903": "2026-10-30T18:13:39.9845580Z ##[group]Run npm run check --workspace=@latam-digest/static-feeds\n2026-10-30T18:13:39.9846108Z \u001b[36;1mnpm run check --workspace=@latam-digest/static-feeds\u001b[0m\n2026-10-30T18:13:39.9877696Z shell: /usr/bin/bash -e {0}\n2026-10-30T18:13:39.9877989Z ##[endgroup]\n2026-10-30T18:13:40.3249471Z Static feed dependency isolation verified; optional backend packages are absent.\n2026-10-30T18:13:40.3407546Z ##[group]Run npm test --workspace=@latam-digest/static-feeds\n2026-10-30T18:13:40.3408028Z \u001b[36;1mnpm test --workspace=@latam-digest/static-feeds\u001b[0m\n2026-10-30T18:13:40.3440380Z shell: /usr/bin/bash -e {0}\n2026-10-30T18:13:40.3440666Z ##[endgroup]\n2026-10-30T18:13:41.8413847Z \u2139 tests 145\n2026-10-30T18:13:41.8414272Z \u2139 pass 145\n2026-10-30T18:13:41.8414475Z \u2139 fail 0\n2026-10-30T18:13:41.8414682Z \u2139 cancelled 0\n2026-10-30T18:13:41.8414905Z \u2139 skipped 0\n2026-10-30T18:13:41.8415107Z \u2139 todo 0\n2026-10-30T18:13:41.8547040Z ##[group]Run npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false\n2026-10-30T18:13:41.8547840Z \u001b[36;1mnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false\u001b[0m\n2026-10-30T18:13:41.8577996Z shell: /usr/bin/bash -e {0}\n2026-10-30T18:13:41.8578262Z ##[endgroup]\n2026-10-30T18:13:42.3835212Z found 0 vulnerabilities\n"
+  }
+}
