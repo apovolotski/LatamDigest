@@ -392,10 +392,12 @@
       "attempt": 1,
       "event": "workflow_dispatch",
       "createdAt": "2026-10-30T12:50:15Z",
+      "inspectionVersion": 3,
+      "completeLogFormat": "github-run-archive-v1",
       "source": "891f27ec1992fe1e2dd88b9782c4bb699cadce80",
       "conclusion": "success",
       "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41058370929",
-      "verifiedAt": "2026-10-30T16:11:26.757Z",
+      "verifiedAt": "2026-10-30T16:32:41.680Z",
       "jobs": [
         {
           "name": "check",
@@ -410,15 +412,121 @@
           "conclusion": "skipped"
         }
       ],
-      "completeLogSha256": "ee94cd4533751f3fdc2dfa661af69e98414c73e9f526b1129e12b18840a176f2",
-      "completeLogLines": 1194,
-      "maintenanceKey": "backend-20261030104300000",
-      "valid": false,
-      "issues": [
-        "check: missing clean production audit evidence.",
-        "static-feeds: missing clean production audit evidence."
+      "completeLogSha256": "d02f4d210d95f204c53c0ff09cb3356b39fc1676479b206f0cb34687772acf1a",
+      "completeLogLines": 1196,
+      "jobLogs": [
+        {
+          "id": 124071552388,
+          "name": "check",
+          "sha256": "c0fa18a83cd48446d1cfedcc77b69270b55df0a829496296dae207712060458e",
+          "lines": 642
+        },
+        {
+          "id": 124071651228,
+          "name": "static-feeds",
+          "sha256": "7dfd11966f7463b39af8fb78d0fe72ad55b872fa209f4023c4f9efda9273d285",
+          "lines": 553
+        }
       ],
-      "audits": {}
+      "maintenanceKey": "backend-20261030104300000",
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "check": 0,
+        "static-feeds": 0
+      },
+      "auditEvidence": {
+        "check": {
+          "jobId": 124071552388,
+          "stepNumber": 11,
+          "command": "npm audit --omit=dev",
+          "jobLogSha256": "c0fa18a83cd48446d1cfedcc77b69270b55df0a829496296dae207712060458e",
+          "jobLogLines": 642
+        },
+        "static-feeds": {
+          "jobId": 124071651228,
+          "stepNumber": 8,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "jobLogSha256": "7dfd11966f7463b39af8fb78d0fe72ad55b872fa209f4023c4f9efda9273d285",
+          "jobLogLines": 553
+        }
+      },
+      "verificationHistory": [
+        {
+          "inspectionVersion": 1,
+          "verifiedAt": "2026-10-30T16:11:26.757Z",
+          "valid": false,
+          "issues": [
+            "check: missing clean production audit evidence.",
+            "static-feeds: missing clean production audit evidence."
+          ],
+          "completeLogSha256": "ee94cd4533751f3fdc2dfa661af69e98414c73e9f526b1129e12b18840a176f2"
+        }
+      ]
+    },
+    "41089853828:1": {
+      "id": 41089853828,
+      "attempt": 1,
+      "event": "push",
+      "createdAt": "2026-10-30T16:26:08Z",
+      "inspectionVersion": 3,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "c89226b6b182d25c58a67d8fb71427dcd9053416",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41089853828",
+      "verifiedAt": "2026-10-30T16:32:41.680Z",
+      "jobs": [
+        {
+          "name": "check",
+          "conclusion": "success"
+        },
+        {
+          "name": "static-feeds",
+          "conclusion": "success"
+        },
+        {
+          "name": "publish-security-update",
+          "conclusion": "skipped"
+        }
+      ],
+      "completeLogSha256": "b19ae50a913687ef5da285ab52cf7510131ec557a8d6b6ec6a9eb696c8903f8d",
+      "completeLogLines": 1196,
+      "jobLogs": [
+        {
+          "id": 124180580275,
+          "name": "check",
+          "sha256": "9b8da9657444c9e59e97dd385283b7b3c7c9c2b8a83a9b2a23a7251cdd8c4bc6",
+          "lines": 642
+        },
+        {
+          "id": 124180709317,
+          "name": "static-feeds",
+          "sha256": "fa0ccc26124503e4f251264a846c712dc858863add44fe1a081e44a16442df95",
+          "lines": 553
+        }
+      ],
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "check": 0,
+        "static-feeds": 0
+      },
+      "auditEvidence": {
+        "check": {
+          "jobId": 124180580275,
+          "stepNumber": 11,
+          "command": "npm audit --omit=dev",
+          "jobLogSha256": "9b8da9657444c9e59e97dd385283b7b3c7c9c2b8a83a9b2a23a7251cdd8c4bc6",
+          "jobLogLines": 642
+        },
+        "static-feeds": {
+          "jobId": 124180709317,
+          "stepNumber": 8,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "jobLogSha256": "fa0ccc26124503e4f251264a846c712dc858863add44fe1a081e44a16442df95",
+          "jobLogLines": 553
+        }
+      }
     }
   },
   "receipts": {
@@ -479,9 +587,9 @@
       ]
     }
   },
-  "status": "attention_required",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-10-30T16:11:26.757Z",
+    "checkedAt": "2026-10-30T16:32:41.680Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-30T12:17:00.000Z",
@@ -491,8 +599,9 @@
       "backend": {
         "due": "2026-10-30T10:43:00.000Z",
         "state": "active",
-        "active": [],
-        "failed": 41058370929
+        "active": [
+          41090804616
+        ]
       }
     },
     "decisions": {
@@ -503,13 +612,11 @@
       },
       "backend": {
         "dispatch": false,
-        "reason": "cooldown",
+        "reason": "daily_check_covered",
         "due": "2026-10-30T10:43:00.000Z"
       }
     },
-    "problems": [
-      "Backend Checks remains failed; see run 41058370929."
-    ],
+    "problems": [],
     "publication": {
       "commit": "891f27ec1992fe1e2dd88b9782c4bb699cadce80",
       "valid": true,
@@ -545,7 +652,7 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-30T16:11:26.757Z",
+  "checkedAt": "2026-10-30T16:32:41.680Z",
   "activeAlerts": [
     "53f7c9bd4a2bd73496e34aa5518c910b8a52a18f570bcf089290f117e15e678d"
   ]
