@@ -656,6 +656,49 @@
           "jobLogLines": 553
         }
       }
+    },
+    "41091346693:1": {
+      "id": 41091346693,
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "createdAt": "2026-10-30T16:35:55Z",
+      "inspectionVersion": 3,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "2dc2e1a5eeab308157ee176bee18f2d4716a778b",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41091346693",
+      "verifiedAt": "2026-10-30T16:38:27.560Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success"
+        }
+      ],
+      "completeLogSha256": "cb065d98ff6d3e665d3f3d682066d2ebc8abc218d1311c21a589ef4b92bcac05",
+      "completeLogLines": 606,
+      "jobLogs": [
+        {
+          "id": 124185733529,
+          "name": "refresh",
+          "sha256": "cb065d98ff6d3e665d3f3d682066d2ebc8abc218d1311c21a589ef4b92bcac05",
+          "lines": 606
+        }
+      ],
+      "maintenanceKey": "repair-41087545388-feeds",
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "refresh": 0
+      },
+      "auditEvidence": {
+        "refresh": {
+          "jobId": 124185733529,
+          "stepNumber": 6,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "jobLogSha256": "cb065d98ff6d3e665d3f3d682066d2ebc8abc218d1311c21a589ef4b92bcac05",
+          "jobLogLines": 606
+        }
+      }
     }
   },
   "receipts": {
@@ -718,7 +761,7 @@
   },
   "status": "healthy",
   "latest": {
-    "checkedAt": "2026-10-30T16:35:54.423Z",
+    "checkedAt": "2026-10-30T16:38:27.560Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-30T12:17:00.000Z",
@@ -734,7 +777,8 @@
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "run_active"
+        "reason": "publication_current",
+        "due": "2026-10-30T12:17:00.000Z"
       },
       "backend": {
         "dispatch": false,
@@ -744,13 +788,13 @@
     },
     "problems": [],
     "publication": {
-      "commit": "891f27ec1992fe1e2dd88b9782c4bb699cadce80",
+      "commit": "0d8f01f788ea5d2932f7c43d553a3d341460ee4f",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-10-30T12:49:24.380Z",
-        "lastSuccessfulRefreshAt": "2026-10-30T12:47:41.716Z",
+        "checkedAt": "2026-10-30T16:37:57.385Z",
+        "lastSuccessfulRefreshAt": "2026-10-30T16:36:07.827Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -762,22 +806,21 @@
         "total": 240,
         "populated": 240,
         "stale": 0,
-        "sparse": 5,
-        "fallback": 15,
+        "sparse": 4,
+        "fallback": 14,
         "issues": [],
         "warnings": [
-          "SR/politics: only 2 relevant articles.",
+          "SR/crime: only 2 relevant articles.",
           "GY/culture: only 1 relevant articles.",
           "GF/business: only 1 relevant articles.",
-          "GF/crime: only 2 relevant articles.",
           "GF/world: only 1 relevant articles."
         ]
       },
       "issues": [],
-      "expiresAt": "2026-10-31T12:47:42.381Z",
+      "expiresAt": "2026-10-31T16:36:08.500Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-30T16:35:54.423Z",
+  "checkedAt": "2026-10-30T16:38:27.560Z",
   "activeAlerts": []
 }
