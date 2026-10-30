@@ -39,6 +39,10 @@
         "40967821165:1": {
           "conclusion": "success",
           "verifiedAt": "2026-10-29T22:44:13.632Z"
+        },
+        "41009779471:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-10-30T05:43:34.786Z"
         }
       },
       "history": [],
@@ -332,6 +336,29 @@
       "audits": {
         "refresh": 0
       }
+    },
+    "41009779471:1": {
+      "id": 41009779471,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-30T05:40:57Z",
+      "source": "5a7cda4f61faf2b102f1586114d869e4ab078ffc",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41009779471",
+      "verifiedAt": "2026-10-30T05:43:34.786Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success"
+        }
+      ],
+      "completeLogSha256": "e3ebbcc8ea13f973ca5bc682be0bb1f827002dde13c562cf6e2834980b5bd88f",
+      "completeLogLines": 605,
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "refresh": 0
+      }
     }
   },
   "receipts": {
@@ -375,7 +402,7 @@
   "alerts": {},
   "status": "healthy",
   "latest": {
-    "checkedAt": "2026-10-30T02:07:28.415Z",
+    "checkedAt": "2026-10-30T05:43:34.786Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-30T00:17:00.000Z",
@@ -402,13 +429,13 @@
     },
     "problems": [],
     "publication": {
-      "commit": "5a7cda4f61faf2b102f1586114d869e4ab078ffc",
+      "commit": "b8fb1ca343d57b87c281b1e9b22e526a82e6e11a",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-10-29T22:43:45.664Z",
-        "lastSuccessfulRefreshAt": "2026-10-29T22:42:06.462Z",
+        "checkedAt": "2026-10-30T05:42:59.635Z",
+        "lastSuccessfulRefreshAt": "2026-10-30T05:41:08.895Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -421,20 +448,20 @@
         "populated": 240,
         "stale": 0,
         "sparse": 4,
-        "fallback": 13,
+        "fallback": 12,
         "issues": [],
         "warnings": [
-          "SR/crime: only 2 relevant articles.",
+          "SR/politics: only 2 relevant articles.",
           "GY/culture: only 2 relevant articles.",
           "GF/business: only 1 relevant articles.",
           "GF/world: only 1 relevant articles."
         ]
       },
       "issues": [],
-      "expiresAt": "2026-10-30T22:42:07.136Z",
+      "expiresAt": "2026-10-31T05:41:09.426Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-30T02:07:28.415Z",
+  "checkedAt": "2026-10-30T05:43:34.786Z",
   "activeAlerts": []
 }
