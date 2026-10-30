@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
-import { inspectRun, inspectAudits, needsInspection, recordInspection, INSPECTION_VERSION, GitHub } from "../../scripts/hosted-watchdog.mjs";
+import { inspectRun, inspectAudits, needsInspection, recordInspection, readJobLogArchive, INSPECTION_VERSION, GitHub } from "../../scripts/hosted-watchdog.mjs";
 
 const fixture = JSON.parse(await fs.readFile(new URL("../fixtures/watchdog-audit-job-logs.json", import.meta.url)));
 const run = { id: fixture.sourceRun, run_attempt: 1, event: "workflow_dispatch", conclusion: "success",
@@ -24,16 +24,15 @@ test("incident 41087545388: original backend logs verify even when CLI step labe
     }).join("\n");
     assert.equal(old.includes("found 0 vulnerabilities"), false);
   }
-  const requested = [];
   const api = { pages: async endpoint => endpoint.includes("/jobs") ? fixture.jobs : [],
-    jobLogs: async id => { requested.push(id); assert.ok(fixture.logs[id]); return fixture.logs[id]; } };
+    runLogs: async (_run, jobs) => readJobLogArchive(Buffer.from(fixture.archiveBase64, "base64"), jobs) };
   const result = await inspectRun(api, "backend", run, Date.now());
   assert.equal(result.valid, true);
   assert.deepEqual(result.issues, []);
   assert.deepEqual(result.audits, { check: 0, "static-feeds": 0 });
-  assert.equal(result.completeLogFormat, "github-job-logs-v1");
+  assert.equal(result.completeLogFormat, "github-run-archive-v1");
   assert.equal(result.inspectionVersion, INSPECTION_VERSION);
-  assert.deepEqual(requested.sort(), [check.id, isolated.id].sort()); // Skipped publisher has no logs.
+  assert.deepEqual(result.jobLogs.map(job => job.id).sort(), [check.id, isolated.id].sort());
   assert.match(result.auditEvidence.check.jobLogSha256, /^[a-f0-9]{64}$/);
 });
 
@@ -97,7 +96,7 @@ test("successful reinspection replaces the false result while preserving inciden
   const state = { inspected: { [`${run.id}:1`]: prior }, receipts: { old: { status: "completed" } },
     alerts: { original: { problems: ["Backend Checks remains failed"] } }, milestone: { backend: { runIds: [1] } } };
   const untouched = structuredClone({ receipts: state.receipts, alerts: state.alerts, milestone: state.milestone });
-  const api = { pages: async endpoint => endpoint.includes("/jobs") ? fixture.jobs : [], jobLogs: async id => fixture.logs[id] };
+  const api = { pages: async endpoint => endpoint.includes("/jobs") ? fixture.jobs : [], runLogs: async () => fixture.logs };
   recordInspection(state, run, await inspectRun(api, "backend", run, Date.now()));
   const updated = state.inspected[`${run.id}:1`];
   assert.equal(updated.valid, true);
@@ -107,7 +106,17 @@ test("successful reinspection replaces the false result while preserving inciden
   assert.deepEqual({ receipts: state.receipts, alerts: state.alerts, milestone: state.milestone }, untouched);
 });
 
-test("original job-log reads reject invalid job identities before invoking GitHub", async () => {
+test("original run-log reads reject invalid identities before invoking GitHub", async () => {
   const api = new GitHub({ repository: "apovolotski/LatamDigest", token: "test-only" });
-  for (const id of [0, -1, "123", NaN]) await assert.rejects(api.jobLogs(id), /Invalid job log identity/);
+  for (const id of [0, -1, "123", NaN]) await assert.rejects(api.runLogs({ id, run_attempt: 1 }, []), /Invalid run log identity/);
+});
+
+test("canonical run archives map original job files regardless of their numeric order", async () => {
+  const logs = await readJobLogArchive(Buffer.from(fixture.archiveBase64, "base64"), fixture.jobs);
+  assert.deepEqual(logs, fixture.logs);
+});
+
+test("missing archive job files cannot borrow another job's successful log", async () => {
+  const jobs = structuredClone(fixture.jobs); jobs.find(job => job.name === "check").name = "missing";
+  await assert.rejects(readJobLogArchive(Buffer.from(fixture.archiveBase64, "base64"), jobs), /missing or ambiguous evidence/);
 });

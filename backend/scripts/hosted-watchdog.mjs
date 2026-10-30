@@ -11,7 +11,7 @@ const stateBranch = "latam-monitor-state";
 const statePath = "monitor/state.json";
 const hash = data => createHash("sha256").update(data).digest("hex");
 const iso = now => new Date(now).toISOString();
-export const INSPECTION_VERSION = 2;
+export const INSPECTION_VERSION = 3;
 export const needsInspection = previous => !previous ||
   (previous.valid === false && (previous.inspectionVersion ?? 1) < INSPECTION_VERSION);
 export function recordInspection(state, run, inspected) {
@@ -35,7 +35,12 @@ export function receiptFromLogs(logs) {
 }
 const runCommand = (command, args, options = {}) => {
   try { return execFileSync(command, args, { cwd: root, encoding: "utf8", timeout: 60_000, maxBuffer: 32_000_000, ...options }); }
-  catch { throw new Error(`Monitor ${command} operation failed; inspect the associated workflow, not raw provider output.`); }
+  catch (error) {
+    const status = /HTTP (\d{3})/.exec(error.stderr?.toString() ?? "")?.[1];
+    throw Object.assign(new Error(`Monitor ${command} operation failed${status ? ` (HTTP ${status})` : ""}; inspect the associated workflow, not raw provider output.`), {
+      transient: status === "429" || Number(status) >= 500
+    });
+  }
 };
 
 export class GitHub {
@@ -85,12 +90,32 @@ export class GitHub {
     return (await this.pages(`actions/workflows/${WORKFLOWS[kind].file}/runs?branch=main&created=${encodeURIComponent(`>=${since}`)}`, "workflow_runs"))
       .filter(run => mainRun(run, this.repository));
   }
-  async jobLogs(jobId) {
-    if (!Number.isSafeInteger(jobId) || jobId <= 0) throw new Error("Invalid job log identity.");
-    // Download the job's original log, not gh run view's human-facing table.
-    // That table can replace real step names with UNKNOWN STEP.
-    return runCommand("gh", ["api", `repos/${this.repository}/actions/jobs/${jobId}/logs`]);
+  async runLogs(run, jobs) {
+    if (![run.id, run.run_attempt].every(id => Number.isSafeInteger(id) && id > 0)) throw new Error("Invalid run log identity.");
+    // Use the same run-archive transport as gh run view, but read its original
+    // per-job files instead of the human-facing UNKNOWN STEP display labels.
+    const endpoint = `repos/${this.repository}/actions/runs/${run.id}/attempts/${run.run_attempt}/logs`;
+    const archive = runCommand("gh", ["api", endpoint], { encoding: null });
+    return readJobLogArchive(archive, jobs);
   }
+}
+
+export async function readJobLogArchive(archive, jobs) {
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), "latam-job-logs-"));
+  try {
+    const file = path.join(directory, "logs.zip");
+    await fs.writeFile(file, archive);
+    const entries = runCommand("unzip", ["-Z1", file]).split(/\r?\n/);
+    const logs = {};
+    for (const job of jobs.filter(job => job.conclusion !== "skipped")) {
+      const suffix = `_${job.name}.txt`;
+      const matching = entries.filter(entry => /^\d+_[A-Za-z0-9_. -]+\.txt$/.test(entry) && entry.endsWith(suffix));
+      if (matching.length !== 1) throw new Error(`Original log archive has missing or ambiguous evidence for job ${job.id}.`);
+      // Never extract archive paths onto disk; only read the selected stdout file.
+      logs[job.id] = runCommand("unzip", ["-p", file, matching[0]]);
+    }
+    return logs;
+  } finally { await fs.rm(directory, { recursive: true, force: true }); }
 }
 
 export function inspectAudits(kind, jobs, jobLogs) {
@@ -258,11 +283,10 @@ export async function inspectRun(api, kind, run, now) {
   const jobs = await api.pages(`actions/runs/${run.id}/attempts/${run.run_attempt}/jobs`, "jobs");
   const annotations = [];
   for (const job of jobs) annotations.push(...await api.pages(`check-runs/${job.id}/annotations`));
-  const jobLogs = Object.fromEntries(await Promise.all(jobs.filter(job => job.conclusion !== "skipped")
-    .map(async job => [job.id, await api.jobLogs(job.id)])));
+  const jobLogs = await api.runLogs(run, jobs);
   const logs = [...jobs].sort((a, b) => a.id - b.id).map(job => jobLogs[job.id] ?? "").join("\n");
   const result = { id: run.id, attempt: run.run_attempt, event: run.event, createdAt: run.created_at,
-    inspectionVersion: INSPECTION_VERSION, completeLogFormat: "github-job-logs-v1",
+    inspectionVersion: INSPECTION_VERSION, completeLogFormat: "github-run-archive-v1",
     source: run.head_sha, conclusion: run.conclusion, url: run.html_url, verifiedAt: iso(now),
     jobs: jobs.map(job => ({ name: job.name, conclusion: job.conclusion })),
     annotations, completeLogSha256: hash(logs), completeLogLines: logs.split("\n").length,
