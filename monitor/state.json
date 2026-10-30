@@ -43,6 +43,10 @@
         "41009779471:1": {
           "conclusion": "success",
           "verifiedAt": "2026-10-30T05:43:34.786Z"
+        },
+        "41058026123:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-10-30T12:49:56.116Z"
         }
       },
       "history": [],
@@ -359,6 +363,29 @@
       "audits": {
         "refresh": 0
       }
+    },
+    "41058026123:1": {
+      "id": 41058026123,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-10-30T12:47:33Z",
+      "source": "b8fb1ca343d57b87c281b1e9b22e526a82e6e11a",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41058026123",
+      "verifiedAt": "2026-10-30T12:49:56.116Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success"
+        }
+      ],
+      "completeLogSha256": "867089194440a52457232264bfc9a0375065fb011c722dcf992985d52da39ee7",
+      "completeLogLines": 606,
+      "valid": true,
+      "issues": [],
+      "audits": {
+        "refresh": 0
+      }
     }
   },
   "receipts": {
@@ -397,6 +424,15 @@
       "runId": 40962160936,
       "conclusion": "success",
       "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40962160936"
+    },
+    "backend-20261030104300000": {
+      "dispatch": true,
+      "key": "backend-20261030104300000",
+      "kind": "backend",
+      "due": "2026-10-30T10:43:00.000Z",
+      "reason": "late_schedule",
+      "reservedAt": "2026-10-30T12:49:56.116Z",
+      "status": "reserved"
     }
   },
   "alerts": {},
