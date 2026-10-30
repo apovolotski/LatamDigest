@@ -1,0 +1,40 @@
+{
+  "sourceRun": 41058370929,
+  "description": "Sanitized original job-log excerpts from the successful backend run misclassified by Hosted Maintenance 41087545388. Only audit commands/results and test/receipt/isolation summaries are retained.",
+  "jobs": [
+    {
+      "id": 124071552388,
+      "name": "check",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Run npm audit --omit=dev",
+          "number": 11,
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 124071651228,
+      "name": "static-feeds",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Run npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "number": 8,
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "id": 124071738421,
+      "name": "publish-security-update",
+      "conclusion": "skipped",
+      "steps": []
+    }
+  ],
+  "logs": {
+    "124071552388": "2026-10-30T12:50:22.9488783Z Maintenance receipt: backend-20261030104300000\n2026-10-30T12:50:26.5123103Z \u2139 pass 35\n2026-10-30T12:50:26.5123493Z \u2139 fail 0\n2026-10-30T12:50:28.4200280Z \u2139 pass 161\n2026-10-30T12:50:28.4200479Z \u2139 fail 0\n2026-10-30T12:50:28.4363738Z ##[group]Run npm audit --omit=dev\n2026-10-30T12:50:28.4364095Z \u001b[36;1mnpm audit --omit=dev\u001b[0m\n2026-10-30T12:50:28.4392697Z shell: /usr/bin/bash -e {0}\n2026-10-30T12:50:28.4392968Z ##[endgroup]\n2026-10-30T12:50:28.9040429Z found 0 vulnerabilities\n",
+    "124071651228": "2026-10-30T12:50:38.4845740Z Static feed dependency isolation verified; optional backend packages are absent.\n2026-10-30T12:50:39.9436038Z \u2139 pass 145\n2026-10-30T12:50:39.9436241Z \u2139 fail 0\n2026-10-30T12:50:39.9591854Z ##[group]Run npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false\n2026-10-30T12:50:39.9592649Z \u001b[36;1mnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false\u001b[0m\n2026-10-30T12:50:39.9623754Z shell: /usr/bin/bash -e {0}\n2026-10-30T12:50:39.9624020Z ##[endgroup]\n2026-10-30T12:50:40.4316160Z found 0 vulnerabilities\n"
+  }
+}

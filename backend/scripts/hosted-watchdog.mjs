@@ -11,6 +11,19 @@ const stateBranch = "latam-monitor-state";
 const statePath = "monitor/state.json";
 const hash = data => createHash("sha256").update(data).digest("hex");
 const iso = now => new Date(now).toISOString();
+export const INSPECTION_VERSION = 2;
+export const needsInspection = previous => !previous ||
+  (previous.valid === false && (previous.inspectionVersion ?? 1) < INSPECTION_VERSION);
+export function recordInspection(state, run, inspected) {
+  const key = `${run.id}:${run.run_attempt}`;
+  const previous = state.inspected[key];
+  if (previous) inspected.verificationHistory = [...(previous.verificationHistory ?? []), {
+    inspectionVersion: previous.inspectionVersion ?? 1, verifiedAt: previous.verifiedAt,
+    valid: previous.valid, issues: previous.issues, completeLogSha256: previous.completeLogSha256
+  }];
+  state.inspected[key] = Object.fromEntries(Object.entries(inspected)
+    .filter(([field]) => !["annotations", "publication"].includes(field)));
+}
 export function decodeJSON(value, context) {
   try { return JSON.parse(value); }
   catch { throw new Error(`Invalid JSON in ${context}; source contents are not logged.`); }
@@ -72,6 +85,50 @@ export class GitHub {
     return (await this.pages(`actions/workflows/${WORKFLOWS[kind].file}/runs?branch=main&created=${encodeURIComponent(`>=${since}`)}`, "workflow_runs"))
       .filter(run => mainRun(run, this.repository));
   }
+  async jobLogs(jobId) {
+    if (!Number.isSafeInteger(jobId) || jobId <= 0) throw new Error("Invalid job log identity.");
+    // Download the job's original log, not gh run view's human-facing table.
+    // That table can replace real step names with UNKNOWN STEP.
+    return runCommand("gh", ["api", `repos/${this.repository}/actions/jobs/${jobId}/logs`]);
+  }
+}
+
+export function inspectAudits(kind, jobs, jobLogs) {
+  const scoped = "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false";
+  const specs = kind === "feeds" ? [{ job: "refresh", step: "Check pipeline", commands: [
+    "npm run check --workspace=@latam-digest/static-feeds", "npm test --workspace=@latam-digest/static-feeds", scoped
+  ] }] : [
+    { job: "check", step: "Run npm audit --omit=dev", commands: ["npm audit --omit=dev"] },
+    { job: "static-feeds", step: `Run ${scoped}`, commands: [scoped] }
+  ];
+  const audits = {}, evidence = {}, issues = [];
+  for (const spec of specs) {
+    const matching = jobs.filter(job => job.name === spec.job);
+    const job = matching[0];
+    const steps = job?.steps?.filter(step => step.name === spec.step) ?? [];
+    const raw = jobLogs[job?.id] ?? "";
+    const lines = raw.split(/\r?\n/).map(line => line.replace(/\uFEFF/g, "")
+      .replace(/^\d{4}-\d{2}-\d{2}T[\d:.]+Z\s*/, "")
+      .replace(/\x1b\[[0-?]*[ -/]*[@-~]/g, "").trim());
+    const starts = lines.flatMap((line, index) => line === `##[group]Run ${spec.commands[0]}` ? [index] : []);
+    const start = starts[0];
+    const next = starts.length === 1 ? lines.findIndex((line, index) => index > start && line.startsWith("##[group]")) : -1;
+    const block = starts.length === 1 ? lines.slice(start + 1, next < 0 ? undefined : next) : [];
+    const headerEnd = block.indexOf("##[endgroup]");
+    // A clean install, another job, a skipped audit, or an echoed success
+    // string cannot substitute for this successful production audit step.
+    if (matching.length !== 1 || job.conclusion !== "success" || steps.length !== 1 ||
+        steps[0].conclusion !== "success" || headerEnd < 0 ||
+        !spec.commands.every(command => block.slice(0, headerEnd).includes(command)) ||
+        !block.slice(headerEnd + 1).includes("found 0 vulnerabilities")) {
+      issues.push(`${spec.job}: missing clean production audit evidence.`);
+      continue;
+    }
+    audits[spec.job] = 0;
+    evidence[spec.job] = { jobId: job.id, stepNumber: steps[0].number, command: spec.commands.at(-1),
+      jobLogSha256: hash(raw), jobLogLines: raw.split("\n").length };
+  }
+  return { audits, evidence, issues };
 }
 
 export class Ledger {
@@ -197,15 +254,20 @@ async function compareAppFacing(publication) {
   return files.length;
 }
 
-async function inspectRun(api, kind, run, now) {
+export async function inspectRun(api, kind, run, now) {
   const jobs = await api.pages(`actions/runs/${run.id}/attempts/${run.run_attempt}/jobs`, "jobs");
   const annotations = [];
   for (const job of jobs) annotations.push(...await api.pages(`check-runs/${job.id}/annotations`));
-  const logs = runCommand("gh", ["run", "view", String(run.id), "--attempt", String(run.run_attempt), "--repo", api.repository, "--log"]);
+  const jobLogs = Object.fromEntries(await Promise.all(jobs.filter(job => job.conclusion !== "skipped")
+    .map(async job => [job.id, await api.jobLogs(job.id)])));
+  const logs = [...jobs].sort((a, b) => a.id - b.id).map(job => jobLogs[job.id] ?? "").join("\n");
   const result = { id: run.id, attempt: run.run_attempt, event: run.event, createdAt: run.created_at,
+    inspectionVersion: INSPECTION_VERSION, completeLogFormat: "github-job-logs-v1",
     source: run.head_sha, conclusion: run.conclusion, url: run.html_url, verifiedAt: iso(now),
     jobs: jobs.map(job => ({ name: job.name, conclusion: job.conclusion })),
     annotations, completeLogSha256: hash(logs), completeLogLines: logs.split("\n").length,
+    jobLogs: jobs.filter(job => jobLogs[job.id] !== undefined).map(job => ({ id: job.id, name: job.name,
+      sha256: hash(jobLogs[job.id]), lines: jobLogs[job.id].split("\n").length })),
     maintenanceKey: receiptFromLogs(logs),
     valid: false, issues: [] };
   if (run.conclusion !== "success") result.issues.push("Workflow failed; inspect its complete logs and annotations.");
@@ -219,16 +281,10 @@ async function inspectRun(api, kind, run, now) {
         !logs.includes("found 0 vulnerabilities") || !logs.includes("Static feed dependency isolation verified")) {
       result.issues.push("Test, audit or dependency isolation evidence is incomplete.");
     }
-    const auditJobs = kind === "feeds" ? ["refresh"] : ["check", "static-feeds"];
-    result.audits = {};
-    for (const name of auditJobs) {
-      const audit = logs.split("\n").filter(line => {
-        const [job, step] = line.split("\t");
-        return job === name && (kind === "feeds" ? step === "Check pipeline" : step?.includes("npm audit"));
-      }).join("\n");
-      if (!audit.includes("found 0 vulnerabilities")) result.issues.push(`${name}: missing clean production audit evidence.`);
-      else result.audits[name] = 0;
-    }
+    const audit = inspectAudits(kind, jobs, jobLogs);
+    result.audits = audit.audits;
+    result.auditEvidence = audit.evidence;
+    result.issues.push(...audit.issues);
     if (kind === "feeds") {
       const match = /\[main ([a-f0-9]+)\] Refresh static feeds/.exec(logs);
       if (!match) throw new Error("Successful refresh lacks an exact publication commit.");
@@ -296,11 +352,10 @@ export async function monitor({ api, ledger, state, now = Date.now(), exercise, 
     const runs = await api.runs(kind);
     evidence.workflows[kind] = { due: latestDue(kind, now), state: workflow.state, active: runs.filter(run => run.status !== "completed").map(run => run.id) };
     const pending = runs.filter(run => run.status === "completed" && Date.parse(run.created_at) > Date.parse(state.cutoff) &&
-      !state.inspected[`${run.id}:${run.run_attempt}`]).sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at));
+      needsInspection(state.inspected[`${run.id}:${run.run_attempt}`])).sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at));
     for (const run of pending) {
       const inspected = await inspectRun(api, kind, run, now);
-      state.inspected[`${run.id}:${run.run_attempt}`] = Object.fromEntries(Object.entries(inspected)
-        .filter(([key]) => !["annotations", "publication"].includes(key)));
+      recordInspection(state, run, inspected);
       recordScheduled(state, kind, { ...run, conclusion: inspected.valid ? "success" : "failure" }, iso(now));
       if (outputDirectory) await fs.writeFile(path.join(outputDirectory, `run-${run.id}-${run.run_attempt}.json`), JSON.stringify(inspected, null, 2));
     }
@@ -310,8 +365,12 @@ export async function monitor({ api, ledger, state, now = Date.now(), exercise, 
       if (run) Object.assign(receipt, { runId: run.id, status: run.status, conclusion: run.conclusion, url: run.html_url });
     }
     const latest = runs[0];
-    if (latest?.status === "completed" && (latest.conclusion !== "success" ||
-        state.inspected[`${latest.id}:${latest.run_attempt}`]?.valid === false)) evidence.workflows[kind].failed = latest.id;
+    if (latest?.status === "completed") {
+      if (latest.conclusion !== "success") evidence.workflows[kind].failed = latest.id;
+      else if (state.inspected[`${latest.id}:${latest.run_attempt}`]?.valid === false) {
+        evidence.workflows[kind].verificationFailed = latest.id;
+      }
+    }
   }
   const commit = runCommand("git", ["log", "-1", "--format=%H", "origin/main", "--", "docs/api"]).trim();
   let publication;
@@ -339,6 +398,9 @@ export async function monitor({ api, ledger, state, now = Date.now(), exercise, 
       evidence.decisions[kind] = await reserveAndDispatch({ api, ledger, state, kind, publication, now, exercise });
       if (evidence.workflows[kind].failed && !evidence.decisions[kind].dispatch) {
         evidence.problems.push(`${WORKFLOWS[kind].name} remains failed; see run ${evidence.workflows[kind].failed}.`);
+      } else if (evidence.workflows[kind].verificationFailed && !evidence.decisions[kind].dispatch) {
+        const id = evidence.workflows[kind].verificationFailed;
+        evidence.problems.push(`${WORKFLOWS[kind].name} verification incomplete; see run ${id}.`);
       }
     }
   } finally { if (publication) await publication.cleanup(); }
