@@ -11,6 +11,11 @@
           "name": "Run npm audit --omit=dev",
           "number": 11,
           "conclusion": "success"
+        },
+        {
+          "name": "Run npm test",
+          "number": 10,
+          "conclusion": "success"
         }
       ]
     },
@@ -23,6 +28,16 @@
           "name": "Run npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
           "number": 8,
           "conclusion": "success"
+        },
+        {
+          "name": "Run npm run check --workspace=@latam-digest/static-feeds",
+          "number": 6,
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm test --workspace=@latam-digest/static-feeds",
+          "number": 7,
+          "conclusion": "success"
         }
       ]
     },
@@ -34,8 +49,8 @@
     }
   ],
   "logs": {
-    "124071552388": "2026-10-30T12:50:22.9488783Z Maintenance receipt: backend-20261030104300000\n2026-10-30T12:50:26.5123103Z \u2139 pass 35\n2026-10-30T12:50:26.5123493Z \u2139 fail 0\n2026-10-30T12:50:28.4200280Z \u2139 pass 161\n2026-10-30T12:50:28.4200479Z \u2139 fail 0\n2026-10-30T12:50:28.4363738Z ##[group]Run npm audit --omit=dev\n2026-10-30T12:50:28.4364095Z \u001b[36;1mnpm audit --omit=dev\u001b[0m\n2026-10-30T12:50:28.4392697Z shell: /usr/bin/bash -e {0}\n2026-10-30T12:50:28.4392968Z ##[endgroup]\n2026-10-30T12:50:28.9040429Z found 0 vulnerabilities\n",
-    "124071651228": "2026-10-30T12:50:38.4845740Z Static feed dependency isolation verified; optional backend packages are absent.\n2026-10-30T12:50:39.9436038Z \u2139 pass 145\n2026-10-30T12:50:39.9436241Z \u2139 fail 0\n2026-10-30T12:50:39.9591854Z ##[group]Run npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false\n2026-10-30T12:50:39.9592649Z \u001b[36;1mnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false\u001b[0m\n2026-10-30T12:50:39.9623754Z shell: /usr/bin/bash -e {0}\n2026-10-30T12:50:39.9624020Z ##[endgroup]\n2026-10-30T12:50:40.4316160Z found 0 vulnerabilities\n"
+    "124071552388": "2026-10-30T12:50:22.9488783Z Maintenance receipt: backend-20261030104300000\n2026-10-30T12:50:26.5323104Z ##[group]Run npm test\n2026-10-30T12:50:26.5323608Z \u001b[36;1mnpm test\u001b[0m\n2026-10-30T12:50:26.5368712Z ##[endgroup]\n2026-10-30T12:50:28.4199864Z \u2139 tests 161\n2026-10-30T12:50:28.4200280Z \u2139 pass 161\n2026-10-30T12:50:28.4200479Z \u2139 fail 0\n2026-10-30T12:50:28.4200680Z \u2139 cancelled 0\n2026-10-30T12:50:28.4200893Z \u2139 skipped 0\n2026-10-30T12:50:28.4201097Z \u2139 todo 0\n2026-10-30T12:50:28.4363738Z ##[group]Run npm audit --omit=dev\n2026-10-30T12:50:28.4364095Z \u001b[36;1mnpm audit --omit=dev\u001b[0m\n2026-10-30T12:50:28.4392697Z shell: /usr/bin/bash -e {0}\n2026-10-30T12:50:28.4392968Z ##[endgroup]\n2026-10-30T12:50:28.9040429Z found 0 vulnerabilities\n",
+    "124071651228": "2026-10-30T12:50:38.1660315Z ##[group]Run npm run check --workspace=@latam-digest/static-feeds\n2026-10-30T12:50:38.1661294Z \u001b[36;1mnpm run check --workspace=@latam-digest/static-feeds\u001b[0m\n2026-10-30T12:50:38.1693488Z ##[endgroup]\n2026-10-30T12:50:38.4845740Z Static feed dependency isolation verified; optional backend packages are absent.\n2026-10-30T12:50:38.4991448Z ##[group]Run npm test --workspace=@latam-digest/static-feeds\n2026-10-30T12:50:38.4991979Z \u001b[36;1mnpm test --workspace=@latam-digest/static-feeds\u001b[0m\n2026-10-30T12:50:38.5023206Z ##[endgroup]\n2026-10-30T12:50:39.9435609Z \u2139 tests 145\n2026-10-30T12:50:39.9436038Z \u2139 pass 145\n2026-10-30T12:50:39.9436241Z \u2139 fail 0\n2026-10-30T12:50:39.9436446Z \u2139 cancelled 0\n2026-10-30T12:50:39.9436661Z \u2139 skipped 0\n2026-10-30T12:50:39.9436867Z \u2139 todo 0\n2026-10-30T12:50:39.9591854Z ##[group]Run npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false\n2026-10-30T12:50:39.9592649Z \u001b[36;1mnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false\u001b[0m\n2026-10-30T12:50:39.9623754Z shell: /usr/bin/bash -e {0}\n2026-10-30T12:50:39.9624020Z ##[endgroup]\n2026-10-30T12:50:40.4316160Z found 0 vulnerabilities\n"
   },
-  "archiveBase64": "UEsDBBQAAAAIAMtjXl35IYRE9wAAAAMCAAALAAAAMl9jaGVjay50eHSFkbFugzAQQPf8QpaTMpucz8bYVP2ELlUnUAcDTmIVDAKcperWn+rv9EtKlQ6VCurN7z2d7ghJMY5M4BOnPMWcKDFS60yLAh6sD7MLNtQORlc7P8w5VLZ+caFhtJgcBXKUAr9nR39aKkk5iYUq4PP9AwY7TSDSTVCaH/BkfQtrQZ1IQiSNv4Jc8U1SZub/olAiE7qAw6E8j30cnh9jgDB0YGPjZ2Cs7/x837jrli7RpAXsS6HueLcm7kvsNmRDymQFTBfXtjkc4zQeKx+OlZ0uwBy84tumaNRt6eUbt71XSYMSJS1nOPUxNIBwjW1wo61862fvpt0XUEsDBBQAAAAIAMtjXl0Y/YJCKwAAACkAAAAQAAAAY2hlY2svc3lzdGVtLnR4dAuuLC5JzVXITS1JTEksSVTILFbIyy9RSFTIyk9SKC5JyS8tUcjJT9fjAgBQSwMEFAAAAAgAy2NeXfhM3k0wAQAAYAIAABIAAAAxX3N0YXRpYy1mZWVkcy50eHS1kbFuwjAQhndegeUkZie244QEhNRnaDsFdXDiC1g4dhQ7VFXVrS/V1+mT1MDQARiZzjp/p/v//zjlBWGUZPSV8VVOV1mZiFLkS0FreAky6BY6RAUKB7QKbfsB2jsTP5yFI46606jW4IZTQxpoZHuIIAyxyh16kCOCbDzakMz41bYqqURW0Kys4ff7J055D0zkd0ku2IXspDZAb3N5xcpc1LBYbHejm4a358mCHXqQk9IBCHG9DhuFx/h8d+PBR7G4eYqmZE+UjqpD6s/eycm7j5i2rZkU/uNkdC5sOmk83hPBC1HVMN9mxZr1j1s/39L+toSCZ8tTDn6PxqwgnfyYNtqmjfR7IAif9OveoKCcngOMt7xkeE0KmoiMFayIZOemeHQKx8lYHGWjjQ4a/ewPUEsDBBQAAAAIAMtjXl0Y/YJCKwAAACkAAAAXAAAAc3RhdGljLWZlZWRzL3N5c3RlbS50eHQLriwuSc1VyE0tSUxJLElUyCxWyMsvUUhUyMpPUiguSckvLVHIyU/X4wIAUEsBAhQDFAAAAAgAy2NeXfkhhET3AAAAAwIAAAsAAAAAAAAAAAAAAIABAAAAADJfY2hlY2sudHh0UEsBAhQDFAAAAAgAy2NeXRj9gkIrAAAAKQAAABAAAAAAAAAAAAAAAIABIAEAAGNoZWNrL3N5c3RlbS50eHRQSwECFAMUAAAACADLY15d+EzeTTABAABgAgAAEgAAAAAAAAAAAAAAgAF5AQAAMV9zdGF0aWMtZmVlZHMudHh0UEsBAhQDFAAAAAgAy2NeXRj9gkIrAAAAKQAAABcAAAAAAAAAAAAAAIAB2QIAAHN0YXRpYy1mZWVkcy9zeXN0ZW0udHh0UEsFBgAAAAAEAAQA/AAAADkDAAAAAA=="
+  "archiveBase64": "UEsDBBQAAAAIAEBmXl1NnnqlLQEAAOsCAAALAAAAMl9jaGVjay50eHSNkTtSwzAQhvtcIc3OpHayekSWzHAEGoYqGQrZVogmtuyx5DQMHZfiOpwEOSYFYGfY+vv29VOkIiGYMHwiNNtiRulacSlTyXbwoK0LxmlXGOhMYWwbMsh1cTKuTGg0CTIkyBkOtaB/eon1llEWiR2sVvuXrunb58fegWtrCMaHWUWg3MFyz8Qdqa/wco/1jCBkSuhlRtxsHDNByjUnSkkRt/l8/7j09EAEmUYpIpU4oq32t0meqpE8aFvB1CtGTlw7FsNTq8qUN2Cp2Aj7k23bWyhBlX4f1ZTNHMcES5mciEL3pQ2QJE1tw31pznM6R7X9EctvcSaiQVZUDDv6Y7w6g03vu01u3SbX/giJgVd8mxWVkP/IViFHTmMMh6Z38Vdw7itnOp3bygZr/OILUEsDBBQAAAAIAEBmXl0/n41cngEAAM0EAAASAAAAMV9zdGF0aWMtZmVlZHMudHh0tZPNatwwFIX3eYVsLmTtGUmWNdaEgT5D29UMXcjWdUZYlowlTyklu7xUXidPUnlcKAE76Q9dGcSnc4/OuWaEiYySLCefKdsXZJ+XGyoEyWlxhLu708Pgx/7Lx9GB6zsY0rc+Y91Cln31Qxt6VePhg1VRdZk2DxjiNkQVTZ01iDrcsGV5yiQ/wu0pF/e0+xvh2xPpVsRlzsvy6h2dnu0vkrzkxY6TI3y66sKkCxr7dAtd/Q1M8Gm88Q4uOJjGoL4H308HykKl6jaBkGy2KrkDNSCoKqCLm+VpUlLOy4VMY3rbv8Q5KcudfBXnH2iuJlkQljMi3k1SbiTPC0GSg5en5+voAJQXa2jarXJGexXeJhmnM9koY4GscpyLmauVq9HaVOQ6nLZvhkNr+v5NtBS7n4/y2q9xhaRlwReKVaM2Uwu+M/Gg8fKbhSTMuNqOGn/h2eB9PDTKBlwzwQR/vQP/Z/zKuiQLguW7KYdwTg3sYTuGYVsZt61UOEOG8J08rl3khJH39oyTDc+poCKRjR/Tv0fgMlqHg6qMNdFguPkBUEsBAhQDFAAAAAgAQGZeXU2eeqUtAQAA6wIAAAsAAAAAAAAAAAAAAIABAAAAADJfY2hlY2sudHh0UEsBAhQDFAAAAAgAQGZeXT+fjVyeAQAAzQQAABIAAAAAAAAAAAAAAIABVgEAADFfc3RhdGljLWZlZWRzLnR4dFBLBQYAAAAAAgACAHkAAAAkAwAAAAA="
 }

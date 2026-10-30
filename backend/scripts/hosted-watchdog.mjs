@@ -11,7 +11,7 @@ const stateBranch = "latam-monitor-state";
 const statePath = "monitor/state.json";
 const hash = data => createHash("sha256").update(data).digest("hex");
 const iso = now => new Date(now).toISOString();
-export const INSPECTION_VERSION = 3;
+export const INSPECTION_VERSION = 4;
 export const needsInspection = previous => !previous ||
   (previous.valid === false && (previous.inspectionVersion ?? 1) < INSPECTION_VERSION);
 export function recordInspection(state, run, inspected) {
@@ -154,6 +154,61 @@ export function inspectAudits(kind, jobs, jobLogs) {
       jobLogSha256: hash(raw), jobLogLines: raw.split("\n").length };
   }
   return { audits, evidence, issues };
+}
+
+// Test counts are minimum retained baselines, not an exact output format:
+// adding a passing regression must not invalidate a healthy publication.
+// Keep each summary inside its successful command and original job so a
+// controller suite or another job cannot cover up missing feed/backend tests.
+export function inspectTests(kind, jobs, jobLogs) {
+  const feedCheck = "npm run check --workspace=@latam-digest/static-feeds";
+  const feedTest = "npm test --workspace=@latam-digest/static-feeds";
+  const specs = kind === "feeds" ? [
+    { job: "refresh", step: "Check pipeline", commands: [feedCheck, feedTest,
+      "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"], minimum: 145, isolation: true }
+  ] : [
+    { job: "check", step: "Run npm test", commands: ["npm test"], minimum: 161 },
+    { job: "static-feeds", step: `Run ${feedTest}`, commands: [feedTest], minimum: 145 },
+    { job: "static-feeds", step: `Run ${feedCheck}`, commands: [feedCheck], isolation: true }
+  ];
+  const tests = {}, evidence = {}, issues = [];
+  for (const spec of specs) {
+    const matching = jobs.filter(job => job.name === spec.job);
+    const job = matching[0];
+    const steps = job?.steps?.filter(step => step.name === spec.step) ?? [];
+    const raw = jobLogs[job?.id] ?? "";
+    const lines = raw.split(/\r?\n/).map(line => line.replace(/\uFEFF/g, "")
+      .replace(/^\d{4}-\d{2}-\d{2}T[\d:.]+Z\s*/, "")
+      .replace(/\x1b\[[0-?]*[ -/]*[@-~]/g, "").trim());
+    const starts = lines.flatMap((line, index) => line === `##[group]Run ${spec.commands[0]}` ? [index] : []);
+    const start = starts[0];
+    const next = starts.length === 1 ? lines.findIndex((line, index) => index > start && line.startsWith("##[group]")) : -1;
+    const block = starts.length === 1 ? lines.slice(start + 1, next < 0 ? undefined : next) : [];
+    const headerEnd = block.indexOf("##[endgroup]");
+    const output = block.slice(headerEnd + 1);
+    const summary = {};
+    for (const field of ["tests", "pass", "fail", "cancelled", "skipped", "todo"]) {
+      const values = output.flatMap(line => {
+        const match = new RegExp(`^(?:ℹ|#)\\s*${field}\\s+(\\d+)$`).exec(line);
+        return match ? [Number(match[1])] : [];
+      });
+      if (values.length === 1) summary[field] = values[0];
+    }
+    const passed = !spec.minimum || (summary.pass >= spec.minimum && summary.tests === summary.pass &&
+      ["fail", "cancelled", "skipped", "todo"].every(field => summary[field] === 0));
+    const isolated = !spec.isolation || output.includes("Static feed dependency isolation verified; optional backend packages are absent.");
+    if (matching.length !== 1 || job.conclusion !== "success" || steps.length !== 1 ||
+        steps[0].conclusion !== "success" || headerEnd < 0 ||
+        !spec.commands.every(command => block.slice(0, headerEnd).includes(command)) || !passed || !isolated) {
+      issues.push(`${spec.job}: ${spec.minimum ? "retained test suite" : "dependency isolation"} evidence is incomplete.`);
+      continue;
+    }
+    if (spec.minimum) tests[spec.job] = summary.pass;
+    evidence[`${spec.job}:${steps[0].number}`] = { jobId: job.id, stepNumber: steps[0].number,
+      command: spec.commands.join("\n"), ...(spec.minimum ? { minimum: spec.minimum, summary } : {}),
+      ...(spec.isolation ? { isolation: true } : {}), jobLogSha256: hash(raw) };
+  }
+  return { tests, evidence, issues };
 }
 
 export class Ledger {
@@ -300,11 +355,10 @@ export async function inspectRun(api, kind, run, now) {
     result.issues.push("A required job did not pass.");
   }
   if (run.conclusion === "success") {
-    const passes = [...logs.matchAll(/(?:ℹ|#)\s*pass\s+(\d+)/g)].map(match => Number(match[1]));
-    if (!passes.includes(145) || (kind === "backend" && !passes.some(count => count >= 161)) ||
-        !logs.includes("found 0 vulnerabilities") || !logs.includes("Static feed dependency isolation verified")) {
-      result.issues.push("Test, audit or dependency isolation evidence is incomplete.");
-    }
+    const tested = inspectTests(kind, jobs, jobLogs);
+    result.tests = tested.tests;
+    result.testEvidence = tested.evidence;
+    result.issues.push(...tested.issues);
     const audit = inspectAudits(kind, jobs, jobLogs);
     result.audits = audit.audits;
     result.auditEvidence = audit.evidence;
