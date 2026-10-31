@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "repository": "apovolotski/LatamDigest",
   "continuous": true,
-  "cutoff": "2026-10-31T03:27:38Z",
+  "cutoff": "2026-10-31T06:46:50Z",
   "milestone": {
     "backend": {
       "runIds": [],
@@ -27,19 +27,20 @@
               "verifiedAt": "2026-10-30T16:49:44.608Z"
             }
           }
+        },
+        {
+          "runIds": [],
+          "attempts": {},
+          "endedAt": "2026-10-31T06:46:50Z",
+          "reason": "source_semantic_and_original_date_repair",
+          "repairCommit": "3658525a88db8b9a6330dc21962220e90aad86fb",
+          "cutoff": "2026-10-31T03:27:38Z"
         }
       ]
     },
     "feeds": {
-      "runIds": [
-        41173078980
-      ],
-      "attempts": {
-        "41173078980:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-31T05:36:08.693Z"
-        }
-      },
+      "runIds": [],
+      "attempts": {},
       "history": [
         {
           "endedAt": "2026-10-31T03:27:38Z",
@@ -83,6 +84,24 @@
             }
           },
           "completedAt": "2026-10-29T22:44:13.632Z"
+        },
+        {
+          "runIds": [
+            41173078980
+          ],
+          "attempts": {
+            "41173078980:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-31T05:36:08.693Z"
+            }
+          },
+          "endedAt": "2026-10-31T06:46:50Z",
+          "reason": "source_semantic_and_original_date_repair",
+          "repairCommit": "3658525a88db8b9a6330dc21962220e90aad86fb",
+          "cutoff": "2026-10-31T03:27:38Z",
+          "subsequentlyInvalidatedRunIds": [
+            41173078980
+          ]
         }
       ]
     }
@@ -1514,8 +1533,10 @@
         }
       ],
       "maintenanceKey": "feeds-20261031001700000",
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent semantic/original-date review rejected 84 article placements across 33 feeds. Corrected category/geographic ambiguities and quarantined unverified recrawl dates; repaired by 3658525a88db8b9a6330dc21962220e90aad86fb."
+      ],
       "tests": {
         "refresh": 149
       },
@@ -1560,6 +1581,32 @@
         "jobLogLines": 617,
         "startedAt": "2026-10-31T03:18:20.000Z",
         "completedAt": "2026-10-31T03:20:13.000Z"
+      },
+      "verificationHistory": [
+        {
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "verifiedAt": "2026-10-31T03:24:51.904Z",
+          "valid": true,
+          "issues": [],
+          "completeLogSha256": "ea01b0e30c00d89c445185b0f28daf480c4d3ddc767613fab89f6e1c95bd6b4c",
+          "jobLogs": [
+            {
+              "id": 124426820520,
+              "name": "refresh",
+              "sha256": "ea01b0e30c00d89c445185b0f28daf480c4d3ddc767613fab89f6e1c95bd6b4c",
+              "lines": 617
+            }
+          ]
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T06:46:50Z",
+        "repairCommit": "3658525a88db8b9a6330dc21962220e90aad86fb",
+        "supersedingPublication": "a564ec56a4f2817a2993f56384c52e1c441474b0",
+        "affectedFeeds": 33,
+        "rejectedArticlePlacements": 84,
+        "githubConclusionUnchanged": true
       }
     },
     "41164250003:1": {
@@ -1827,8 +1874,10 @@
           "lines": 615
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent semantic/original-date review rejected 85 article placements across 32 feeds. Corrected category/geographic ambiguities and quarantined unverified recrawl dates; repaired by 3658525a88db8b9a6330dc21962220e90aad86fb."
+      ],
       "tests": {
         "refresh": 149
       },
@@ -1873,6 +1922,32 @@
         "jobLogLines": 615,
         "startedAt": "2026-10-31T05:33:45.000Z",
         "completedAt": "2026-10-31T05:35:27.000Z"
+      },
+      "verificationHistory": [
+        {
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "verifiedAt": "2026-10-31T05:36:08.693Z",
+          "valid": true,
+          "issues": [],
+          "completeLogSha256": "dd3254bd95219f545759d9e0231ba441310d59cb98e7484e31e72b3877c2f88e",
+          "jobLogs": [
+            {
+              "id": 124454951527,
+              "name": "refresh",
+              "sha256": "dd3254bd95219f545759d9e0231ba441310d59cb98e7484e31e72b3877c2f88e",
+              "lines": 615
+            }
+          ]
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T06:46:50Z",
+        "repairCommit": "3658525a88db8b9a6330dc21962220e90aad86fb",
+        "supersedingPublication": "a564ec56a4f2817a2993f56384c52e1c441474b0",
+        "affectedFeeds": 32,
+        "rejectedArticlePlacements": 85,
+        "githubConclusionUnchanged": true
       }
     },
     "41175829401:1": {
@@ -2139,8 +2214,10 @@
           "lines": 645
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent semantic/original-date review rejected 23 article placements across 16 feeds. Corrected category/geographic ambiguities and quarantined unverified recrawl dates; repaired by 3658525a88db8b9a6330dc21962220e90aad86fb."
+      ],
       "tests": {
         "refresh": 156
       },
@@ -2185,6 +2262,32 @@
         "jobLogLines": 645,
         "startedAt": "2026-10-31T06:15:50.000Z",
         "completedAt": "2026-10-31T06:17:42.000Z"
+      },
+      "verificationHistory": [
+        {
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "verifiedAt": "2026-10-31T06:18:04.207Z",
+          "valid": true,
+          "issues": [],
+          "completeLogSha256": "49b89474964ab523e79b670e667f2d3593b59a3fa2335c9e0e28c8982c3cc233",
+          "jobLogs": [
+            {
+              "id": 124463163838,
+              "name": "refresh",
+              "sha256": "49b89474964ab523e79b670e667f2d3593b59a3fa2335c9e0e28c8982c3cc233",
+              "lines": 645
+            }
+          ]
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T06:46:50Z",
+        "repairCommit": "3658525a88db8b9a6330dc21962220e90aad86fb",
+        "supersedingPublication": "a564ec56a4f2817a2993f56384c52e1c441474b0",
+        "affectedFeeds": 16,
+        "rejectedArticlePlacements": 23,
+        "githubConclusionUnchanged": true
       }
     },
     "41176407609:1": {
@@ -2451,8 +2554,10 @@
           "lines": 645
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent semantic/original-date review rejected 17 article placements across 14 feeds. Corrected category/geographic ambiguities and quarantined unverified recrawl dates; repaired by 3658525a88db8b9a6330dc21962220e90aad86fb."
+      ],
       "tests": {
         "refresh": 156
       },
@@ -2497,6 +2602,32 @@
         "jobLogLines": 645,
         "startedAt": "2026-10-31T06:23:50.000Z",
         "completedAt": "2026-10-31T06:25:31.000Z"
+      },
+      "verificationHistory": [
+        {
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "verifiedAt": "2026-10-31T06:25:52.806Z",
+          "valid": true,
+          "issues": [],
+          "completeLogSha256": "c0b9be652faacc87e558a8d6da2e9ffadd54d5c7d77b0986fd89a4896a4b3fa1",
+          "jobLogs": [
+            {
+              "id": 124464796869,
+              "name": "refresh",
+              "sha256": "c0b9be652faacc87e558a8d6da2e9ffadd54d5c7d77b0986fd89a4896a4b3fa1",
+              "lines": 645
+            }
+          ]
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T06:46:50Z",
+        "repairCommit": "3658525a88db8b9a6330dc21962220e90aad86fb",
+        "supersedingPublication": "a564ec56a4f2817a2993f56384c52e1c441474b0",
+        "affectedFeeds": 14,
+        "rejectedArticlePlacements": 17,
+        "githubConclusionUnchanged": true
       }
     },
     "41176744183:1": {
@@ -2763,8 +2894,10 @@
           "lines": 658
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent semantic/original-date review rejected 14 article placements across 10 feeds. Corrected category/geographic ambiguities and quarantined unverified recrawl dates; repaired by 3658525a88db8b9a6330dc21962220e90aad86fb."
+      ],
       "tests": {
         "refresh": 157
       },
@@ -2809,6 +2942,32 @@
         "jobLogLines": 658,
         "startedAt": "2026-10-31T06:28:49.000Z",
         "completedAt": "2026-10-31T06:30:41.000Z"
+      },
+      "verificationHistory": [
+        {
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "verifiedAt": "2026-10-31T06:31:12.137Z",
+          "valid": true,
+          "issues": [],
+          "completeLogSha256": "e897f8521adfec32c9e393f245a8f3acb95e7697a4a8a53b68271397b0a23403",
+          "jobLogs": [
+            {
+              "id": 124465810160,
+              "name": "refresh",
+              "sha256": "e897f8521adfec32c9e393f245a8f3acb95e7697a4a8a53b68271397b0a23403",
+              "lines": 658
+            }
+          ]
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T06:46:50Z",
+        "repairCommit": "3658525a88db8b9a6330dc21962220e90aad86fb",
+        "supersedingPublication": "a564ec56a4f2817a2993f56384c52e1c441474b0",
+        "affectedFeeds": 10,
+        "rejectedArticlePlacements": 14,
+        "githubConclusionUnchanged": true
       }
     },
     "41177376626:1": {
@@ -3303,6 +3462,54 @@
         "reason": "Immediate raw-main CDN reads still returned preceding-publication bytes with max-age=300. Bounded 330-second polling now retries unmatched original URLs; complete matching remains mandatory and persistent mismatch still fails.",
         "regressionTestsAdded": 3
       }
+    },
+    {
+      "recordedAt": "2026-10-31T06:46:50Z",
+      "type": "source_semantic_and_original_date_repair",
+      "sourceCommit": "3658525a88db8b9a6330dc21962220e90aad86fb",
+      "precedingSourceCommits": [
+        "8a79dc236aab8a7326bbf0286f1a4a0e3f72b6bc",
+        "8d8b3d40c8eed5670a4c9660c5b4e45cc2af01cc",
+        "d82950270c0d6cb153f6ad3400b0c997bb526934"
+      ],
+      "reason": "Reject sporting/science festivals without arts evidence, financial-culture and schoolbook/political metaphors, country homonyms and figurative saviour references. Quarantine Guatemala.com and laprensa.hn RSS dates after verified 2014/2016/2018/2025 listings were recrawled as recent; reject one primary-confirmed 2024 Televicentro report by exact title/source, retaining new actor coverage. No invented dates or relaxed validation.",
+      "previousCutoff": "2026-10-31T03:27:38Z",
+      "cutoff": "2026-10-31T06:46:50Z",
+      "regressionTestsAdded": 8,
+      "baselines": {
+        "backend": {
+          "id": 41177420945,
+          "event": "workflow_dispatch",
+          "source": "3658525a88db8b9a6330dc21962220e90aad86fb",
+          "fullTests": 173,
+          "feedTests": 157,
+          "controllerTests": 67,
+          "productionAudits": 0
+        },
+        "feeds": {
+          "id": 41177392651,
+          "event": "workflow_dispatch",
+          "source": "3658525a88db8b9a6330dc21962220e90aad86fb",
+          "publication": "a564ec56a4f2817a2993f56384c52e1c441474b0",
+          "feedTests": 157,
+          "refreshedFeeds": 240,
+          "cachedFeeds": 0,
+          "publicationSafetyHours": 24
+        },
+        "hosted": {
+          "id": 41177862849,
+          "event": "workflow_dispatch",
+          "controllerTests": 67,
+          "appFacingFilesMatched": 243
+        }
+      },
+      "correctedPriorVerifications": [
+        41163776868,
+        41173078980,
+        41175861390,
+        41176416978,
+        41176758790
+      ]
     }
   ]
 }
