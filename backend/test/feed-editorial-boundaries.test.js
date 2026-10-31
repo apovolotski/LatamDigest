@@ -93,6 +93,20 @@ test("scientific competitions and industry conferences need independent world-af
   assert.equal(relevant("CL", "world", "Chile anuncia reconocimiento diplomático de un nuevo Estado"), true);
 });
 
+test("international fight nights and shows need independent world-affairs evidence", () => {
+  for (const title of [
+    '¡Histórico retorno a Chile! "La Jaula" Bahamondes y Colby Covington lideran velada internacional',
+    "Reconocida estrella internacional reveló por error el día exacto de su show en Lollapalooza Chile",
+    "Reconocida guitarrista internacional llega a Chile con evento gratuito: cómo participar por entradas",
+    "HYPE Internacional Chile 2026 | Ignacio Bahamondes vs. Colby Covington en Santander Arena",
+    "Edelaysen ejecutará mejoras en red eléctrica del sector Camino Internacional de Chile Chico"
+  ]) {
+    assert.equal(relevant("CL", "world", title), false, title);
+    assert.equal(relevant("CL", "world", `${title}: diplomatic talks with ambassadors`), true, title);
+    assert.equal(relevant("CL", "top", title), true, title);
+  }
+});
+
 test("recrawled commodity data profiles are not dated business news", () => {
   for (const key of ["top", "latest", "business"]) {
     assert.equal(relevant("NI", key, tradeProfile), false);
@@ -201,6 +215,7 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
   for (const [id, key, bad, good] of [
     ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027", "Gobierno de Uruguay anuncia nueva política"],
     ["VE", "world", "II Congreso Internacional Porcino de Venezuela", "Venezuela firma acuerdo diplomático"],
+    ["CL", "world", "Chile prepara velada internacional", "Chile firma acuerdo diplomático"],
     ["DO", "crime", policeGames, "República Dominicana investiga fraude"],
     ["SV", "business", publisherCredit, "El Salvador anuncia inversiones empresariales"],
     ["CL", "crime", hashtags, "Chile investiga fraude"],
@@ -223,6 +238,7 @@ test("cached recovery cannot restore newly identified spam or semantic errors", 
   for (const [id, key, bad] of [
     ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027"],
     ["VE", "world", "II Congreso Internacional Porcino de Venezuela"],
+    ["CL", "world", "Chile prepara velada internacional"],
     ["DO", "crime", policeGames], ["SV", "business", publisherCredit],
     ["CL", "crime", hashtags], ["PA", "world", bankTable], ["PA", "business", bankTable],
     ["GT", "crime", spam], ["GF", "politics", geography], ["PR", "crime", resort],

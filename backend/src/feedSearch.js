@@ -160,7 +160,7 @@ const countryAmbiguities = {
 
 const honoraryAmbassadors = /\b(?:cultural|brand) ambassador\w*\b|\bembajador(?:a|es|as)? (?:de (?:la )?marca|cultural(?:es)?)\b|\bembaixador(?:a|es|as)? (?:(?:da|de) marca|cultura(?:l|is))\b|\bambassad(?:eur|rice)s? (?:de marque|culturel(?:le)?s?)\b|\b(?:cultureel|culturele) ambassadeur\b/g;
 const weakWorldTerms = new Set(["international", "internacional", "internationaal", "internacional*", "internaciona*", "internationa*"]);
-const entertainmentTerms = "gira|tour|tournee|tournée|turnê|pageant|miss|beauty|belleza|beleza|festival|concert*|conciert*|concerto*|carnival*|carnaval*|muziek*|music*|musica*|musical*|film*|cinema*".split("|");
+const entertainmentTerms = "guitarr*|guitar*|pianist*|violinist*|HYPE Internacional|velada*|show*|spectacle*|optreden*|UFC|MMA|gira|tour|tournee|tournée|turnê|pageant|miss|beauty|belleza|beleza|festival|concert*|conciert*|concerto*|carnival*|carnaval*|muziek*|music*|musica*|musical*|film*|cinema*".split("|");
 const cooperationTerms = new Set(["cooperación", "cooperação", "coopération", "samenwerking", "cooperation"]);
 const regionNames = ["es", "pt", "fr", "nl", "en"].map(language => new Intl.DisplayNames(language, { type: "region" }));
 const translatedCountries = Object.fromEntries(Object.keys(profiles).map(id => [id, regionNames.map(names => names.of(id))]));
@@ -327,7 +327,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     title = title.replace(/\b(?:congreso|congresso) (?:internacional|latinoamericano|cientifico|academico|medico)\b|\b(?:international|academic|medical|scientific) congress\b/g, " ");
   }
   if (feed.key === "world") {
-    title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ");
+    title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ").replace(/\b(?:camino|ruta|avenida|carretera) internacional\b/g, " ");
     const domestic = domesticCooperation.test(title) || matches(title, `por ${profiles[country.id][1]}`);
     if (domestic && !terms.filter(term => !cooperationTerms.has(term)).some(term => matches(title, term))) {
       const otherCountries = Object.entries(profiles).filter(([id]) => id !== country.id)
