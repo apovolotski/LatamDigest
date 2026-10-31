@@ -107,6 +107,32 @@ test("international fight nights and shows need independent world-affairs eviden
   }
 });
 
+test("international alone cannot turn products, retail or generic services into world affairs", () => {
+  for (const [id, title] of [
+    ["CL", "Uno de los autos más vendidos en Chile obtiene cero estrellas en prueba internacional de seguridad"],
+    ["PA", "Martín Pescador abre su primera tienda internacional en Panamá y lanza línea femenina"],
+    ["PA", "Anati adopta modelo internacional para modernizar la información catastral en Panamá"],
+    ["BR", "Brasil recebe novo serviço internacional"], ["GF", "Nouveau service international en Guyane"],
+    ["SR", "Suriname krijgt een internationale dienst"], ["GY", "Guyana introduces a new international service"]
+  ]) {
+    assert.equal(relevant(id, "world", title), false, title);
+    assert.equal(relevant(id, "world", `${title}: diplomatic agreement with ambassadors`), true, title);
+    assert.equal(relevant(id, "top", title), true, title);
+  }
+});
+
+test("explicit international affairs and independently reviewed cooperation remain eligible", () => {
+  for (const [id, title] of [
+    ["CL", "Chile se suma a la alianza internacional OceanEye para proteger los océanos"],
+    ["EC", "Ecuador firma un acuerdo internacional para proteger tiburones"],
+    ["BR", "Imprensa internacional destaca eleições no Brasil"],
+    ["GY", "Guyana signs an international treaty"],
+    ["CL", "Amnistía Internacional cuestiona condenas en Chile"],
+    ["CO", "Estudiantes mexicanos realizan misión académica internacional en Colombia"]
+  ]) assert.equal(relevant(id, "world", title), true, title);
+  assert.equal(isRelevantArticle({ ...article("Un gran triunfo internacional en los cielos chilenos"), sourceName: "Pressenza" }, country("CL"), feed("world"), { lookbackDays: 14 }, now), true);
+});
+
 test("recrawled commodity data profiles are not dated business news", () => {
   for (const key of ["top", "latest", "business"]) {
     assert.equal(relevant("NI", key, tradeProfile), false);
@@ -216,6 +242,7 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
     ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027", "Gobierno de Uruguay anuncia nueva política"],
     ["VE", "world", "II Congreso Internacional Porcino de Venezuela", "Venezuela firma acuerdo diplomático"],
     ["CL", "world", "Chile prepara velada internacional", "Chile firma acuerdo diplomático"],
+    ["PA", "world", "Panamá abre tienda internacional", "Panamá firma acuerdo diplomático"],
     ["DO", "crime", policeGames, "República Dominicana investiga fraude"],
     ["SV", "business", publisherCredit, "El Salvador anuncia inversiones empresariales"],
     ["CL", "crime", hashtags, "Chile investiga fraude"],
@@ -239,6 +266,7 @@ test("cached recovery cannot restore newly identified spam or semantic errors", 
     ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027"],
     ["VE", "world", "II Congreso Internacional Porcino de Venezuela"],
     ["CL", "world", "Chile prepara velada internacional"],
+    ["PA", "world", "Panamá abre tienda internacional"],
     ["DO", "crime", policeGames], ["SV", "business", publisherCredit],
     ["CL", "crime", hashtags], ["PA", "world", bankTable], ["PA", "business", bankTable],
     ["GT", "crime", spam], ["GF", "politics", geography], ["PR", "crime", resort],

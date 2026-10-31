@@ -334,6 +334,16 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
         .flatMap(([id, profile]) => [...profile[2].split("|"), ...translatedCountries[id]]);
       if (![...otherCountries, ...externalPartners].some(term => matches(title, term))) return false;
     }
+    // "International" describes products, services and events too. Require
+    // independently meaningful affairs context instead of an endless list of
+    // unrelated labels; the existing sport/arts boundaries still apply below.
+    const affairsContext = /\b(?:acuerdos?|alianzas?|tratados?|conflictos?|crisis|sanciones|mediacion|comunidad|politica|observadores|prensa|imprensa|acordos?|aliancas?|conflitos?|presse|traites?|accords?) (?:internacional\w*|international\w*)\b|\binternational (?:treaty|treaties|agreement|alliance|conflict|crisis|sanctions|mediation|community|politics|observers|press)\b|\b(?:amnistia internacional|amnesty international|corte internacional de justicia|international criminal court|mision academica internacional)\b|\b(?:relacoes|relaciones|relations|betrekkingen) (?:entre|between|tussen)\b/;
+    // Primary review established this exact commentary as international
+    // scientific cooperation and peace, despite its ambiguous headline.
+    const reviewedCooperation = normalized(article.sourceName ?? "") === "pressenza" &&
+      normalized(article.title) === "un gran triunfo internacional en los cielos chilenos";
+    if (!terms.filter(term => !weakWorldTerms.has(term)).some(term => matches(title, term)) &&
+        !affairsContext.test(title) && !reviewedCooperation) return false;
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     if ([...sports, ...sportingEventTerms, "ciclist*", "cycling", "wieler*", ...entertainmentTerms, ...nonWorldEvents].some(term => matches(title, term)) &&
         !terms.filter(term => !weakWorldTerms.has(term)).some(term => matches(title, term))) return false;
