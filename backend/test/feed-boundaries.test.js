@@ -21,9 +21,14 @@ const sports = [
   ["HN", "Honduras culminó el Festival Mundial de la FIFA con el mejor rendimiento de la zona"],
   ["GF", "Guyane accueille un festival de football"],
   ["SR", "Suriname organiseert een voetbalfestival"],
-  ["GY", "Guyana wins cricket festival final"]
+  ["GY", "Guyana wins cricket festival final"],
+  ["CL", "USS invita a CerebrUSS 2026, el primer Festival de Neurociencias del sur de Chile"],
+  ["BR", "Brasil recebe festival de neurociências"],
+  ["GF", "Guyane accueille un festival de neurosciences"],
+  ["SR", "Suriname organiseert een festival over neurowetenschappen"],
+  ["GY", "Guyana hosts a neuroscience festival"]
 ];
-test("sporting festivals require independent cultural evidence in every supported language", () => {
+test("sporting and neuroscience festivals require independent cultural evidence in every supported language", () => {
   for (const [id, title] of sports) {
     assert.equal(relevant(id, "culture", article(title)), false, title);
     assert.equal(relevant(id, "culture", article(`${title}: musicians perform a concert`)), true, title);
@@ -75,12 +80,30 @@ test("country names inside foreign place names and figurative phrases need indep
   for (const [id, title] of [
     ["UY", "El Cine San Martín de Concepción del Uruguay suspende sus funciones por problemas técnicos"],
     ["EC", "Granada 2031 Festival Fusión alcanza su ecuador con la música como puente entre culturas"],
-    ["PE", "Festival Mercadito La Perú ofrece dos días de música en Concepción"]
+    ["PE", "Festival Mercadito La Perú ofrece dos días de música en Concepción"],
+    ["SV", "Peso Pluma: ¿Es el salvador de la música regional mexicana?"]
   ]) {
     assert.equal(relevant(id, "culture", article(title)), false, title);
     assert.equal(relevant(id, "culture", article(`${title}; artistas de ${country(id).name}`)), true, title);
   }
   assert.equal(relevant("EC", "culture", article("El Ecuador celebra su música con un festival")), true);
+});
+
+test("schoolbook logistics and political book metaphors require independent literary evidence", () => {
+  for (const [id, title] of [
+    ["PE", "Perú. Armas, y no libros"],
+    ["MX", "Se mojaron mis libros y me estaba ahogando: Niños cruzan un río para llegar a su escuela en México"],
+    ["HN", "Asfura anuncia libros gratis para estudiantes de Honduras en 2027"],
+    ["BR", "Brasil anuncia livros grátis para estudantes"],
+    ["GF", "Guyane fournit des livres aux écoles"],
+    ["SR", "Suriname verstrekt boeken aan leerlingen"],
+    ["GY", "Guyana provides free books for students"]
+  ]) {
+    assert.equal(relevant(id, "culture", article(title)), false, title);
+    assert.equal(relevant(id, "culture", article(`${title}: literature festival`)), true, title);
+  }
+  assert.equal(relevant("PE", "culture", article("Perú presenta una obra de teatro: Armas y no libros")), true);
+  assert.equal(relevant("DO", "culture", article("Efemérides Patrias dona cientos de libros a la Armada Dominicana")), true);
 });
 
 test("recrawled event-directory listings cannot acquire a new original publication date", () => {
@@ -118,6 +141,8 @@ test("partial recovery cannot preserve known category, geography or original-dat
     ["BR", "culture", sports[0][1]],
     ["AR", "world", "Acuerdo en Jujuy: Kicillof expande por Argentina sus convenios de cooperación"],
     ["UY", "culture", "El Cine de Concepción del Uruguay suspende sus funciones"],
+    ["PE", "culture", "Perú. Armas, y no libros"],
+    ["SV", "culture", "Peso Pluma: ¿Es el salvador de la música regional mexicana?"],
     ["GT", "culture", "Festival El Grito Guatemala 2018", "Guatemala.com"]
   ]) {
     const destination = await mkdtemp(path.join(tmpdir(), "latam-boundary-cache-"));

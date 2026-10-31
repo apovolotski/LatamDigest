@@ -154,7 +154,8 @@ const countryAmbiguities = {
   CL: /\b(?:green|red|hatch) chiles?\b|\bchile peppers?\b/g,
   UY: /\bconcepcion del uruguay\b/g,
   EC: /\b(?:alcanza|alcanzo|alcanzado|cruza|supera|llega a) (?:su|el) ecuador\b/g,
-  PE: /\b(?:mercadito|barrio|calle|avenida) (?:la |el )?peru\b/g
+  PE: /\b(?:mercadito|barrio|calle|avenida) (?:la |el )?peru\b/g,
+  SV: /\b(?:es|como|llamado|considerado) el salvador (?:de|del)\b/g
 };
 
 const honoraryAmbassadors = /\b(?:cultural|brand) ambassador\w*\b|\bembajador(?:a|es|as)? (?:de (?:la )?marca|cultural(?:es)?)\b|\bembaixador(?:a|es|as)? (?:(?:da|de) marca|cultura(?:l|is))\b|\bambassad(?:eur|rice)s? (?:de marque|culturel(?:le)?s?)\b|\b(?:cultureel|culturele) ambassadeur\b/g;
@@ -169,6 +170,10 @@ const translatedCountries = Object.fromEntries(Object.keys(profiles).map(id => [
 const externalPartners = "Spain|España|Espanha|Spanje|Espagne|France|Francia|França|Frankrijk|Germany|Alemania|Alemanha|Allemagne|Duitsland|China|Japan|Japón|Japão|Japon|Taiwan|Taiwán|Canada|Canadá|United States|Estados Unidos|États Unis|Verenigde Staten|USA|EUA|EEUU|Florida|United Kingdom|Reino Unido|Royaume Uni|Verenigd Koninkrijk|Netherlands|Países Bajos|Pays Bas|Nederland|Indonesia|Indonesië|Indonésie|India|Russia|Rusia|Russie|Rússia|Korea|Corea|Corée|Camboya|Cambodia|Cambodge|Italy|Italia|Italie|Portugal|Israel|Israël|Jamaica|Curaçao|Curacao|Martinique|Guadeloupe|Benelux|European Union|Unión Europea|União Europeia|Union européenne|Europese Unie".split("|");
 const sportingEventTerms = "FIFA|UEFA|CONMEBOL|world cup|copa mundial|copa del mundo|copa do mundo|coupe du monde|wereldbeker".split("|");
 const domesticCooperation = /\b(?:local(?:es)?|locais|lokale|municip\w*|provinc\w*|interprovinc\w*)\b/;
+const scienceFestival = /\b(?:neurocien\w*|neuroscien\w*|neurowetensch\w*)\b/;
+const schoolContext = /\b(?:escuela\w*|escolar\w*|estudiante\w*|escola\w*|estudante\w*|ecole\w*|scolaire\w*|eleve\w*|school\w*|student\w*|leerling\w*)\b/;
+const genericBooks = new Set(["libros", "livros", "livres", "boeken", "books"]);
+const booksAsPolicyMetaphor = /\barmas (?:y )?no libros\b|\barmas (?:e )?nao livros\b|\b(?:guns|arms) (?:and )?not books\b|\barmes (?:et )?pas (?:de )?livres\b|\bwapens (?:en )?geen boeken\b/g;
 
 // Workplace/organizational "culture" is not arts or cultural heritage. Remove
 // only that phrase so independent cultural reporting in the title still counts.
@@ -261,11 +266,14 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   ]);
   let title = article.title;
   if (feed.key === "culture") {
-    title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ");
+    title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ").replace(booksAsPolicyMetaphor, " ");
+    // School administration/infrastructure is not literary coverage just
+    // because schoolbooks are mentioned; retain independent arts evidence.
+    if (schoolContext.test(title) && !terms.filter(term => !genericBooks.has(term)).some(term => matches(title, term))) return false;
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     // A sporting "festival" is not an arts festival. Preserve actual music,
     // cinema, heritage, etc. even when a title also discusses sport.
-    if (([...sports, ...sportingEventTerms].some(term => matches(title, term)) || /\b(?:sub|under|u) \d{1,2}\b/.test(title)) &&
+    if (([...sports, ...sportingEventTerms].some(term => matches(title, term)) || /\b(?:sub|under|u) \d{1,2}\b/.test(title) || scienceFestival.test(title)) &&
         !terms.filter(term => term !== "festival").some(term => matches(title, term))) return false;
   }
   if (feed.key === "politics") title = normalized(title).replace(/\b\d{1,2}(?: \d{2})? pm\b/g, " ");
