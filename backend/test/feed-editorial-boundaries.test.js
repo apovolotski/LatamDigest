@@ -20,6 +20,50 @@ const policeSport = "West Indies Masters provide grassroots boost to Guyana Poli
 const diplomat = "Brasil citó a la encargada de negocios de Argentina por la salida de Flávio Bolsonaro";
 const tradeProfile = "Granos de cacao en el Comercio de Nicaragua | Observatorio de Complejidad Económica";
 
+const policeGames = "República Dominicana conquista el segundo lugar en los IV Juegos Mundiales de Policías USIP 2026";
+const bankTable = "Inversiones en Valores Neta — Panamá — Situación Consolidado — Centro Bancario Internacional";
+const publisherCredit = "Keiko Fujimori señala replicar medidas de El Salvador para combatir el crimen | El Comercio";
+const hashtags = "#Chile #j#Chile #justicia #Viceministrousticia #Viceministro";
+
+test("police games and medals need independent crime evidence", () => {
+  for (const [id, title] of [
+    ["DO", policeGames], ["BR", "Polícia do Brasil conquista medalhas nos jogos mundiais"],
+    ["GY", "Guyana police win medals at world games"], ["GF", "Police de Guyane remporte des médailles aux jeux mondiaux"],
+    ["SR", "Politie Suriname wint medailles bij de wereldspelen"]
+  ]) {
+    assert.equal(relevant(id, "crime", title), false, title);
+    assert.equal(relevant(id, "crime", `${title}: corruption investigation leads to arrests`), true, title);
+    assert.equal(relevant(id, "top", title), true, title);
+  }
+});
+
+test("bank statistics tables are not news and the banking centre name is not world affairs", () => {
+  const table = { ...article(bankTable), sourceName: "Finanzas Digital" };
+  for (const key of feedConfigs.map(f => f.key)) {
+    assert.equal(isRelevantArticle(table, country("PA"), feed(key), { lookbackDays: 14 }, now), false, key);
+  }
+  assert.equal(isRelevantArticle({ ...table, title: "Ingresos de Operaciones — Panamá — Situación No Consolidado — Centro Bancario Internacional" }, country("PA"), feed("business"), { lookbackDays: 14 }, now), false);
+  const report = "Panamá anuncia inversiones en el Centro Bancario Internacional";
+  assert.equal(relevant("PA", "business", report), true);
+  assert.equal(relevant("PA", "world", report), false);
+  assert.equal(relevant("PA", "world", `${report}: acuerdo diplomático con embajadores`), true);
+});
+
+test("trailing credited publisher names cannot supply category evidence", () => {
+  assert.equal(relevant("SV", "business", publisherCredit), false);
+  assert.equal(relevant("SV", "crime", publisherCredit), true);
+  assert.equal(relevant("SV", "top", publisherCredit), true);
+  assert.equal(relevant("SV", "business", "El Salvador anuncia inversión empresarial | El Comercio"), true);
+  assert.equal(relevant("SV", "business", "El comercio de El Salvador aumenta"), true);
+});
+
+test("hashtag-only captions are not article headlines", () => {
+  for (const key of feedConfigs.map(f => f.key)) assert.equal(relevant("CL", key, hashtags), false, key);
+  assert.equal(relevant("CL", "crime", "#Chile #justicia"), false);
+  assert.equal(relevant("CL", "crime", "#EnVideo Chile investiga fraude"), true);
+  assert.equal(relevant("CL", "crime", "#Chile investiga fraude"), true);
+});
+
 test("recrawled commodity data profiles are not dated business news", () => {
   for (const key of ["top", "latest", "business"]) {
     assert.equal(relevant("NI", key, tradeProfile), false);
@@ -100,6 +144,7 @@ test("international airport names, friendlies and book or culinary prizes do not
   for (const [id, title] of [
     ["MX", "Aeropuerto Internacional de la Ciudad de México: estatus de vuelos demorados o cancelados"],
     ["BO", "Perú enfrentará a Bolivia en amistoso internacional y jugará en inesperada sede"],
+    ["GT", "Elogio Internacional Para Guatemala Por Su Histórica Vuelta Ciclística"],
     ["PY", "El pickleball paraguayo amplió su participación internacional en el Colombia Open 2026"],
     ["EC", "Recibirá libro de Aicodi premio internacional en Ecuador"],
     ["EC", "Quesos ecuatorianos conquistan el oro y la plata en concurso internacional de Uruguay"],
@@ -124,12 +169,17 @@ test("promotional explicit-video spam is rejected without suppressing legitimate
 
 test("live RSS filtering rejects spam and geographic confusion with original dates intact", async () => {
   for (const [id, key, bad, good] of [
+    ["DO", "crime", policeGames, "República Dominicana investiga fraude"],
+    ["SV", "business", publisherCredit, "El Salvador anuncia inversiones empresariales"],
+    ["CL", "crime", hashtags, "Chile investiga fraude"],
+    ["PA", "world", bankTable, "Panamá firma acuerdo diplomático"],
+    ["PA", "business", bankTable, "Panamá anuncia inversiones empresariales"],
     ["GT", "crime", spam, "Guatemala police arrest a murder suspect"],
     ["GF", "politics", geography, "Guyane : le gouvernement annonce un budget pour Cayenne"],
     ["AR", "business", diplomat, "Argentina anuncia nuevas inversiones empresariales"],
     ["NI", "business", tradeProfile, "Nicaragua anuncia nuevas inversiones empresariales"]
   ]) {
-    const items = [bad, good].map(title => article(title, Date.now()));
+    const items = [bad, good].map(title => ({ ...article(title, Date.now()), sourceName: title === bankTable ? "Finanzas Digital" : "Example" }));
     const xml = `<rss><channel>${items.map(a => `<item><title>${a.title}</title><link>${a.url}</link><source>${a.sourceName}</source><pubDate>${a.publishedAt}</pubDate></item>`).join("")}</channel></rss>`;
     const result = await fetchArticlesForFeed(country(id), feed(key), { sleep: async () => {}, fetchImpl: async () => new Response(xml) });
     assert.deepEqual(result.map(a => a.title), [good]);
@@ -139,6 +189,8 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
 
 test("cached recovery cannot restore newly identified spam or semantic errors", async t => {
   for (const [id, key, bad] of [
+    ["DO", "crime", policeGames], ["SV", "business", publisherCredit],
+    ["CL", "crime", hashtags], ["PA", "world", bankTable], ["PA", "business", bankTable],
     ["GT", "crime", spam], ["GF", "politics", geography], ["PR", "crime", resort],
     ["GY", "crime", policeSport], ["AR", "business", diplomat],
     ["BO", "culture", "Festival del Gato Andino y los Felinos de Bolivia"],
@@ -148,7 +200,7 @@ test("cached recovery cannot restore newly identified spam or semantic errors", 
     const destination = await mkdtemp(path.join(tmpdir(), "latam-editorial-cache-"));
     t.after(() => rm(destination, { recursive: true, force: true }));
     const options = { destination, countries: [country(id)], feeds: [feed(key), feed("top")] };
-    await generateFeeds({ ...options, fetchFeed: async () => [article(bad, Date.now())] });
+    await generateFeeds({ ...options, fetchFeed: async () => [{ ...article(bad, Date.now()), sourceName: bad === bankTable ? "Finanzas Digital" : "Example" }] });
     await generateFeeds({ ...options, fetchFeed: async (_, f) => f.key === key ? [] : [article(`${country(id).name} news`, Date.now())] });
     const manifest = JSON.parse(await readFile(path.join(destination, "manifest.json")));
     assert.equal(manifest.countries[0].feeds[key].count, 0);

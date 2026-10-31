@@ -175,7 +175,7 @@ const wildlifeFestival = /\b(?:gato andino|felinos|wildlife|biodiversidad|biodiv
 const diplomaticBusinessTitles = /\b(?:encargad[oa]s? de negocios|encarregad[oa]s? de negocios|charges? d affaires)\b/g;
 const noncriminalJustice = /\bjusticia (?:social|laboral|del trabajo)\b|\bjustica (?:social|do trabalho)\b|\bjustice (?:sociale|du travail)\b|\b(?:social|labour|labor) justice\b/g;
 const weakCrimeTerms = new Set(["policía", "polícia", "police", "politie", "court", "policia*", "policier*", "politieagent*", "politiebureau*"]);
-const policeCommunityEvents = /\b(?:youth academy|cricket|football|futbol|futebol|basketball|baloncesto|basquete|voetbal|rugby|athletics|honou?rs?|honra\w*|homenaje\w*|hommage\w*|exalta\w*|veteran\w*)\b/;
+const policeCommunityEvents = /\b(?:youth academy|world games|juegos mundiales|jogos mundiais|jeux mondiaux|wereldspelen|medals?|medall\w*|medalh\w*|medaill\w*|cricket|football|futbol|futebol|basketball|baloncesto|basquete|voetbal|rugby|athletics|honou?rs?|honra\w*|homenaje\w*|hommage\w*|exalta\w*|veteran\w*)\b/;
 const nonWorldEvents = "amistoso*|friendly|amical*|pickleball|libro*|livro*|livre*|book*|boeken|premio*|prize*|award*|concurs*|competition*|queso*|cheese|kaas|fromage|gastronom*".split("|");
 const internationalAirport = /\b(?:aeropuerto|aeroporto|aeroport) internacional\b|\baeroport international\b|\binternational airport\b|\binternationale luchthaven\b/g;
 // Promotional exploit/spam headlines are not reporting about sexual crimes.
@@ -251,6 +251,13 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   const published = Date.parse(article.publishedAt);
   if (!Number.isFinite(published) || published < now - plan.lookbackDays * 86_400_000 || published > now + 3600_000) return false;
   if (explicitVideoPromotion.test(normalized(article.title))) return false;
+  // A caption made entirely of hashtags supplies no report, even when its
+  // tags happen to contain a country and category. Keep tags alongside prose.
+  if (article.title.includes("#") && !/\p{L}/u.test(article.title.replace(/#[\p{L}\p{N}\p{M}_]+/gu, ""))) return false;
+  // The publisher's statistics tool shows historical quarterly bank tables,
+  // not dated reporting. A fresh RSS crawl is not original publication proof.
+  if (normalized(article.sourceName ?? "") === "finanzas digital" &&
+      /^.+ panama situacion (?:no )?consolidado centro bancario internacional$/.test(normalized(article.title))) return false;
   // Google can assign a recent crawl date to evergreen sports database pages.
   // Country and sports keywords do not turn standings/statistics into news.
   if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b|\blive score\b.*\bh2h\b.*\blineups\b/.test(normalized(article.title))) return false;
@@ -292,7 +299,9 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     ...topics[language][feed.key].split("|"),
     ...(topicMatchTerms[`${language}/${feed.key}`] ?? "").split("|").filter(Boolean)
   ]);
-  let title = article.title;
+  // A syndicator can retain a second publisher's trailing credit after RSS
+  // normalization. That name must not supply the story's category evidence.
+  let title = article.title.replace(/\s+[|–—-]\s+El Comercio\s*$/iu, "");
   if (feed.key === "culture") {
     title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ").replace(booksAsPolicyMetaphor, " ");
     // School administration/infrastructure is not literary coverage just
@@ -313,7 +322,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   }
   if (feed.key === "politics") title = normalized(title).replace(/\b\d{1,2}(?: \d{2})? pm\b/g, " ");
   if (feed.key === "world") {
-    title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ");
+    title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ");
     const domestic = domesticCooperation.test(title) || matches(title, `por ${profiles[country.id][1]}`);
     if (domestic && !terms.filter(term => !cooperationTerms.has(term)).some(term => matches(title, term))) {
       const otherCountries = Object.entries(profiles).filter(([id]) => id !== country.id)
@@ -321,7 +330,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
       if (![...otherCountries, ...externalPartners].some(term => matches(title, term))) return false;
     }
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
-    if ([...sports, ...entertainmentTerms, ...nonWorldEvents].some(term => matches(title, term)) &&
+    if ([...sports, ...sportingEventTerms, "ciclist*", "cycling", "wieler*", ...entertainmentTerms, ...nonWorldEvents].some(term => matches(title, term)) &&
         !terms.filter(term => !weakWorldTerms.has(term)).some(term => matches(title, term))) return false;
   }
   if (feed.key === "sports" && /\bseleccion (?:de )?(?:jueces|magistrados|candidatos|personal)\b/.test(normalized(title))) return false;
