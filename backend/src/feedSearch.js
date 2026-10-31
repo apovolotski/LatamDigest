@@ -171,6 +171,16 @@ const externalPartners = "Spain|España|Espanha|Spanje|Espagne|France|Francia|Fr
 const sportingEventTerms = "FIFA|UEFA|CONMEBOL|world cup|copa mundial|copa del mundo|copa do mundo|coupe du monde|wereldbeker".split("|");
 const domesticCooperation = /\b(?:local(?:es)?|locais|lokale|municip\w*|provinc\w*|interprovinc\w*)\b/;
 const scienceFestival = /\b(?:neurocien\w*|neuroscien\w*|neurowetensch\w*)\b/;
+const wildlifeFestival = /\b(?:gato andino|felinos|wildlife|biodiversidad|biodiversity|biodiversite|biodiversiteit)\b/;
+const diplomaticBusinessTitles = /\b(?:encargad[oa]s? de negocios|encarregad[oa]s? de negocios|charges? d affaires)\b/g;
+const noncriminalJustice = /\bjusticia (?:social|laboral|del trabajo)\b|\bjustica (?:social|do trabalho)\b|\bjustice (?:sociale|du travail)\b|\b(?:social|labour|labor) justice\b/g;
+const weakCrimeTerms = new Set(["policía", "polícia", "police", "politie", "court", "policia*", "policier*", "politieagent*", "politiebureau*"]);
+const policeCommunityEvents = /\b(?:youth academy|cricket|football|futbol|futebol|basketball|baloncesto|basquete|voetbal|rugby|athletics|honou?rs?|honra\w*|homenaje\w*|hommage\w*|exalta\w*|veteran\w*)\b/;
+const nonWorldEvents = "amistoso*|friendly|amical*|pickleball|libro*|livro*|livre*|book*|boeken|premio*|prize*|award*|concurs*|competition*|queso*|cheese|kaas|fromage|gastronom*".split("|");
+const internationalAirport = /\b(?:aeropuerto|aeroporto|aeroport) internacional\b|\baeroport international\b|\binternational airport\b|\binternationale luchthaven\b/g;
+// Promotional exploit/spam headlines are not reporting about sexual crimes.
+// Require the promotion pattern, preserving legitimate investigations/coverage.
+const explicitVideoPromotion = /\bfull sex videos?\b|\bsex videos? on (?:hd|hq)\b|\b(?:xnxx|xvideos|pornhub)\b.*\b(?:full|clip|hd|hq)\b/;
 const schoolContext = /\b(?:escuela\w*|escolar\w*|estudiante\w*|escola\w*|estudante\w*|ecole\w*|scolaire\w*|eleve\w*|school\w*|student\w*|leerling\w*)\b/;
 const genericBooks = new Set(["libros", "livros", "livres", "boeken", "books"]);
 const booksAsPolicyMetaphor = /\barmas (?:y )?no libros\b|\barmas (?:e )?nao livros\b|\b(?:guns|arms) (?:and )?not books\b|\barmes (?:et )?pas (?:de )?livres\b|\bwapens (?:en )?geen boeken\b/g;
@@ -240,6 +250,7 @@ function localeFor(countryCode, language) {
 export function isRelevantArticle(article, country, feed, plan, now = Date.now()) {
   const published = Date.parse(article.publishedAt);
   if (!Number.isFinite(published) || published < now - plan.lookbackDays * 86_400_000 || published > now + 3600_000) return false;
+  if (explicitVideoPromotion.test(normalized(article.title))) return false;
   // Google can assign a recent crawl date to evergreen sports database pages.
   // Country and sports keywords do not turn standings/statistics into news.
   if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b/.test(normalized(article.title))) return false;
@@ -262,6 +273,13 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // Cayenne alone is weak evidence in a Porsche story; retain every other
   // explicit country/city/demonym, including English fallback demonyms.
   if (country.id === "GF" && /\b(porsche|taycan)\b/i.test(article.title)) geographicTitle = geographicTitle.replace(/\bcayenne\b/g, " ");
+  // Some French headlines call the republic of Guyana "Guyane". Its capital,
+  // president or former British name do not establish French Guiana coverage.
+  if (country.id === "GF" && /\b(?:irfaan ali|georgetown|guyane britannique|guyana)\b/.test(geographicTitle) &&
+      !/\b(?:guyane francaise|french guian\w*|cayenne|kourou|macouria|matoury|saint laurent du maroni|guyane et (?:le )?guyana|guyana et (?:la )?guyane)\b/.test(geographicTitle)) return false;
+  // Puerto Rico is also a resort in Mogán, Gran Canaria. Keep independent
+  // Puerto Rican/diaspora evidence rather than treating that resort as a nation.
+  if (country.id === "PR" && /\b(?:mogan|policia canaria|gran canaria)\b/.test(geographicTitle)) geographicTitle = geographicTitle.replace(/\bpuerto rico\b/g, " ");
   if (!countryTerms.some(term => matches(geographicTitle, term))) return false;
   if (["top", "latest"].includes(feed.key)) return true;
   if (feed.key === "tech" && /world wide technology championship/i.test(article.title)) return false;
@@ -279,12 +297,17 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     // A sporting "festival" is not an arts festival. Preserve actual music,
     // cinema, heritage, etc. even when a title also discusses sport.
-    if (([...sports, ...sportingEventTerms].some(term => matches(title, term)) || /\b(?:sub|under|u) \d{1,2}\b/.test(title) || scienceFestival.test(title)) &&
+    if (([...sports, ...sportingEventTerms].some(term => matches(title, term)) || /\b(?:sub|under|u) \d{1,2}\b/.test(title) || scienceFestival.test(title) || wildlifeFestival.test(title)) &&
         !terms.filter(term => term !== "festival").some(term => matches(title, term))) return false;
+  }
+  if (feed.key === "business") title = normalized(title).replace(diplomaticBusinessTitles, " ");
+  if (feed.key === "crime") {
+    title = normalized(title).replace(noncriminalJustice, " ");
+    if (policeCommunityEvents.test(title) && !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
   }
   if (feed.key === "politics") title = normalized(title).replace(/\b\d{1,2}(?: \d{2})? pm\b/g, " ");
   if (feed.key === "world") {
-    title = normalized(title).replace(honoraryAmbassadors, " ");
+    title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ");
     const domestic = domesticCooperation.test(title) || matches(title, `por ${profiles[country.id][1]}`);
     if (domestic && !terms.filter(term => !cooperationTerms.has(term)).some(term => matches(title, term))) {
       const otherCountries = Object.entries(profiles).filter(([id]) => id !== country.id)
@@ -292,7 +315,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
       if (![...otherCountries, ...externalPartners].some(term => matches(title, term))) return false;
     }
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
-    if ([...sports, ...entertainmentTerms].some(term => matches(title, term)) &&
+    if ([...sports, ...entertainmentTerms, ...nonWorldEvents].some(term => matches(title, term)) &&
         !terms.filter(term => !weakWorldTerms.has(term)).some(term => matches(title, term))) return false;
   }
   if (feed.key === "sports" && /\bseleccion (?:de )?(?:jueces|magistrados|candidatos|personal)\b/.test(normalized(title))) return false;
