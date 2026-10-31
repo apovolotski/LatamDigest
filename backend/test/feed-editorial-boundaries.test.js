@@ -64,6 +64,35 @@ test("hashtag-only captions are not article headlines", () => {
   assert.equal(relevant("CL", "crime", "#Chile investiga fraude"), true);
 });
 
+test("academic and agricultural congresses require independent political evidence", () => {
+  for (const [id, title] of [
+    ["UY", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027"],
+    ["UY", "Universidad Señor de Sipán fortalece su internacionalización en el 61 Congreso Internacional de CLADEA en Uruguay"],
+    ["BR", "Brasil recebe congresso internacional de medicina"],
+    ["GY", "Guyana hosts an international congress on medicine"]
+  ]) {
+    assert.equal(relevant(id, "politics", title), false, title);
+    assert.equal(relevant(id, "politics", `${title}: government announces new policy`), true, title);
+    assert.equal(relevant(id, "top", title), true, title);
+  }
+  assert.equal(relevant("UY", "politics", "Congreso de Uruguay debate nueva ley de educación"), true);
+});
+
+test("scientific competitions and industry conferences need independent world-affairs evidence", () => {
+  for (const [id, title] of [
+    ["VE", "II Congreso Internacional Porcino de Venezuela por la educación y producción nacional"],
+    ["BR", "Jovens baianos buscam patrocínio para representar o Brasil em competição internacional de inovação na França"],
+    ["CL", "Estudiantes de Ovalle representarán a Chile en feria científica internacional en Nueva York"],
+    ["CL", "realiza Jornada de Investigación e Innovación Responsable con conferencia internacional sobre comunicación científica - Universidad Autónoma de Chile"],
+    ["CL", "Pocas veces se ha visto algo así en Chile: el lugar de Santiago que logró importante reconocimiento internacional"]
+  ]) {
+    assert.equal(relevant(id, "world", title), false, title);
+    assert.equal(relevant(id, "world", `${title}: diplomatic agreement with ambassadors`), true, title);
+    assert.equal(relevant(id, "top", title), true, title);
+  }
+  assert.equal(relevant("CL", "world", "Chile anuncia reconocimiento diplomático de un nuevo Estado"), true);
+});
+
 test("recrawled commodity data profiles are not dated business news", () => {
   for (const key of ["top", "latest", "business"]) {
     assert.equal(relevant("NI", key, tradeProfile), false);
@@ -97,6 +126,7 @@ test("French Guyana translations and the Gran Canaria resort need independent na
 
 test("police sport and ceremonial honors require independent crime evidence", () => {
   for (const [id, title] of [
+    ["DO", "Policía Nacional Dominicana rinde honores a agentes Caídos en el día de San Judas Tadeo. Otras Noticias Policiales"],
     ["GY", policeSport], ["CO", "Honor a quienes sirvieron a Colombia: Policía Nacional exalta el legado de los veteranos"],
     ["GY", "New Era Entertainment 20th ExxonMobil Guyana Futsal kicks off tonight at Retrieve Hard Court in Linden"],
     ["BR", "Polícia do Brasil homenageia veteranos"], ["GF", "Police de Guyane rend hommage aux vétérans"],
@@ -169,6 +199,8 @@ test("promotional explicit-video spam is rejected without suppressing legitimate
 
 test("live RSS filtering rejects spam and geographic confusion with original dates intact", async () => {
   for (const [id, key, bad, good] of [
+    ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027", "Gobierno de Uruguay anuncia nueva política"],
+    ["VE", "world", "II Congreso Internacional Porcino de Venezuela", "Venezuela firma acuerdo diplomático"],
     ["DO", "crime", policeGames, "República Dominicana investiga fraude"],
     ["SV", "business", publisherCredit, "El Salvador anuncia inversiones empresariales"],
     ["CL", "crime", hashtags, "Chile investiga fraude"],
@@ -189,6 +221,8 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
 
 test("cached recovery cannot restore newly identified spam or semantic errors", async t => {
   for (const [id, key, bad] of [
+    ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027"],
+    ["VE", "world", "II Congreso Internacional Porcino de Venezuela"],
     ["DO", "crime", policeGames], ["SV", "business", publisherCredit],
     ["CL", "crime", hashtags], ["PA", "world", bankTable], ["PA", "business", bankTable],
     ["GT", "crime", spam], ["GF", "politics", geography], ["PR", "crime", resort],

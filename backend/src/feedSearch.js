@@ -175,8 +175,8 @@ const wildlifeFestival = /\b(?:gato andino|felinos|wildlife|biodiversidad|biodiv
 const diplomaticBusinessTitles = /\b(?:encargad[oa]s? de negocios|encarregad[oa]s? de negocios|charges? d affaires)\b/g;
 const noncriminalJustice = /\bjusticia (?:social|laboral|del trabajo)\b|\bjustica (?:social|do trabalho)\b|\bjustice (?:sociale|du travail)\b|\b(?:social|labour|labor) justice\b/g;
 const weakCrimeTerms = new Set(["policía", "polícia", "police", "politie", "court", "policia*", "policier*", "politieagent*", "politiebureau*"]);
-const policeCommunityEvents = /\b(?:youth academy|world games|juegos mundiales|jogos mundiais|jeux mondiaux|wereldspelen|medals?|medall\w*|medalh\w*|medaill\w*|cricket|football|futbol|futebol|basketball|baloncesto|basquete|voetbal|rugby|athletics|honou?rs?|honra\w*|homenaje\w*|hommage\w*|exalta\w*|veteran\w*)\b/;
-const nonWorldEvents = "amistoso*|friendly|amical*|pickleball|libro*|livro*|livre*|book*|boeken|premio*|prize*|award*|concurs*|competition*|queso*|cheese|kaas|fromage|gastronom*".split("|");
+const policeCommunityEvents = /\b(?:youth academy|world games|juegos mundiales|jogos mundiais|jeux mondiaux|wereldspelen|medals?|medall\w*|medalh\w*|medaill\w*|cricket|football|futbol|futebol|basketball|baloncesto|basquete|voetbal|rugby|athletics|honou?rs?|honores?|honra\w*|homenaje\w*|hommage\w*|exalta\w*|veteran\w*)\b/;
+const nonWorldEvents = "amistoso*|friendly|amical*|pickleball|competição*|competición*|feria científica|feira científica|science fair|comunicación científica|porcino*|importante reconocimiento internacional|libro*|livro*|livre*|book*|boeken|premio*|prize*|award*|concurs*|competition*|queso*|cheese|kaas|fromage|gastronom*".split("|");
 const internationalAirport = /\b(?:aeropuerto|aeroporto|aeroport) internacional\b|\baeroport international\b|\binternational airport\b|\binternationale luchthaven\b/g;
 // Promotional exploit/spam headlines are not reporting about sexual crimes.
 // Require the promotion pattern, preserving legitimate investigations/coverage.
@@ -320,7 +320,12 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     if ((policeCommunityEvents.test(title) || sports.some(term => matches(title, term))) &&
         !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
   }
-  if (feed.key === "politics") title = normalized(title).replace(/\b\d{1,2}(?: \d{2})? pm\b/g, " ");
+  if (feed.key === "politics") {
+    title = normalized(title).replace(/\b\d{1,2}(?: \d{2})? pm\b/g, " ");
+    // Academic/industry congresses are conferences, not legislatures. An
+    // independent government, election or policy reference can still qualify.
+    title = title.replace(/\b(?:congreso|congresso) (?:internacional|latinoamericano|cientifico|academico|medico)\b|\b(?:international|academic|medical|scientific) congress\b/g, " ");
+  }
   if (feed.key === "world") {
     title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ");
     const domestic = domesticCooperation.test(title) || matches(title, `por ${profiles[country.id][1]}`);
