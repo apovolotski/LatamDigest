@@ -138,7 +138,7 @@ const topicMatchTerms = {
   "en/business": "industr*|firm*|commercial|commerce|investor*|investment*|corporat*|entrepreneur*",
   "en/sports": "sport*|football*|basketball*|champion*|athlet*|rugby*|futsal|tennis|touchdown*",
   "en/tech": "technolog*|innovat*|telecom*|cyber*|AI|broadband|robot*|5G|6G|data centre|data center",
-  "en/culture": "cultural|music*|artist*|cinema*|concert*|documentar*|heritage|literar*|theatr*|carnival*",
+  "en/culture": "cultural|music*|artist*|cinema*|concert*|documentar*|heritage|literar*|theatr*|carnival*|cuisine|culinary",
   "en/crime": "criminal*|arrest*|detain*|violent*|homicid*|corrupt*|robber*|fraud*|kidnap*|traffick*|femicide*",
   "en/economy": "econom*|inflation*|export*|unemployment|recession|tariff*|interest rates",
   "en/world": "diplomat*|ambassador*|envoy*|embass*|consular|consulate*|bilateral*|treaty|treaties|UNESCO|NATO"
@@ -157,6 +157,15 @@ const countryAmbiguities = {
 const honoraryAmbassadors = /\b(?:cultural|brand) ambassador\w*\b|\bembajador(?:a|es|as)? (?:de (?:la )?marca|cultural(?:es)?)\b|\bembaixador(?:a|es|as)? (?:(?:da|de) marca|cultura(?:l|is))\b|\bambassad(?:eur|rice)s? (?:de marque|culturel(?:le)?s?)\b|\b(?:cultureel|culturele) ambassadeur\b/g;
 const weakWorldTerms = new Set(["international", "internacional", "internationaal", "internacional*", "internaciona*", "internationa*"]);
 const entertainmentTerms = "gira|tour|tournee|tournée|turnê|pageant|miss|beauty|belleza|beleza|festival|concert*|conciert*|concerto*|carnival*|carnaval*|muziek*|music*|musica*|musical*|film*|cinema*".split("|");
+
+// Workplace/organizational "culture" is not arts or cultural heritage. Remove
+// only that phrase so independent cultural reporting in the title still counts.
+const figurativeCulture = /\b(?:safety|security|workplace|corporate|organizational|organisational|compliance) culture\b|\bculture of (?:safety|security|compliance|corruption|violence)\b|\bcultura (?:de |da |do )?(?:seguridad|seguranca|empresarial|organizacional|corporativa|corrupcion|corrupcao|violencia)\b|\bculture (?:de |d |du |des |la )*(?:securite|entreprise|organisationnelle|corruption|violence)\b|\b(?:veiligheids|bedrijfs|organisatie|bestuurs)cultuur\b|\bcultuur van (?:veiligheid|corruptie|geweld)\b/g;
+
+const cultureSearchAliases = {
+  GY: '("Guyana" OR "Guyanese")',
+  TT: '("Trinidad and Tobago" OR "Tobago")'
+};
 
 function normalized(value) {
   return value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().replace(/[^\p{L}\p{N}*]+/gu, " ").trim();
@@ -180,7 +189,7 @@ export function searchPlans(country, feed) {
   const countryQuery = country.id === "TT" ? '("Trinidad and Tobago" OR "Tobago")' : quoted(name);
   const plans = days.map(lookbackDays => ({ language, lookbackDays, countryQuery }));
   if (language !== "en") plans.push({ language: "en", lookbackDays: days[1], countryQuery: quoted(country.name) });
-  return plans.map((plan, index) => {
+  const searches = plans.map((plan, index) => {
     const terms = headline ? [] : (queryTopics[`${plan.language}/${feed.key}`] ?? topics[plan.language][feed.key]).split("|");
     // The widened local search must also try vocabulary previously truncated
     // from every query, such as teatro/literatura or detenido/homicidio.
@@ -190,6 +199,16 @@ export function searchPlans(country, feed) {
       locale: localeFor(country.id, plan.language)
     };
   });
+  // English profiles have no language fallback. A third bounded arts/heritage
+  // search also uses explicit national demonyms; broad "culture" searches can
+  // otherwise yield only workplace-safety stories in a sparse category.
+  if (language === "en" && feed.key === "culture") {
+    const countryQuery = cultureSearchAliases[country.id];
+    searches.push({ language, lookbackDays: 14, countryQuery,
+      query: `${countryQuery} ("heritage" OR "cuisine" OR "culinary" OR "artists" OR "museum" OR "cultural") when:14d`,
+      locale: localeFor(country.id, language) });
+  }
+  return searches;
 }
 
 function localeFor(countryCode, language) {
@@ -222,6 +241,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     ...(topicMatchTerms[`${language}/${feed.key}`] ?? "").split("|").filter(Boolean)
   ]);
   let title = article.title;
+  if (feed.key === "culture") title = normalized(title).replace(figurativeCulture, " ");
   if (feed.key === "politics") title = normalized(title).replace(/\b\d{1,2}(?: \d{2})? pm\b/g, " ");
   if (feed.key === "world") {
     title = normalized(title).replace(honoraryAmbassadors, " ");

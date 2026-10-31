@@ -15,6 +15,29 @@ const irrelevant = {
   economy: "Athletes win a rugby match", world: "Parliament approves a domestic housing policy"
 };
 
+test("workplace culture is not arts coverage in any supported language", () => {
+  for (const [id, title] of [
+    ["GY", "Occupational Safety and Health Officer Calls for a Stronger Safety Culture in Guyana"],
+    ["TT", "Trinidad and Tobago strengthens corporate culture"],
+    ["MX", "México impulsa una cultura de seguridad"],
+    ["BR", "Brasil promove cultura de segurança"],
+    ["GF", "Guyane développe une culture de la sécurité"],
+    ["SR", "Suriname wil een cultuur van veiligheid"]
+  ]) {
+    const country = countries.find(c => c.id === id), feed = feedConfigs.find(f => f.key === "culture");
+    assert.equal(isRelevantArticle(story(title), country, feed, { lookbackDays: 14 }, now), false, title);
+    assert.equal(isRelevantArticle(story(`${title}: musicians perform a concert`), country, feed, { lookbackDays: 14 }, now), true);
+  }
+});
+
+test("national cuisine qualifies as culture with unchanged country and original-date constraints", () => {
+  const country = countries.find(c => c.id === "GY"), feed = feedConfigs.find(f => f.key === "culture");
+  const title = "First Guyanese food truck in Manhattan serves up authentic cuisine from Monday to Friday";
+  assert.equal(isRelevantArticle(story(title), country, feed, { lookbackDays: 14 }, now), true);
+  assert.equal(isRelevantArticle(story(title.replace("Guyanese", "Jamaican")), country, feed, { lookbackDays: 14 }, now), false);
+  assert.equal(isRelevantArticle({ ...story(title), publishedAt: new Date(now - 15 * 86400000).toISOString() }, country, feed, { lookbackDays: 14 }, now), false);
+});
+
 test("language fixtures cover every app country and every feed in all five supported languages", () => {
   assert.deepEqual(matrix.countries.map(c => c.id).sort(), countries.map(c => c.id).sort());
   assert.deepEqual(Object.keys(matrix.headlines).sort(), ["en", "es", "fr", "nl", "pt"]);

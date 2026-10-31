@@ -37,6 +37,39 @@ test("English cultural fallback accepts cultural reporting while preserving geog
   assert.equal(isRelevantArticle(story("RI proposes cultural cooperation with Indonesia"), country, feed, plan), false);
 });
 
+test("sparse English culture searches national demonyms and arts vocabulary without retaining safety culture", async () => {
+  const urls = [], genuine = story("First Guyanese food truck in Manhattan serves up authentic cuisine", 1);
+  const result = await fetchArticlesForFeed(getCountry("GY"), getFeed("culture"), { ...options,
+    fetchImpl: async url => {
+      urls.push(url);
+      return new Response(rss(urls.length < 3
+        ? [story("Occupational Safety and Health Officer Calls for a Stronger Safety Culture in Guyana")]
+        : [genuine, story("Jamaican artists perform a concert"), story("Guyanese cultural festival", 15)]));
+    }
+  });
+  assert.equal(urls.length, 3);
+  assert.match(urls[2].searchParams.get("q"), /"Guyana" OR "Guyanese"/);
+  assert.match(urls[2].searchParams.get("q"), /"cuisine"/);
+  assert.equal(result.length, 1);
+  assert.equal(result[0].title, genuine.title);
+  assert.equal(result[0].publishedAt, genuine.publishedAt);
+});
+
+test("partial recovery cannot retain a cached workplace-culture false positive", async t => {
+  const destination = await mkdtemp(path.join(tmpdir(), "latam-culture-cache-"));
+  t.after(() => rm(destination, { recursive: true, force: true }));
+  const country = getCountry("GY"), feeds = [getFeed("culture"), getFeed("top")];
+  await generateFeeds({ destination, countries: [country], feeds,
+    fetchFeed: async () => [story("Guyana strengthens its safety culture")] });
+  await generateFeeds({ destination, countries: [country], feeds,
+    fetchFeed: async (_, feed) => feed.key === "culture" ? [] : [story("Guyana opens new schools")] });
+  const manifest = JSON.parse(await readFile(path.join(destination, "manifest.json")));
+  assert.equal(manifest.countries[0].feeds.culture.count, 0);
+  assert.equal(manifest.countries[0].feeds.culture.updatedAt, null);
+  assert.equal(manifest.countries[0].feeds.culture.stale, true);
+  assert.deepEqual(JSON.parse(await readFile(path.join(destination, "countries/GY/category/culture.json"))), []);
+});
+
 test("all 24 countries and ten feeds have bounded country-scoped search plans", () => {
   assert.equal(countries.length * feedConfigs.length, 240);
   for (const country of countries) for (const feed of feedConfigs) {
