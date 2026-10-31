@@ -4,6 +4,7 @@ import os from "node:os";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
+import { setTimeout as delay } from "node:timers/promises";
 import { WORKFLOWS, mainRun, recoveryDecision, recordScheduled, validateHealth } from "../src/watchdogPolicy.js";
 
 const root = fileURLToPath(new URL("../..", import.meta.url));
@@ -332,27 +333,39 @@ async function inspectPublication(commit, now, { publicationTime = false } = {})
   }
 }
 
-async function compareAppFacing(publication) {
-  const files = publication.relativeFiles;
-  let index = 0;
-  await Promise.all(Array.from({ length: 8 }, async () => {
-    while (index < files.length) {
-      const relative = files[index++];
-      let matched = false;
-      for (let attempt = 0; attempt < 3; attempt++) {
-        try {
-          const response = await fetch(`https://raw.githubusercontent.com/${process.env.GITHUB_REPOSITORY}/main/docs/api/${relative}`, { signal: AbortSignal.timeout(20_000) });
-          if (!response.ok) continue;
-          const actual = Buffer.from(await response.arrayBuffer());
-          const expected = await fs.readFile(path.join(publication.directory, "docs/api", relative));
-          matched = actual.equals(expected);
-          if (matched) break;
-        } catch { /* A CDN response must never expose raw network diagnostics. */ }
+export async function compareAppFacing(publication, { fetchImpl = fetch, sleep = delay, now = Date.now } = {}) {
+  // Raw GitHub serves max-age=300 responses. Immediate retries can all read
+  // the preceding publication. Allow one bounded propagation interval, retrying
+  // only unmatched files; never report success until every original URL matches.
+  const deadline = now() + 330_000;
+  let remaining = publication.relativeFiles;
+  while (remaining.length) {
+    let index = 0;
+    const pending = [];
+    await Promise.all(Array.from({ length: 8 }, async () => {
+      while (index < remaining.length) {
+        const relative = remaining[index++];
+        let matched = false;
+        if (now() < deadline) {
+          try {
+            const response = await fetchImpl(`https://raw.githubusercontent.com/${process.env.GITHUB_REPOSITORY}/main/docs/api/${relative}`,
+              { signal: AbortSignal.timeout(Math.max(1, Math.min(20_000, deadline - now()))) });
+            if (response.ok) {
+              const actual = Buffer.from(await response.arrayBuffer());
+              const expected = await fs.readFile(path.join(publication.directory, "docs/api", relative));
+              matched = actual.equals(expected);
+            }
+          } catch { /* Do not expose response bodies, headers or raw diagnostics. */ }
+        }
+        if (!matched) pending.push(relative);
       }
-      if (!matched) throw new Error(`App-facing publication mismatch or unavailable: ${relative}`);
-    }
-  }));
-  return files.length;
+    }));
+    if (!pending.length) return publication.relativeFiles.length;
+    if (now() >= deadline) throw new Error(`App-facing publication mismatch or unavailable: ${pending[0]}`);
+    remaining = pending;
+    await sleep(Math.min(30_000, deadline - now()));
+  }
+  return 0;
 }
 
 export async function inspectRun(api, kind, run, now) {
