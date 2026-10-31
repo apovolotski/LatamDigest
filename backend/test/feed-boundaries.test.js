@@ -52,14 +52,19 @@ test("cooperation needs an international subject rather than a domestic agreemen
   ]) assert.equal(relevant(id, "world", article(title)), true, title);
 });
 
-test("saving and prevention culture are not arts, while independent cultural evidence survives", () => {
+test("financial and prevention culture are not arts, while independent cultural evidence survives", () => {
   for (const [id, title] of [
     ["PA", "Cultura de ahorro en Panamá: Solo el 44% de las familias logra guardar dinero"],
+    ["BO", "Bolivia necesita fortalecer una cultura de inversión"],
     ["NI", "Claro Nicaragua impulsa una cultura de prevención y seguridad vial"],
     ["BR", "Brasil promove cultura de poupança"],
+    ["BR", "Brasil promove uma cultura de investimento"],
     ["GF", "Guyane développe une culture de la prévention"],
+    ["GF", "Guyane développe une culture de l'investissement"],
     ["SR", "Suriname bevordert een spaarcultuur"],
-    ["GY", "Guyana encourages a savings culture"]
+    ["SR", "Suriname bevordert een beleggingscultuur"],
+    ["GY", "Guyana encourages a savings culture"],
+    ["GY", "Guyana encourages an investment culture"]
   ]) {
     assert.equal(relevant(id, "culture", article(title)), false, title);
     assert.equal(relevant(id, "culture", article(`${title}: music festival`)), true, title);
@@ -89,7 +94,7 @@ test("recrawled event-directory listings cannot acquire a new original publicati
   ]) for (const key of ["culture", "top", "latest"]) {
     assert.equal(relevant("GT", key, article(title, "Guatemala.com")), false, `${key}: ${title}`);
   }
-  assert.equal(relevant("GT", "culture", article("Guatemala inaugura un nuevo museo de arte", "Guatemala.com")), true);
+  assert.equal(relevant("GT", "culture", article("Guatemala inaugura un nuevo museo de arte", "Guatemala.com")), false);
   assert.equal(relevant("GT", "culture", article("Guatemala inaugura el festival de cine 2026", "Ministerio de Cultura")), true);
   const old = { ...article("Guatemala inaugura un museo de arte"), publishedAt: new Date(now - 15 * 86400_000).toISOString() };
   assert.equal(relevant("GT", "culture", old), false);

@@ -173,7 +173,7 @@ const domesticCooperation = /\b(?:local(?:es)?|locais|lokale|municip\w*|provinc\
 // Workplace/organizational "culture" is not arts or cultural heritage. Remove
 // only that phrase so independent cultural reporting in the title still counts.
 const figurativeCulture = /\b(?:safety|security|workplace|corporate|organizational|organisational|compliance) culture\b|\bculture of (?:safety|security|compliance|corruption|violence)\b|\bcultura (?:de |da |do )?(?:seguridad|seguranca|empresarial|organizacional|corporativa|corrupcion|corrupcao|violencia)\b|\bculture (?:de |d |du |des |la )*(?:securite|entreprise|organisationnelle|corruption|violence)\b|\b(?:veiligheids|bedrijfs|organisatie|bestuurs)cultuur\b|\bcultuur van (?:veiligheid|corruptie|geweld)\b/g;
-const financialOrPreventiveCulture = /\b(?:savings|prevention) culture\b|\bculture of (?:saving|savings|prevention)\b|\bcultura (?:de |da |do )?(?:ahorro|prevencion|poupanca|prevencao)\b|\bculture (?:de |d |du |des |la |l )*(?:epargne|prevention)\b|\b(?:spaar|preventie)cultuur\b|\bcultuur van (?:sparen|preventie)\b/g;
+const financialOrPreventiveCulture = /\b(?:savings|investment|financial|tax|prevention) culture\b|\bculture of (?:saving|savings|investment|investing|prevention)\b|\bcultura (?:de |da |do )?(?:ahorro|inversion|investimento|financiera|financeira|tributaria|fiscal|prevencion|poupanca|prevencao)\b|\bculture (?:de |d |du |des |la |l )*(?:epargne|investissement|financiere|fiscale|prevention)\b|\b(?:spaar|beleggings|investerings|preventie)cultuur\b|\bcultuur van (?:sparen|beleggen|investeren|preventie)\b/g;
 
 const cultureSearchAliases = {
   GY: '("Guyana" OR "Guyanese")',
@@ -240,10 +240,10 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b/.test(normalized(article.title))) return false;
   // Verified event-directory entries from this publisher received new RSS
   // crawl dates despite describing 2018/2025 and March/early October events.
-  // This listing class lacks reliable original article dates, including entries
-  // without a year in the title. Ordinary non-listing reporting stays eligible.
-  if (normalized(article.sourceName ?? "") === "guatemala com" &&
-      /\b(?:festivales?|festivals?|conciertos?|estrenos?|reestrenos?|carteleras?|ferias?|talleres?)\b/.test(normalized(article.title))) return false;
+  // The RSS does not distinguish those crawl timestamps from original dates,
+  // even for undated titles. Quarantine this source until original publication
+  // dates can be verified; do not guess dates or pad feeds with its old listings.
+  if (normalized(article.sourceName ?? "") === "guatemala com") return false;
   const [localLanguage, , aliases] = profiles[country.id];
   const countryTerms = `${aliases}|${country.name}`.split("|");
   let geographicTitle = normalized(article.title);
