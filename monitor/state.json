@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "repository": "apovolotski/LatamDigest",
   "continuous": true,
-  "cutoff": "2026-10-31T06:46:50Z",
+  "cutoff": "2026-10-31T15:33:34Z",
   "milestone": {
     "backend": {
       "runIds": [],
@@ -35,19 +35,20 @@
           "reason": "source_semantic_and_original_date_repair",
           "repairCommit": "3658525a88db8b9a6330dc21962220e90aad86fb",
           "cutoff": "2026-10-31T03:27:38Z"
+        },
+        {
+          "runIds": [],
+          "attempts": {},
+          "endedAt": "2026-10-31T15:33:34Z",
+          "reason": "source_editorial_boundary_and_nonnews_repair",
+          "repairCommit": "be5192f1b034785e9a08dff3881cda4c76511077",
+          "cutoff": "2026-10-31T06:46:50Z"
         }
       ]
     },
     "feeds": {
-      "runIds": [
-        41200553662
-      ],
-      "attempts": {
-        "41200553662:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-31T12:21:17.663Z"
-        }
-      },
+      "runIds": [],
+      "attempts": {},
       "history": [
         {
           "endedAt": "2026-10-31T03:27:38Z",
@@ -108,6 +109,24 @@
           "cutoff": "2026-10-31T03:27:38Z",
           "subsequentlyInvalidatedRunIds": [
             41173078980
+          ]
+        },
+        {
+          "runIds": [
+            41200553662
+          ],
+          "attempts": {
+            "41200553662:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-31T12:21:17.663Z"
+            }
+          },
+          "endedAt": "2026-10-31T15:33:34Z",
+          "reason": "source_editorial_boundary_and_nonnews_repair",
+          "repairCommit": "be5192f1b034785e9a08dff3881cda4c76511077",
+          "cutoff": "2026-10-31T06:46:50Z",
+          "subsequentlyInvalidatedRunIds": [
+            41200553662
           ]
         }
       ]
@@ -3241,8 +3260,10 @@
           "lines": 671
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent editorial review rejected 51 article placements across 26 feeds. Corrected category/geographic ambiguities, promotional spam and recrawled non-news database profiles; repaired by be5192f1b034785e9a08dff3881cda4c76511077."
+      ],
       "tests": {
         "refresh": 157
       },
@@ -3287,6 +3308,92 @@
         "jobLogLines": 671,
         "startedAt": "2026-10-31T06:37:58.000Z",
         "completedAt": "2026-10-31T06:39:48.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41177392651,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-10-31T06:37:44Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "3658525a88db8b9a6330dc21962220e90aad86fb",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41177392651",
+          "verifiedAt": "2026-10-31T06:40:13.156Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "18b80a9458a6a606110080cbdc26a6f07f0f1a1de0775308244639ccebb369b5",
+          "completeLogLines": 671,
+          "jobLogs": [
+            {
+              "id": 124467664031,
+              "name": "refresh",
+              "sha256": "18b80a9458a6a606110080cbdc26a6f07f0f1a1de0775308244639ccebb369b5",
+              "lines": 671
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 157
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124467664031,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "18b80a9458a6a606110080cbdc26a6f07f0f1a1de0775308244639ccebb369b5",
+              "jobLogLines": 671,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 157,
+                "pass": 157,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124467664031,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "18b80a9458a6a606110080cbdc26a6f07f0f1a1de0775308244639ccebb369b5",
+              "jobLogLines": 671,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124467664031,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "18b80a9458a6a606110080cbdc26a6f07f0f1a1de0775308244639ccebb369b5",
+            "jobLogLines": 671,
+            "startedAt": "2026-10-31T06:37:58.000Z",
+            "completedAt": "2026-10-31T06:39:48.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T15:33:34Z",
+        "repairCommit": "be5192f1b034785e9a08dff3881cda4c76511077",
+        "supersedingPublication": "2bc278286c70f1807cc4b3838221a0f8ff5b3e65",
+        "affectedFeeds": 26,
+        "rejectedArticlePlacements": 51,
+        "githubConclusionUnchanged": true
       }
     },
     "41200553662:1": {
@@ -3317,8 +3424,10 @@
           "lines": 670
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent editorial review rejected 59 article placements across 30 feeds. Corrected category/geographic ambiguities, promotional spam and recrawled non-news database profiles; repaired by be5192f1b034785e9a08dff3881cda4c76511077."
+      ],
       "tests": {
         "refresh": 157
       },
@@ -3363,6 +3472,92 @@
         "jobLogLines": 670,
         "startedAt": "2026-10-31T12:19:11.000Z",
         "completedAt": "2026-10-31T12:20:53.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41200553662,
+          "attempt": 1,
+          "event": "schedule",
+          "createdAt": "2026-10-31T12:19:04Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "a564ec56a4f2817a2993f56384c52e1c441474b0",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41200553662",
+          "verifiedAt": "2026-10-31T12:21:17.663Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "6b5c9b0325dd15bc7eb3d3287b24ac7c758f24f31264cca158982c16ba063668",
+          "completeLogLines": 670,
+          "jobLogs": [
+            {
+              "id": 124535337894,
+              "name": "refresh",
+              "sha256": "6b5c9b0325dd15bc7eb3d3287b24ac7c758f24f31264cca158982c16ba063668",
+              "lines": 670
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 157
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124535337894,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "6b5c9b0325dd15bc7eb3d3287b24ac7c758f24f31264cca158982c16ba063668",
+              "jobLogLines": 670,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 157,
+                "pass": 157,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124535337894,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "6b5c9b0325dd15bc7eb3d3287b24ac7c758f24f31264cca158982c16ba063668",
+              "jobLogLines": 670,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124535337894,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "6b5c9b0325dd15bc7eb3d3287b24ac7c758f24f31264cca158982c16ba063668",
+            "jobLogLines": 670,
+            "startedAt": "2026-10-31T12:19:11.000Z",
+            "completedAt": "2026-10-31T12:20:53.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T15:33:34Z",
+        "repairCommit": "be5192f1b034785e9a08dff3881cda4c76511077",
+        "supersedingPublication": "2bc278286c70f1807cc4b3838221a0f8ff5b3e65",
+        "affectedFeeds": 30,
+        "rejectedArticlePlacements": 59,
+        "githubConclusionUnchanged": true
       }
     },
     "41207324993:1": {
@@ -3748,8 +3943,10 @@
           "lines": 723
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent editorial review rejected 13 article placements across 6 feeds. Corrected category/geographic ambiguities, promotional spam and recrawled non-news database profiles; repaired by be5192f1b034785e9a08dff3881cda4c76511077."
+      ],
       "tests": {
         "refresh": 166
       },
@@ -3794,6 +3991,92 @@
         "jobLogLines": 723,
         "startedAt": "2026-10-31T14:10:10.000Z",
         "completedAt": "2026-10-31T14:12:05.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41208862687,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-10-31T14:10:01Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "3c430740efb22ce38c32c3ec9664ca843b56b9bc",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41208862687",
+          "verifiedAt": "2026-10-31T14:12:33.393Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "2c46f20b1eaad3bdfcccb9104b0c24d9ba119235fe0a1997acab65b955852645",
+          "completeLogLines": 723,
+          "jobLogs": [
+            {
+              "id": 124559454117,
+              "name": "refresh",
+              "sha256": "2c46f20b1eaad3bdfcccb9104b0c24d9ba119235fe0a1997acab65b955852645",
+              "lines": 723
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 166
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124559454117,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "2c46f20b1eaad3bdfcccb9104b0c24d9ba119235fe0a1997acab65b955852645",
+              "jobLogLines": 723,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 166,
+                "pass": 166,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124559454117,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "2c46f20b1eaad3bdfcccb9104b0c24d9ba119235fe0a1997acab65b955852645",
+              "jobLogLines": 723,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124559454117,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "2c46f20b1eaad3bdfcccb9104b0c24d9ba119235fe0a1997acab65b955852645",
+            "jobLogLines": 723,
+            "startedAt": "2026-10-31T14:10:10.000Z",
+            "completedAt": "2026-10-31T14:12:05.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T15:33:34Z",
+        "repairCommit": "be5192f1b034785e9a08dff3881cda4c76511077",
+        "supersedingPublication": "2bc278286c70f1807cc4b3838221a0f8ff5b3e65",
+        "affectedFeeds": 6,
+        "rejectedArticlePlacements": 13,
+        "githubConclusionUnchanged": true
       }
     },
     "41210411394:1": {
@@ -4060,8 +4343,10 @@
           "lines": 723
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent editorial review rejected 11 article placements across 5 feeds. Corrected category/geographic ambiguities, promotional spam and recrawled non-news database profiles; repaired by be5192f1b034785e9a08dff3881cda4c76511077."
+      ],
       "tests": {
         "refresh": 167
       },
@@ -4106,6 +4391,92 @@
         "jobLogLines": 723,
         "startedAt": "2026-10-31T14:30:37.000Z",
         "completedAt": "2026-10-31T14:32:29.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41210432209,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-10-31T14:30:27Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "2a52af09bc9629965095151ccb6861106dd77b71",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41210432209",
+          "verifiedAt": "2026-10-31T14:32:54.010Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "b27dea72bf2076bbed2036e54407c247971e75bb2064cfb4e765c63fa5d1fd19",
+          "completeLogLines": 723,
+          "jobLogs": [
+            {
+              "id": 124564094947,
+              "name": "refresh",
+              "sha256": "b27dea72bf2076bbed2036e54407c247971e75bb2064cfb4e765c63fa5d1fd19",
+              "lines": 723
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 167
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124564094947,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "b27dea72bf2076bbed2036e54407c247971e75bb2064cfb4e765c63fa5d1fd19",
+              "jobLogLines": 723,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 167,
+                "pass": 167,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124564094947,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "b27dea72bf2076bbed2036e54407c247971e75bb2064cfb4e765c63fa5d1fd19",
+              "jobLogLines": 723,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124564094947,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "b27dea72bf2076bbed2036e54407c247971e75bb2064cfb4e765c63fa5d1fd19",
+            "jobLogLines": 723,
+            "startedAt": "2026-10-31T14:30:37.000Z",
+            "completedAt": "2026-10-31T14:32:29.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T15:33:34Z",
+        "repairCommit": "be5192f1b034785e9a08dff3881cda4c76511077",
+        "supersedingPublication": "2bc278286c70f1807cc4b3838221a0f8ff5b3e65",
+        "affectedFeeds": 5,
+        "rejectedArticlePlacements": 11,
+        "githubConclusionUnchanged": true
       }
     },
     "41214527606:1": {
@@ -4658,6 +5029,53 @@
         41175861390,
         41176416978,
         41176758790
+      ]
+    },
+    {
+      "recordedAt": "2026-10-31T15:33:34Z",
+      "type": "source_editorial_boundary_and_nonnews_repair",
+      "sourceCommit": "be5192f1b034785e9a08dff3881cda4c76511077",
+      "precedingSourceCommits": [
+        "3c430740efb22ce38c32c3ec9664ca843b56b9bc",
+        "2a52af09bc9629965095151ccb6861106dd77b71"
+      ],
+      "reason": "Reject promotional explicit-video spam, Guyana/French Guiana translation and Puerto Rico resort confusion, diplomatic job-title business matches, police sports/ceremonial and playing-court crime matches, social/labour justice crime matches, wildlife festivals without arts evidence, and international airport/sports/book/culinary labels without world-affairs evidence. Exclude recrawled live-score and OEC commodity-profile database templates while retaining actual reporting. The original publication dates of database profiles are not established by RSS crawl timestamps; no dates are invented. RSS and cached recovery share the same checks. All prior source/date quarantines and validation limits remain.",
+      "previousCutoff": "2026-10-31T06:46:50Z",
+      "cutoff": "2026-10-31T15:33:34Z",
+      "regressionTestsAdded": 11,
+      "baselines": {
+        "backend": {
+          "id": 41214633705,
+          "event": "workflow_dispatch",
+          "source": "be5192f1b034785e9a08dff3881cda4c76511077",
+          "fullTests": 184,
+          "feedTests": 168,
+          "controllerTests": 67,
+          "productionAudits": 0
+        },
+        "feeds": {
+          "id": 41214545931,
+          "event": "workflow_dispatch",
+          "source": "be5192f1b034785e9a08dff3881cda4c76511077",
+          "publication": "2bc278286c70f1807cc4b3838221a0f8ff5b3e65",
+          "feedTests": 168,
+          "refreshedFeeds": 240,
+          "cachedFeeds": 0,
+          "publicationSafetyHours": 24
+        },
+        "hosted": {
+          "id": 41215256202,
+          "event": "workflow_dispatch",
+          "source": "2bc278286c70f1807cc4b3838221a0f8ff5b3e65",
+          "controllerTests": 67,
+          "appFacingFilesMatched": 243
+        }
+      },
+      "correctedPriorVerifications": [
+        41177392651,
+        41200553662,
+        41208862687,
+        41210432209
       ]
     }
   ]
