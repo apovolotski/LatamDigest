@@ -253,7 +253,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   if (explicitVideoPromotion.test(normalized(article.title))) return false;
   // Google can assign a recent crawl date to evergreen sports database pages.
   // Country and sports keywords do not turn standings/statistics into news.
-  if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b/.test(normalized(article.title))) return false;
+  if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b|\blive score\b.*\bh2h\b.*\blineups\b/.test(normalized(article.title))) return false;
   // Verified Guatemala.com event listings and laprensa.hn archive stories
   // received new RSS crawl dates despite original publication in 2014/2016,
   // 2018/2025 and March/early October 2026.
@@ -303,7 +303,9 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   if (feed.key === "business") title = normalized(title).replace(diplomaticBusinessTitles, " ");
   if (feed.key === "crime") {
     title = normalized(title).replace(noncriminalJustice, " ");
-    if (policeCommunityEvents.test(title) && !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
+    const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
+    if ((policeCommunityEvents.test(title) || sports.some(term => matches(title, term))) &&
+        !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
   }
   if (feed.key === "politics") title = normalized(title).replace(/\b\d{1,2}(?: \d{2})? pm\b/g, " ");
   if (feed.key === "world") {

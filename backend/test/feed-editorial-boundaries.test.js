@@ -44,6 +44,7 @@ test("French Guyana translations and the Gran Canaria resort need independent na
 test("police sport and ceremonial honors require independent crime evidence", () => {
   for (const [id, title] of [
     ["GY", policeSport], ["CO", "Honor a quienes sirvieron a Colombia: Policía Nacional exalta el legado de los veteranos"],
+    ["GY", "New Era Entertainment 20th ExxonMobil Guyana Futsal kicks off tonight at Retrieve Hard Court in Linden"],
     ["BR", "Polícia do Brasil homenageia veteranos"], ["GF", "Police de Guyane rend hommage aux vétérans"],
     ["SR", "Politie Suriname organiseert voetbal voor jongeren"]
   ]) {
@@ -52,6 +53,13 @@ test("police sport and ceremonial honors require independent crime evidence", ()
     assert.equal(relevant(id, "top", title), true, title);
   }
   assert.equal(relevant("GY", "crime", "Guyana police arrest youth academy coach for fraud"), true);
+});
+
+test("recrawled live-score databases cannot become fresh news through police team names", () => {
+  const title = "Guyana Defence Force FC vs Guyana Police Force FC live score, H2H and lineups";
+  for (const key of ["top", "latest", "sports", "crime"]) assert.equal(relevant("GY", key, title), false);
+  assert.equal(relevant("GY", "crime", "Guyana Police Force FC coach arrested for fraud"), true);
+  assert.equal(relevant("GY", "sports", "Guyana Police Force FC wins football final"), true);
 });
 
 test("social and employment justice alone are not criminal justice", () => {
