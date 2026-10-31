@@ -151,16 +151,29 @@ const countryAmbiguities = {
   CU: /\bmark cuban\b/g,
   MX: /\bnew mexico\b/g,
   PA: /\bpanama city (?:beach )?florida\b/g,
-  CL: /\b(?:green|red|hatch) chiles?\b|\bchile peppers?\b/g
+  CL: /\b(?:green|red|hatch) chiles?\b|\bchile peppers?\b/g,
+  UY: /\bconcepcion del uruguay\b/g,
+  EC: /\b(?:alcanza|alcanzo|alcanzado|cruza|supera|llega a) (?:su|el) ecuador\b/g,
+  PE: /\b(?:mercadito|barrio|calle|avenida) (?:la |el )?peru\b/g
 };
 
 const honoraryAmbassadors = /\b(?:cultural|brand) ambassador\w*\b|\bembajador(?:a|es|as)? (?:de (?:la )?marca|cultural(?:es)?)\b|\bembaixador(?:a|es|as)? (?:(?:da|de) marca|cultura(?:l|is))\b|\bambassad(?:eur|rice)s? (?:de marque|culturel(?:le)?s?)\b|\b(?:cultureel|culturele) ambassadeur\b/g;
 const weakWorldTerms = new Set(["international", "internacional", "internationaal", "internacional*", "internaciona*", "internationa*"]);
 const entertainmentTerms = "gira|tour|tournee|tournée|turnê|pageant|miss|beauty|belleza|beleza|festival|concert*|conciert*|concerto*|carnival*|carnaval*|muziek*|music*|musica*|musical*|film*|cinema*".split("|");
+const cooperationTerms = new Set(["cooperación", "cooperação", "coopération", "samenwerking", "cooperation"]);
+const regionNames = ["es", "pt", "fr", "nl", "en"].map(language => new Intl.DisplayNames(language, { type: "region" }));
+const translatedCountries = Object.fromEntries(Object.keys(profiles).map(id => [id, regionNames.map(names => names.of(id))]));
+// Explicitly domestic cooperation needs independent international evidence.
+// Do not require a closed list of foreign names for all cooperation reporting:
+// international partners may also be cities, institutions or named officials.
+const externalPartners = "Spain|España|Espanha|Spanje|Espagne|France|Francia|França|Frankrijk|Germany|Alemania|Alemanha|Allemagne|Duitsland|China|Japan|Japón|Japão|Japon|Taiwan|Taiwán|Canada|Canadá|United States|Estados Unidos|États Unis|Verenigde Staten|USA|EUA|EEUU|Florida|United Kingdom|Reino Unido|Royaume Uni|Verenigd Koninkrijk|Netherlands|Países Bajos|Pays Bas|Nederland|Indonesia|Indonesië|Indonésie|India|Russia|Rusia|Russie|Rússia|Korea|Corea|Corée|Camboya|Cambodia|Cambodge|Italy|Italia|Italie|Portugal|Israel|Israël|Jamaica|Curaçao|Curacao|Martinique|Guadeloupe|Benelux|European Union|Unión Europea|União Europeia|Union européenne|Europese Unie".split("|");
+const sportingEventTerms = "FIFA|UEFA|CONMEBOL|world cup|copa mundial|copa del mundo|copa do mundo|coupe du monde|wereldbeker".split("|");
+const domesticCooperation = /\b(?:local(?:es)?|locais|lokale|municip\w*|provinc\w*|interprovinc\w*)\b/;
 
 // Workplace/organizational "culture" is not arts or cultural heritage. Remove
 // only that phrase so independent cultural reporting in the title still counts.
 const figurativeCulture = /\b(?:safety|security|workplace|corporate|organizational|organisational|compliance) culture\b|\bculture of (?:safety|security|compliance|corruption|violence)\b|\bcultura (?:de |da |do )?(?:seguridad|seguranca|empresarial|organizacional|corporativa|corrupcion|corrupcao|violencia)\b|\bculture (?:de |d |du |des |la )*(?:securite|entreprise|organisationnelle|corruption|violence)\b|\b(?:veiligheids|bedrijfs|organisatie|bestuurs)cultuur\b|\bcultuur van (?:veiligheid|corruptie|geweld)\b/g;
+const financialOrPreventiveCulture = /\b(?:savings|prevention) culture\b|\bculture of (?:saving|savings|prevention)\b|\bcultura (?:de |da |do )?(?:ahorro|prevencion|poupanca|prevencao)\b|\bculture (?:de |d |du |des |la |l )*(?:epargne|prevention)\b|\b(?:spaar|preventie)cultuur\b|\bcultuur van (?:sparen|preventie)\b/g;
 
 const cultureSearchAliases = {
   GY: '("Guyana" OR "Guyanese")',
@@ -225,6 +238,12 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // Google can assign a recent crawl date to evergreen sports database pages.
   // Country and sports keywords do not turn standings/statistics into news.
   if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b/.test(normalized(article.title))) return false;
+  // Verified event-directory entries from this publisher received new RSS
+  // crawl dates despite describing 2018/2025 and March/early October events.
+  // This listing class lacks reliable original article dates, including entries
+  // without a year in the title. Ordinary non-listing reporting stays eligible.
+  if (normalized(article.sourceName ?? "") === "guatemala com" &&
+      /\b(?:festivales?|festivals?|conciertos?|estrenos?|reestrenos?|carteleras?|ferias?|talleres?)\b/.test(normalized(article.title))) return false;
   const [localLanguage, , aliases] = profiles[country.id];
   const countryTerms = `${aliases}|${country.name}`.split("|");
   let geographicTitle = normalized(article.title);
@@ -241,10 +260,23 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     ...(topicMatchTerms[`${language}/${feed.key}`] ?? "").split("|").filter(Boolean)
   ]);
   let title = article.title;
-  if (feed.key === "culture") title = normalized(title).replace(figurativeCulture, " ");
+  if (feed.key === "culture") {
+    title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ");
+    const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
+    // A sporting "festival" is not an arts festival. Preserve actual music,
+    // cinema, heritage, etc. even when a title also discusses sport.
+    if (([...sports, ...sportingEventTerms].some(term => matches(title, term)) || /\b(?:sub|under|u) \d{1,2}\b/.test(title)) &&
+        !terms.filter(term => term !== "festival").some(term => matches(title, term))) return false;
+  }
   if (feed.key === "politics") title = normalized(title).replace(/\b\d{1,2}(?: \d{2})? pm\b/g, " ");
   if (feed.key === "world") {
     title = normalized(title).replace(honoraryAmbassadors, " ");
+    const domestic = domesticCooperation.test(title) || matches(title, `por ${profiles[country.id][1]}`);
+    if (domestic && !terms.filter(term => !cooperationTerms.has(term)).some(term => matches(title, term))) {
+      const otherCountries = Object.entries(profiles).filter(([id]) => id !== country.id)
+        .flatMap(([id, profile]) => [...profile[2].split("|"), ...translatedCountries[id]]);
+      if (![...otherCountries, ...externalPartners].some(term => matches(title, term))) return false;
+    }
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     if ([...sports, ...entertainmentTerms].some(term => matches(title, term)) &&
         !terms.filter(term => !weakWorldTerms.has(term)).some(term => matches(title, term))) return false;
