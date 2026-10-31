@@ -254,6 +254,10 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // Google can assign a recent crawl date to evergreen sports database pages.
   // Country and sports keywords do not turn standings/statistics into news.
   if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b|\blive score\b.*\bh2h\b.*\blineups\b/.test(normalized(article.title))) return false;
+  // OEC's commodity/country profiles are reusable trade databases, not dated
+  // news. A recent RSS crawl cannot establish original publication. Match the
+  // profile template only, retaining reporting that cites OEC statistics.
+  if (/\b(?:en el comercio de|in the trade of)\b.*\b(?:observatorio de complejidad economica|observatory of economic complexity)\b/.test(normalized(article.title))) return false;
   // Verified Guatemala.com event listings and laprensa.hn archive stories
   // received new RSS crawl dates despite original publication in 2014/2016,
   // 2018/2025 and March/early October 2026.

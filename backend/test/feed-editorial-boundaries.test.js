@@ -18,6 +18,16 @@ const geography = "Guyane : le roi Charles III rencontre le président guyanais 
 const resort = "Policía Local de Mogán, Guardia Civil y Policía Canaria realizan un operativo conjunto en los centros comerciales de Puerto Rico";
 const policeSport = "West Indies Masters provide grassroots boost to Guyana Police Force youth academy";
 const diplomat = "Brasil citó a la encargada de negocios de Argentina por la salida de Flávio Bolsonaro";
+const tradeProfile = "Granos de cacao en el Comercio de Nicaragua | Observatorio de Complejidad Económica";
+
+test("recrawled commodity data profiles are not dated business news", () => {
+  for (const key of ["top", "latest", "business"]) {
+    assert.equal(relevant("NI", key, tradeProfile), false);
+    assert.equal(relevant("NI", key, "Tractores con ruedas en el Comercio de Nicaragua | Observatorio de Complejidad Económica"), false);
+  }
+  assert.equal(relevant("NI", "business", "Nicaragua aumenta comercio de cacao según el Observatorio de Complejidad Económica"), true);
+  assert.equal(relevant("NI", "business", "Inversión en el comercio de Nicaragua aumenta este año"), true);
+});
 
 test("diplomatic job titles do not independently establish business coverage", () => {
   for (const [id, title] of [
@@ -116,7 +126,8 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
   for (const [id, key, bad, good] of [
     ["GT", "crime", spam, "Guatemala police arrest a murder suspect"],
     ["GF", "politics", geography, "Guyane : le gouvernement annonce un budget pour Cayenne"],
-    ["AR", "business", diplomat, "Argentina anuncia nuevas inversiones empresariales"]
+    ["AR", "business", diplomat, "Argentina anuncia nuevas inversiones empresariales"],
+    ["NI", "business", tradeProfile, "Nicaragua anuncia nuevas inversiones empresariales"]
   ]) {
     const items = [bad, good].map(title => article(title, Date.now()));
     const xml = `<rss><channel>${items.map(a => `<item><title>${a.title}</title><link>${a.url}</link><source>${a.sourceName}</source><pubDate>${a.publishedAt}</pubDate></item>`).join("")}</channel></rss>`;
@@ -131,7 +142,8 @@ test("cached recovery cannot restore newly identified spam or semantic errors", 
     ["GT", "crime", spam], ["GF", "politics", geography], ["PR", "crime", resort],
     ["GY", "crime", policeSport], ["AR", "business", diplomat],
     ["BO", "culture", "Festival del Gato Andino y los Felinos de Bolivia"],
-    ["MX", "world", "Aeropuerto Internacional de la Ciudad de México: vuelos demorados"]
+    ["MX", "world", "Aeropuerto Internacional de la Ciudad de México: vuelos demorados"],
+    ["NI", "business", tradeProfile]
   ]) {
     const destination = await mkdtemp(path.join(tmpdir(), "latam-editorial-cache-"));
     t.after(() => rm(destination, { recursive: true, force: true }));
