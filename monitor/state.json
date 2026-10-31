@@ -2928,6 +2928,124 @@
           "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
         }
       }
+    },
+    "41177420945:1": {
+      "id": 41177420945,
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "createdAt": "2026-10-31T06:38:10Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "3658525a88db8b9a6330dc21962220e90aad86fb",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41177420945",
+      "verifiedAt": "2026-10-31T06:38:56.226Z",
+      "jobs": [
+        {
+          "name": "check",
+          "conclusion": "success",
+          "stepMetadataCount": 15
+        },
+        {
+          "name": "static-feeds",
+          "conclusion": "success",
+          "stepMetadataCount": 11
+        },
+        {
+          "name": "publish-security-update",
+          "conclusion": "skipped",
+          "stepMetadataCount": 0
+        }
+      ],
+      "completeLogSha256": "e48453706eab262bea3f9d51a9880f2b8cc8f2afe3534f2d7a5451cc74be9a16",
+      "completeLogLines": 1359,
+      "jobLogs": [
+        {
+          "id": 124467746492,
+          "name": "check",
+          "sha256": "8d577d4e52ff96ba205671b2f73c5d6643dd2a1f4e0688e9492e65425379a563",
+          "lines": 739
+        },
+        {
+          "id": 124467788315,
+          "name": "static-feeds",
+          "sha256": "a1dba5a338b14df7f7fc226ead7467c3c1d116485d617ce185d32bfd16dea580",
+          "lines": 619
+        }
+      ],
+      "valid": true,
+      "issues": [],
+      "tests": {
+        "check": 173,
+        "static-feeds": 157
+      },
+      "testEvidence": {
+        "check:10": {
+          "jobId": 124467746492,
+          "stepNumber": 10,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "8d577d4e52ff96ba205671b2f73c5d6643dd2a1f4e0688e9492e65425379a563",
+          "jobLogLines": 739,
+          "command": "npm test",
+          "minimum": 161,
+          "summary": {
+            "tests": 173,
+            "pass": 173,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        },
+        "static-feeds:7": {
+          "jobId": 124467788315,
+          "stepNumber": 7,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "a1dba5a338b14df7f7fc226ead7467c3c1d116485d617ce185d32bfd16dea580",
+          "jobLogLines": 619,
+          "command": "npm test --workspace=@latam-digest/static-feeds",
+          "minimum": 145,
+          "summary": {
+            "tests": 157,
+            "pass": 157,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          }
+        },
+        "static-feeds:6": {
+          "jobId": 124467788315,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "a1dba5a338b14df7f7fc226ead7467c3c1d116485d617ce185d32bfd16dea580",
+          "jobLogLines": 619,
+          "command": "npm run check --workspace=@latam-digest/static-feeds",
+          "isolation": true
+        }
+      },
+      "audits": {
+        "check": 0,
+        "static-feeds": 0
+      },
+      "auditEvidence": {
+        "check": {
+          "jobId": 124467746492,
+          "stepNumber": 11,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "8d577d4e52ff96ba205671b2f73c5d6643dd2a1f4e0688e9492e65425379a563",
+          "jobLogLines": 739,
+          "command": "npm audit --omit=dev"
+        },
+        "static-feeds": {
+          "jobId": 124467788315,
+          "stepNumber": 8,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "a1dba5a338b14df7f7fc226ead7467c3c1d116485d617ce185d32bfd16dea580",
+          "jobLogLines": 619,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+        }
+      }
     }
   },
   "receipts": {
@@ -3008,7 +3126,7 @@
   },
   "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-10-31T06:38:15.908Z",
+    "checkedAt": "2026-10-31T06:38:56.226Z",
     "workflows": {
       "feeds": {
         "due": "2026-10-31T06:17:00.000Z",
@@ -3020,9 +3138,7 @@
       "backend": {
         "due": "2026-10-30T10:43:00.000Z",
         "state": "active",
-        "active": [
-          41177420945
-        ]
+        "active": []
       }
     },
     "decisions": {
@@ -3032,7 +3148,8 @@
       },
       "backend": {
         "dispatch": false,
-        "reason": "run_active"
+        "reason": "daily_check_covered",
+        "due": "2026-10-30T10:43:00.000Z"
       }
     },
     "problems": [],
@@ -3069,7 +3186,7 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-10-31T06:38:15.908Z",
+  "checkedAt": "2026-10-31T06:38:56.226Z",
   "activeAlerts": [],
   "repairs": [
     {
