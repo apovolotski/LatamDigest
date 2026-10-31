@@ -2,64 +2,82 @@
   "schemaVersion": 1,
   "repository": "apovolotski/LatamDigest",
   "continuous": true,
-  "cutoff": "2026-10-28T18:29:36Z",
+  "cutoff": "2026-10-31T03:27:38Z",
   "milestone": {
     "backend": {
-      "runIds": [
-        40917660711,
-        41093274541
-      ],
-      "attempts": {
-        "40917660711:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-29T17:04:39.882Z"
-        },
-        "41093274541:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-30T16:49:44.608Z"
+      "runIds": [],
+      "attempts": {},
+      "history": [
+        {
+          "endedAt": "2026-10-31T03:27:38Z",
+          "reason": "source_relevance_repair",
+          "repairCommit": "e5f795f2cd503819856523f3bb084902b5cedf54",
+          "cutoff": "2026-10-28T18:29:36Z",
+          "runIds": [
+            40917660711,
+            41093274541
+          ],
+          "attempts": {
+            "40917660711:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-29T17:04:39.882Z"
+            },
+            "41093274541:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-30T16:49:44.608Z"
+            }
+          }
         }
-      },
-      "history": []
+      ]
     },
     "feeds": {
-      "runIds": [
-        40780510391,
-        40824869679,
-        40877168669,
-        40967821165
-      ],
-      "attempts": {
-        "40780510391:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-28T22:40:53.041Z"
-        },
-        "40824869679:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-29T05:44:04.429Z"
-        },
-        "40877168669:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-29T12:56:55.790Z"
-        },
-        "40967821165:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-29T22:44:13.632Z"
-        },
-        "41009779471:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-30T05:43:34.786Z"
-        },
-        "41058026123:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-30T12:49:56.116Z"
-        },
-        "41136817308:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-10-30T22:17:05.854Z"
+      "runIds": [],
+      "attempts": {},
+      "history": [
+        {
+          "endedAt": "2026-10-31T03:27:38Z",
+          "reason": "source_relevance_repair",
+          "repairCommit": "e5f795f2cd503819856523f3bb084902b5cedf54",
+          "cutoff": "2026-10-28T18:29:36Z",
+          "runIds": [
+            40780510391,
+            40824869679,
+            40877168669,
+            40967821165
+          ],
+          "attempts": {
+            "40780510391:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-28T22:40:53.041Z"
+            },
+            "40824869679:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-29T05:44:04.429Z"
+            },
+            "40877168669:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-29T12:56:55.790Z"
+            },
+            "40967821165:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-29T22:44:13.632Z"
+            },
+            "41009779471:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-30T05:43:34.786Z"
+            },
+            "41058026123:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-30T12:49:56.116Z"
+            },
+            "41136817308:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-10-30T22:17:05.854Z"
+            }
+          },
+          "completedAt": "2026-10-29T22:44:13.632Z"
         }
-      },
-      "history": [],
-      "completedAt": "2026-10-29T22:44:13.632Z"
+      ]
     }
   },
   "inspected": {
@@ -1067,8 +1085,10 @@
         }
       ],
       "maintenanceKey": "repair-monitor-step-metadata-20261030",
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent semantic review: GY/culture included an occupational-safety story through the figurative phrase safety culture. Repaired by e5f795f2cd503819856523f3bb084902b5cedf54."
+      ],
       "tests": {
         "refresh": 145
       },
@@ -1113,6 +1133,20 @@
         "jobLogLines": 605,
         "startedAt": "2026-10-30T18:24:14.390Z",
         "completedAt": "2026-10-30T18:26:07.031Z"
+      },
+      "verificationHistory": [
+        {
+          "inspectionVersion": 5,
+          "verifiedAt": "2026-10-30T18:26:37.247Z",
+          "valid": true,
+          "issues": [],
+          "completeLogSha256": "a09a88384e8d9755d420bca3559d0ae8dcab191cbf05e6c6b319126d76643afe"
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T03:27:38Z",
+        "repairCommit": "e5f795f2cd503819856523f3bb084902b5cedf54",
+        "supersedingPublication": "a4633faa3b238068cd4368edbee14f63fc4188aa"
       }
     },
     "41136817308:1": {
@@ -1143,8 +1177,10 @@
           "lines": 609
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent semantic review: GY/culture included an occupational-safety story through the figurative phrase safety culture. Repaired by e5f795f2cd503819856523f3bb084902b5cedf54."
+      ],
       "tests": {
         "refresh": 145
       },
@@ -1189,6 +1225,20 @@
         "jobLogLines": 609,
         "startedAt": "2026-10-30T22:14:56.000Z",
         "completedAt": "2026-10-30T22:16:41.000Z"
+      },
+      "verificationHistory": [
+        {
+          "inspectionVersion": 5,
+          "verifiedAt": "2026-10-30T22:17:05.854Z",
+          "valid": true,
+          "issues": [],
+          "completeLogSha256": "4123581286509ad02ac671e9ec8fd2942d56bc208daa48525764714e195f5ee5"
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-10-31T03:27:38Z",
+        "repairCommit": "e5f795f2cd503819856523f3bb084902b5cedf54",
+        "supersedingPublication": "a4633faa3b238068cd4368edbee14f63fc4188aa"
       }
     },
     "41163709483:1": {
@@ -1883,5 +1933,46 @@
     }
   },
   "checkedAt": "2026-10-31T03:26:41.595Z",
-  "activeAlerts": []
+  "activeAlerts": [],
+  "repairs": [
+    {
+      "recordedAt": "2026-10-31T03:27:38Z",
+      "type": "source_relevance_repair",
+      "sourceCommit": "e5f795f2cd503819856523f3bb084902b5cedf54",
+      "controllerCommit": "6e4e7a7edb81c36f954f73085cbeaedb7b7ca9d2",
+      "reason": "GY/culture wrongly included workplace safety culture. Figurative-culture rejection, national arts/cuisine retrieval and cached-relevance regressions now pass.",
+      "previousCutoff": "2026-10-28T18:29:36Z",
+      "cutoff": "2026-10-31T03:27:38Z",
+      "baselines": {
+        "backend": {
+          "id": 41164342946,
+          "event": "workflow_dispatch",
+          "source": "6e4e7a7edb81c36f954f73085cbeaedb7b7ca9d2",
+          "fullTests": 165,
+          "feedTests": 149,
+          "productionAudits": 0
+        },
+        "feeds": {
+          "id": 41163776868,
+          "event": "workflow_dispatch",
+          "actor": "github-actions[bot]",
+          "source": "e5f795f2cd503819856523f3bb084902b5cedf54",
+          "publication": "a4633faa3b238068cd4368edbee14f63fc4188aa",
+          "feedTests": 149,
+          "refreshedFeeds": 240,
+          "cachedFeeds": 0
+        },
+        "hosted": {
+          "id": 41164282748,
+          "controllerTests": 67,
+          "appFacingFilesMatched": 243
+        }
+      },
+      "additionalControllerRepair": {
+        "failedRun": 41164047752,
+        "reason": "Immediate raw-main CDN reads still returned preceding-publication bytes with max-age=300. Bounded 330-second polling now retries unmatched original URLs; complete matching remains mandatory and persistent mismatch still fails.",
+        "regressionTestsAdded": 3
+      }
+    }
+  ]
 }
