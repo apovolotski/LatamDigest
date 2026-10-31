@@ -243,12 +243,18 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // Google can assign a recent crawl date to evergreen sports database pages.
   // Country and sports keywords do not turn standings/statistics into news.
   if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b/.test(normalized(article.title))) return false;
-  // Verified event-directory entries from this publisher received new RSS
-  // crawl dates despite describing 2018/2025 and March/early October events.
+  // Verified Guatemala.com event listings and laprensa.hn archive stories
+  // received new RSS crawl dates despite original publication in 2014/2016,
+  // 2018/2025 and March/early October 2026.
   // The RSS does not distinguish those crawl timestamps from original dates,
   // even for undated titles. Quarantine this source until original publication
-  // dates can be verified; do not guess dates or pad feeds with its old listings.
-  if (normalized(article.sourceName ?? "") === "guatemala com") return false;
+  // dates can be verified; do not guess dates or pad feeds with old material.
+  if (["guatemala com", "www laprensa hn", "laprensa hn"].includes(normalized(article.sourceName ?? ""))) return false;
+  // The publisher dates this exact report 12 December 2024, even though its
+  // Google RSS crawl date is recent. Do not exclude new reporting on the actor.
+  // https://www.televicentro.com/yimmi-rios-sigue-brillando-de-guardia-de-seguridad-a-estrella-del-cine-hondureno-2025-12-12
+  if (normalized(article.sourceName ?? "") === "televicentro" &&
+      normalized(article.title) === "yimi rios sigue brillando de guardia de seguridad a estrella del cine hondureno") return false;
   const [localLanguage, , aliases] = profiles[country.id];
   const countryTerms = `${aliases}|${country.name}`.split("|");
   let geographicTitle = normalized(article.title);

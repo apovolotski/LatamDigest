@@ -119,6 +119,14 @@ test("recrawled event-directory listings cannot acquire a new original publicati
   }
   assert.equal(relevant("GT", "culture", article("Guatemala inaugura un nuevo museo de arte", "Guatemala.com")), false);
   assert.equal(relevant("GT", "culture", article("Guatemala inaugura el festival de cine 2026", "Ministerio de Cultura")), true);
+  for (const title of ["11 Cipotes se apoderan del cine hondureño", "Muere el artista hondureño Guillermo Anderson"]) {
+    for (const source of ["www.laprensa.hn", "laprensa.hn"]) for (const key of ["culture", "top", "latest"]) {
+      assert.equal(relevant("HN", key, article(title, source)), false);
+    }
+  }
+  assert.equal(relevant("NI", "culture", article("Nicaragua inaugura un museo de arte", "La Prensa Nicaragua")), true);
+  assert.equal(relevant("HN", "culture", article("Yimi Ríos sigue brillando: de guardia de seguridad a estrella del cine hondureño", "Televicentro")), false);
+  assert.equal(relevant("HN", "culture", article("Yimi Ríos presenta una nueva película de cine hondureño", "Televicentro")), true);
   const old = { ...article("Guatemala inaugura un museo de arte"), publishedAt: new Date(now - 15 * 86400_000).toISOString() };
   assert.equal(relevant("GT", "culture", old), false);
 });
@@ -143,7 +151,9 @@ test("partial recovery cannot preserve known category, geography or original-dat
     ["UY", "culture", "El Cine de Concepción del Uruguay suspende sus funciones"],
     ["PE", "culture", "Perú. Armas, y no libros"],
     ["SV", "culture", "Peso Pluma: ¿Es el salvador de la música regional mexicana?"],
-    ["GT", "culture", "Festival El Grito Guatemala 2018", "Guatemala.com"]
+    ["GT", "culture", "Festival El Grito Guatemala 2018", "Guatemala.com"],
+    ["HN", "culture", "Muere el artista hondureño Guillermo Anderson", "www.laprensa.hn"],
+    ["HN", "culture", "Yimi Ríos sigue brillando: de guardia de seguridad a estrella del cine hondureño", "Televicentro"]
   ]) {
     const destination = await mkdtemp(path.join(tmpdir(), "latam-boundary-cache-"));
     t.after(() => rm(destination, { recursive: true, force: true }));
