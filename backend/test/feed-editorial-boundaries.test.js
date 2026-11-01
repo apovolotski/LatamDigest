@@ -26,6 +26,7 @@ const publisherCredit = "Keiko Fujimori señala replicar medidas de El Salvador 
 const hashtags = "#Chile #j#Chile #justicia #Viceministrousticia #Viceministro";
 const recrawledEconomy = "Economy celebra siete años y se consolida como referente informativo del ecosistema empresarial boliviano";
 const agmerUruguay = "Agmer Uruguay se movilizó para exigir justicia por Nancy Godoy";
+const civilArbitration = "Justicia internacional falló a favor de Uruguay en el caso Aratirí, el mayor arbitraje de la historia del país";
 const sourceFor = title => title === bankTable ? "Finanzas Digital" : title === recrawledEconomy ? "www.economy.com.bo" : "Example";
 
 test("Economy Bolivia recrawled archives need original publication dates before inclusion", () => {
@@ -47,6 +48,25 @@ test("AGMER Uruguay is an Argentine union branch and needs independent Uruguayan
     assert.equal(relevant("UY", key, `${agmerUruguay}; sindicatos de Uruguay acompañan el reclamo`), true, key);
   }
   assert.equal(relevant("UY", "crime", "Sindicatos uruguayos exigen justicia por una docente"), true);
+});
+
+test("civil and investor-state arbitration require independent criminal evidence", () => {
+  for (const [id, title] of [
+    ["UY", civilArbitration],
+    ["UY", "Justicia francesa ratificó el fallo a favor de Uruguay en el millonario caso Aratirí"],
+    ["UY", "Justicia internacional dio la razón a Uruguay en el litigio por Aratirí"],
+    ["BR", "Justiça do Brasil confirma sentença de arbitragem comercial"],
+    ["GF", "Guyane: la justice confirme la décision en arbitrage commercial"],
+    ["GY", "Guyana court confirms commercial arbitration award"],
+    ["GY", "Guyana civil court resolves property dispute"],
+    ["SR", "Suriname justitie behandelt arbitrage"]
+  ]) {
+    assert.equal(relevant(id, "crime", title), false, title);
+    assert.equal(relevant(id, "crime", `${title}: corruption investigation leads to arrests`), true, title);
+    assert.equal(relevant(id, "top", title), true, title);
+  }
+  assert.equal(relevant("UY", "crime", "Justicia de Uruguay condena a un acusado de homicidio"), true);
+  assert.equal(relevant("UY", "business", "Inversores de Aratirí reclaman indemnización a Uruguay por sus inversiones"), true);
 });
 
 test("police games and medals need independent crime evidence", () => {
@@ -265,6 +285,7 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
   for (const [id, key, bad, good] of [
     ["BO", "business", recrawledEconomy, "Bolivia anuncia nuevas inversiones empresariales"],
     ["UY", "crime", agmerUruguay, "Uruguay investiga fraude"],
+    ["UY", "crime", civilArbitration, "Uruguay investiga fraude"],
     ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027", "Gobierno de Uruguay anuncia nueva política"],
     ["VE", "world", "II Congreso Internacional Porcino de Venezuela", "Venezuela firma acuerdo diplomático"],
     ["CL", "world", "Chile prepara velada internacional", "Chile firma acuerdo diplomático"],
@@ -289,7 +310,7 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
 
 test("cached recovery cannot restore newly identified spam or semantic errors", async t => {
   for (const [id, key, bad] of [
-    ["BO", "business", recrawledEconomy], ["UY", "crime", agmerUruguay],
+    ["BO", "business", recrawledEconomy], ["UY", "crime", agmerUruguay], ["UY", "crime", civilArbitration],
     ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027"],
     ["VE", "world", "II Congreso Internacional Porcino de Venezuela"],
     ["CL", "world", "Chile prepara velada internacional"],

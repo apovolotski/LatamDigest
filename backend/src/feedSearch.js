@@ -175,6 +175,10 @@ const wildlifeFestival = /\b(?:gato andino|felinos|wildlife|biodiversidad|biodiv
 const diplomaticBusinessTitles = /\b(?:encargad[oa]s? de negocios|encarregad[oa]s? de negocios|charges? d affaires)\b/g;
 const noncriminalJustice = /\bjusticia (?:social|laboral|del trabajo)\b|\bjustica (?:social|do trabalho)\b|\bjustice (?:sociale|du travail)\b|\b(?:social|labour|labor) justice\b/g;
 const weakCrimeTerms = new Set(["policía", "polícia", "police", "politie", "court", "policia*", "policier*", "politieagent*", "politiebureau*"]);
+// Investor-state arbitration and civil/commercial courts do not establish a
+// crime. Aratiri is the primary-reviewed investment dispute, not a criminal case.
+const civilDispute = /\b(?:aratiri|arbitraje|arbitragem|arbitrage|arbitration)\b|\b(?:civil|commercial|labor|labour|employment) (?:court|litigation)\b|\b(?:justicia|justica|justice) (?:civil|civile|comercial|commerciale)\b/;
+const civilJusticeTerms = new Set([...weakCrimeTerms, "justicia", "justiça", "justice", "justitie", "judici*", "justiti*"]);
 const policeCommunityEvents = /\b(?:youth academy|world games|juegos mundiales|jogos mundiais|jeux mondiaux|wereldspelen|medals?|medall\w*|medalh\w*|medaill\w*|cricket|football|futbol|futebol|basketball|baloncesto|basquete|voetbal|rugby|athletics|honou?rs?|honores?|honra\w*|homenaje\w*|hommage\w*|exalta\w*|veteran\w*)\b/;
 const nonWorldEvents = "amistoso*|friendly|amical*|pickleball|competição*|competición*|feria científica|feira científica|science fair|comunicación científica|porcino*|importante reconocimiento internacional|libro*|livro*|livre*|book*|boeken|premio*|prize*|award*|concurs*|competition*|queso*|cheese|kaas|fromage|gastronom*".split("|");
 const internationalAirport = /\b(?:aeropuerto|aeroporto|aeroport) internacional\b|\baeroport international\b|\binternational airport\b|\binternationale luchthaven\b/g;
@@ -317,6 +321,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   if (feed.key === "business") title = normalized(title).replace(diplomaticBusinessTitles, " ");
   if (feed.key === "crime") {
     title = normalized(title).replace(noncriminalJustice, " ");
+    if (civilDispute.test(title) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     if ((policeCommunityEvents.test(title) || sports.some(term => matches(title, term))) &&
         !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
