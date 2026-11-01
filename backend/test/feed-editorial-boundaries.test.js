@@ -14,6 +14,7 @@ const article = (title, time = now) => ({ title, sourceName: "Example",
   url: `https://example.com/${encodeURIComponent(title)}`, publishedAt: new Date(time - 3600_000).toISOString() });
 const relevant = (id, key, title) => isRelevantArticle(article(title), country(id), feed(key), { lookbackDays: 14 }, now);
 const spam = "SCANDAL VIDEOs XNXX Video De La Policía De Guatemala Con El Micrófono En La Boca Original Clip Full SEX VIDEOS ON HD";
+const leakVideoCaption = "Filtración TOBAGO TAXI DRIVER VIRAL VIDEO";
 const geography = "Guyane : le roi Charles III rencontre le président guyanais Irfaan Ali";
 const resort = "Policía Local de Mogán, Guardia Civil y Policía Canaria realizan un operativo conjunto en los centros comerciales de Puerto Rico";
 const policeSport = "West Indies Masters provide grassroots boost to Guyana Police Force youth academy";
@@ -33,7 +34,7 @@ const liveMatch = "Notch - Voorwaarts Live - Suriname Major League: Football Sco
 const playerStats = "Minutes played - Trinidad and Tobago stats for World Cup Qualification CONCACAF 2024/2025";
 const sourceFor = title => title === bankTable ? "Finanzas Digital" : title === recrawledEconomy ? "www.economy.com.bo"
   : title === economyAliasCorridor ? "Economy Bolivia" : [leagueTable, liveMatch].includes(title) ? "TNT Sports"
-    : title === playerStats ? "FotMob" : "Example";
+    : title === playerStats ? "FotMob" : title === leakVideoCaption ? "Port of Rotterdam" : "Example";
 
 test("Economy Bolivia display alias cannot restore the same misdated archives", () => {
   for (const title of [economyAliasCorridor, "Camacho asume la embajada en Paraguay con una agenda centrada en comercio e inversiones"]) {
@@ -306,6 +307,18 @@ test("international airport names, friendlies and book or culinary prizes do not
   assert.equal(relevant("CO", "world", "Estudiantes mexicanos realizan misión académica internacional en Colombia"), true);
 });
 
+test("the observed standalone leak-video caption is not reporting", () => {
+  for (const key of feedConfigs.map(f => f.key)) {
+    assert.equal(relevant("TT", key, leakVideoCaption), false, key);
+    assert.equal(relevant("TT", key, "FILTRACION Tobago Taxi Driver Viral Video!"), false, key);
+  }
+  for (const title of [
+    "Trinidad and Tobago police investigate leaked taxi driver video",
+    "Tobago taxi driver viral video leads to police investigation"
+  ]) assert.equal(relevant("TT", "crime", title), true, title);
+  assert.equal(isRelevantArticle({ ...article("Trinidad and Tobago signs port cooperation agreement"), sourceName: "Port of Rotterdam" }, country("TT"), feed("world"), { lookbackDays: 14 }, now), true);
+});
+
 test("promotional explicit-video spam is rejected without suppressing legitimate crime reporting", () => {
   for (const key of feedConfigs.map(f => f.key)) assert.equal(relevant("GT", key, spam), false, key);
   for (const title of [
@@ -320,6 +333,7 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
     ["PY", "business", economyAliasCorridor, "Paraguay anuncia nuevas inversiones empresariales"],
     ["SR", "sports", leagueTable, "Suriname football club wins final"],
     ["SR", "sports", liveMatch, "Suriname football club wins final"],
+    ["TT", "latest", leakVideoCaption, "Trinidad and Tobago police investigate leaked taxi driver video"],
     ["TT", "latest", playerStats, "Trinidad and Tobago football captain returns"],
     ["BO", "business", recrawledEconomy, "Bolivia anuncia nuevas inversiones empresariales"],
     ["UY", "crime", agmerUruguay, "Uruguay investiga fraude"],
@@ -349,7 +363,7 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
 test("cached recovery cannot restore newly identified spam or semantic errors", async t => {
   for (const [id, key, bad] of [
     ["PY", "business", economyAliasCorridor], ["SR", "sports", leagueTable],
-    ["SR", "sports", liveMatch], ["TT", "latest", playerStats],
+    ["SR", "sports", liveMatch], ["TT", "latest", playerStats], ["TT", "latest", leakVideoCaption],
     ["BO", "business", recrawledEconomy], ["UY", "crime", agmerUruguay], ["UY", "crime", civilArbitration],
     ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027"],
     ["VE", "world", "II Congreso Internacional Porcino de Venezuela"],

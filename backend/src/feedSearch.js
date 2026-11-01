@@ -255,6 +255,9 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   const published = Date.parse(article.publishedAt);
   if (!Number.isFinite(published) || published < now - plan.lookbackDays * 86_400_000 || published > now + 3600_000) return false;
   if (explicitVideoPromotion.test(normalized(article.title))) return false;
+  // This observed standalone leak-video promotion supplies no news report.
+  // Match the exact caption, leaving reporting about the incident eligible.
+  if (/^filtracion tobago taxi driver viral video$/.test(normalized(article.title))) return false;
   // A caption made entirely of hashtags supplies no report, even when its
   // tags happen to contain a country and category. Keep tags alongside prose.
   if (article.title.includes("#") && !/\p{L}/u.test(article.title.replace(/#[\p{L}\p{N}\p{M}_]+/gu, ""))) return false;
