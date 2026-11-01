@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "repository": "apovolotski/LatamDigest",
   "continuous": true,
-  "cutoff": "2026-10-31T22:18:57Z",
+  "cutoff": "2026-11-01T07:15:08Z",
   "milestone": {
     "backend": {
       "runIds": [],
@@ -58,19 +58,20 @@
           "reason": "source_caption_statistics_category_repair",
           "repairCommit": "983cd87f9fe188cce059a9703c453dc68e0433b7",
           "cutoff": "2026-10-31T15:33:34Z"
+        },
+        {
+          "runIds": [],
+          "attempts": {},
+          "endedAt": "2026-11-01T07:15:08Z",
+          "reason": "source_original_date_country_repair",
+          "repairCommit": "dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048",
+          "cutoff": "2026-10-31T22:18:57Z"
         }
       ]
     },
     "feeds": {
-      "runIds": [
-        41278828967
-      ],
-      "attempts": {
-        "41278828967:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-01T05:59:06.741Z"
-        }
-      },
+      "runIds": [],
+      "attempts": {},
       "history": [
         {
           "endedAt": "2026-10-31T03:27:38Z",
@@ -167,6 +168,24 @@
           "cutoff": "2026-10-31T15:33:34Z",
           "subsequentlyInvalidatedRunIds": [
             41243814932
+          ]
+        },
+        {
+          "runIds": [
+            41278828967
+          ],
+          "attempts": {
+            "41278828967:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-01T05:59:06.741Z"
+            }
+          },
+          "endedAt": "2026-11-01T07:15:08Z",
+          "reason": "source_original_date_country_repair",
+          "repairCommit": "dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048",
+          "cutoff": "2026-10-31T22:18:57Z",
+          "subsequentlyInvalidatedRunIds": [
+            41278828967
           ]
         }
       ]
@@ -6665,8 +6684,10 @@
           "lines": 793
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent editorial review rejected 8 article placements across 1 feeds. Original publisher dates prove recrawled Economy Bolivia archives; AGMER Uruguay is an Argentine branch homonym without independent Uruguayan evidence; civil Aratiri investment arbitration is not crime without independent criminal evidence; repaired by dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048."
+      ],
       "tests": {
         "refresh": 177
       },
@@ -6711,6 +6732,92 @@
         "jobLogLines": 793,
         "startedAt": "2026-10-31T22:07:35.000Z",
         "completedAt": "2026-10-31T22:09:23.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41246732412,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-10-31T22:07:26Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "983cd87f9fe188cce059a9703c453dc68e0433b7",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41246732412",
+          "verifiedAt": "2026-10-31T22:15:21.423Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "626944c3a5613d21174ada700086fdad0e2bd8af161b3467b473ccd6cc4dc436",
+          "completeLogLines": 793,
+          "jobLogs": [
+            {
+              "id": 124671607508,
+              "name": "refresh",
+              "sha256": "626944c3a5613d21174ada700086fdad0e2bd8af161b3467b473ccd6cc4dc436",
+              "lines": 793
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 177
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124671607508,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "626944c3a5613d21174ada700086fdad0e2bd8af161b3467b473ccd6cc4dc436",
+              "jobLogLines": 793,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 177,
+                "pass": 177,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124671607508,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "626944c3a5613d21174ada700086fdad0e2bd8af161b3467b473ccd6cc4dc436",
+              "jobLogLines": 793,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124671607508,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "626944c3a5613d21174ada700086fdad0e2bd8af161b3467b473ccd6cc4dc436",
+            "jobLogLines": 793,
+            "startedAt": "2026-10-31T22:07:35.000Z",
+            "completedAt": "2026-10-31T22:09:23.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-01T07:15:08Z",
+        "repairCommit": "dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048",
+        "supersedingPublication": "96eb7a14f460e4ed21c571983ee8aebf308c5a48",
+        "affectedFeeds": 1,
+        "rejectedArticlePlacements": 8,
+        "githubConclusionUnchanged": true
       }
     },
     "41278828967:1": {
@@ -6741,8 +6848,10 @@
           "lines": 793
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent editorial review rejected 14 article placements across 3 feeds. Original publisher dates prove recrawled Economy Bolivia archives; AGMER Uruguay is an Argentine branch homonym without independent Uruguayan evidence; civil Aratiri investment arbitration is not crime without independent criminal evidence; repaired by dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048."
+      ],
       "tests": {
         "refresh": 177
       },
@@ -6787,6 +6896,92 @@
         "jobLogLines": 793,
         "startedAt": "2026-11-01T05:56:49.000Z",
         "completedAt": "2026-11-01T05:58:44.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41278828967,
+          "attempt": 1,
+          "event": "schedule",
+          "createdAt": "2026-11-01T05:56:35Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "7e821c60c0195ba25d76846e5d3880306e81e6d7",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41278828967",
+          "verifiedAt": "2026-11-01T05:59:06.741Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "fb4a32f7ba5c9b24690ca9a0cbbb095c15d115a7fb7ac6e75a56bf1769765df3",
+          "completeLogLines": 793,
+          "jobLogs": [
+            {
+              "id": 124766375600,
+              "name": "refresh",
+              "sha256": "fb4a32f7ba5c9b24690ca9a0cbbb095c15d115a7fb7ac6e75a56bf1769765df3",
+              "lines": 793
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 177
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124766375600,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "fb4a32f7ba5c9b24690ca9a0cbbb095c15d115a7fb7ac6e75a56bf1769765df3",
+              "jobLogLines": 793,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 177,
+                "pass": 177,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124766375600,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "fb4a32f7ba5c9b24690ca9a0cbbb095c15d115a7fb7ac6e75a56bf1769765df3",
+              "jobLogLines": 793,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124766375600,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "fb4a32f7ba5c9b24690ca9a0cbbb095c15d115a7fb7ac6e75a56bf1769765df3",
+            "jobLogLines": 793,
+            "startedAt": "2026-11-01T05:56:49.000Z",
+            "completedAt": "2026-11-01T05:58:44.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-01T07:15:08Z",
+        "repairCommit": "dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048",
+        "supersedingPublication": "96eb7a14f460e4ed21c571983ee8aebf308c5a48",
+        "affectedFeeds": 3,
+        "rejectedArticlePlacements": 14,
+        "githubConclusionUnchanged": true
       }
     },
     "41282742340:1": {
@@ -7053,8 +7248,10 @@
           "lines": 810
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Subsequent editorial review rejected 7 article placements across 1 feeds. Original publisher dates prove recrawled Economy Bolivia archives; AGMER Uruguay is an Argentine branch homonym without independent Uruguayan evidence; civil Aratiri investment arbitration is not crime without independent criminal evidence; repaired by dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048."
+      ],
       "tests": {
         "refresh": 179
       },
@@ -7099,6 +7296,92 @@
         "jobLogLines": 810,
         "startedAt": "2026-11-01T06:56:02.000Z",
         "completedAt": "2026-11-01T06:57:42.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41282754675,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-11-01T06:55:52Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "b1df514b59a7aa385f53ef103b4fec2cda20fc1e",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41282754675",
+          "verifiedAt": "2026-11-01T06:58:03.738Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "e4bf81d20d696060d85592b54da23c298e9edaf63fce8efc853d4a8534c57fb4",
+          "completeLogLines": 810,
+          "jobLogs": [
+            {
+              "id": 124777839029,
+              "name": "refresh",
+              "sha256": "e4bf81d20d696060d85592b54da23c298e9edaf63fce8efc853d4a8534c57fb4",
+              "lines": 810
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 179
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124777839029,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "e4bf81d20d696060d85592b54da23c298e9edaf63fce8efc853d4a8534c57fb4",
+              "jobLogLines": 810,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 179,
+                "pass": 179,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124777839029,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "e4bf81d20d696060d85592b54da23c298e9edaf63fce8efc853d4a8534c57fb4",
+              "jobLogLines": 810,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124777839029,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "e4bf81d20d696060d85592b54da23c298e9edaf63fce8efc853d4a8534c57fb4",
+            "jobLogLines": 810,
+            "startedAt": "2026-11-01T06:56:02.000Z",
+            "completedAt": "2026-11-01T06:57:42.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-01T07:15:08Z",
+        "repairCommit": "dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048",
+        "supersedingPublication": "96eb7a14f460e4ed21c571983ee8aebf308c5a48",
+        "affectedFeeds": 1,
+        "rejectedArticlePlacements": 7,
+        "githubConclusionUnchanged": true
       }
     },
     "41283320044:1": {
@@ -7751,6 +8034,92 @@
         41245675837,
         41246103104
       ]
+    },
+    {
+      "recordedAt": "2026-11-01T07:15:08Z",
+      "type": "source_original_date_country_repair",
+      "sourceCommit": "dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048",
+      "precedingSourceCommits": [
+        "b1df514b59a7aa385f53ef103b4fec2cda20fc1e"
+      ],
+      "reason": "Quarantine the named Economy Bolivia RSS source identities economy.com.bo, www.economy.com.bo and Economy pending original publisher date verification. Primary pages prove original July 2023, May 2025/2026 and September 2026 publication dates behind recent RSS crawl timestamps. No original dates were invented. AGMER Uruguay and AGMER Seccional Uruguay are Argentine union-branch labels, not national Uruguay evidence; independent Uruguayan coverage remains eligible. Civil investor-state arbitration and civil/commercial court coverage require independent criminal evidence for crime placement; primary reporting establishes Aratiri as an investment dispute. General news and genuinely criminal court reporting remain eligible. Live selection and cached recovery share these checks. Other source exclusions are precautionary and do not establish that every excluded story is old; a current TeCNIa event was independently corroborated. Existing source quarantines, original-date limits, URL/relevance/cache checks, tests and audits remain blocking.",
+      "previousCutoff": "2026-10-31T22:18:57Z",
+      "cutoff": "2026-11-01T07:15:08Z",
+      "regressionTestsAdded": 3,
+      "baselines": {
+        "backend": {
+          "id": 41283386146,
+          "event": "workflow_dispatch",
+          "source": "dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048",
+          "fullTests": 196,
+          "feedTests": 180,
+          "controllerTests": 67,
+          "productionAudits": 0
+        },
+        "feeds": {
+          "id": 41283344388,
+          "event": "workflow_dispatch",
+          "source": "dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048",
+          "publication": "96eb7a14f460e4ed21c571983ee8aebf308c5a48",
+          "feedTests": 180,
+          "refreshedFeeds": 239,
+          "cachedFeeds": 1,
+          "healthState": "degraded",
+          "publicationSafetyHours": 24
+        },
+        "hosted": {
+          "id": 41283936082,
+          "event": "workflow_dispatch",
+          "source": "96eb7a14f460e4ed21c571983ee8aebf308c5a48",
+          "controllerTests": 67,
+          "appFacingFilesMatched": 243
+        }
+      },
+      "correctedPriorVerifications": [
+        41246732412,
+        41278828967,
+        41282754675
+      ],
+      "primarySourceEvidence": {
+        "originalDates": [
+          {
+            "title": "CBN, Farmacop, Sof\u00eda, Embol y Tigo lideran el ranking de las empresas con mejor reputaci\u00f3n de Bolivia en 2022",
+            "originalDate": "2023-07-06",
+            "url": "https://www.economy.com.bo/articulo/business/cbn-farmacop-sofia-embol-coca-cola-tigo-lideran-ranking-empresas-mejor-reputacion-bolivia-2022/20230706110809010289.html"
+          },
+          {
+            "title": "Economy celebra siete a\u00f1os y se consolida como referente informativo del ecosistema empresarial boliviano",
+            "originalDate": "2025-05-20",
+            "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-celebra-siete-anos-como-referente-informativo-ecosistema-empresarial-boliviano/20250520115248018408.html"
+          },
+          {
+            "title": "Economy cumple 8 a\u00f1os consolidando el ecosistema de informaci\u00f3n econ\u00f3mica y empresarial de mayor influencia en Bolivia",
+            "originalDate": "2026-05-19",
+            "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-cumple-8-anos-consolidando-ecosistema-informacion-economica-empresarial-streaming-bolivia/20260519161211022513.amp.html"
+          },
+          {
+            "title": "Bolivia y Paraguay plantean corredor de 1.222 kil\u00f3metros para ampliar el comercio y la conexi\u00f3n con el Atl\u00e1ntico",
+            "originalDate": "2026-09-21",
+            "url": "https://www.economy.com.bo/articulo/business/bolivia-paraguay-plantean-corredor-1222-kilometros-ampliar-comercio-conexion-atlantico/20260921100728024153.html"
+          },
+          {
+            "title": "Camacho asume la embajada en Paraguay con una agenda centrada en comercio e inversiones",
+            "originalDate": "2026-09-17",
+            "url": "https://www.economy.com.bo/articulo/economia/camacho-asume-embajada-paraguay-agenda-centrada-comercio-inversiones/20260917071919024090.html"
+          }
+        ],
+        "countryHomonym": {
+          "url": "https://www.apfdigital.com.ar/noticias/2026/10/30/477024-agmer-uruguay-se-movilizo-por-el-femicidio-de-nancy-godoy",
+          "officialBranchEvidence": "https://2025.agmer.org.ar/post/alojamiento-temporario-en-concepcion-del-uruguay",
+          "finding": "AGMER Seccional Uruguay is the Entre Rios Argentine union branch; Nancy Godoy reporting concerns Concepcion del Uruguay/Basavilbaso and a crime in Corrientes, not Uruguay national news."
+        },
+        "civilArbitration": {
+          "url": "https://www.teledoce.com/telemundo/nacionales/justicia-internacional-fallo-a-favor-de-uruguay-en-el-caso-aratiri-el-mayor-arbitraje-de-la-historia-del-pais/",
+          "secondPrimaryReporting": "https://www.busqueda.com.uy/politica/justicia-internacional-falla-favor-uruguay-aratiri-el-mayor-reclamo-monetario-la-historia-del-pais-n5418819",
+          "publisherDate": "2026-10-29",
+          "finding": "New reporting about a civil investor-state mining arbitration. Date is current, but court/justice words alone do not make it crime news. Require independent criminal evidence while retaining top/latest and genuine commerce or international coverage."
+        }
+      }
     }
   ]
 }
