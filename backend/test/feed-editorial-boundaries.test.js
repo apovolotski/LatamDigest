@@ -24,6 +24,30 @@ const policeGames = "República Dominicana conquista el segundo lugar en los IV 
 const bankTable = "Inversiones en Valores Neta — Panamá — Situación Consolidado — Centro Bancario Internacional";
 const publisherCredit = "Keiko Fujimori señala replicar medidas de El Salvador para combatir el crimen | El Comercio";
 const hashtags = "#Chile #j#Chile #justicia #Viceministrousticia #Viceministro";
+const recrawledEconomy = "Economy celebra siete años y se consolida como referente informativo del ecosistema empresarial boliviano";
+const agmerUruguay = "Agmer Uruguay se movilizó para exigir justicia por Nancy Godoy";
+const sourceFor = title => title === bankTable ? "Finanzas Digital" : title === recrawledEconomy ? "www.economy.com.bo" : "Example";
+
+test("Economy Bolivia recrawled archives need original publication dates before inclusion", () => {
+  for (const sourceName of ["economy.com.bo", "www.economy.com.bo", "Economy.com.bo", "Economy"]) {
+    for (const key of feedConfigs.map(f => f.key)) {
+      assert.equal(isRelevantArticle({ ...article(recrawledEconomy), sourceName }, country("BO"), feed(key), { lookbackDays: 14 }, now), false, `${sourceName}/${key}`);
+    }
+    assert.equal(isRelevantArticle({ ...article("CBN, Farmacop, Sofía, Embol y Tigo lideran el ranking de las empresas con mejor reputación de Bolivia en 2022"), sourceName }, country("BO"), feed("business"), { lookbackDays: 14 }, now), false);
+    assert.equal(isRelevantArticle({ ...article("Economy cumple 8 años consolidando el ecosistema de información económica y empresarial de mayor influencia en Bolivia"), sourceName }, country("BO"), feed("top"), { lookbackDays: 14 }, now), false);
+  }
+  assert.equal(isRelevantArticle({ ...article("Bolivia y Paraguay plantean corredor de 1.222 kilómetros para ampliar el comercio y la conexión con el Atlántico"), sourceName: "Economy" }, country("PY"), feed("business"), { lookbackDays: 14 }, now), false);
+  assert.equal(isRelevantArticle({ ...article("Bolivia anuncia nuevas inversiones empresariales"), sourceName: "Economy News" }, country("BO"), feed("business"), { lookbackDays: 14 }, now), true);
+});
+
+test("AGMER Uruguay is an Argentine union branch and needs independent Uruguayan evidence", () => {
+  for (const key of ["top", "latest", "crime"]) {
+    assert.equal(relevant("UY", key, agmerUruguay), false, key);
+    assert.equal(relevant("UY", key, "AGMER Seccional Uruguay exige justicia por Nancy Godoy"), false, key);
+    assert.equal(relevant("UY", key, `${agmerUruguay}; sindicatos de Uruguay acompañan el reclamo`), true, key);
+  }
+  assert.equal(relevant("UY", "crime", "Sindicatos uruguayos exigen justicia por una docente"), true);
+});
 
 test("police games and medals need independent crime evidence", () => {
   for (const [id, title] of [
@@ -239,6 +263,8 @@ test("promotional explicit-video spam is rejected without suppressing legitimate
 
 test("live RSS filtering rejects spam and geographic confusion with original dates intact", async () => {
   for (const [id, key, bad, good] of [
+    ["BO", "business", recrawledEconomy, "Bolivia anuncia nuevas inversiones empresariales"],
+    ["UY", "crime", agmerUruguay, "Uruguay investiga fraude"],
     ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027", "Gobierno de Uruguay anuncia nueva política"],
     ["VE", "world", "II Congreso Internacional Porcino de Venezuela", "Venezuela firma acuerdo diplomático"],
     ["CL", "world", "Chile prepara velada internacional", "Chile firma acuerdo diplomático"],
@@ -253,7 +279,7 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
     ["AR", "business", diplomat, "Argentina anuncia nuevas inversiones empresariales"],
     ["NI", "business", tradeProfile, "Nicaragua anuncia nuevas inversiones empresariales"]
   ]) {
-    const items = [bad, good].map(title => ({ ...article(title, Date.now()), sourceName: title === bankTable ? "Finanzas Digital" : "Example" }));
+    const items = [bad, good].map(title => ({ ...article(title, Date.now()), sourceName: sourceFor(title) }));
     const xml = `<rss><channel>${items.map(a => `<item><title>${a.title}</title><link>${a.url}</link><source>${a.sourceName}</source><pubDate>${a.publishedAt}</pubDate></item>`).join("")}</channel></rss>`;
     const result = await fetchArticlesForFeed(country(id), feed(key), { sleep: async () => {}, fetchImpl: async () => new Response(xml) });
     assert.deepEqual(result.map(a => a.title), [good]);
@@ -263,6 +289,7 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
 
 test("cached recovery cannot restore newly identified spam or semantic errors", async t => {
   for (const [id, key, bad] of [
+    ["BO", "business", recrawledEconomy], ["UY", "crime", agmerUruguay],
     ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027"],
     ["VE", "world", "II Congreso Internacional Porcino de Venezuela"],
     ["CL", "world", "Chile prepara velada internacional"],
@@ -278,7 +305,7 @@ test("cached recovery cannot restore newly identified spam or semantic errors", 
     const destination = await mkdtemp(path.join(tmpdir(), "latam-editorial-cache-"));
     t.after(() => rm(destination, { recursive: true, force: true }));
     const options = { destination, countries: [country(id)], feeds: [feed(key), feed("top")] };
-    await generateFeeds({ ...options, fetchFeed: async () => [{ ...article(bad, Date.now()), sourceName: bad === bankTable ? "Finanzas Digital" : "Example" }] });
+    await generateFeeds({ ...options, fetchFeed: async () => [{ ...article(bad, Date.now()), sourceName: sourceFor(bad) }] });
     await generateFeeds({ ...options, fetchFeed: async (_, f) => f.key === key ? [] : [article(`${country(id).name} news`, Date.now())] });
     const manifest = JSON.parse(await readFile(path.join(destination, "manifest.json")));
     assert.equal(manifest.countries[0].feeds[key].count, 0);

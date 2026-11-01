@@ -152,7 +152,7 @@ const countryAmbiguities = {
   MX: /\bnew mexico\b/g,
   PA: /\bpanama city (?:beach )?florida\b/g,
   CL: /\b(?:green|red|hatch) chiles?\b|\bchile peppers?\b/g,
-  UY: /\bconcepcion del uruguay\b/g,
+  UY: /\b(?:concepcion del|agmer(?: seccional)?) uruguay\b/g,
   EC: /\b(?:alcanza|alcanzo|alcanzado|cruza|supera|llega a) (?:su|el) ecuador\b/g,
   PE: /\b(?:mercadito|barrio|calle|avenida) (?:la |el )?peru\b/g,
   SV: /\b(?:es|como|llamado|considerado) el salvador (?:de|del)\b/g
@@ -265,13 +265,14 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // news. A recent RSS crawl cannot establish original publication. Match the
   // profile template only, retaining reporting that cites OEC statistics.
   if (/\b(?:en el comercio de|in the trade of)\b.*\b(?:observatorio de complejidad economica|observatory of economic complexity)\b/.test(normalized(article.title))) return false;
-  // Verified Guatemala.com event listings and laprensa.hn archive stories
-  // received new RSS crawl dates despite original publication in 2014/2016,
-  // 2018/2025 and March/early October 2026.
+  // Verified Guatemala.com event listings, laprensa.hn archive stories and
+  // Economy.com.bo articles received new RSS crawl dates despite original
+  // publication years earlier. Economy's publisher pages date the 2022
+  // reputation ranking to July 2023 and its anniversaries to May 2025/2026; the Economy RSS alias also recrawls September 2026 reports.
   // The RSS does not distinguish those crawl timestamps from original dates,
-  // even for undated titles. Quarantine this source until original publication
+  // even for undated titles. Quarantine these sources until original publication
   // dates can be verified; do not guess dates or pad feeds with old material.
-  if (["guatemala com", "www laprensa hn", "laprensa hn"].includes(normalized(article.sourceName ?? ""))) return false;
+  if (["guatemala com", "www laprensa hn", "laprensa hn", "economy com bo", "www economy com bo", "economy"].includes(normalized(article.sourceName ?? ""))) return false;
   // The publisher dates this exact report 12 December 2024, even though its
   // Google RSS crawl date is recent. Do not exclude new reporting on the actor.
   // https://www.televicentro.com/yimmi-rios-sigue-brillando-de-guardia-de-seguridad-a-estrella-del-cine-hondureno-2025-12-12
