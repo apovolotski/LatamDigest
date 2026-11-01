@@ -8191,14 +8191,12 @@
   },
   "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-01T16:19:54.666Z",
+    "checkedAt": "2026-11-01T16:20:33.264Z",
     "workflows": {
       "feeds": {
         "due": "2026-11-01T12:17:00.000Z",
         "state": "active",
-        "active": [
-          41325623143
-        ]
+        "active": []
       },
       "backend": {
         "due": "2026-11-01T10:43:00.000Z",
@@ -8208,8 +8206,11 @@
     },
     "decisions": {
       "feeds": {
-        "dispatch": false,
-        "reason": "run_active"
+        "dispatch": true,
+        "key": "feeds-20261101121700000",
+        "kind": "feeds",
+        "due": "2026-11-01T12:17:00.000Z",
+        "reason": "late_schedule"
       },
       "backend": {
         "dispatch": false,
@@ -8219,13 +8220,13 @@
     },
     "problems": [],
     "publication": {
-      "commit": "d4239383c7f7465b39c1ee0e98919a9ea5110a84",
+      "commit": "27aa5f4e6c5be637cc17a8ef160690b46b09ceda",
       "valid": true,
       "health": {
         "state": "degraded",
         "mode": "refreshed",
-        "checkedAt": "2026-11-01T13:17:13.369Z",
-        "lastSuccessfulRefreshAt": "2026-11-01T13:15:16.998Z",
+        "checkedAt": "2026-11-01T16:20:02.765Z",
+        "lastSuccessfulRefreshAt": "2026-11-01T16:18:19.300Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -8237,13 +8238,14 @@
         "total": 240,
         "populated": 240,
         "stale": 1,
-        "sparse": 5,
-        "fallback": 14,
+        "sparse": 6,
+        "fallback": 17,
         "issues": [],
         "warnings": [
           "PR/world: serving recent cached articles.",
           "PR/world: only 1 relevant articles.",
           "TT/tech: only 1 relevant articles.",
+          "SR/sports: only 2 relevant articles.",
           "SR/crime: only 2 relevant articles.",
           "GF/business: only 1 relevant articles.",
           "GF/world: only 2 relevant articles."
@@ -8254,7 +8256,7 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-01T16:19:54.666Z",
+  "checkedAt": "2026-11-01T16:20:33.264Z",
   "activeAlerts": [],
   "repairs": [
     {
