@@ -265,6 +265,12 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // Google can assign a recent crawl date to evergreen sports database pages.
   // Country and sports keywords do not turn standings/statistics into news.
   if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b|\blive score\b.*\bh2h\b.*\blineups\b/.test(normalized(article.title))) return false;
+  // These named publisher templates are standings, match trackers and player
+  // statistics. Keep their news reports; a crawl date cannot date a database.
+  if (normalized(article.sourceName ?? "") === "tnt sports" &&
+      /\btable (?:football scores results fixtures|standings football rankings)$|\blive .+ football scores highlights \d{1,2} \d{1,2} \d{4}$/.test(normalized(article.title))) return false;
+  if (normalized(article.sourceName ?? "") === "fotmob" &&
+      /^minutes played .+ stats for .+ \d{4}(?: \d{4})?$/.test(normalized(article.title))) return false;
   // OEC's commodity/country profiles are reusable trade databases, not dated
   // news. A recent RSS crawl cannot establish original publication. Match the
   // profile template only, retaining reporting that cites OEC statistics.
@@ -276,7 +282,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // The RSS does not distinguish those crawl timestamps from original dates,
   // even for undated titles. Quarantine these sources until original publication
   // dates can be verified; do not guess dates or pad feeds with old material.
-  if (["guatemala com", "www laprensa hn", "laprensa hn", "economy com bo", "www economy com bo", "economy"].includes(normalized(article.sourceName ?? ""))) return false;
+  if (["guatemala com", "www laprensa hn", "laprensa hn", "economy com bo", "www economy com bo", "economy", "economy bolivia"].includes(normalized(article.sourceName ?? ""))) return false;
   // The publisher dates this exact report 12 December 2024, even though its
   // Google RSS crawl date is recent. Do not exclude new reporting on the actor.
   // https://www.televicentro.com/yimmi-rios-sigue-brillando-de-guardia-de-seguridad-a-estrella-del-cine-hondureno-2025-12-12

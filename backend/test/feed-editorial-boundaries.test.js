@@ -27,7 +27,41 @@ const hashtags = "#Chile #j#Chile #justicia #Viceministrousticia #Viceministro";
 const recrawledEconomy = "Economy celebra siete años y se consolida como referente informativo del ecosistema empresarial boliviano";
 const agmerUruguay = "Agmer Uruguay se movilizó para exigir justicia por Nancy Godoy";
 const civilArbitration = "Justicia internacional falló a favor de Uruguay en el caso Aratirí, el mayor arbitraje de la historia del país";
-const sourceFor = title => title === bankTable ? "Finanzas Digital" : title === recrawledEconomy ? "www.economy.com.bo" : "Example";
+const economyAliasCorridor = "Bolivia y Paraguay plantean corredor de 1.222 kilómetros para ampliar el comercio y la conexión con el Atlántico";
+const leagueTable = "Suriname Major League Table: Football Scores, Results & Fixtures";
+const liveMatch = "Notch - Voorwaarts Live - Suriname Major League: Football Scores & Highlights - 24/10/2026";
+const playerStats = "Minutes played - Trinidad and Tobago stats for World Cup Qualification CONCACAF 2024/2025";
+const sourceFor = title => title === bankTable ? "Finanzas Digital" : title === recrawledEconomy ? "www.economy.com.bo"
+  : title === economyAliasCorridor ? "Economy Bolivia" : [leagueTable, liveMatch].includes(title) ? "TNT Sports"
+    : title === playerStats ? "FotMob" : "Example";
+
+test("Economy Bolivia display alias cannot restore the same misdated archives", () => {
+  for (const title of [economyAliasCorridor, "Camacho asume la embajada en Paraguay con una agenda centrada en comercio e inversiones"]) {
+    for (const sourceName of ["Economy Bolivia", "ECONOMY BOLIVIA"]) {
+      for (const key of ["top", "latest", "business", "world"]) {
+        assert.equal(isRelevantArticle({ ...article(title), sourceName }, country("PY"), feed(key), { lookbackDays: 14 }, now), false, `${sourceName}/${key}`);
+      }
+    }
+    assert.equal(isRelevantArticle({ ...article(title), sourceName: "Independent News" }, country("PY"), feed("business"), { lookbackDays: 14 }, now), true);
+  }
+});
+
+test("TNT standings and dated match trackers are not news reports", () => {
+  for (const title of [leagueTable, liveMatch, "Suriname Major League Table & Standings - Football Rankings"]) {
+    for (const key of ["top", "latest", "sports"]) {
+      assert.equal(isRelevantArticle({ ...article(title), sourceName: "TNT Sports" }, country("SR"), feed(key), { lookbackDays: 14 }, now), false, `${title}/${key}`);
+    }
+  }
+  assert.equal(isRelevantArticle({ ...article("Suriname football club wins final after late goal"), sourceName: "TNT Sports" }, country("SR"), feed("sports"), { lookbackDays: 14 }, now), true);
+});
+
+test("FotMob minutes-played season profiles are not dated reporting", () => {
+  for (const key of ["top", "latest", "sports"]) {
+    assert.equal(isRelevantArticle({ ...article(playerStats), sourceName: "FotMob" }, country("TT"), feed(key), { lookbackDays: 14 }, now), false, key);
+  }
+  assert.equal(isRelevantArticle({ ...article("Trinidad and Tobago football captain returns after injury"), sourceName: "FotMob" }, country("TT"), feed("sports"), { lookbackDays: 14 }, now), true);
+  assert.equal(relevant("TT", "sports", "Trinidad and Tobago football captain leads team in minutes played"), true);
+});
 
 test("Economy Bolivia recrawled archives need original publication dates before inclusion", () => {
   for (const sourceName of ["economy.com.bo", "www.economy.com.bo", "Economy.com.bo", "Economy"]) {
@@ -283,6 +317,10 @@ test("promotional explicit-video spam is rejected without suppressing legitimate
 
 test("live RSS filtering rejects spam and geographic confusion with original dates intact", async () => {
   for (const [id, key, bad, good] of [
+    ["PY", "business", economyAliasCorridor, "Paraguay anuncia nuevas inversiones empresariales"],
+    ["SR", "sports", leagueTable, "Suriname football club wins final"],
+    ["SR", "sports", liveMatch, "Suriname football club wins final"],
+    ["TT", "latest", playerStats, "Trinidad and Tobago football captain returns"],
     ["BO", "business", recrawledEconomy, "Bolivia anuncia nuevas inversiones empresariales"],
     ["UY", "crime", agmerUruguay, "Uruguay investiga fraude"],
     ["UY", "crime", civilArbitration, "Uruguay investiga fraude"],
@@ -301,7 +339,7 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
     ["NI", "business", tradeProfile, "Nicaragua anuncia nuevas inversiones empresariales"]
   ]) {
     const items = [bad, good].map(title => ({ ...article(title, Date.now()), sourceName: sourceFor(title) }));
-    const xml = `<rss><channel>${items.map(a => `<item><title>${a.title}</title><link>${a.url}</link><source>${a.sourceName}</source><pubDate>${a.publishedAt}</pubDate></item>`).join("")}</channel></rss>`;
+    const xml = `<rss><channel>${items.map(a => `<item><title>${a.title.replaceAll("&", "&amp;")}</title><link>${a.url}</link><source>${a.sourceName}</source><pubDate>${a.publishedAt}</pubDate></item>`).join("")}</channel></rss>`;
     const result = await fetchArticlesForFeed(country(id), feed(key), { sleep: async () => {}, fetchImpl: async () => new Response(xml) });
     assert.deepEqual(result.map(a => a.title), [good]);
     assert.equal(result[0].publishedAt, items[1].publishedAt);
@@ -310,6 +348,8 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
 
 test("cached recovery cannot restore newly identified spam or semantic errors", async t => {
   for (const [id, key, bad] of [
+    ["PY", "business", economyAliasCorridor], ["SR", "sports", leagueTable],
+    ["SR", "sports", liveMatch], ["TT", "latest", playerStats],
     ["BO", "business", recrawledEconomy], ["UY", "crime", agmerUruguay], ["UY", "crime", civilArbitration],
     ["UY", "politics", "Uruguay: Abren las inscripciones para el Congreso Latinoamericano de la Papa 2027"],
     ["VE", "world", "II Congreso Internacional Porcino de Venezuela"],
