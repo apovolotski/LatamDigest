@@ -7787,7 +7787,7 @@
   },
   "status": "healthy",
   "latest": {
-    "checkedAt": "2026-11-01T07:14:01.119Z",
+    "checkedAt": "2026-11-01T09:38:30.265Z",
     "workflows": {
       "feeds": {
         "due": "2026-11-01T06:17:00.000Z",
@@ -7803,7 +7803,7 @@
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "schedule_grace",
+        "reason": "publication_current",
         "due": "2026-11-01T06:17:00.000Z"
       },
       "backend": {
@@ -7849,7 +7849,7 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-01T07:14:01.119Z",
+  "checkedAt": "2026-11-01T09:38:30.265Z",
   "activeAlerts": [],
   "repairs": [
     {
@@ -8083,22 +8083,22 @@
       "primarySourceEvidence": {
         "originalDates": [
           {
-            "title": "CBN, Farmacop, Sof\u00eda, Embol y Tigo lideran el ranking de las empresas con mejor reputaci\u00f3n de Bolivia en 2022",
+            "title": "CBN, Farmacop, Sofía, Embol y Tigo lideran el ranking de las empresas con mejor reputación de Bolivia en 2022",
             "originalDate": "2023-07-06",
             "url": "https://www.economy.com.bo/articulo/business/cbn-farmacop-sofia-embol-coca-cola-tigo-lideran-ranking-empresas-mejor-reputacion-bolivia-2022/20230706110809010289.html"
           },
           {
-            "title": "Economy celebra siete a\u00f1os y se consolida como referente informativo del ecosistema empresarial boliviano",
+            "title": "Economy celebra siete años y se consolida como referente informativo del ecosistema empresarial boliviano",
             "originalDate": "2025-05-20",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-celebra-siete-anos-como-referente-informativo-ecosistema-empresarial-boliviano/20250520115248018408.html"
           },
           {
-            "title": "Economy cumple 8 a\u00f1os consolidando el ecosistema de informaci\u00f3n econ\u00f3mica y empresarial de mayor influencia en Bolivia",
+            "title": "Economy cumple 8 años consolidando el ecosistema de información económica y empresarial de mayor influencia en Bolivia",
             "originalDate": "2026-05-19",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-cumple-8-anos-consolidando-ecosistema-informacion-economica-empresarial-streaming-bolivia/20260519161211022513.amp.html"
           },
           {
-            "title": "Bolivia y Paraguay plantean corredor de 1.222 kil\u00f3metros para ampliar el comercio y la conexi\u00f3n con el Atl\u00e1ntico",
+            "title": "Bolivia y Paraguay plantean corredor de 1.222 kilómetros para ampliar el comercio y la conexión con el Atlántico",
             "originalDate": "2026-09-21",
             "url": "https://www.economy.com.bo/articulo/business/bolivia-paraguay-plantean-corredor-1222-kilometros-ampliar-comercio-conexion-atlantico/20260921100728024153.html"
           },
