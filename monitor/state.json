@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "repository": "apovolotski/LatamDigest",
   "continuous": true,
-  "cutoff": "2026-11-01T07:15:08Z",
+  "cutoff": "2026-11-01T16:33:20Z",
   "milestone": {
     "backend": {
       "runIds": [],
@@ -66,19 +66,20 @@
           "reason": "source_original_date_country_repair",
           "repairCommit": "dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048",
           "cutoff": "2026-10-31T22:18:57Z"
+        },
+        {
+          "runIds": [],
+          "attempts": {},
+          "endedAt": "2026-11-01T16:33:20Z",
+          "reason": "source_publisher_alias_database_and_promotional_caption_repair",
+          "repairCommit": "7e71912612ffe2e523acca8d6b111b1f14b66f32",
+          "cutoff": "2026-11-01T07:15:08Z"
         }
       ]
     },
     "feeds": {
-      "runIds": [
-        41310336839
-      ],
-      "attempts": {
-        "41310336839:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-01T13:17:39.760Z"
-        }
-      },
+      "runIds": [],
+      "attempts": {},
       "history": [
         {
           "endedAt": "2026-10-31T03:27:38Z",
@@ -193,6 +194,24 @@
           "cutoff": "2026-10-31T22:18:57Z",
           "subsequentlyInvalidatedRunIds": [
             41278828967
+          ]
+        },
+        {
+          "runIds": [
+            41310336839
+          ],
+          "attempts": {
+            "41310336839:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-01T13:17:39.760Z"
+            }
+          },
+          "endedAt": "2026-11-01T16:33:20Z",
+          "reason": "source_publisher_alias_database_and_promotional_caption_repair",
+          "repairCommit": "7e71912612ffe2e523acca8d6b111b1f14b66f32",
+          "cutoff": "2026-11-01T07:15:08Z",
+          "subsequentlyInvalidatedRunIds": [
+            41310336839
           ]
         }
       ]
@@ -7655,8 +7674,10 @@
           "lines": 818
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "The standalone leak-video promotional caption was present in TT/top and TT/latest. No primary-page date or publisher compromise was established; the exact caption supplies no news account. Repaired by 7e71912612ffe2e523acca8d6b111b1f14b66f32."
+      ],
       "tests": {
         "refresh": 180
       },
@@ -7701,6 +7722,95 @@
         "jobLogLines": 818,
         "startedAt": "2026-11-01T07:05:15.000Z",
         "completedAt": "2026-11-01T07:07:00.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41283344388,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-11-01T07:05:05Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "dcbe75e06bb09c0b4e5e3cf72da1de67d50f9048",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41283344388",
+          "verifiedAt": "2026-11-01T07:07:23.992Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "3eb1303a35bf93483c5ec5cfe95f1c323b6b105fa174cbae9bfb565e52e3f9fe",
+          "completeLogLines": 818,
+          "jobLogs": [
+            {
+              "id": 124779580378,
+              "name": "refresh",
+              "sha256": "3eb1303a35bf93483c5ec5cfe95f1c323b6b105fa174cbae9bfb565e52e3f9fe",
+              "lines": 818
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 180
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124779580378,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "3eb1303a35bf93483c5ec5cfe95f1c323b6b105fa174cbae9bfb565e52e3f9fe",
+              "jobLogLines": 818,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 180,
+                "pass": 180,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124779580378,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "3eb1303a35bf93483c5ec5cfe95f1c323b6b105fa174cbae9bfb565e52e3f9fe",
+              "jobLogLines": 818,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124779580378,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "3eb1303a35bf93483c5ec5cfe95f1c323b6b105fa174cbae9bfb565e52e3f9fe",
+            "jobLogLines": 818,
+            "startedAt": "2026-11-01T07:05:15.000Z",
+            "completedAt": "2026-11-01T07:07:00.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-01T16:33:20Z",
+        "repairCommit": "7e71912612ffe2e523acca8d6b111b1f14b66f32",
+        "supersedingPublication": "bb5f9300c94d0c508fd8f1ce10b82a6532c77cbf",
+        "rejectedArticlePlacements": 2,
+        "affectedFeeds": 2,
+        "githubConclusionUnchanged": true,
+        "reason": "The standalone leak-video promotional caption was present in TT/top and TT/latest. No primary-page date or publisher compromise was established; the exact caption supplies no news account.",
+        "primarySourceEvidence": [],
+        "captionPrimaryPageVerified": false
       }
     },
     "41310336839:1": {
@@ -7731,8 +7841,10 @@
           "lines": 818
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Nine invalid placements were identified: three September Economy Bolivia archive placements restored through its display alias, two TNT standings/match-tracker pages, two FotMob season-statistics placements and two standalone leak-video promotions. Recent RSS crawl dates do not establish original news publication. Repaired by 7e71912612ffe2e523acca8d6b111b1f14b66f32."
+      ],
       "tests": {
         "refresh": 180
       },
@@ -7777,6 +7889,118 @@
         "jobLogLines": 818,
         "startedAt": "2026-11-01T13:15:16.000Z",
         "completedAt": "2026-11-01T13:17:14.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41310336839,
+          "attempt": 1,
+          "event": "schedule",
+          "createdAt": "2026-11-01T13:15:02Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "96eb7a14f460e4ed21c571983ee8aebf308c5a48",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41310336839",
+          "verifiedAt": "2026-11-01T13:17:39.760Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "4ca585f797d92bbb94616b0fc01a3e863c8ab918061a61b951da554dbf6198a5",
+          "completeLogLines": 818,
+          "jobLogs": [
+            {
+              "id": 124859192992,
+              "name": "refresh",
+              "sha256": "4ca585f797d92bbb94616b0fc01a3e863c8ab918061a61b951da554dbf6198a5",
+              "lines": 818
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 180
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124859192992,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "4ca585f797d92bbb94616b0fc01a3e863c8ab918061a61b951da554dbf6198a5",
+              "jobLogLines": 818,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 180,
+                "pass": 180,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124859192992,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "4ca585f797d92bbb94616b0fc01a3e863c8ab918061a61b951da554dbf6198a5",
+              "jobLogLines": 818,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124859192992,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "4ca585f797d92bbb94616b0fc01a3e863c8ab918061a61b951da554dbf6198a5",
+            "jobLogLines": 818,
+            "startedAt": "2026-11-01T13:15:16.000Z",
+            "completedAt": "2026-11-01T13:17:14.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-01T16:33:20Z",
+        "repairCommit": "7e71912612ffe2e523acca8d6b111b1f14b66f32",
+        "supersedingPublication": "bb5f9300c94d0c508fd8f1ce10b82a6532c77cbf",
+        "rejectedArticlePlacements": 9,
+        "affectedFeeds": 5,
+        "githubConclusionUnchanged": true,
+        "reason": "Nine invalid placements were identified: three September Economy Bolivia archive placements restored through its display alias, two TNT standings/match-tracker pages, two FotMob season-statistics placements and two standalone leak-video promotions. Recent RSS crawl dates do not establish original news publication.",
+        "primarySourceEvidence": [
+          {
+            "url": "https://www.economy.com.bo/articulo/business/bolivia-paraguay-plantean-corredor-1222-kilometros-ampliar-comercio-conexion-atlantico/20260921100728024153.html",
+            "originalPublicationDate": "2026-09-21",
+            "finding": "The same corridor report re-entered BO/business and PY/business using the Economy Bolivia display alias and an October 31 crawl date."
+          },
+          {
+            "url": "https://economy.com.bo/economia/camacho-asume-embajada-paraguay-agenda-centrada-comercio-inversiones",
+            "originalPublicationDate": "2026-09-17",
+            "finding": "The publisher now identifies itself as Economy Bolivia. This is the same September embassy report; its October 31 RSS crawl date is not publication proof."
+          },
+          {
+            "url": "https://www.tntsports.co.uk/football/hoofdklasse-svb/standings.shtml",
+            "finding": "Reusable league standings with fixtures and results, not dated reporting."
+          },
+          {
+            "url": "https://www.tntsports.co.uk/football/suriname-major-league/2026-2027/live-notch-voorwaarts_mtc22042423/live.shtml",
+            "finding": "Match tracker, score, head-to-head and standings with generic coverage boilerplate; an event date does not make it an original news article."
+          },
+          {
+            "url": "https://www.fotmob.com/teams/7724/stats/trinidad-and-tobago%2Cplayers%2Cteams%2Cteams/players",
+            "finding": "Team/player season statistics including minutes played, not dated reporting."
+          }
+        ],
+        "captionPrimaryPageVerified": false
       }
     },
     "41325600246:1": {
@@ -8043,8 +8267,10 @@
           "lines": 846
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "The intermediate repair publication removed the archive/database defects but retained the standalone leak-video promotional caption in TT/top and TT/latest. Repaired by 7e71912612ffe2e523acca8d6b111b1f14b66f32."
+      ],
       "tests": {
         "refresh": 183
       },
@@ -8089,6 +8315,95 @@
         "jobLogLines": 846,
         "startedAt": "2026-11-01T16:18:19.000Z",
         "completedAt": "2026-11-01T16:20:03.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41325623143,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-11-01T16:18:09Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "e5d937a4b3341f9d2049ddc8b7369361a1b635a3",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41325623143",
+          "verifiedAt": "2026-11-01T16:20:33.264Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "764efa59723051aab92903baafa30ea8afa9ba053d48d0085181fbaabbd15b24",
+          "completeLogLines": 846,
+          "jobLogs": [
+            {
+              "id": 124904835070,
+              "name": "refresh",
+              "sha256": "764efa59723051aab92903baafa30ea8afa9ba053d48d0085181fbaabbd15b24",
+              "lines": 846
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 183
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124904835070,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "764efa59723051aab92903baafa30ea8afa9ba053d48d0085181fbaabbd15b24",
+              "jobLogLines": 846,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 183,
+                "pass": 183,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124904835070,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "764efa59723051aab92903baafa30ea8afa9ba053d48d0085181fbaabbd15b24",
+              "jobLogLines": 846,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124904835070,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "764efa59723051aab92903baafa30ea8afa9ba053d48d0085181fbaabbd15b24",
+            "jobLogLines": 846,
+            "startedAt": "2026-11-01T16:18:19.000Z",
+            "completedAt": "2026-11-01T16:20:03.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-01T16:33:20Z",
+        "repairCommit": "7e71912612ffe2e523acca8d6b111b1f14b66f32",
+        "supersedingPublication": "bb5f9300c94d0c508fd8f1ce10b82a6532c77cbf",
+        "rejectedArticlePlacements": 2,
+        "affectedFeeds": 2,
+        "githubConclusionUnchanged": true,
+        "reason": "The intermediate repair publication removed the archive/database defects but retained the standalone leak-video promotional caption in TT/top and TT/latest.",
+        "primarySourceEvidence": [],
+        "captionPrimaryPageVerified": false
       }
     },
     "41326292000:1": {
@@ -8839,22 +9154,22 @@
       "primarySourceEvidence": {
         "originalDates": [
           {
-            "title": "CBN, Farmacop, Sofía, Embol y Tigo lideran el ranking de las empresas con mejor reputación de Bolivia en 2022",
+            "title": "CBN, Farmacop, Sof\u00eda, Embol y Tigo lideran el ranking de las empresas con mejor reputaci\u00f3n de Bolivia en 2022",
             "originalDate": "2023-07-06",
             "url": "https://www.economy.com.bo/articulo/business/cbn-farmacop-sofia-embol-coca-cola-tigo-lideran-ranking-empresas-mejor-reputacion-bolivia-2022/20230706110809010289.html"
           },
           {
-            "title": "Economy celebra siete años y se consolida como referente informativo del ecosistema empresarial boliviano",
+            "title": "Economy celebra siete a\u00f1os y se consolida como referente informativo del ecosistema empresarial boliviano",
             "originalDate": "2025-05-20",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-celebra-siete-anos-como-referente-informativo-ecosistema-empresarial-boliviano/20250520115248018408.html"
           },
           {
-            "title": "Economy cumple 8 años consolidando el ecosistema de información económica y empresarial de mayor influencia en Bolivia",
+            "title": "Economy cumple 8 a\u00f1os consolidando el ecosistema de informaci\u00f3n econ\u00f3mica y empresarial de mayor influencia en Bolivia",
             "originalDate": "2026-05-19",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-cumple-8-anos-consolidando-ecosistema-informacion-economica-empresarial-streaming-bolivia/20260519161211022513.amp.html"
           },
           {
-            "title": "Bolivia y Paraguay plantean corredor de 1.222 kilómetros para ampliar el comercio y la conexión con el Atlántico",
+            "title": "Bolivia y Paraguay plantean corredor de 1.222 kil\u00f3metros para ampliar el comercio y la conexi\u00f3n con el Atl\u00e1ntico",
             "originalDate": "2026-09-21",
             "url": "https://www.economy.com.bo/articulo/business/bolivia-paraguay-plantean-corredor-1222-kilometros-ampliar-comercio-conexion-atlantico/20260921100728024153.html"
           },
@@ -8876,6 +9191,83 @@
           "finding": "New reporting about a civil investor-state mining arbitration. Date is current, but court/justice words alone do not make it crime news. Require independent criminal evidence while retaining top/latest and genuine commerce or international coverage."
         }
       }
+    },
+    {
+      "recordedAt": "2026-11-01T16:33:20Z",
+      "type": "source_publisher_alias_database_and_promotional_caption_repair",
+      "sourceCommit": "7e71912612ffe2e523acca8d6b111b1f14b66f32",
+      "precedingSourceCommits": [
+        "e5d937a4b3341f9d2049ddc8b7369361a1b635a3"
+      ],
+      "reason": "Add the exact Economy Bolivia source alias to the existing publisher quarantine and exclude bounded TNT/FotMob database templates in live selection and cached recovery. No publisher-wide TNT/FotMob exclusion; substantive news stays eligible. TeCNIa exclusion remains precautionary, not an assertion of an old event. Reject the exact standalone Filtraci\u00f3n TOBAGO TAXI DRIVER VIRAL VIDEO promotion; ordinary police reporting and Port of Rotterdam cooperation reporting remain eligible.",
+      "previousCutoff": "2026-11-01T07:15:08Z",
+      "cutoff": "2026-11-01T16:33:20Z",
+      "regressionTestsAdded": 4,
+      "baselines": {
+        "backend": {
+          "id": 41326381877,
+          "event": "workflow_dispatch",
+          "source": "7e71912612ffe2e523acca8d6b111b1f14b66f32",
+          "fullTests": 200,
+          "feedTests": 184,
+          "controllerTests": 67,
+          "productionAudits": 0
+        },
+        "feeds": {
+          "id": 41326547532,
+          "event": "workflow_dispatch",
+          "source": "7e71912612ffe2e523acca8d6b111b1f14b66f32",
+          "publication": "bb5f9300c94d0c508fd8f1ce10b82a6532c77cbf",
+          "feedTests": 184,
+          "refreshedFeeds": 239,
+          "cachedFeeds": 1,
+          "healthState": "degraded",
+          "publicationSafetyHours": 24
+        },
+        "hosted": {
+          "id": 41326846973,
+          "event": "workflow_dispatch",
+          "source": "bb5f9300c94d0c508fd8f1ce10b82a6532c77cbf",
+          "controllerTests": 67,
+          "appFacingFilesMatched": 243
+        }
+      },
+      "correctedPriorVerifications": [
+        41283344388,
+        41310336839,
+        41325623143
+      ],
+      "primarySourceEvidence": [
+        {
+          "url": "https://www.economy.com.bo/articulo/business/bolivia-paraguay-plantean-corredor-1222-kilometros-ampliar-comercio-conexion-atlantico/20260921100728024153.html",
+          "originalPublicationDate": "2026-09-21",
+          "finding": "The same corridor report re-entered BO/business and PY/business using the Economy Bolivia display alias and an October 31 crawl date."
+        },
+        {
+          "url": "https://economy.com.bo/economia/camacho-asume-embajada-paraguay-agenda-centrada-comercio-inversiones",
+          "originalPublicationDate": "2026-09-17",
+          "finding": "The publisher now identifies itself as Economy Bolivia. This is the same September embassy report; its October 31 RSS crawl date is not publication proof."
+        },
+        {
+          "url": "https://www.tntsports.co.uk/football/hoofdklasse-svb/standings.shtml",
+          "finding": "Reusable league standings with fixtures and results, not dated reporting."
+        },
+        {
+          "url": "https://www.tntsports.co.uk/football/suriname-major-league/2026-2027/live-notch-voorwaarts_mtc22042423/live.shtml",
+          "finding": "Match tracker, score, head-to-head and standings with generic coverage boilerplate; an event date does not make it an original news article."
+        },
+        {
+          "url": "https://www.fotmob.com/teams/7724/stats/trinidad-and-tobago%2Cplayers%2Cteams%2Cteams/players",
+          "finding": "Team/player season statistics including minutes played, not dated reporting."
+        }
+      ],
+      "retainedPrimaryReviewedStory": {
+        "title": "Comisi\u00f3n de Educaci\u00f3n y Cultura Senado de la Naci\u00f3n Argentina",
+        "url": "https://revista.elarcondeclio.com.ar/comision-de-educacion-y-cultura-senado-de-la-nacion-argentina/",
+        "originalPublicationDate": "2026-11-01",
+        "finding": "The article substantively covers national heritage, museum preservation, musical instruments and traditions. Culture placement is supported; it was retained."
+      },
+      "limitations": "TeCNIa exclusion remains precautionary. TNT/FotMob database exclusions are bounded templates, not publisher-wide quarantines. The exact promotional caption is excluded without asserting a verified primary date or publisher compromise. No dates or timestamps were renewed; all age, URL, relevance, cache, test and audit gates remain blocking."
     }
   ]
 }
