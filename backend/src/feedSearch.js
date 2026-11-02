@@ -91,7 +91,7 @@ const topics = {
 // in live Google News probes even with when:Nd; dates are checked independently.
 const queryTopics = {
   "en/world": "foreign affairs|diplomacy|ambassador|CARICOM|bilateral|United Nations",
-  "fr/business": "entreprises|commerce|investissement|comptables|production|entreprendre",
+  "fr/business": "entreprises|commerce|investissement|comptables|production|entreprendre|entreprise",
   "fr/economy": "économie|emploi|budget|prix|pétrole|carburant",
   "fr/tech": "technologie|innovation|intelligence artificielle|numérique|spatial|Ariane"
 };
@@ -119,7 +119,9 @@ const topicMatchTerms = {
   "pt/economy": "econom*|inflaç*|export*|orçament*|desemprego|tarifa*|salarial*",
   "pt/world": "internaciona*|diplomat*|embaixad*|consulad*|chanceler*|bilatera*|relações internacionais|ONU|OTAN|UNESCO",
   "fr/politics": "politiqu*|gouvernement*|parlement*|électora*|déput*|présiden*|sénat*|minist*",
-  "fr/business": "entreprise*|entrepreneur*|commerc*|investiss*|industri*|comptabl*",
+  // This commercial service-company phrase is bounded: société by itself
+  // also means society and must not qualify general social coverage.
+  "fr/business": "entreprise*|entrepreneur*|commerc*|investiss*|industri*|comptabl*|société d'événementiel",
   "fr/sports": "sport*|football*|basket*|tournoi*|champion*|athlét*|rugby*|futsal|tennis|handball|cyclis*",
   "fr/tech": "technolog*|innovat*|informatiqu*|informaticien*|télécom*|numériqu*|cyber*|IA|robot*|5G|6G|réseaux mobiles",
   "fr/culture": "culturel*|culturelle*|musical*|musicien*|cinéma*|artiste*|artistiqu*|littérair*|littératur*|théâtr*|opéra*|concert*|documentaire*|patrimoine",
@@ -274,6 +276,10 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
       /\btable (?:football scores results fixtures|standings football rankings)$|\blive .+ football scores highlights \d{1,2} \d{1,2} \d{4}$/.test(normalized(article.title))) return false;
   if (normalized(article.sourceName ?? "") === "fotmob" &&
       /^minutes played .+ stats for .+ \d{4}(?: \d{4})?$/.test(normalized(article.title))) return false;
+  // Acuité's shop-sale classifieds are offers, not news reports. Keep its
+  // reporting about businesses and acquisitions; the ad's date is not disputed.
+  if (normalized(article.sourceName ?? "") === "acuite" &&
+      /^a ceder fonds de commerce d optique lunetterie\b/.test(normalized(article.title))) return false;
   // OEC's commodity/country profiles are reusable trade databases, not dated
   // news. A recent RSS crawl cannot establish original publication. Match the
   // profile template only, retaining reporting that cites OEC statistics.

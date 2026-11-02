@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { feedConfigs, isRelevantArticle } from "../src/feedSearch.js";
+import { feedConfigs, isRelevantArticle, searchPlans } from "../src/feedSearch.js";
 import { generateFeeds, fetchArticlesForFeed } from "../scripts/generate-static-feeds.mjs";
 
 const countries = JSON.parse(await readFile(new URL("../../LatamDigest/Resources/Countries.json", import.meta.url)));
@@ -32,9 +32,29 @@ const economyAliasCorridor = "Bolivia y Paraguay plantean corredor de 1.222 kil�
 const leagueTable = "Suriname Major League Table: Football Scores, Results & Fixtures";
 const liveMatch = "Notch - Voorwaarts Live - Suriname Major League: Football Scores & Highlights - 24/10/2026";
 const playerStats = "Minutes played - Trinidad and Tobago stats for World Cup Qualification CONCACAF 2024/2025";
+const shopClassified = "À CÉDER – FONDS DE COMMERCE D'OPTIQUE-LUNETTERIE EN GUYANE FRANÇAISE";
+const serviceCompany = "Une société d'événementiel funéraire en Guyane pour soulager les familles confrontées au deuil";
 const sourceFor = title => title === bankTable ? "Finanzas Digital" : title === recrawledEconomy ? "www.economy.com.bo"
   : title === economyAliasCorridor ? "Economy Bolivia" : [leagueTable, liveMatch].includes(title) ? "TNT Sports"
-    : title === playerStats ? "FotMob" : title === leakVideoCaption ? "Port of Rotterdam" : "Example";
+    : title === playerStats ? "FotMob" : title === leakVideoCaption ? "Port of Rotterdam" : title === shopClassified ? "Acuité" : "Example";
+
+test("Acuité shop-sale classifieds are excluded while business reporting remains eligible", () => {
+  for (const key of ["top", "latest", "business"]) {
+    assert.equal(isRelevantArticle({ ...article(shopClassified), sourceName: "Acuité" }, country("GF"), feed(key), { lookbackDays: 14 }, now), false, key);
+    assert.equal(isRelevantArticle({ ...article("Une entreprise reprend un magasin d'optique en Guyane"), sourceName: "Acuité" }, country("GF"), feed(key), { lookbackDays: 14 }, now), true, key);
+  }
+});
+
+test("French business fallback finds service-company reporting without treating society as business", () => {
+  const plans = searchPlans(country("GF"), feed("business"));
+  assert.equal(plans.length, 3);
+  assert.equal(plans[1].lookbackDays, 14);
+  assert.match(plans[1].query, /"entreprise"/);
+  assert.equal(relevant("GF", "business", serviceCompany), true);
+  assert.equal(relevant("GF", "business", "La société guyanaise rend hommage aux familles en deuil"), false);
+  assert.equal(relevant("GF", "business", "Une société d'événementiel ouvre en Martinique"), false);
+  assert.equal(isRelevantArticle(article(serviceCompany, now - 15 * 86400000), country("GF"), feed("business"), plans[1], now), false);
+});
 
 test("Economy Bolivia display alias cannot restore the same misdated archives", () => {
   for (const title of [economyAliasCorridor, "Camacho asume la embajada en Paraguay con una agenda centrada en comercio e inversiones"]) {
@@ -330,6 +350,7 @@ test("promotional explicit-video spam is rejected without suppressing legitimate
 
 test("live RSS filtering rejects spam and geographic confusion with original dates intact", async () => {
   for (const [id, key, bad, good] of [
+    ["GF", "business", shopClassified, serviceCompany],
     ["PY", "business", economyAliasCorridor, "Paraguay anuncia nuevas inversiones empresariales"],
     ["SR", "sports", leagueTable, "Suriname football club wins final"],
     ["SR", "sports", liveMatch, "Suriname football club wins final"],
@@ -362,6 +383,7 @@ test("live RSS filtering rejects spam and geographic confusion with original dat
 
 test("cached recovery cannot restore newly identified spam or semantic errors", async t => {
   for (const [id, key, bad] of [
+    ["GF", "business", shopClassified],
     ["PY", "business", economyAliasCorridor], ["SR", "sports", leagueTable],
     ["SR", "sports", liveMatch], ["TT", "latest", playerStats], ["TT", "latest", leakVideoCaption],
     ["BO", "business", recrawledEconomy], ["UY", "crime", agmerUruguay], ["UY", "crime", civilArbitration],
