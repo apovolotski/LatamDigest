@@ -1,12 +1,12 @@
 {
-  "state": "healthy",
+  "state": "degraded",
   "mode": "refreshed",
-  "checkedAt": "2026-11-02T02:36:54.200Z",
-  "lastSuccessfulRefreshAt": "2026-11-02T02:35:05.398Z",
+  "checkedAt": "2026-11-02T05:57:57.018Z",
+  "lastSuccessfulRefreshAt": "2026-11-02T05:56:14.970Z",
   "publicationSafetyHours": 24,
   "cacheLimitHours": 24,
   "totalFeeds": 240,
-  "refreshedFeeds": 240,
-  "cachedFeeds": 0,
+  "refreshedFeeds": 239,
+  "cachedFeeds": 1,
   "attempts": 1
 }
