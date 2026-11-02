@@ -2,18 +2,11 @@
   "schemaVersion": 1,
   "repository": "apovolotski/LatamDigest",
   "continuous": true,
-  "cutoff": "2026-11-01T16:33:20Z",
+  "cutoff": "2026-11-02T02:40:14Z",
   "milestone": {
     "backend": {
-      "runIds": [
-        41328749353
-      ],
-      "attempts": {
-        "41328749353:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-01T16:55:51.548Z"
-        }
-      },
+      "runIds": [],
+      "attempts": {},
       "history": [
         {
           "endedAt": "2026-10-31T03:27:38Z",
@@ -81,19 +74,27 @@
           "reason": "source_publisher_alias_database_and_promotional_caption_repair",
           "repairCommit": "7e71912612ffe2e523acca8d6b111b1f14b66f32",
           "cutoff": "2026-11-01T07:15:08Z"
+        },
+        {
+          "runIds": [
+            41328749353
+          ],
+          "attempts": {
+            "41328749353:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-01T16:55:51.548Z"
+            }
+          },
+          "endedAt": "2026-11-02T02:40:14Z",
+          "reason": "source_classified_and_business_search_repair",
+          "repairCommit": "ce7f288eb67da77af9baa120d9b2430bd809d152",
+          "cutoff": "2026-11-01T16:33:20Z"
         }
       ]
     },
     "feeds": {
-      "runIds": [
-        41354683870
-      ],
-      "attempts": {
-        "41354683870:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-01T22:00:36.760Z"
-        }
-      },
+      "runIds": [],
+      "attempts": {},
       "history": [
         {
           "endedAt": "2026-10-31T03:27:38Z",
@@ -226,6 +227,24 @@
           "cutoff": "2026-11-01T07:15:08Z",
           "subsequentlyInvalidatedRunIds": [
             41310336839
+          ]
+        },
+        {
+          "runIds": [
+            41354683870
+          ],
+          "attempts": {
+            "41354683870:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-01T22:00:36.760Z"
+            }
+          },
+          "endedAt": "2026-11-02T02:40:14Z",
+          "reason": "source_classified_and_business_search_repair",
+          "repairCommit": "ce7f288eb67da77af9baa120d9b2430bd809d152",
+          "cutoff": "2026-11-01T16:33:20Z",
+          "subsequentlyInvalidatedRunIds": [
+            41354683870
           ]
         }
       ]
@@ -8720,8 +8739,10 @@
           "lines": 852
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
+      ],
       "tests": {
         "refresh": 184
       },
@@ -8766,6 +8787,100 @@
         "jobLogLines": 852,
         "startedAt": "2026-11-01T16:29:05.000Z",
         "completedAt": "2026-11-01T16:30:52.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41326547532,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-11-01T16:28:57Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "7e71912612ffe2e523acca8d6b111b1f14b66f32",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41326547532",
+          "verifiedAt": "2026-11-01T16:31:17.421Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "219d09d9421fe4e5e7a240f7458446da2c1fab18dd32733dbd5b38d6249d3b86",
+          "completeLogLines": 852,
+          "jobLogs": [
+            {
+              "id": 124907586848,
+              "name": "refresh",
+              "sha256": "219d09d9421fe4e5e7a240f7458446da2c1fab18dd32733dbd5b38d6249d3b86",
+              "lines": 852
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 184
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124907586848,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "219d09d9421fe4e5e7a240f7458446da2c1fab18dd32733dbd5b38d6249d3b86",
+              "jobLogLines": 852,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 184,
+                "pass": 184,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124907586848,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "219d09d9421fe4e5e7a240f7458446da2c1fab18dd32733dbd5b38d6249d3b86",
+              "jobLogLines": 852,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124907586848,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "219d09d9421fe4e5e7a240f7458446da2c1fab18dd32733dbd5b38d6249d3b86",
+            "jobLogLines": 852,
+            "startedAt": "2026-11-01T16:29:05.000Z",
+            "completedAt": "2026-11-01T16:30:52.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-02T02:40:14Z",
+        "repairCommit": "ce7f288eb67da77af9baa120d9b2430bd809d152",
+        "supersedingPublication": "428cae073a153cb357747c752dec31c4ab4c313f",
+        "rejectedArticlePlacements": 1,
+        "affectedFeeds": 1,
+        "githubConclusionUnchanged": true,
+        "reason": "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
+        "primarySourceEvidence": [
+          {
+            "url": "https://www.acuite.fr/annonces/magasins/ceder-fonds-de-commerce-doptique-lunetterie-en-guyane-francaise-a337361",
+            "publisherDate": "2026-10-22T18:59:00+02:00",
+            "finding": "Classified offers an existing optical shop for sale, requests serious enquiries and private contact."
+          }
+        ]
       }
     },
     "41328749353:1": {
@@ -8914,8 +9029,10 @@
           "lines": 848
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
+      ],
       "tests": {
         "refresh": 184
       },
@@ -8960,6 +9077,100 @@
         "jobLogLines": 848,
         "startedAt": "2026-11-01T21:58:22.000Z",
         "completedAt": "2026-11-01T22:00:12.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41354683870,
+          "attempt": 1,
+          "event": "schedule",
+          "createdAt": "2026-11-01T21:58:10Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "bb5f9300c94d0c508fd8f1ce10b82a6532c77cbf",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41354683870",
+          "verifiedAt": "2026-11-01T22:00:36.760Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "51e0a61296b7c24e91351682b96cfdbd343e3d83ec1e3092606577ccbe2b1028",
+          "completeLogLines": 848,
+          "jobLogs": [
+            {
+              "id": 124992120525,
+              "name": "refresh",
+              "sha256": "51e0a61296b7c24e91351682b96cfdbd343e3d83ec1e3092606577ccbe2b1028",
+              "lines": 848
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 184
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 124992120525,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "51e0a61296b7c24e91351682b96cfdbd343e3d83ec1e3092606577ccbe2b1028",
+              "jobLogLines": 848,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 184,
+                "pass": 184,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 124992120525,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "51e0a61296b7c24e91351682b96cfdbd343e3d83ec1e3092606577ccbe2b1028",
+              "jobLogLines": 848,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 124992120525,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "51e0a61296b7c24e91351682b96cfdbd343e3d83ec1e3092606577ccbe2b1028",
+            "jobLogLines": 848,
+            "startedAt": "2026-11-01T21:58:22.000Z",
+            "completedAt": "2026-11-01T22:00:12.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-02T02:40:14Z",
+        "repairCommit": "ce7f288eb67da77af9baa120d9b2430bd809d152",
+        "supersedingPublication": "428cae073a153cb357747c752dec31c4ab4c313f",
+        "rejectedArticlePlacements": 1,
+        "affectedFeeds": 1,
+        "githubConclusionUnchanged": true,
+        "reason": "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
+        "primarySourceEvidence": [
+          {
+            "url": "https://www.acuite.fr/annonces/magasins/ceder-fonds-de-commerce-doptique-lunetterie-en-guyane-francaise-a337361",
+            "publisherDate": "2026-10-22T18:59:00+02:00",
+            "finding": "Classified offers an existing optical shop for sale, requests serious enquiries and private contact."
+          }
+        ]
       }
     },
     "41378249594:1": {
@@ -9672,22 +9883,22 @@
       "primarySourceEvidence": {
         "originalDates": [
           {
-            "title": "CBN, Farmacop, Sofía, Embol y Tigo lideran el ranking de las empresas con mejor reputación de Bolivia en 2022",
+            "title": "CBN, Farmacop, Sof\u00eda, Embol y Tigo lideran el ranking de las empresas con mejor reputaci\u00f3n de Bolivia en 2022",
             "originalDate": "2023-07-06",
             "url": "https://www.economy.com.bo/articulo/business/cbn-farmacop-sofia-embol-coca-cola-tigo-lideran-ranking-empresas-mejor-reputacion-bolivia-2022/20230706110809010289.html"
           },
           {
-            "title": "Economy celebra siete años y se consolida como referente informativo del ecosistema empresarial boliviano",
+            "title": "Economy celebra siete a\u00f1os y se consolida como referente informativo del ecosistema empresarial boliviano",
             "originalDate": "2025-05-20",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-celebra-siete-anos-como-referente-informativo-ecosistema-empresarial-boliviano/20250520115248018408.html"
           },
           {
-            "title": "Economy cumple 8 años consolidando el ecosistema de información económica y empresarial de mayor influencia en Bolivia",
+            "title": "Economy cumple 8 a\u00f1os consolidando el ecosistema de informaci\u00f3n econ\u00f3mica y empresarial de mayor influencia en Bolivia",
             "originalDate": "2026-05-19",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-cumple-8-anos-consolidando-ecosistema-informacion-economica-empresarial-streaming-bolivia/20260519161211022513.amp.html"
           },
           {
-            "title": "Bolivia y Paraguay plantean corredor de 1.222 kilómetros para ampliar el comercio y la conexión con el Atlántico",
+            "title": "Bolivia y Paraguay plantean corredor de 1.222 kil\u00f3metros para ampliar el comercio y la conexi\u00f3n con el Atl\u00e1ntico",
             "originalDate": "2026-09-21",
             "url": "https://www.economy.com.bo/articulo/business/bolivia-paraguay-plantean-corredor-1222-kilometros-ampliar-comercio-conexion-atlantico/20260921100728024153.html"
           },
@@ -9717,7 +9928,7 @@
       "precedingSourceCommits": [
         "e5d937a4b3341f9d2049ddc8b7369361a1b635a3"
       ],
-      "reason": "Add the exact Economy Bolivia source alias to the existing publisher quarantine and exclude bounded TNT/FotMob database templates in live selection and cached recovery. No publisher-wide TNT/FotMob exclusion; substantive news stays eligible. TeCNIa exclusion remains precautionary, not an assertion of an old event. Reject the exact standalone Filtración TOBAGO TAXI DRIVER VIRAL VIDEO promotion; ordinary police reporting and Port of Rotterdam cooperation reporting remain eligible.",
+      "reason": "Add the exact Economy Bolivia source alias to the existing publisher quarantine and exclude bounded TNT/FotMob database templates in live selection and cached recovery. No publisher-wide TNT/FotMob exclusion; substantive news stays eligible. TeCNIa exclusion remains precautionary, not an assertion of an old event. Reject the exact standalone Filtraci\u00f3n TOBAGO TAXI DRIVER VIRAL VIDEO promotion; ordinary police reporting and Port of Rotterdam cooperation reporting remain eligible.",
       "previousCutoff": "2026-11-01T07:15:08Z",
       "cutoff": "2026-11-01T16:33:20Z",
       "regressionTestsAdded": 4,
@@ -9780,12 +9991,80 @@
         }
       ],
       "retainedPrimaryReviewedStory": {
-        "title": "Comisión de Educación y Cultura Senado de la Nación Argentina",
+        "title": "Comisi\u00f3n de Educaci\u00f3n y Cultura Senado de la Naci\u00f3n Argentina",
         "url": "https://revista.elarcondeclio.com.ar/comision-de-educacion-y-cultura-senado-de-la-nacion-argentina/",
         "originalPublicationDate": "2026-11-01",
         "finding": "The article substantively covers national heritage, museum preservation, musical instruments and traditions. Culture placement is supported; it was retained."
       },
       "limitations": "TeCNIa exclusion remains precautionary. TNT/FotMob database exclusions are bounded templates, not publisher-wide quarantines. The exact promotional caption is excluded without asserting a verified primary date or publisher compromise. No dates or timestamps were renewed; all age, URL, relevance, cache, test and audit gates remain blocking."
+    },
+    {
+      "recordedAt": "2026-11-02T02:40:14Z",
+      "type": "source_classified_and_business_search_repair",
+      "sourceCommit": "ce7f288eb67da77af9baa120d9b2430bd809d152",
+      "precedingSourceCommits": [],
+      "reason": "Exclude the bounded Acuit\u00e9 optical-shop classified template in live selection and cache recovery; rotate singular entreprise into the existing bounded French business fallback and recognize the commercial phrase soci\u00e9t\u00e9 d\u2019\u00e9v\u00e9nementiel without accepting soci\u00e9t\u00e9 alone. All age, URL, relevance and cache guards retained.",
+      "previousCutoff": "2026-11-01T16:33:20Z",
+      "cutoff": "2026-11-02T02:40:14Z",
+      "regressionTestsAdded": 2,
+      "baselines": {
+        "backend": {
+          "id": 41378385245,
+          "event": "workflow_dispatch",
+          "source": "ce7f288eb67da77af9baa120d9b2430bd809d152",
+          "fullTests": 202,
+          "feedTests": 186,
+          "controllerTests": 67,
+          "productionAudits": 0
+        },
+        "feeds": {
+          "id": 41378492003,
+          "event": "workflow_dispatch",
+          "source": "ce7f288eb67da77af9baa120d9b2430bd809d152",
+          "publication": "428cae073a153cb357747c752dec31c4ab4c313f",
+          "feedTests": 186,
+          "refreshedFeeds": 240,
+          "cachedFeeds": 0,
+          "healthState": "healthy",
+          "publicationSafetyHours": 24
+        },
+        "hosted": {
+          "id": 41378779584,
+          "event": "workflow_dispatch",
+          "source": "428cae073a153cb357747c752dec31c4ab4c313f",
+          "controllerTests": 67,
+          "appFacingFilesMatched": 243
+        }
+      },
+      "correctedPriorVerifications": [
+        41354683870,
+        41326547532
+      ],
+      "primarySourceEvidence": [
+        {
+          "url": "https://www.acuite.fr/annonces/magasins/ceder-fonds-de-commerce-doptique-lunetterie-en-guyane-francaise-a337361",
+          "publisherDate": "2026-10-22T18:59:00+02:00",
+          "finding": "Classified offers an existing optical shop for sale, requests serious enquiries and private contact."
+        }
+      ],
+      "retainedPrimaryReviewedStories": [
+        {
+          "url": "https://www.mediapart.fr/journal/france/301026/la-cooperation-entre-la-guyane-et-le-bresil-reste-fragile-malgre-la-victoire-de-lula",
+          "publisherDate": "2026-10-30T19:17:00+01:00",
+          "finding": "Current cross-border French Guiana/Brazil cooperation reporting."
+        },
+        {
+          "url": "https://outremers360.com/bassin-atlantique-appli/martinique-les-federations-hospitalieres-des-antilles-et-de-la-guyane-reunies-en-congres-sur-la-cooperation-territoriale",
+          "publisherDate": "2026-10-21",
+          "finding": "Includes cross-border healthcare and Caribbean cooperation with neighboring countries; not merely domestic territorial cooperation."
+        },
+        {
+          "url": "https://www.srherald.com/sport/2026/11/01/historisch-optreden-surinaamse-3x3-basketballers-eindigt-met-nederlagen-tegen-chili-en-argentinie/",
+          "publisherDate": "2026-11-01T16:25:00-03:00",
+          "finding": "Current Surinamese national 3x3 basketball reporting. Historical 2023 reference does not establish an old publication."
+        }
+      ],
+      "limitations": "Bounded Acuit\u00e9 classified-template exclusion is not a publisher-wide ban and does not dispute the ad date. Soci\u00e9t\u00e9 alone does not establish business; the commercial service-company phrase is bounded. Replacement RSS date is corroborated by a secondary listing; the full original publisher body was unavailable. No dates were invented and all age, URL, relevance, cache, test and audit gates remain blocking."
     }
   ]
 }
