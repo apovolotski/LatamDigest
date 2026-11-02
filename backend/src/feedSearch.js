@@ -27,7 +27,9 @@ const profiles = {
   SV: ["es", "El Salvador", "El Salvador|salvadoreñ*|salvadoran*"],
   UY: ["es", "Uruguay", "urugua*"],
   VE: ["es", "Venezuela", "venez*"],
-  TT: ["en", "Trinidad and Tobago", "Trinidad|Tobago|Trinidadian*|Tobagonian*|Trinbagonian*|T&T|TTOC|Port of Spain"],
+  // The named national telecom event supplies country evidence. TATT alone
+  // does not: it is also the ticker of an unrelated technology company.
+  TT: ["en", "Trinidad and Tobago", "Trinidad|Tobago|Trinidadian*|Tobagonian*|Trinbagonian*|T&T|TTOC|Port of Spain|TT Spectrum Week"],
   SR: ["nl", "Suriname", "surinam*|surinaam*|Paramaribo"],
   GY: ["en", "Guyana", "Guyana|Guyanese"],
   GF: ["fr", "Guyane", "Guyane|guyanais*|guyanaise*|French Guianese|French Guianan*|Cayenne|Kourou|Macouria|Matoury|Saint Laurent du Maroni"]
@@ -139,7 +141,7 @@ const topicMatchTerms = {
   "en/politics": "politic*|parliament*|congress*|presiden*|electoral|legislat*|prime minister|PM|senator*",
   "en/business": "industr*|firm*|commercial|commerce|investor*|investment*|corporat*|entrepreneur*",
   "en/sports": "sport*|football*|basketball*|champion*|athlet*|rugby*|futsal|tennis|touchdown*",
-  "en/tech": "technolog*|innovat*|telecom*|cyber*|AI|broadband|robot*|5G|6G|data centre|data center",
+  "en/tech": "technolog*|innovat*|telecom*|cyber*|AI|broadband|robot*|5G|6G|data centre|data center|radio spectrum|spectrum management|spectrum week|satellite connectivity",
   "en/culture": "cultural|music*|artist*|cinema*|concert*|documentar*|heritage|literar*|theatr*|carnival*|cuisine|culinary",
   "en/crime": "criminal*|arrest*|detain*|violent*|homicid*|corrupt*|robber*|fraud*|kidnap*|traffick*|femicide*",
   "en/economy": "econom*|inflation*|export*|unemployment|recession|tariff*|interest rates",
@@ -240,6 +242,14 @@ export function searchPlans(country, feed) {
     const countryQuery = cultureSearchAliases[country.id];
     searches.push({ language, lookbackDays: 14, countryQuery,
       query: `${countryQuery} ("heritage" OR "cuisine" OR "culinary" OR "artists" OR "museum" OR "cultural") when:14d`,
+      locale: localeFor(country.id, language) });
+  }
+  // Sparse English tech feeds have no language fallback. Search a distinct,
+  // bounded telecom vocabulary before the only cached story ages out. Keep
+  // the country query and all headline, date and publication-age checks.
+  if (language === "en" && feed.key === "tech") {
+    searches.push({ language, lookbackDays: 14, countryQuery,
+      query: `${countryQuery} ("spectrum" OR "cybersecurity" OR "broadband" OR "satellite" OR "5G" OR "robotics") when:14d`,
       locale: localeFor(country.id, language) });
   }
   return searches;

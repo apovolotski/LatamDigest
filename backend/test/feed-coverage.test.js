@@ -55,6 +55,39 @@ test("sparse English culture searches national demonyms and arts vocabulary with
   assert.equal(result[0].publishedAt, genuine.publishedAt);
 });
 
+test("incident 41474100155: sparse English tech searches telecom vocabulary before relying on aging cache", async () => {
+  const urls = [], current = { ...story("TATT convenes TT Spectrum Week from Nov 02", 3), sourceName: "Tech News TT" };
+  const aging = story("Trinidad and Tobago technology report", 13.2);
+  const result = await fetchArticlesForFeed(getCountry("TT"), getFeed("tech"), { ...options,
+    fetchImpl: async url => {
+      urls.push(url);
+      return new Response(rss(urls.length < 3 ? [aging] : [current,
+        story("TAT Technologies (TATT) reports technology earnings"),
+        story("Australia announces radio spectrum auction"),
+        story("TATT convenes TT Spectrum Week", 15)]));
+    }
+  });
+  assert.equal(urls.length, 3);
+  assert.match(urls[2].searchParams.get("q"), /"Trinidad and Tobago" OR "Tobago"/);
+  assert.match(urls[2].searchParams.get("q"), /"spectrum"/);
+  assert.match(urls[2].searchParams.get("q"), /when:14d/);
+  assert.deepEqual(result.map(a => a.title), [current.title]);
+  assert.equal(result[0].publishedAt, current.publishedAt);
+  assert.equal(result.coverage.searches, 3);
+});
+
+test("national spectrum-week coverage keeps country and technology boundaries", () => {
+  const tt = getCountry("TT"), tech = getFeed("tech"), plan = { lookbackDays: 14 };
+  assert.equal(isRelevantArticle(story("TATT convenes TT Spectrum Week from Nov 02"), tt, tech, plan), true);
+  for (const title of ["TAT Technologies (TATT) reports technology earnings", "Spectrum shares rally",
+    "T&T artists explore the spectrum of colour", "Australia announces radio spectrum auction"]) {
+    assert.equal(isRelevantArticle(story(title), tt, tech, plan), false, title);
+  }
+  assert.equal(isRelevantArticle(story("TATT convenes TT Spectrum Week"), getCountry("GY"), tech, plan), false);
+  assert.equal(isRelevantArticle(story("TATT convenes TT Spectrum Week"), tt, getFeed("culture"), plan), false);
+  assert.equal(isRelevantArticle(story("TATT convenes TT Spectrum Week", -2), tt, tech, plan), false);
+});
+
 test("partial recovery cannot retain a cached workplace-culture false positive", async t => {
   const destination = await mkdtemp(path.join(tmpdir(), "latam-culture-cache-"));
   t.after(() => rm(destination, { recursive: true, force: true }));

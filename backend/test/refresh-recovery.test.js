@@ -71,6 +71,45 @@ test("incident 39946815347: fresh Suriname culture replaces the lone aging story
   assert.deepEqual((await checkCoverage({ ...f, countries: [sr] })).issues, []);
 });
 
+test("incident 41474100155: telecom fallback replaces an aging singleton and remains valid in partial recovery", async t => {
+  const f = await fixture(t), tt = { id: "TT", name: "Trinidad and Tobago" };
+  const ttArticle = () => toArticle({
+    title: "Trinidad and Tobago: politics, business, sports, technology, culture, crime, economy and diplomacy",
+    link: "https://example.com/tt-news", source: "Example", pubDate: new Date().toISOString()
+  }, tt, { label: "Top" });
+  await generateFeeds({ ...f, countries: [tt], fetchFeed: async () => [ttArticle()] });
+  const file = path.join(f.destination, "countries/TT/category/tech.json");
+  const old = { ...ttArticle(), title: "Trinidad and Tobago technology report",
+    publishedAt: new Date(Date.now() - 13.2 * 86_400_000).toISOString() };
+  await writeFile(file, JSON.stringify([old]));
+  const publishedAt = new Date(Date.now() - 3 * 86_400_000).toISOString();
+  let searches = 0;
+  const status = await refreshFeeds({ ...f, countries: [tt], generate: options => generateFeeds({ ...options,
+    fetchFeed: (country, feed) => feed.key !== "tech" ? Promise.resolve([ttArticle()]) : fetchArticlesForFeed(country, feed, {
+      fetchImpl: async () => new Response(++searches < 3 ? "<rss><channel/></rss>" :
+        `<rss><channel><item><title>TATT convenes TT Spectrum Week from Nov 02</title><link>https://example.com/spectrum-week</link><source>Tech News TT</source><pubDate>${publishedAt}</pubDate></item></channel></rss>`)
+    })
+  }) });
+  assert.equal(searches, 3);
+  assert.equal(status.state, "healthy");
+  assert.equal(status.refreshedFeeds, 10);
+  const articles = JSON.parse(await readFile(file));
+  assert.equal(articles.length, 1);
+  assert.equal(articles[0].publishedAt, publishedAt);
+  assert.notEqual(articles[0].title, old.title);
+  const original = JSON.parse(await readFile(path.join(f.destination, "manifest.json"))).countries[0].feeds.tech;
+  const retained = await refreshFeeds({ ...f, countries: [tt], generate: options => generateFeeds({ ...options,
+    fetchFeed: async (_, feed) => feed.key === "tech" ? [] : [ttArticle()]
+  }) });
+  assert.equal(retained.state, "degraded");
+  assert.equal(retained.cachedFeeds, 1);
+  assert.deepEqual(JSON.parse(await readFile(file)), articles);
+  const current = JSON.parse(await readFile(path.join(f.destination, "manifest.json"))).countries[0].feeds.tech;
+  assert.equal(current.updatedAt, original.updatedAt);
+  assert.equal(current.stale, true);
+  assert.deepEqual((await checkCoverage({ ...f, countries: [tt] })).issues, []);
+});
+
 test("incident regression: thirty HTTP 503 responses preserve verified coverage and report degraded health", async t => {
   const f = await fixture(t), before = await f.snapshot();
   let requests = 0;
