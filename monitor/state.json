@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "repository": "apovolotski/LatamDigest",
   "continuous": true,
-  "cutoff": "2026-11-03T11:21:19Z",
+  "cutoff": "2026-11-03T15:06:47Z",
   "milestone": {
     "backend": {
       "runIds": [],
@@ -120,19 +120,20 @@
           "reason": "source_sparse_world_search_and_publication_date_repair",
           "repairCommit": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
           "cutoff": "2026-11-03T02:24:02Z"
+        },
+        {
+          "runIds": [],
+          "attempts": {},
+          "endedAt": "2026-11-03T15:06:47Z",
+          "reason": "source_regional_geography_and_category_context_repair",
+          "repairCommit": "f58320633437a2798b21eab37b0699eb07f5081d",
+          "cutoff": "2026-11-03T11:21:19Z"
         }
       ]
     },
     "feeds": {
-      "runIds": [
-        41650190427
-      ],
-      "attempts": {
-        "41650190427:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-03T14:07:41.976Z"
-        }
-      },
+      "runIds": [],
+      "attempts": {},
       "history": [
         {
           "endedAt": "2026-10-31T03:27:38Z",
@@ -333,6 +334,24 @@
           "reason": "source_sparse_world_search_and_publication_date_repair",
           "repairCommit": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
           "cutoff": "2026-11-03T02:24:02Z"
+        },
+        {
+          "runIds": [
+            41650190427
+          ],
+          "attempts": {
+            "41650190427:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-03T14:07:41.976Z"
+            }
+          },
+          "endedAt": "2026-11-03T15:06:47Z",
+          "reason": "source_regional_geography_and_category_context_repair",
+          "repairCommit": "f58320633437a2798b21eab37b0699eb07f5081d",
+          "cutoff": "2026-11-03T11:21:19Z",
+          "subsequentlyInvalidatedRunIds": [
+            41650190427
+          ]
         }
       ]
     }
@@ -8828,7 +8847,7 @@
       ],
       "valid": false,
       "issues": [
-        "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
+        "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
       ],
       "tests": {
         "refresh": 184
@@ -8960,7 +8979,7 @@
         "rejectedArticlePlacements": 1,
         "affectedFeeds": 1,
         "githubConclusionUnchanged": true,
-        "reason": "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
+        "reason": "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
         "primarySourceEvidence": [
           {
             "url": "https://www.acuite.fr/annonces/magasins/ceder-fonds-de-commerce-doptique-lunetterie-en-guyane-francaise-a337361",
@@ -9118,7 +9137,7 @@
       ],
       "valid": false,
       "issues": [
-        "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
+        "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
       ],
       "tests": {
         "refresh": 184
@@ -9250,7 +9269,7 @@
         "rejectedArticlePlacements": 1,
         "affectedFeeds": 1,
         "githubConclusionUnchanged": true,
-        "reason": "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
+        "reason": "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
         "primarySourceEvidence": [
           {
             "url": "https://www.acuite.fr/annonces/magasins/ceder-fonds-de-commerce-doptique-lunetterie-en-guyane-francaise-a337361",
@@ -11392,13 +11411,13 @@
           {
             "url": "https://www.dimar.mil.co/print/pdf/node/7156",
             "publisherDate": "2026-02-23",
-            "title": "Colombia, Chile y Ecuador fortalecen la Cooperación Internacional en la Antártica",
+            "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
             "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
           },
           {
             "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
             "publisherDate": "2026-10-23",
-            "title": "Colombia y Ecuador fortalecen la cooperación marítima y amplían oportunidades para la gente de mar",
+            "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
             "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
           },
           {
@@ -11858,13 +11877,13 @@
           {
             "url": "https://www.dimar.mil.co/print/pdf/node/7156",
             "publisherDate": "2026-02-23",
-            "title": "Colombia, Chile y Ecuador fortalecen la Cooperación Internacional en la Antártica",
+            "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
             "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
           },
           {
             "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
             "publisherDate": "2026-10-23",
-            "title": "Colombia y Ecuador fortalecen la cooperación marítima y amplían oportunidades para la gente de mar",
+            "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
             "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
           },
           {
@@ -12288,13 +12307,13 @@
           {
             "url": "https://www.dimar.mil.co/print/pdf/node/7156",
             "publisherDate": "2026-02-23",
-            "title": "Colombia, Chile y Ecuador fortalecen la Cooperación Internacional en la Antártica",
+            "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
             "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
           },
           {
             "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
             "publisherDate": "2026-10-23",
-            "title": "Colombia y Ecuador fortalecen la cooperación marítima y amplían oportunidades para la gente de mar",
+            "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
             "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
           },
           {
@@ -12579,8 +12598,10 @@
           "lines": 981
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Political culture and a CARICOM appellate-court dispute supplied category matches without independent arts or criminal headline evidence. Repaired by f58320633437a2798b21eab37b0699eb07f5081d."
+      ],
       "tests": {
         "refresh": 206
       },
@@ -12625,6 +12646,106 @@
         "jobLogLines": 981,
         "startedAt": "2026-11-03T11:04:44.000Z",
         "completedAt": "2026-11-03T11:06:25.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41624500954,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-11-03T11:04:33Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41624500954",
+          "verifiedAt": "2026-11-03T11:06:50.044Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "24ce0a5ad800fbc0f96c670ddac958774f53b81ff68d2e2229ca577f9074d4db",
+          "completeLogLines": 981,
+          "jobLogs": [
+            {
+              "id": 125878332526,
+              "name": "refresh",
+              "sha256": "24ce0a5ad800fbc0f96c670ddac958774f53b81ff68d2e2229ca577f9074d4db",
+              "lines": 981
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 206
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 125878332526,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "24ce0a5ad800fbc0f96c670ddac958774f53b81ff68d2e2229ca577f9074d4db",
+              "jobLogLines": 981,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 206,
+                "pass": 206,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 125878332526,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "24ce0a5ad800fbc0f96c670ddac958774f53b81ff68d2e2229ca577f9074d4db",
+              "jobLogLines": 981,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 125878332526,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "24ce0a5ad800fbc0f96c670ddac958774f53b81ff68d2e2229ca577f9074d4db",
+            "jobLogLines": 981,
+            "startedAt": "2026-11-03T11:04:44.000Z",
+            "completedAt": "2026-11-03T11:06:25.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-03T15:06:47Z",
+        "repairCommit": "f58320633437a2798b21eab37b0699eb07f5081d",
+        "supersedingPublication": "2505f77f13c7b1567c0cca25d433c1ad83385d89",
+        "rejectedArticlePlacements": 2,
+        "affectedFeeds": 2,
+        "githubConclusionUnchanged": true,
+        "reason": "Political culture and a CARICOM appellate-court dispute supplied category matches without independent arts or criminal headline evidence.",
+        "primarySourceEvidence": [
+          {
+            "url": "https://misionesonline.net/2026/11/03/crimen-de-manito-britez-en-puerto-rico/",
+            "publisherDate": "2026-11-03",
+            "finding": "The exact current report concerns the Manito Britez homicide investigation in Puerto Rico, Misiones, Argentina. The national Puerto Rico placement is wrong; the report date is not disputed."
+          },
+          {
+            "url": "https://www.elterritorio.com.ar/noticias/2026/10/30/923985-seguiran-tras-las-rejas-los-dos-presuntos-homicidas-de-manito-britez",
+            "publisherDate": "2026-10-30",
+            "finding": "Independent primary local reporting corroborates the Misiones jurisdiction and Argentine locality for this case; its date is not substituted for the MisionesOnline report."
+          }
+        ],
+        "limitations": "The Misiones geography is confirmed by the original report. Guardian headline-category evidence was reviewed; exact primary pages and original dates remain unestablished. No dates were invented, no publisher-wide exclusion imposed, and no old publication was invalidated merely because articles aged."
       }
     },
     "41650190427:1": {
@@ -12655,8 +12776,10 @@
           "lines": 981
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "Primary reporting places the Manito Britez case in Puerto Rico, Misiones, Argentina. Political culture and a CARICOM appellate-court dispute also supplied category matches without independent arts or criminal headline evidence. Repaired by f58320633437a2798b21eab37b0699eb07f5081d."
+      ],
       "tests": {
         "refresh": 206
       },
@@ -12701,6 +12824,106 @@
         "jobLogLines": 981,
         "startedAt": "2026-11-03T14:05:24.000Z",
         "completedAt": "2026-11-03T14:07:16.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41650190427,
+          "attempt": 1,
+          "event": "schedule",
+          "createdAt": "2026-11-03T14:04:58Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "6ff0c33fe61e12ff458ddb7244c61e4f3f345a96",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41650190427",
+          "verifiedAt": "2026-11-03T14:07:41.976Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "6bbf47c057f74f57adbdbc9bff2a88d4c33128c3d774b6dd8756190b3cf70ee6",
+          "completeLogLines": 981,
+          "jobLogs": [
+            {
+              "id": 125965980363,
+              "name": "refresh",
+              "sha256": "6bbf47c057f74f57adbdbc9bff2a88d4c33128c3d774b6dd8756190b3cf70ee6",
+              "lines": 981
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 206
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 125965980363,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "6bbf47c057f74f57adbdbc9bff2a88d4c33128c3d774b6dd8756190b3cf70ee6",
+              "jobLogLines": 981,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 206,
+                "pass": 206,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 125965980363,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "6bbf47c057f74f57adbdbc9bff2a88d4c33128c3d774b6dd8756190b3cf70ee6",
+              "jobLogLines": 981,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 125965980363,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "6bbf47c057f74f57adbdbc9bff2a88d4c33128c3d774b6dd8756190b3cf70ee6",
+            "jobLogLines": 981,
+            "startedAt": "2026-11-03T14:05:24.000Z",
+            "completedAt": "2026-11-03T14:07:16.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-03T15:06:47Z",
+        "repairCommit": "f58320633437a2798b21eab37b0699eb07f5081d",
+        "supersedingPublication": "2505f77f13c7b1567c0cca25d433c1ad83385d89",
+        "rejectedArticlePlacements": 3,
+        "affectedFeeds": 3,
+        "githubConclusionUnchanged": true,
+        "reason": "Primary reporting places the Manito Britez case in Puerto Rico, Misiones, Argentina. Political culture and a CARICOM appellate-court dispute also supplied category matches without independent arts or criminal headline evidence.",
+        "primarySourceEvidence": [
+          {
+            "url": "https://misionesonline.net/2026/11/03/crimen-de-manito-britez-en-puerto-rico/",
+            "publisherDate": "2026-11-03",
+            "finding": "The exact current report concerns the Manito Britez homicide investigation in Puerto Rico, Misiones, Argentina. The national Puerto Rico placement is wrong; the report date is not disputed."
+          },
+          {
+            "url": "https://www.elterritorio.com.ar/noticias/2026/10/30/923985-seguiran-tras-las-rejas-los-dos-presuntos-homicidas-de-manito-britez",
+            "publisherDate": "2026-10-30",
+            "finding": "Independent primary local reporting corroborates the Misiones jurisdiction and Argentine locality for this case; its date is not substituted for the MisionesOnline report."
+          }
+        ],
+        "limitations": "The Misiones geography is confirmed by the original report. Guardian headline-category evidence was reviewed; exact primary pages and original dates remain unestablished. No dates were invented, no publisher-wide exclusion imposed, and no old publication was invalidated merely because articles aged."
       }
     },
     "41659147913:1": {
@@ -13454,22 +13677,22 @@
       "primarySourceEvidence": {
         "originalDates": [
           {
-            "title": "CBN, Farmacop, Sofía, Embol y Tigo lideran el ranking de las empresas con mejor reputación de Bolivia en 2022",
+            "title": "CBN, Farmacop, Sof\u00eda, Embol y Tigo lideran el ranking de las empresas con mejor reputaci\u00f3n de Bolivia en 2022",
             "originalDate": "2023-07-06",
             "url": "https://www.economy.com.bo/articulo/business/cbn-farmacop-sofia-embol-coca-cola-tigo-lideran-ranking-empresas-mejor-reputacion-bolivia-2022/20230706110809010289.html"
           },
           {
-            "title": "Economy celebra siete años y se consolida como referente informativo del ecosistema empresarial boliviano",
+            "title": "Economy celebra siete a\u00f1os y se consolida como referente informativo del ecosistema empresarial boliviano",
             "originalDate": "2025-05-20",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-celebra-siete-anos-como-referente-informativo-ecosistema-empresarial-boliviano/20250520115248018408.html"
           },
           {
-            "title": "Economy cumple 8 años consolidando el ecosistema de información económica y empresarial de mayor influencia en Bolivia",
+            "title": "Economy cumple 8 a\u00f1os consolidando el ecosistema de informaci\u00f3n econ\u00f3mica y empresarial de mayor influencia en Bolivia",
             "originalDate": "2026-05-19",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-cumple-8-anos-consolidando-ecosistema-informacion-economica-empresarial-streaming-bolivia/20260519161211022513.amp.html"
           },
           {
-            "title": "Bolivia y Paraguay plantean corredor de 1.222 kilómetros para ampliar el comercio y la conexión con el Atlántico",
+            "title": "Bolivia y Paraguay plantean corredor de 1.222 kil\u00f3metros para ampliar el comercio y la conexi\u00f3n con el Atl\u00e1ntico",
             "originalDate": "2026-09-21",
             "url": "https://www.economy.com.bo/articulo/business/bolivia-paraguay-plantean-corredor-1222-kilometros-ampliar-comercio-conexion-atlantico/20260921100728024153.html"
           },
@@ -13499,7 +13722,7 @@
       "precedingSourceCommits": [
         "e5d937a4b3341f9d2049ddc8b7369361a1b635a3"
       ],
-      "reason": "Add the exact Economy Bolivia source alias to the existing publisher quarantine and exclude bounded TNT/FotMob database templates in live selection and cached recovery. No publisher-wide TNT/FotMob exclusion; substantive news stays eligible. TeCNIa exclusion remains precautionary, not an assertion of an old event. Reject the exact standalone Filtración TOBAGO TAXI DRIVER VIRAL VIDEO promotion; ordinary police reporting and Port of Rotterdam cooperation reporting remain eligible.",
+      "reason": "Add the exact Economy Bolivia source alias to the existing publisher quarantine and exclude bounded TNT/FotMob database templates in live selection and cached recovery. No publisher-wide TNT/FotMob exclusion; substantive news stays eligible. TeCNIa exclusion remains precautionary, not an assertion of an old event. Reject the exact standalone Filtraci\u00f3n TOBAGO TAXI DRIVER VIRAL VIDEO promotion; ordinary police reporting and Port of Rotterdam cooperation reporting remain eligible.",
       "previousCutoff": "2026-11-01T07:15:08Z",
       "cutoff": "2026-11-01T16:33:20Z",
       "regressionTestsAdded": 4,
@@ -13562,7 +13785,7 @@
         }
       ],
       "retainedPrimaryReviewedStory": {
-        "title": "Comisión de Educación y Cultura Senado de la Nación Argentina",
+        "title": "Comisi\u00f3n de Educaci\u00f3n y Cultura Senado de la Naci\u00f3n Argentina",
         "url": "https://revista.elarcondeclio.com.ar/comision-de-educacion-y-cultura-senado-de-la-nacion-argentina/",
         "originalPublicationDate": "2026-11-01",
         "finding": "The article substantively covers national heritage, museum preservation, musical instruments and traditions. Culture placement is supported; it was retained."
@@ -13574,7 +13797,7 @@
       "type": "source_classified_and_business_search_repair",
       "sourceCommit": "ce7f288eb67da77af9baa120d9b2430bd809d152",
       "precedingSourceCommits": [],
-      "reason": "Exclude the bounded Acuité optical-shop classified template in live selection and cache recovery; rotate singular entreprise into the existing bounded French business fallback and recognize the commercial phrase société d’événementiel without accepting société alone. All age, URL, relevance and cache guards retained.",
+      "reason": "Exclude the bounded Acuit\u00e9 optical-shop classified template in live selection and cache recovery; rotate singular entreprise into the existing bounded French business fallback and recognize the commercial phrase soci\u00e9t\u00e9 d\u2019\u00e9v\u00e9nementiel without accepting soci\u00e9t\u00e9 alone. All age, URL, relevance and cache guards retained.",
       "previousCutoff": "2026-11-01T16:33:20Z",
       "cutoff": "2026-11-02T02:40:14Z",
       "regressionTestsAdded": 2,
@@ -13635,7 +13858,7 @@
           "finding": "Current Surinamese national 3x3 basketball reporting. Historical 2023 reference does not establish an old publication."
         }
       ],
-      "limitations": "Bounded Acuité classified-template exclusion is not a publisher-wide ban and does not dispute the ad date. Société alone does not establish business; the commercial service-company phrase is bounded. Replacement RSS date is corroborated by a secondary listing; the full original publisher body was unavailable. No dates were invented and all age, URL, relevance, cache, test and audit gates remain blocking."
+      "limitations": "Bounded Acuit\u00e9 classified-template exclusion is not a publisher-wide ban and does not dispute the ad date. Soci\u00e9t\u00e9 alone does not establish business; the commercial service-company phrase is bounded. Replacement RSS date is corroborated by a secondary listing; the full original publisher body was unavailable. No dates were invented and all age, URL, relevance, cache, test and audit gates remain blocking."
     },
     {
       "recordedAt": "2026-11-02T16:36:50Z",
@@ -13860,13 +14083,13 @@
         {
           "url": "https://www.dimar.mil.co/print/pdf/node/7156",
           "publisherDate": "2026-02-23",
-          "title": "Colombia, Chile y Ecuador fortalecen la Cooperación Internacional en la Antártica",
+          "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
           "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
         },
         {
           "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
           "publisherDate": "2026-10-23",
-          "title": "Colombia y Ecuador fortalecen la cooperación marítima y amplían oportunidades para la gente de mar",
+          "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
           "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
         },
         {
@@ -13896,6 +14119,62 @@
         "finding": "Primary page explicitly dates the article October 27, 2026 and image caption says Cali Lee 2026; body covers Dominican literature, art and cuisine at the current festival. The headline says 2024, a conflicting event-year label, not evidence of old original publication. Co-organizer Universidad del Valle independently describes the 2026 festival and Dominican guest. Original title/date left unchanged; inconsistency retained as observation."
       },
       "limitations": "Independent semantic and primary-date review is bounded, not exhaustive. DIMAR October 23 agreement is current but its RSS date is incorrect; SAR forum date remains unestablished and exclusion precautionary. No claim that every quarantined story is old. Infobae original date is not inferred from the corroborating TyC Sports report. No gate was weakened, no controller/cron change or local routine catch-up. Prior valid publications are not invalidated merely because articles later age. Intermediate checks remain historical evidence, not final semantic baselines. Manual runs never count; maintenance continues after milestones."
+    },
+    {
+      "recordedAt": "2026-11-03T15:06:47Z",
+      "type": "source_regional_geography_and_category_context_repair",
+      "sourceCommit": "f58320633437a2798b21eab37b0699eb07f5081d",
+      "previousCutoff": "2026-11-03T11:21:19Z",
+      "cutoff": "2026-11-03T15:06:47Z",
+      "regressionTestsAdded": 5,
+      "reason": "Disambiguate Puerto Rico, Misiones and the reviewed Manito Britez case while preserving independent Puerto Rican/diaspora evidence. Political culture requires independent arts evidence in five languages. CARICOM treaty-dispute and appellate-court headlines require independent criminal evidence for crime placement. Live selection and cached recovery share all checks.",
+      "failedRuns": [],
+      "baselines": {
+        "backend": {
+          "id": 41659222227,
+          "event": "workflow_dispatch",
+          "source": "f58320633437a2798b21eab37b0699eb07f5081d",
+          "fullTests": 227,
+          "feedTests": 211,
+          "controllerTests": 67,
+          "productionAudits": 0
+        },
+        "feeds": {
+          "id": 41659216850,
+          "event": "workflow_dispatch",
+          "source": "f58320633437a2798b21eab37b0699eb07f5081d",
+          "publication": "2505f77f13c7b1567c0cca25d433c1ad83385d89",
+          "feedTests": 211,
+          "refreshedFeeds": 240,
+          "cachedFeeds": 0,
+          "healthState": "healthy",
+          "publicationSafetyHours": 24
+        },
+        "hosted": {
+          "id": 41659922389,
+          "event": "workflow_dispatch",
+          "source": "2505f77f13c7b1567c0cca25d433c1ad83385d89",
+          "controllerTests": 67,
+          "appFacingFilesMatched": 243
+        }
+      },
+      "correctedPriorVerifications": [
+        41624500954,
+        41650190427
+      ],
+      "primarySourceEvidence": [
+        {
+          "url": "https://misionesonline.net/2026/11/03/crimen-de-manito-britez-en-puerto-rico/",
+          "publisherDate": "2026-11-03",
+          "finding": "The exact current report concerns the Manito Britez homicide investigation in Puerto Rico, Misiones, Argentina. The national Puerto Rico placement is wrong; the report date is not disputed."
+        },
+        {
+          "url": "https://www.elterritorio.com.ar/noticias/2026/10/30/923985-seguiran-tras-las-rejas-los-dos-presuntos-homicidas-de-manito-britez",
+          "publisherDate": "2026-10-30",
+          "finding": "Independent primary local reporting corroborates the Misiones jurisdiction and Argentine locality for this case; its date is not substituted for the MisionesOnline report."
+        }
+      ],
+      "limitations": "Bounded semantic and original-date review, not exhaustive proof. The exact Guardian primary pages/dates for the two headline-category corrections remain unestablished; no contrary date was asserted, dates invented or publisher-wide ban imposed. Existing unresolved Guardian/Pulzo observations remain retained. All prior test, audit, age, URL, relevance and cache gates remain blocking. No controller/cron changes or local routine catch-up. Manual runs never count; maintenance continues after milestones."
     }
   ]
 }
