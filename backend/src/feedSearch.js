@@ -315,6 +315,10 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // even for undated titles. Quarantine these sources until original publication
   // dates can be verified; do not guess dates or pad feeds with old material.
   if (["guatemala com", "www laprensa hn", "laprensa hn", "economy com bo", "www economy com bo", "economy", "economy bolivia"].includes(normalized(article.sourceName ?? ""))) return false;
+  // DIMAR's February Antarctic report and October 23 maritime agreement both
+  // arrived with an October 30 RSS crawl date. Quarantine these exact publisher
+  // identities until original dates can be verified; not every report is old.
+  if (["portal maritimo colombiano dimar", "portal maritimo colombiano", "dimar", "dimar mil co", "www dimar mil co"].includes(normalized(article.sourceName ?? ""))) return false;
   // The publisher dates this exact report 12 December 2024, even though its
   // Google RSS crawl date is recent. Do not exclude new reporting on the actor.
   // https://www.televicentro.com/yimmi-rios-sigue-brillando-de-guardia-de-seguridad-a-estrella-del-cine-hondureno-2025-12-12
@@ -393,7 +397,10 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     if (!terms.filter(term => !weakWorldTerms.has(term)).some(term => matches(title, term)) &&
         !affairsContext.test(title) && !reviewedCooperation) return false;
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
-    if ([...sports, ...sportingEventTerms, "ciclist*", "cycling", "wieler*", ...entertainmentTerms, ...nonWorldEvents].some(term => matches(title, term)) &&
+    // Foreign press can cover a domestic football dispute without naming the
+    // sport. These reviewed player/coach references still need affairs evidence.
+    const reviewedFootball = /\bhernan barcos\b/.test(title) && /\bpablo guede\b/.test(title);
+    if ((reviewedFootball || [...sports, ...sportingEventTerms, "ciclist*", "cycling", "wieler*", ...entertainmentTerms, ...nonWorldEvents].some(term => matches(title, term))) &&
         !terms.filter(term => !weakWorldTerms.has(term)).some(term => matches(title, term))) return false;
   }
   if (feed.key === "sports" && /\bseleccion (?:de )?(?:jueces|magistrados|candidatos|personal)\b/.test(normalized(title))) return false;
