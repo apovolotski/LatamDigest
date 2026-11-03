@@ -176,6 +176,10 @@ const sportingEventTerms = "FIFA|UEFA|CONMEBOL|world cup|copa mundial|copa del m
 const domesticCooperation = /\b(?:local(?:es)?|locais|lokale|municip\w*|provinc\w*|interprovinc\w*)\b/;
 const scienceFestival = /\b(?:neurocien\w*|neuroscien\w*|neurowetensch\w*)\b/;
 const wildlifeFestival = /\b(?:gato andino|felinos|wildlife|biodiversidad|biodiversity|biodiversite|biodiversiteit)\b/;
+// These festivals exhibit model aircraft or hold chess competitions. The
+// reviewed Festival Internacional de Réplicas is an aeromodelling event;
+// replicas in independent museum/arts reporting remain eligible.
+const hobbyFestival = /\b(?:aeromodel\w*|festival internacional de replicas|ajedrez|xadrez|echecs|chess|schaak\w*)\b/;
 const diplomaticBusinessTitles = /\b(?:encargad[oa]s? de negocios|encarregad[oa]s? de negocios|charges? d affaires)\b/g;
 const noncriminalJustice = /\bjusticia (?:social|laboral|del trabajo)\b|\bjustica (?:social|do trabalho)\b|\bjustice (?:sociale|du travail)\b|\b(?:social|labour|labor) justice\b/g;
 const weakCrimeTerms = new Set(["policía", "polícia", "police", "politie", "court", "policia*", "policier*", "politieagent*", "politiebureau*"]);
@@ -183,7 +187,7 @@ const weakCrimeTerms = new Set(["policía", "polícia", "police", "politie", "co
 // crime. Aratiri is the primary-reviewed investment dispute, not a criminal case.
 const civilDispute = /\b(?:aratiri|arbitraje|arbitragem|arbitrage|arbitration)\b|\b(?:civil|commercial|labor|labour|employment) (?:court|litigation)\b|\b(?:justicia|justica|justice) (?:civil|civile|comercial|commerciale)\b/;
 const civilJusticeTerms = new Set([...weakCrimeTerms, "justicia", "justiça", "justice", "justitie", "judici*", "justiti*"]);
-const policeCommunityEvents = /\b(?:youth academy|world games|juegos mundiales|jogos mundiais|jeux mondiaux|wereldspelen|medals?|medall\w*|medalh\w*|medaill\w*|cricket|football|futbol|futebol|basketball|baloncesto|basquete|voetbal|rugby|athletics|honou?rs?|honores?|honra\w*|homenaje\w*|hommage\w*|exalta\w*|veteran\w*)\b/;
+const policeCommunityEvents = /\b(?:youth academy|world games|juegos mundiales|jogos mundiais|jeux mondiaux|wereldspelen|medals?|medall\w*|medalh\w*|medaill\w*|cricket|football|futbol|futebol|basketball|baloncesto|basquete|voetbal|rugby|athletics|honou?rs?|honores?|honra\w*|homenaje\w*|hommage\w*|exalta\w*|veteran\w*|aniversari\w*|anniversar\w*|anniversaire\w*|jubile\w*|ceremoni\w*)\b/;
 const nonWorldEvents = "amistoso*|friendly|amical*|pickleball|competição*|competición*|feria científica|feira científica|science fair|comunicación científica|porcino*|importante reconocimiento internacional|libro*|livro*|livre*|book*|boeken|premio*|prize*|award*|concurs*|competition*|queso*|cheese|kaas|fromage|gastronom*".split("|");
 const internationalAirport = /\b(?:aeropuerto|aeroporto|aeroport) internacional\b|\baeroport international\b|\binternational airport\b|\binternationale luchthaven\b/g;
 // Promotional exploit/spam headlines are not reporting about sexual crimes.
@@ -286,6 +290,8 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
       /\btable (?:football scores results fixtures|standings football rankings)$|\blive .+ football scores highlights \d{1,2} \d{1,2} \d{4}$/.test(normalized(article.title))) return false;
   if (normalized(article.sourceName ?? "") === "fotmob" &&
       /^minutes played .+ stats for .+ \d{4}(?: \d{4})?$/.test(normalized(article.title))) return false;
+  if (normalized(article.sourceName ?? "") === "futbolargentino com" &&
+      /^.+ vs .+ en vivo torneo (?:clausura|apertura) liga profesional de argentina \d{4} fase regular$/.test(normalized(article.title))) return false;
   // Acuité's shop-sale classifieds are offers, not news reports. Keep its
   // reporting about businesses and acquisitions; the ad's date is not disputed.
   if (normalized(article.sourceName ?? "") === "acuite" &&
@@ -340,12 +346,14 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     // A sporting "festival" is not an arts festival. Preserve actual music,
     // cinema, heritage, etc. even when a title also discusses sport.
-    if (([...sports, ...sportingEventTerms].some(term => matches(title, term)) || /\b(?:sub|under|u) \d{1,2}\b/.test(title) || scienceFestival.test(title) || wildlifeFestival.test(title)) &&
+    if (([...sports, ...sportingEventTerms].some(term => matches(title, term)) || /\b(?:sub|under|u) \d{1,2}\b/.test(title) || scienceFestival.test(title) || wildlifeFestival.test(title) || hobbyFestival.test(title)) &&
         !terms.filter(term => term !== "festival").some(term => matches(title, term))) return false;
   }
   if (feed.key === "business") title = normalized(title).replace(diplomaticBusinessTitles, " ");
   if (feed.key === "crime") {
-    title = normalized(title).replace(noncriminalJustice, " ");
+    // The football club's name is not a justice-system reference. Preserve
+    // independent reports about actual crimes involving the club.
+    title = normalized(title).replace(noncriminalJustice, " ").replace(/\bdefensa y justicia\b/g, " ");
     if (civilDispute.test(title) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     if ((policeCommunityEvents.test(title) || sports.some(term => matches(title, term))) &&
@@ -359,7 +367,9 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   }
   if (feed.key === "world") {
     title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ").replace(/\b(?:camino|ruta|avenida|carretera) internacional\b/g, " ");
-    const domestic = domesticCooperation.test(title) || matches(title, `por ${profiles[country.id][1]}`);
+    // Unimed Mercosul is a regional Brazilian medical-cooperative federation,
+    // not the international bloc; its domestic cooperation needs another partner.
+    const domestic = domesticCooperation.test(title) || /\bunimed mercosul\b/.test(title) || matches(title, `por ${profiles[country.id][1]}`);
     if (domestic && !terms.filter(term => !cooperationTerms.has(term)).some(term => matches(title, term))) {
       const otherCountries = Object.entries(profiles).filter(([id]) => id !== country.id)
         .flatMap(([id, profile]) => [...profile[2].split("|"), ...translatedCountries[id]]);
