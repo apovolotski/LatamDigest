@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "repository": "apovolotski/LatamDigest",
   "continuous": true,
-  "cutoff": "2026-11-03T02:24:02Z",
+  "cutoff": "2026-11-03T11:21:19Z",
   "milestone": {
     "backend": {
       "runIds": [],
@@ -112,6 +112,14 @@
           "reason": "source_context_category_and_geography_repair",
           "repairCommit": "514683555c5543fb6ac830d1abe39f42a3a6be33",
           "cutoff": "2026-11-02T16:36:50Z"
+        },
+        {
+          "runIds": [],
+          "attempts": {},
+          "endedAt": "2026-11-03T11:21:19Z",
+          "reason": "source_sparse_world_search_and_publication_date_repair",
+          "repairCommit": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
+          "cutoff": "2026-11-03T02:24:02Z"
         }
       ]
     },
@@ -310,6 +318,14 @@
           "subsequentlyInvalidatedRunIds": [
             41556176886
           ]
+        },
+        {
+          "runIds": [],
+          "attempts": {},
+          "endedAt": "2026-11-03T11:21:19Z",
+          "reason": "source_sparse_world_search_and_publication_date_repair",
+          "repairCommit": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
+          "cutoff": "2026-11-03T02:24:02Z"
         }
       ]
     }
@@ -8805,7 +8821,7 @@
       ],
       "valid": false,
       "issues": [
-        "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
+        "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
       ],
       "tests": {
         "refresh": 184
@@ -8937,7 +8953,7 @@
         "rejectedArticlePlacements": 1,
         "affectedFeeds": 1,
         "githubConclusionUnchanged": true,
-        "reason": "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
+        "reason": "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
         "primarySourceEvidence": [
           {
             "url": "https://www.acuite.fr/annonces/magasins/ceder-fonds-de-commerce-doptique-lunetterie-en-guyane-francaise-a337361",
@@ -9095,7 +9111,7 @@
       ],
       "valid": false,
       "issues": [
-        "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
+        "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
       ],
       "tests": {
         "refresh": 184
@@ -9227,7 +9243,7 @@
         "rejectedArticlePlacements": 1,
         "affectedFeeds": 1,
         "githubConclusionUnchanged": true,
-        "reason": "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
+        "reason": "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
         "primarySourceEvidence": [
           {
             "url": "https://www.acuite.fr/annonces/magasins/ceder-fonds-de-commerce-doptique-lunetterie-en-guyane-francaise-a337361",
@@ -11230,8 +11246,10 @@
           "lines": 928
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "DIMAR Antarctic reporting originally published February 23 was served with an October 30 RSS crawl date; a reusable stock database profile was treated as current news. Repaired by 057e48eaa2e3b2df25b681c380027e7f13bf6d52."
+      ],
       "tests": {
         "refresh": 197
       },
@@ -11276,6 +11294,122 @@
         "jobLogLines": 928,
         "startedAt": "2026-11-03T02:11:51.000Z",
         "completedAt": "2026-11-03T02:13:45.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41564570769,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-11-03T02:11:39Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "514683555c5543fb6ac830d1abe39f42a3a6be33",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41564570769",
+          "verifiedAt": "2026-11-03T02:22:52.952Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "983d7c14ba0e054a5788030e1e28c434fc920ab6d5e7501ae4ea935515741327",
+          "completeLogLines": 928,
+          "jobLogs": [
+            {
+              "id": 125682869144,
+              "name": "refresh",
+              "sha256": "983d7c14ba0e054a5788030e1e28c434fc920ab6d5e7501ae4ea935515741327",
+              "lines": 928
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 197
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 125682869144,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "983d7c14ba0e054a5788030e1e28c434fc920ab6d5e7501ae4ea935515741327",
+              "jobLogLines": 928,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 197,
+                "pass": 197,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 125682869144,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "983d7c14ba0e054a5788030e1e28c434fc920ab6d5e7501ae4ea935515741327",
+              "jobLogLines": 928,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 125682869144,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "983d7c14ba0e054a5788030e1e28c434fc920ab6d5e7501ae4ea935515741327",
+            "jobLogLines": 928,
+            "startedAt": "2026-11-03T02:11:51.000Z",
+            "completedAt": "2026-11-03T02:13:45.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-03T11:21:19Z",
+        "repairCommit": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
+        "supersedingPublication": "6ff0c33fe61e12ff458ddb7244c61e4f3f345a96",
+        "rejectedArticlePlacements": 3,
+        "affectedFeeds": 3,
+        "githubConclusionUnchanged": true,
+        "reason": "DIMAR Antarctic reporting originally published February 23 was served with an October 30 RSS crawl date; a reusable stock database profile was treated as current news.",
+        "primarySourceEvidence": [
+          {
+            "url": "https://www.dimar.mil.co/print/pdf/node/7156",
+            "publisherDate": "2026-02-23",
+            "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
+            "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
+          },
+          {
+            "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
+            "publisherDate": "2026-10-23",
+            "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
+            "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
+          },
+          {
+            "url": "https://www.tycsports.com/peru/futbol-de-peru/tenso-cruce-y-empujones-guede-y-hernan-barcos-se-sacaron-chispas-en-peru-id769358.html",
+            "publisherDate": "2026-10-29",
+            "finding": "Independent primary sports report describes the Barcos/Guede altercation during Sporting Cristal versus Alianza Lima. Foreign-press coverage of this football dispute does not alone establish world affairs. This corroborating page date is not assigned to the Infobae story."
+          },
+          {
+            "url": "https://simplywall.st/stocks/us/materials/otc-gygc/guyana-gold",
+            "finding": "Primary page is a reusable stock/company database with valuation, historical prices, financial data and separately dated updates. Its generic landing template is not an original dated news article. No original news publication date assigned."
+          },
+          {
+            "url": "https://www.infogate.cl/2026/11/an-lisis-ca-as-montalva-el-danstar-y-el-dif-cil-arte-de-pensar-chile/",
+            "publisherDate": "2026-11-02",
+            "finding": "Primary article analyzes Chilean foreign policy, strategic geography and the Danstar shipping dispute. Art of thinking is figurative, not arts reporting; independent arts evidence remains eligible."
+          }
+        ],
+        "limitations": "Primary dates and story context were checked independently. The SAR forum date remains unestablished and its exclusion is precautionary. Original dates were not invented. This correction is not based on later article aging."
       }
     },
     "41615295227:1": {
@@ -11578,8 +11712,10 @@
           "lines": 944
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "DIMAR articles carried substituted RSS crawl dates, including a February Antarctic archive; foreign-press coverage of a football dispute was placed in world affairs. Repaired by 057e48eaa2e3b2df25b681c380027e7f13bf6d52."
+      ],
       "tests": {
         "refresh": 200
       },
@@ -11624,6 +11760,122 @@
         "jobLogLines": 944,
         "startedAt": "2026-11-03T10:47:06.000Z",
         "completedAt": "2026-11-03T10:49:06.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41622108024,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-11-03T10:46:55Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "4b0faa1cfa6654ab0474267aacd08234d6b7f2f4",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41622108024",
+          "verifiedAt": "2026-11-03T10:49:35.195Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "fb16b69fec1369132c57e083a9404f2b9435fbadcf12f4aca81a7bc3ec06d700",
+          "completeLogLines": 944,
+          "jobLogs": [
+            {
+              "id": 125870142566,
+              "name": "refresh",
+              "sha256": "fb16b69fec1369132c57e083a9404f2b9435fbadcf12f4aca81a7bc3ec06d700",
+              "lines": 944
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 200
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 125870142566,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "fb16b69fec1369132c57e083a9404f2b9435fbadcf12f4aca81a7bc3ec06d700",
+              "jobLogLines": 944,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 200,
+                "pass": 200,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 125870142566,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "fb16b69fec1369132c57e083a9404f2b9435fbadcf12f4aca81a7bc3ec06d700",
+              "jobLogLines": 944,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 125870142566,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "fb16b69fec1369132c57e083a9404f2b9435fbadcf12f4aca81a7bc3ec06d700",
+            "jobLogLines": 944,
+            "startedAt": "2026-11-03T10:47:06.000Z",
+            "completedAt": "2026-11-03T10:49:06.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-03T11:21:19Z",
+        "repairCommit": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
+        "supersedingPublication": "6ff0c33fe61e12ff458ddb7244c61e4f3f345a96",
+        "rejectedArticlePlacements": 4,
+        "affectedFeeds": 3,
+        "githubConclusionUnchanged": true,
+        "reason": "DIMAR articles carried substituted RSS crawl dates, including a February Antarctic archive; foreign-press coverage of a football dispute was placed in world affairs.",
+        "primarySourceEvidence": [
+          {
+            "url": "https://www.dimar.mil.co/print/pdf/node/7156",
+            "publisherDate": "2026-02-23",
+            "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
+            "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
+          },
+          {
+            "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
+            "publisherDate": "2026-10-23",
+            "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
+            "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
+          },
+          {
+            "url": "https://www.tycsports.com/peru/futbol-de-peru/tenso-cruce-y-empujones-guede-y-hernan-barcos-se-sacaron-chispas-en-peru-id769358.html",
+            "publisherDate": "2026-10-29",
+            "finding": "Independent primary sports report describes the Barcos/Guede altercation during Sporting Cristal versus Alianza Lima. Foreign-press coverage of this football dispute does not alone establish world affairs. This corroborating page date is not assigned to the Infobae story."
+          },
+          {
+            "url": "https://simplywall.st/stocks/us/materials/otc-gygc/guyana-gold",
+            "finding": "Primary page is a reusable stock/company database with valuation, historical prices, financial data and separately dated updates. Its generic landing template is not an original dated news article. No original news publication date assigned."
+          },
+          {
+            "url": "https://www.infogate.cl/2026/11/an-lisis-ca-as-montalva-el-danstar-y-el-dif-cil-arte-de-pensar-chile/",
+            "publisherDate": "2026-11-02",
+            "finding": "Primary article analyzes Chilean foreign policy, strategic geography and the Danstar shipping dispute. Art of thinking is figurative, not arts reporting; independent arts evidence remains eligible."
+          }
+        ],
+        "limitations": "Primary dates and story context were checked independently. The SAR forum date remains unestablished and its exclusion is precautionary. Original dates were not invented. This correction is not based on later article aging."
       }
     },
     "41623576920:1": {
@@ -11890,8 +12142,10 @@
           "lines": 967
         }
       ],
-      "valid": true,
-      "issues": [],
+      "valid": false,
+      "issues": [
+        "A reusable stock-analysis database profile was treated as current news and the figurative art of thinking supplied culture evidence for foreign-policy analysis. Repaired by 057e48eaa2e3b2df25b681c380027e7f13bf6d52."
+      ],
       "tests": {
         "refresh": 204
       },
@@ -11936,6 +12190,122 @@
         "jobLogLines": 967,
         "startedAt": "2026-11-03T10:58:18.000Z",
         "completedAt": "2026-11-03T11:00:10.000Z"
+      },
+      "verificationHistory": [
+        {
+          "id": 41623619703,
+          "attempt": 1,
+          "event": "workflow_dispatch",
+          "createdAt": "2026-11-03T10:58:05Z",
+          "inspectionVersion": 5,
+          "completeLogFormat": "github-run-archive-v1",
+          "source": "9fab03be69fa6fa11c4324d6dcef8ab52f90f39c",
+          "conclusion": "success",
+          "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41623619703",
+          "verifiedAt": "2026-11-03T11:00:41.931Z",
+          "jobs": [
+            {
+              "name": "refresh",
+              "conclusion": "success",
+              "stepMetadataCount": 12
+            }
+          ],
+          "completeLogSha256": "1181e431efc4041fd12bbac8168674c066721113424408f2a72510971bdd3b38",
+          "completeLogLines": 967,
+          "jobLogs": [
+            {
+              "id": 125875326348,
+              "name": "refresh",
+              "sha256": "1181e431efc4041fd12bbac8168674c066721113424408f2a72510971bdd3b38",
+              "lines": 967
+            }
+          ],
+          "valid": true,
+          "issues": [],
+          "tests": {
+            "refresh": 204
+          },
+          "testEvidence": {
+            "refresh:6": {
+              "jobId": 125875326348,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "1181e431efc4041fd12bbac8168674c066721113424408f2a72510971bdd3b38",
+              "jobLogLines": 967,
+              "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+              "minimum": 145,
+              "summary": {
+                "tests": 204,
+                "pass": 204,
+                "fail": 0,
+                "cancelled": 0,
+                "skipped": 0,
+                "todo": 0
+              },
+              "isolation": true
+            }
+          },
+          "audits": {
+            "refresh": 0
+          },
+          "auditEvidence": {
+            "refresh": {
+              "jobId": 125875326348,
+              "stepNumber": 6,
+              "source": "github-step-and-original-log",
+              "jobLogSha256": "1181e431efc4041fd12bbac8168674c066721113424408f2a72510971bdd3b38",
+              "jobLogLines": 967,
+              "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+            }
+          },
+          "productionEvidence": {
+            "jobId": 125875326348,
+            "stepNumber": 7,
+            "source": "github-step-and-original-log",
+            "jobLogSha256": "1181e431efc4041fd12bbac8168674c066721113424408f2a72510971bdd3b38",
+            "jobLogLines": 967,
+            "startedAt": "2026-11-03T10:58:18.000Z",
+            "completedAt": "2026-11-03T11:00:10.000Z"
+          }
+        }
+      ],
+      "semanticReview": {
+        "reviewedAt": "2026-11-03T11:21:19Z",
+        "repairCommit": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
+        "supersedingPublication": "6ff0c33fe61e12ff458ddb7244c61e4f3f345a96",
+        "rejectedArticlePlacements": 3,
+        "affectedFeeds": 3,
+        "githubConclusionUnchanged": true,
+        "reason": "A reusable stock-analysis database profile was treated as current news and the figurative art of thinking supplied culture evidence for foreign-policy analysis.",
+        "primarySourceEvidence": [
+          {
+            "url": "https://www.dimar.mil.co/print/pdf/node/7156",
+            "publisherDate": "2026-02-23",
+            "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
+            "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
+          },
+          {
+            "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
+            "publisherDate": "2026-10-23",
+            "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
+            "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
+          },
+          {
+            "url": "https://www.tycsports.com/peru/futbol-de-peru/tenso-cruce-y-empujones-guede-y-hernan-barcos-se-sacaron-chispas-en-peru-id769358.html",
+            "publisherDate": "2026-10-29",
+            "finding": "Independent primary sports report describes the Barcos/Guede altercation during Sporting Cristal versus Alianza Lima. Foreign-press coverage of this football dispute does not alone establish world affairs. This corroborating page date is not assigned to the Infobae story."
+          },
+          {
+            "url": "https://simplywall.st/stocks/us/materials/otc-gygc/guyana-gold",
+            "finding": "Primary page is a reusable stock/company database with valuation, historical prices, financial data and separately dated updates. Its generic landing template is not an original dated news article. No original news publication date assigned."
+          },
+          {
+            "url": "https://www.infogate.cl/2026/11/an-lisis-ca-as-montalva-el-danstar-y-el-dif-cil-arte-de-pensar-chile/",
+            "publisherDate": "2026-11-02",
+            "finding": "Primary article analyzes Chilean foreign policy, strategic geography and the Danstar shipping dispute. Art of thinking is figurative, not arts reporting; independent arts evidence remains eligible."
+          }
+        ],
+        "limitations": "Primary dates and story context were checked independently. The SAR forum date remains unestablished and its exclusion is precautionary. Original dates were not invented. This correction is not based on later article aging."
       }
     },
     "41624496247:1": {
@@ -12690,22 +13060,22 @@
       "primarySourceEvidence": {
         "originalDates": [
           {
-            "title": "CBN, Farmacop, Sofía, Embol y Tigo lideran el ranking de las empresas con mejor reputación de Bolivia en 2022",
+            "title": "CBN, Farmacop, Sof\u00eda, Embol y Tigo lideran el ranking de las empresas con mejor reputaci\u00f3n de Bolivia en 2022",
             "originalDate": "2023-07-06",
             "url": "https://www.economy.com.bo/articulo/business/cbn-farmacop-sofia-embol-coca-cola-tigo-lideran-ranking-empresas-mejor-reputacion-bolivia-2022/20230706110809010289.html"
           },
           {
-            "title": "Economy celebra siete años y se consolida como referente informativo del ecosistema empresarial boliviano",
+            "title": "Economy celebra siete a\u00f1os y se consolida como referente informativo del ecosistema empresarial boliviano",
             "originalDate": "2025-05-20",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-celebra-siete-anos-como-referente-informativo-ecosistema-empresarial-boliviano/20250520115248018408.html"
           },
           {
-            "title": "Economy cumple 8 años consolidando el ecosistema de información económica y empresarial de mayor influencia en Bolivia",
+            "title": "Economy cumple 8 a\u00f1os consolidando el ecosistema de informaci\u00f3n econ\u00f3mica y empresarial de mayor influencia en Bolivia",
             "originalDate": "2026-05-19",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-cumple-8-anos-consolidando-ecosistema-informacion-economica-empresarial-streaming-bolivia/20260519161211022513.amp.html"
           },
           {
-            "title": "Bolivia y Paraguay plantean corredor de 1.222 kilómetros para ampliar el comercio y la conexión con el Atlántico",
+            "title": "Bolivia y Paraguay plantean corredor de 1.222 kil\u00f3metros para ampliar el comercio y la conexi\u00f3n con el Atl\u00e1ntico",
             "originalDate": "2026-09-21",
             "url": "https://www.economy.com.bo/articulo/business/bolivia-paraguay-plantean-corredor-1222-kilometros-ampliar-comercio-conexion-atlantico/20260921100728024153.html"
           },
@@ -12735,7 +13105,7 @@
       "precedingSourceCommits": [
         "e5d937a4b3341f9d2049ddc8b7369361a1b635a3"
       ],
-      "reason": "Add the exact Economy Bolivia source alias to the existing publisher quarantine and exclude bounded TNT/FotMob database templates in live selection and cached recovery. No publisher-wide TNT/FotMob exclusion; substantive news stays eligible. TeCNIa exclusion remains precautionary, not an assertion of an old event. Reject the exact standalone Filtración TOBAGO TAXI DRIVER VIRAL VIDEO promotion; ordinary police reporting and Port of Rotterdam cooperation reporting remain eligible.",
+      "reason": "Add the exact Economy Bolivia source alias to the existing publisher quarantine and exclude bounded TNT/FotMob database templates in live selection and cached recovery. No publisher-wide TNT/FotMob exclusion; substantive news stays eligible. TeCNIa exclusion remains precautionary, not an assertion of an old event. Reject the exact standalone Filtraci\u00f3n TOBAGO TAXI DRIVER VIRAL VIDEO promotion; ordinary police reporting and Port of Rotterdam cooperation reporting remain eligible.",
       "previousCutoff": "2026-11-01T07:15:08Z",
       "cutoff": "2026-11-01T16:33:20Z",
       "regressionTestsAdded": 4,
@@ -12798,7 +13168,7 @@
         }
       ],
       "retainedPrimaryReviewedStory": {
-        "title": "Comisión de Educación y Cultura Senado de la Nación Argentina",
+        "title": "Comisi\u00f3n de Educaci\u00f3n y Cultura Senado de la Naci\u00f3n Argentina",
         "url": "https://revista.elarcondeclio.com.ar/comision-de-educacion-y-cultura-senado-de-la-nacion-argentina/",
         "originalPublicationDate": "2026-11-01",
         "finding": "The article substantively covers national heritage, museum preservation, musical instruments and traditions. Culture placement is supported; it was retained."
@@ -12810,7 +13180,7 @@
       "type": "source_classified_and_business_search_repair",
       "sourceCommit": "ce7f288eb67da77af9baa120d9b2430bd809d152",
       "precedingSourceCommits": [],
-      "reason": "Exclude the bounded Acuité optical-shop classified template in live selection and cache recovery; rotate singular entreprise into the existing bounded French business fallback and recognize the commercial phrase société d’événementiel without accepting société alone. All age, URL, relevance and cache guards retained.",
+      "reason": "Exclude the bounded Acuit\u00e9 optical-shop classified template in live selection and cache recovery; rotate singular entreprise into the existing bounded French business fallback and recognize the commercial phrase soci\u00e9t\u00e9 d\u2019\u00e9v\u00e9nementiel without accepting soci\u00e9t\u00e9 alone. All age, URL, relevance and cache guards retained.",
       "previousCutoff": "2026-11-01T16:33:20Z",
       "cutoff": "2026-11-02T02:40:14Z",
       "regressionTestsAdded": 2,
@@ -12871,7 +13241,7 @@
           "finding": "Current Surinamese national 3x3 basketball reporting. Historical 2023 reference does not establish an old publication."
         }
       ],
-      "limitations": "Bounded Acuité classified-template exclusion is not a publisher-wide ban and does not dispute the ad date. Société alone does not establish business; the commercial service-company phrase is bounded. Replacement RSS date is corroborated by a secondary listing; the full original publisher body was unavailable. No dates were invented and all age, URL, relevance, cache, test and audit gates remain blocking."
+      "limitations": "Bounded Acuit\u00e9 classified-template exclusion is not a publisher-wide ban and does not dispute the ad date. Soci\u00e9t\u00e9 alone does not establish business; the commercial service-company phrase is bounded. Replacement RSS date is corroborated by a secondary listing; the full original publisher body was unavailable. No dates were invented and all age, URL, relevance, cache, test and audit gates remain blocking."
     },
     {
       "recordedAt": "2026-11-02T16:36:50Z",
@@ -13036,6 +13406,102 @@
         }
       ],
       "limitations": "Independent review is bounded, not exhaustive proof of every story or original publisher date. Exact November match-tracker and Univision publisher body/date remain unestablished; no old-date claim, invented dates or publisher-wide bans were made. Independent arts, genuine criminal, foreign-partner and Mexican diaspora reporting remain eligible. All retained tests, audits, age, URL, cache and relevance gates remain blocking. No controller/cron change or local routine catch-up. Intermediate publications remain historical evidence, not final baselines; manual checks never count as scheduled successes. Continuous maintenance remains active."
+    },
+    {
+      "recordedAt": "2026-11-03T11:21:19Z",
+      "type": "source_sparse_world_search_and_publication_date_repair",
+      "sourceCommit": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
+      "precedingSourceCommits": [
+        "4b0faa1cfa6654ab0474267aacd08234d6b7f2f4",
+        "9fab03be69fa6fa11c4324d6dcef8ab52f90f39c"
+      ],
+      "previousCutoff": "2026-11-03T02:24:02Z",
+      "cutoff": "2026-11-03T11:21:19Z",
+      "regressionTestsAdded": 9,
+      "reason": "Repair PR/world after its lone article aged beyond the publication margin: country-scoped English searches now find current UN hearings. Quarantine exact DIMAR publisher identities whose RSS crawl dates replaced primary dates, and require independent affairs evidence for the reviewed Barcos/Guede football dispute. Exclude the named Simply Wall St stock-analysis database template and figurative art of thinking without independent arts evidence. Live selection and cached recovery share all checks.",
+      "failedRuns": [
+        41615295227
+      ],
+      "hostedCatchup": {
+        "controllerRun": 41615216735,
+        "feedReceipt": "feeds-20261103061700000",
+        "feedRun": 41615295227,
+        "actor": "github-actions[bot]"
+      },
+      "baselines": {
+        "backend": {
+          "id": 41624506355,
+          "event": "workflow_dispatch",
+          "source": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
+          "fullTests": 222,
+          "feedTests": 206,
+          "controllerTests": 67,
+          "productionAudits": 0
+        },
+        "feeds": {
+          "id": 41624500954,
+          "event": "workflow_dispatch",
+          "source": "057e48eaa2e3b2df25b681c380027e7f13bf6d52",
+          "publication": "6ff0c33fe61e12ff458ddb7244c61e4f3f345a96",
+          "feedTests": 206,
+          "refreshedFeeds": 240,
+          "cachedFeeds": 0,
+          "healthState": "healthy",
+          "publicationSafetyHours": 24
+        },
+        "hosted": {
+          "id": 41626088997,
+          "event": "workflow_dispatch",
+          "source": "6ff0c33fe61e12ff458ddb7244c61e4f3f345a96",
+          "controllerTests": 67,
+          "appFacingFilesMatched": 243
+        }
+      },
+      "correctedPriorVerifications": [
+        41564570769,
+        41622108024,
+        41623619703
+      ],
+      "primarySourceEvidence": [
+        {
+          "url": "https://www.dimar.mil.co/print/pdf/node/7156",
+          "publisherDate": "2026-02-23",
+          "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
+          "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
+        },
+        {
+          "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
+          "publisherDate": "2026-10-23",
+          "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
+          "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
+        },
+        {
+          "url": "https://www.tycsports.com/peru/futbol-de-peru/tenso-cruce-y-empujones-guede-y-hernan-barcos-se-sacaron-chispas-en-peru-id769358.html",
+          "publisherDate": "2026-10-29",
+          "finding": "Independent primary sports report describes the Barcos/Guede altercation during Sporting Cristal versus Alianza Lima. Foreign-press coverage of this football dispute does not alone establish world affairs. This corroborating page date is not assigned to the Infobae story."
+        },
+        {
+          "url": "https://simplywall.st/stocks/us/materials/otc-gygc/guyana-gold",
+          "finding": "Primary page is a reusable stock/company database with valuation, historical prices, financial data and separately dated updates. Its generic landing template is not an original dated news article. No original news publication date assigned."
+        },
+        {
+          "url": "https://www.infogate.cl/2026/11/an-lisis-ca-as-montalva-el-danstar-y-el-dif-cil-arte-de-pensar-chile/",
+          "publisherDate": "2026-11-02",
+          "finding": "Primary article analyzes Chilean foreign policy, strategic geography and the Danstar shipping dispute. Art of thinking is figurative, not arts reporting; independent arts evidence remains eligible."
+        },
+        {
+          "url": "https://pasquines.us/2026/10/23/united-states-calls-for-ending-un-decolonization-committee-citing-puerto-rico-hearings/",
+          "publisherDate": "2026-10-23",
+          "rssPublishedAt": "2026-10-23T22:47:39.000Z",
+          "finding": "The primary report establishes current US/UN committee/Puerto Rico hearings coverage. Its original RSS timestamp was preserved."
+        }
+      ],
+      "retainedPrimaryReview": {
+        "url": "https://www.pulzo.com/entretenimiento/festival-internacional-del-libro-de-cali-2024-programacion-invitados-y-actividades-principales-PP5342374A",
+        "publisherDate": "2026-10-27",
+        "finding": "Primary page explicitly dates the article October 27, 2026 and image caption says Cali Lee 2026; body covers Dominican literature, art and cuisine at the current festival. The headline says 2024, a conflicting event-year label, not evidence of old original publication. Co-organizer Universidad del Valle independently describes the 2026 festival and Dominican guest. Original title/date left unchanged; inconsistency retained as observation."
+      },
+      "limitations": "Independent semantic and primary-date review is bounded, not exhaustive. DIMAR October 23 agreement is current but its RSS date is incorrect; SAR forum date remains unestablished and exclusion precautionary. No claim that every quarantined story is old. Infobae original date is not inferred from the corroborating TyC Sports report. No gate was weakened, no controller/cron change or local routine catch-up. Prior valid publications are not invalidated merely because articles later age. Intermediate checks remain historical evidence, not final semantic baselines. Manual runs never count; maintenance continues after milestones."
     }
   ]
 }
