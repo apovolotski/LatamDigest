@@ -10973,46 +10973,53 @@
       "problems": [
         "Backend Checks verification incomplete; see run 41104929285."
       ]
+    },
+    "67c4bd51b73bcc0aa0c655c1b698af4e6eb2ee611ac2509ea5b3fc82fe18cd24": {
+      "firstRaisedAt": "2026-11-03T02:19:43.940Z",
+      "problems": [
+        "Refresh Static Feeds verification incomplete; see run 41106611256."
+      ]
     }
   },
-  "status": "publication_advanced_during_check",
+  "status": "attention_required",
   "latest": {
-    "checkedAt": "2026-11-03T02:12:44.784Z",
+    "checkedAt": "2026-11-03T02:19:43.940Z",
     "workflows": {
       "feeds": {
         "due": "2026-11-03T00:17:00.000Z",
         "state": "active",
-        "active": [
-          41564570769
-        ]
+        "active": [],
+        "verificationFailed": 41106611256
       },
       "backend": {
         "due": "2026-11-02T10:43:00.000Z",
         "state": "active",
-        "active": [
-          41564684499
-        ]
+        "active": []
       }
     },
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "run_active"
+        "reason": "publication_current",
+        "due": "2026-11-03T00:17:00.000Z"
       },
       "backend": {
         "dispatch": false,
-        "reason": "run_active"
+        "reason": "daily_check_covered",
+        "due": "2026-11-02T10:43:00.000Z"
       }
     },
-    "problems": [],
+    "problems": [
+      "Refresh Static Feeds verification incomplete; see run 41106611256."
+    ],
     "publication": {
-      "commit": "53c80ac65bbbfc8c9064077baf97918f6b5db0e7",
+      "commit": "0fbffdec0c1fad9505daa7af1c7521798d272665",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-11-03T02:06:02.006Z",
-        "lastSuccessfulRefreshAt": "2026-11-03T02:04:12.586Z",
+        "checkedAt": "2026-11-03T02:13:44.811Z",
+        "lastSuccessfulRefreshAt": "2026-11-03T02:11:52.139Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -11024,23 +11031,26 @@
         "total": 240,
         "populated": 240,
         "stale": 0,
-        "sparse": 4,
-        "fallback": 17,
+        "sparse": 5,
+        "fallback": 14,
         "issues": [],
         "warnings": [
           "PR/world: only 1 relevant articles.",
-          "TT/tech: only 1 relevant articles.",
+          "TT/tech: only 2 relevant articles.",
+          "SR/crime: only 2 relevant articles.",
           "GF/business: only 1 relevant articles.",
           "GF/world: only 2 relevant articles."
         ]
       },
       "issues": [],
-      "expiresAt": "2026-11-04T02:04:13.415Z",
+      "expiresAt": "2026-11-04T02:11:52.705Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-03T02:13:38.036Z",
-  "activeAlerts": [],
+  "checkedAt": "2026-11-03T02:19:43.940Z",
+  "activeAlerts": [
+    "67c4bd51b73bcc0aa0c655c1b698af4e6eb2ee611ac2509ea5b3fc82fe18cd24"
+  ],
   "repairs": [
     {
       "recordedAt": "2026-10-31T03:27:38Z",
