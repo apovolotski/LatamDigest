@@ -153,7 +153,7 @@ const topicMatchTerms = {
 const countryAmbiguities = {
   TT: /\btrinidad (?:jay )?chambliss\b|\btrinidad tidings\b/g,
   CU: /\bmark cuban\b/g,
-  MX: /\bnew mexico\b/g,
+  MX: /\b(?:new|nuevo|novo|nieuw) mexico\b|\bnouveau mexique\b/g,
   PA: /\bpanama city (?:beach )?florida\b/g,
   CL: /\b(?:green|red|hatch) chiles?\b|\bchile peppers?\b/g,
   UY: /\b(?:concepcion del|agmer(?: seccional)?) uruguay\b/g,

@@ -18,7 +18,9 @@ const chess = "Costa Rica recibe el XXI Festival Centroamericano y del Caribe de
 const anniversary = "Martín Perez participó del acto por el 205° aniversario de la Policía Federal Argentina";
 const domestic = "Unimed Mercosul apresenta novo vídeo institucional e reforça a força da cooperação no Sul do Brasil";
 const tracker = "Defensa y Justicia vs Independiente - En vivo Torneo Clausura - Liga Profesional de Argentina - 2026 - Fase Regular";
+const newMexico = "Una madre de Nuevo México es acusada de asesinato después de que su hijo de 10 años matara a tiros a un adolescente en una disputa por música a alto volumen";
 const cases = [
+  ["MX", "crime", newMexico, "Univision", "México investiga un homicidio"],
   ["AR", "culture", models, "Example", "Argentina inaugura un festival de música"],
   ["UY", "culture", replicas, "FM Viñas", "Uruguay inaugura un festival de música"],
   ["CR", "culture", chess, "Vos TV", "Costa Rica inaugura un festival de música"],
@@ -27,6 +29,15 @@ const cases = [
   ["BR", "world", domestic, "Unimed", "Brasil e Argentina ampliam cooperação em saúde"],
   ["AR", "latest", tracker, "Futbolargentino.com", "Argentina celebra una victoria en fútbol"]
 ];
+
+test("translated New Mexico names require independent Mexican national evidence", () => {
+  for (const title of [newMexico, "New Mexico police investigate a murder", "Novo México: polícia investiga homicídio",
+    "Nieuw Mexico: police investigate a murder", "Nouveau Mexique: la police enquête sur un meurtre"]) {
+    for (const key of ["top", "latest", "crime"]) assert.equal(relevant("MX", key, title), false, title);
+  }
+  assert.equal(relevant("MX", "crime", `${newMexico}; autoridades de México investigan`), true);
+  assert.equal(relevant("MX", "world", "Embajada de México asiste a ciudadanos mexicanos en Nuevo México"), true);
+});
 
 test("aeromodelling and chess festivals need independent arts evidence", () => {
   for (const [id, title] of [["AR", models], ["UY", models], ["CL", replicas], ["UY", replicas], ["CR", chess],
