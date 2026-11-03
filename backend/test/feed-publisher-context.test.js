@@ -16,11 +16,24 @@ const football = "“Se sacaron chispas en Perú”, la cruda reacción de la pr
 const archive = "Colombia, Chile y Ecuador fortalecen la Cooperación Internacional en la Antártica";
 const current = "Colombia y Ecuador fortalecen la cooperación marítima y amplían oportunidades para la gente de mar";
 const publisher = "Portal Marítimo Colombiano - Dimar";
+const profile = "Guyana Gold (OTCPK:GYGC) - Stock Analysis";
+const metaphor = "Análisis: Cañas Montalva, el Danstar y el difícil arte de pensar Chile";
 const cases = [
   ["PE", football, "Infobae", "Perú y Chile firman un acuerdo de cooperación bilateral"],
   ["CO", archive, publisher, "Colombia y Ecuador firman un acuerdo de cooperación bilateral"],
   ["CO", current, publisher, "Colombia y Ecuador firman un acuerdo de cooperación bilateral"]
 ];
+
+test("the named stock-analysis database template does not become news through a crawl date", () => {
+  for (const key of ["top", "latest", "business"]) assert.equal(relevant("GY", key, profile, "Simply Wall St"), false);
+  assert.equal(relevant("GY", "business", "Guyana Gold expands its mining business", "Simply Wall St"), true);
+});
+
+test("the figurative art of thinking needs independent arts evidence", () => {
+  assert.equal(relevant("CL", "culture", metaphor, "Infogate.cl"), false);
+  assert.equal(relevant("CL", "top", metaphor, "Infogate.cl"), true);
+  assert.equal(relevant("CL", "culture", `${metaphor}: concierto de música`), true);
+});
 
 test("foreign press coverage of the reviewed football dispute needs independent affairs evidence", () => {
   assert.equal(relevant("PE", "world", football, "Infobae"), false);
@@ -63,5 +76,21 @@ test("cached recovery applies the same date-source and sports-context checks", a
     const manifest = JSON.parse(await readFile(path.join(destination, "manifest.json")));
     assert.equal(manifest.countries[0].feeds.world.count, 0);
     assert.equal(manifest.countries[0].feeds.world.updatedAt, null);
+  }
+  for (const [id, key, bad, source, good] of [["GY", "latest", profile, "Simply Wall St", "Guyana announces mining investment"],
+    ["CL", "culture", metaphor, "Infogate.cl", "Chile inaugura concierto de música"]]) {
+    const items = [article(bad, source), article(good)];
+    const xml = `<rss><channel>${items.map(a => `<item><title>${a.title}</title><link>${a.url}</link><source>${a.sourceName}</source><pubDate>${a.publishedAt}</pubDate></item>`).join("")}</channel></rss>`;
+    const selected = await fetchArticlesForFeed(country(id), feed(key), { sleep: async () => {}, fetchImpl: async () => new Response(xml) });
+    assert.deepEqual(selected.map(a => a.title), [good]);
+    assert.equal(selected[0].publishedAt, items[1].publishedAt);
+    const destination = await mkdtemp(path.join(tmpdir(), "latam-profile-cache-"));
+    t.after(() => rm(destination, { recursive: true, force: true }));
+    const options = { destination, countries: [country(id)], feeds: [feed(key), feed("top")] };
+    await generateFeeds({ ...options, fetchFeed: async () => [article(bad, source)] });
+    await generateFeeds({ ...options, fetchFeed: async (_, f) => f.key === key ? [] : [article(`${country(id).name} news`)] });
+    const manifest = JSON.parse(await readFile(path.join(destination, "manifest.json")));
+    assert.equal(manifest.countries[0].feeds[key].count, 0);
+    assert.equal(manifest.countries[0].feeds[key].updatedAt, null);
   }
 });

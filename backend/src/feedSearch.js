@@ -297,6 +297,10 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
       /\btable (?:football scores results fixtures|standings football rankings)$|\blive .+ football scores highlights \d{1,2} \d{1,2} \d{4}$/.test(normalized(article.title))) return false;
   if (normalized(article.sourceName ?? "") === "fotmob" &&
       /^minutes played .+ stats for .+ \d{4}(?: \d{4})?$/.test(normalized(article.title))) return false;
+  // The named stock-analysis landing template is a changing company database,
+  // not an individually dated news report. Keep the publisher's actual articles.
+  if (normalized(article.sourceName ?? "") === "simply wall st" &&
+      /^.+ \([A-Z0-9]+:[A-Z0-9.\-]+\)\s*[-–—]\s*Stock Analysis$/i.test(article.title)) return false;
   if (normalized(article.sourceName ?? "") === "futbolargentino com" &&
       /^.+ vs .+ en vivo torneo (?:clausura|apertura) liga profesional de argentina \d{4} fase regular$/.test(normalized(article.title))) return false;
   // Acuité's shop-sale classifieds are offers, not news reports. Keep its
@@ -350,7 +354,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // normalization. That name must not supply the story's category evidence.
   let title = article.title.replace(/\s+[|–—-]\s+El Comercio\s*$/iu, "");
   if (feed.key === "culture") {
-    title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ").replace(booksAsPolicyMetaphor, " ");
+    title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ").replace(booksAsPolicyMetaphor, " ").replace(/\barte de pensar\b/g, " ");
     // School administration/infrastructure is not literary coverage just
     // because schoolbooks are mentioned; retain independent arts evidence.
     if (schoolContext.test(title) && !terms.filter(term => !genericBooks.has(term)).some(term => matches(title, term))) return false;
