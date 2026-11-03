@@ -92,6 +92,10 @@ const topics = {
 // Keep queries compact. Long OR expressions returned mostly historical results
 // in live Google News probes even with when:Nd; dates are checked independently.
 const queryTopics = {
+  // Puerto Rico's sparse world feed needs its English fallback to find UN
+  // status hearings as well as diplomatic reporting. Retain three searches,
+  // the country scope and the same date/relevance/publication-age gates.
+  "PR/en/world": "foreign affairs|diplomacy|embassy|consulate|United Nations|decolonization",
   "en/world": "foreign affairs|diplomacy|ambassador|CARICOM|bilateral|United Nations",
   "fr/business": "entreprises|commerce|investissement|comptables|production|entreprendre|entreprise",
   "fr/economy": "économie|emploi|budget|prix|pétrole|carburant",
@@ -145,7 +149,9 @@ const topicMatchTerms = {
   "en/culture": "cultural|music*|artist*|cinema*|concert*|documentar*|heritage|literar*|theatr*|carnival*|cuisine|culinary",
   "en/crime": "criminal*|arrest*|detain*|violent*|homicid*|corrupt*|robber*|fraud*|kidnap*|traffick*|femicide*",
   "en/economy": "econom*|inflation*|export*|unemployment|recession|tariff*|interest rates",
-  "en/world": "diplomat*|ambassador*|envoy*|embass*|consular|consulate*|bilateral*|treaty|treaties|UNESCO|NATO"
+  // The named UN body is international affairs. Bare "un" and generic
+  // decolonising curricula/arts are not equivalent evidence.
+  "en/world": "diplomat*|ambassador*|envoy*|embass*|consular|consulate*|bilateral*|treaty|treaties|UNESCO|NATO|UN decolonization committee|UN decolonisation committee"
 };
 
 // Remove known people/place names before looking for country evidence. A real
@@ -230,7 +236,8 @@ export function searchPlans(country, feed) {
   const plans = days.map(lookbackDays => ({ language, lookbackDays, countryQuery }));
   if (language !== "en") plans.push({ language: "en", lookbackDays: days[1], countryQuery: quoted(country.name) });
   const searches = plans.map((plan, index) => {
-    const terms = headline ? [] : (queryTopics[`${plan.language}/${feed.key}`] ?? topics[plan.language][feed.key]).split("|");
+    const terms = headline ? [] : (queryTopics[`${country.id}/${plan.language}/${feed.key}`] ??
+      queryTopics[`${plan.language}/${feed.key}`] ?? topics[plan.language][feed.key]).split("|");
     // The widened local search must also try vocabulary previously truncated
     // from every query, such as teatro/literatura or detenido/homicidio.
     const rotated = index === 1 ? [...terms.slice(6), ...terms.slice(0, 6)] : terms;
