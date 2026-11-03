@@ -207,6 +207,9 @@ const booksAsPolicyMetaphor = /\barmas (?:y )?no libros\b|\barmas (?:e )?nao liv
 // only that phrase so independent cultural reporting in the title still counts.
 const figurativeCulture = /\b(?:safety|security|workplace|corporate|organizational|organisational|compliance) culture\b|\bculture of (?:safety|security|compliance|corruption|violence)\b|\bcultura (?:de |da |do )?(?:seguridad|seguranca|empresarial|organizacional|corporativa|corrupcion|corrupcao|violencia)\b|\bculture (?:de |d |du |des |la )*(?:securite|entreprise|organisationnelle|corruption|violence)\b|\b(?:veiligheids|bedrijfs|organisatie|bestuurs)cultuur\b|\bcultuur van (?:veiligheid|corruptie|geweld)\b/g;
 const financialOrPreventiveCulture = /\b(?:savings|investment|financial|tax|prevention) culture\b|\bculture of (?:saving|savings|investment|investing|prevention)\b|\bcultura (?:de |da |do )?(?:ahorro|inversion|investimento|financiera|financeira|tributaria|fiscal|prevencion|poupanca|prevencao)\b|\bculture (?:de |d |du |des |la |l )*(?:epargne|investissement|financiere|fiscale|prevention)\b|\b(?:spaar|beleggings|investerings|preventie)cultuur\b|\bcultuur van (?:sparen|beleggen|investeren|preventie)\b/g;
+// Political habits do not establish arts coverage; retain independent music,
+// heritage and other cultural evidence elsewhere in the headline.
+const politicalCulture = /\bpolitical culture\b|\bcultura politica\b|\bculture politique\b|\bpolitieke cultuur\b/g;
 
 const cultureSearchAliases = {
   GY: '("Guyana" OR "Guyanese")',
@@ -342,6 +345,10 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // Puerto Rico is also a resort in Mogán, Gran Canaria. Keep independent
   // Puerto Rican/diaspora evidence rather than treating that resort as a nation.
   if (country.id === "PR" && /\b(?:mogan|policia canaria|gran canaria)\b/.test(geographicTitle)) geographicTitle = geographicTitle.replace(/\bpuerto rico\b/g, " ");
+  // Primary reporting locates the Manito Britez case in Puerto Rico, Misiones,
+  // Argentina. The city and explicit provincial references are not national
+  // Puerto Rican evidence; independent demonyms still preserve diaspora news.
+  if (country.id === "PR" && /\bmanito britez\b|\bpuerto rico misiones\b|\b(?:policia|provincia|camara de apelaciones) de misiones\b/.test(geographicTitle)) geographicTitle = geographicTitle.replace(/\bpuerto rico\b/g, " ");
   if (!countryTerms.some(term => matches(geographicTitle, term))) return false;
   if (["top", "latest"].includes(feed.key)) return true;
   if (feed.key === "tech" && /world wide technology championship/i.test(article.title)) return false;
@@ -354,7 +361,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // normalization. That name must not supply the story's category evidence.
   let title = article.title.replace(/\s+[|–—-]\s+El Comercio\s*$/iu, "");
   if (feed.key === "culture") {
-    title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ").replace(booksAsPolicyMetaphor, " ").replace(/\barte de pensar\b/g, " ");
+    title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ").replace(politicalCulture, " ").replace(booksAsPolicyMetaphor, " ").replace(/\barte de pensar\b/g, " ");
     // School administration/infrastructure is not literary coverage just
     // because schoolbooks are mentioned; retain independent arts evidence.
     if (schoolContext.test(title) && !terms.filter(term => !genericBooks.has(term)).some(term => matches(title, term))) return false;
@@ -369,7 +376,10 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     // The football club's name is not a justice-system reference. Preserve
     // independent reports about actual crimes involving the club.
     title = normalized(title).replace(noncriminalJustice, " ").replace(/\bdefensa y justicia\b/g, " ");
-    if (civilDispute.test(title) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
+    // A CCJ dispute over CARICOM affairs is not criminal evidence merely
+    // because the headline discusses making it the final appellate court.
+    const regionalTreatyDispute = /\b(?:ccj|caribbean court of justice)\b/.test(title) && /\bcaricom\b/.test(title) && /\bdispute\w*\b/.test(title);
+    if ((civilDispute.test(title) || regionalTreatyDispute) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     if ((policeCommunityEvents.test(title) || sports.some(term => matches(title, term))) &&
         !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
