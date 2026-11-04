@@ -423,7 +423,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     // Academic/industry congresses are conferences, not legislatures. An
     // independent government, election or policy reference can still qualify.
     title = title.replace(/\b(?:congreso|congresso) (?:internacional|latinoamericano|cientifico|academico|medico)\b|\b(?:international|academic|medical|scientific) congress\b/g, " ");
-    title = title.replace(/\bcongreso mundial de ingenieros agronomos\b/g, " ");
+    title = title.replace(/\bcongreso (?:mundial de ingenieros agronomos|de extension universitaria)\b/g, " ");
   }
   if (feed.key === "world") {
     title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ").replace(/\b(?:camino|ruta|avenida|carretera) internacional\b/g, " ");

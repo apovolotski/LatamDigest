@@ -12,10 +12,12 @@ const feed = key => feedConfigs.find(f => f.key === key);
 const agency = "Initiative Argentina: “Effie es una cultura dentro de la agencia y para con los clientes”";
 const vehicle = "De una camioneta Fiat a “una obra de arte”: cómo se construyó en Uruguay el papamóvil que usará León XIV";
 const congress = "Uruguay será sede del VII Congreso Mundial de Ingenieros Agrónomos";
+const extension = "Experiencia de la UV en Caleta El Membrillo llegó al 9° Congreso de Extensión Universitaria en Uruguay";
 const cases = [
   ["AR", "culture", agency, "Argentina presenta una exposición de arte", "Marketers by Adlatina"],
   ["UY", "culture", vehicle, "Uruguay presenta un concierto de música", "La Mañana"],
-  ["UY", "politics", congress, "Uruguay celebra elecciones parlamentarias", "El Eco Digital"]
+  ["UY", "politics", congress, "Uruguay celebra elecciones parlamentarias", "El Eco Digital"],
+  ["UY", "politics", extension, "Uruguay celebra elecciones parlamentarias", "Universidad de Valparaíso"]
 ];
 const article = title => ({ title, sourceName: "Example News", url: `https://example.com/${encodeURIComponent(title)}`,
   publishedAt: new Date(Date.now() - 3600_000).toISOString() });
@@ -57,6 +59,13 @@ test("live selection rejects contextual false positives and retains original new
     assert.equal(isRelevantArticle({ ...items[1], publishedAt: new Date(Date.now() - 15 * 86400_000).toISOString() }, country(id), feed(key), { lookbackDays: 14 }), false);
     assert.equal(isRelevantArticle(items[1], country("PY"), feed(key), { lookbackDays: 14 }), false);
   }
+});
+
+test("university extension congresses require independent political evidence", () => {
+  assert.equal(relevant("UY", "politics", extension), false);
+  assert.equal(relevant("UY", "politics", `${extension}: el gobierno anuncia una nueva ley`), true);
+  assert.equal(relevant("UY", "politics", "Uruguay: el Congreso aprueba la extensión de una ley universitaria"), true);
+  assert.equal(relevant("UY", "top", extension), true);
 });
 
 test("cached recovery rejects the same contextual errors without renewing timestamps", async t => {
