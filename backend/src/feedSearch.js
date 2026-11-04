@@ -402,7 +402,11 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     if (([...sports, ...sportingEventTerms].some(term => matches(title, term)) || /\b(?:sub|under|u) \d{1,2}\b/.test(title) || scienceFestival.test(title) || wildlifeFestival.test(title) || hobbyFestival.test(title)) &&
         !terms.filter(term => term !== "festival").some(term => matches(title, term))) return false;
   }
-  if (feed.key === "business") title = normalized(title).replace(diplomaticBusinessTitles, " ");
+  if (feed.key === "business") {
+    title = normalized(title).replace(diplomaticBusinessTitles, " ");
+    // El Comercio names the newspaper presenting this mural, not trade.
+    title = title.replace(/^el comercio(?= presenta mural\b)/, " ");
+  }
   if (feed.key === "crime") {
     // The football club's name is not a justice-system reference. Preserve
     // independent reports about actual crimes involving the club.

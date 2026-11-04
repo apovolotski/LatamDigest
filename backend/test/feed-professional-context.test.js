@@ -13,11 +13,13 @@ const agency = "Initiative Argentina: “Effie es una cultura dentro de la agenc
 const vehicle = "De una camioneta Fiat a “una obra de arte”: cómo se construyó en Uruguay el papamóvil que usará León XIV";
 const congress = "Uruguay será sede del VII Congreso Mundial de Ingenieros Agrónomos";
 const extension = "Experiencia de la UV en Caleta El Membrillo llegó al 9° Congreso de Extensión Universitaria en Uruguay";
+const mural = "El Comercio presenta mural de 167 metros dedicado al papa León XIV en el Callao a días de su llegada al Perú";
 const cases = [
   ["AR", "culture", agency, "Argentina presenta una exposición de arte", "Marketers by Adlatina"],
   ["UY", "culture", vehicle, "Uruguay presenta un concierto de música", "La Mañana"],
   ["UY", "politics", congress, "Uruguay celebra elecciones parlamentarias", "El Eco Digital"],
-  ["UY", "politics", extension, "Uruguay celebra elecciones parlamentarias", "Universidad de Valparaíso"]
+  ["UY", "politics", extension, "Uruguay celebra elecciones parlamentarias", "Universidad de Valparaíso"],
+  ["PE", "business", mural, "Perú anuncia nuevas inversiones empresariales", "El Comercio Perú"]
 ];
 const article = title => ({ title, sourceName: "Example News", url: `https://example.com/${encodeURIComponent(title)}`,
   publishedAt: new Date(Date.now() - 3600_000).toISOString() });
@@ -79,4 +81,12 @@ test("cached recovery rejects the same contextual errors without renewing timest
     assert.equal(manifest.countries[0].feeds[key].count, 0);
     assert.equal(manifest.countries[0].feeds[key].updatedAt, null);
   }
+});
+
+test("El Comercio's mural headline needs separate business evidence", () => {
+  assert.equal(relevant("PE", "business", mural), false);
+  assert.equal(relevant("PE", "business", `${mural}: empresas anuncian nuevas inversiones`), true);
+  assert.equal(relevant("PE", "business", "El comercio presenta nuevas oportunidades de inversión en Perú"), true);
+  assert.equal(relevant("PE", "culture", `${mural}: exposición de arte`), true);
+  assert.equal(relevant("PE", "top", mural), true);
 });
