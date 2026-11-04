@@ -187,7 +187,7 @@ const wildlifeFestival = /\b(?:gato andino|felinos|wildlife|biodiversidad|biodiv
 // replicas in independent museum/arts reporting remain eligible.
 const hobbyFestival = /\b(?:aeromodel\w*|festival internacional de replicas|ajedrez|xadrez|echecs|chess|schaak\w*)\b/;
 const diplomaticBusinessTitles = /\b(?:encargad[oa]s? de negocios|encarregad[oa]s? de negocios|charges? d affaires)\b/g;
-const noncriminalJustice = /\bjusticia (?:social|laboral|del trabajo)\b|\bjustica (?:social|do trabalho)\b|\bjustice (?:sociale|du travail)\b|\b(?:social|labour|labor) justice\b/g;
+const noncriminalJustice = /\bjusticia (?:social|laboral|del trabajo|ambiental)\b|\bjustica (?:social|do trabalho|ambiental)\b|\bjustice (?:sociale|du travail|environnementale)\b|\b(?:social|labour|labor|environmental) justice\b/g;
 const weakCrimeTerms = new Set(["policía", "polícia", "police", "politie", "court", "policia*", "policier*", "politieagent*", "politiebureau*"]);
 // Investor-state arbitration and civil/commercial courts do not establish a
 // crime. Aratiri is the primary-reviewed investment dispute, not a criminal case.
@@ -343,9 +343,17 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // https://www.televicentro.com/yimmi-rios-sigue-brillando-de-guardia-de-seguridad-a-estrella-del-cine-hondureno-2025-12-12
   if (normalized(article.sourceName ?? "") === "televicentro" &&
       normalized(article.title) === "yimi rios sigue brillando de guardia de seguridad a estrella del cine hondureno") return false;
+  // The publisher's podcast feed dates this exact episode June 6, 2024.
+  // Its November Google RSS timestamp is a recrawl, not a new publication.
+  // Keep new Tele13 reporting about the same case eligible.
+  if (normalized(article.sourceName ?? "") === "tele13 radio" &&
+      normalized(article.title) === "dale play jueves 06 de junio fiscal general de venezuela aseguro que el crimen del ex teniente ronald ojeda se trato de una operacion de falsa bandera") return false;
   const [localLanguage, , aliases] = profiles[country.id];
   const countryTerms = `${aliases}|${country.name}`.split("|");
-  let geographicTitle = normalized(article.title);
+  // Syndication can retain a second publisher's trailing credit. Its name
+  // must not supply national or category evidence for the actual headline.
+  const headline = article.title.replace(/\s+[|–—-]\s+(?:El Comercio|Ecuador al D[ií]a)\s*$/iu, "");
+  let geographicTitle = normalized(headline);
   if (countryAmbiguities[country.id]) geographicTitle = geographicTitle.replace(countryAmbiguities[country.id], " ");
   // Cayenne alone is weak evidence in a Porsche story; retain every other
   // explicit country/city/demonym, including English fallback demonyms.
@@ -373,11 +381,13 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     ...topics[language][feed.key].split("|"),
     ...(topicMatchTerms[`${language}/${feed.key}`] ?? "").split("|").filter(Boolean)
   ]);
-  // A syndicator can retain a second publisher's trailing credit after RSS
-  // normalization. That name must not supply the story's category evidence.
-  let title = article.title.replace(/\s+[|–—-]\s+El Comercio\s*$/iu, "");
+  let title = headline;
   if (feed.key === "culture") {
     title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ").replace(politicalCulture, " ").replace(booksAsPolicyMetaphor, " ").replace(/\barte de pensar\b/g, " ");
+    // A minister's unrelated criminal case is not arts coverage merely due
+    // to their portfolio. Keep cultural policy and independent arts evidence,
+    // including criminal investigations involving museums or heritage.
+    if (/\b(?:juicio|colusion|corrupcion|acusad[oa])\b/.test(title) && !/\bmuseos?\b/.test(title)) title = title.replace(/\bministr[oa] de cultura\b/g, " ");
     // School administration/infrastructure is not literary coverage just
     // because schoolbooks are mentioned; retain independent arts evidence.
     if (schoolContext.test(title) && !terms.filter(term => !genericBooks.has(term)).some(term => matches(title, term))) return false;
@@ -395,9 +405,12 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     // A CCJ dispute over CARICOM affairs is not criminal evidence merely
     // because the headline discusses making it the final appellate court.
     const regionalTreatyDispute = /\b(?:ccj|caribbean court of justice)\b/.test(title) && /\bcaricom\b/.test(title) && /\bdispute\w*\b/.test(title);
-    if ((civilDispute.test(title) || regionalTreatyDispute) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
+    // ANJ/ABERT/ANER's reviewed injunction concerns commercial copyright
+    // terms. Preserve separate criminal evidence and other court reporting.
+    const publishersInjunction = /\bliminar\b/.test(title) && /\b(?:associacao nacional de jornais|abert|aner)\b/.test(title);
+    if ((civilDispute.test(title) || regionalTreatyDispute || publishersInjunction) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
-    if ((policeCommunityEvents.test(title) || sports.some(term => matches(title, term))) &&
+    if ((policeCommunityEvents.test(title) || /\bascensos?\b/.test(title) || sports.some(term => matches(title, term))) &&
         !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
   }
   if (feed.key === "politics") {
