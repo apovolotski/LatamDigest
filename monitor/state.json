@@ -16314,9 +16314,9 @@
       ]
     }
   },
-  "status": "healthy",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-04T18:50:10.147Z",
+    "checkedAt": "2026-11-04T23:39:31.124Z",
     "workflows": {
       "feeds": {
         "due": "2026-11-04T18:17:00.000Z",
@@ -16331,9 +16331,11 @@
     },
     "decisions": {
       "feeds": {
-        "dispatch": false,
-        "reason": "schedule_grace",
-        "due": "2026-11-04T18:17:00.000Z"
+        "dispatch": true,
+        "key": "feeds-20261104181700000",
+        "kind": "feeds",
+        "due": "2026-11-04T18:17:00.000Z",
+        "reason": "late_schedule"
       },
       "backend": {
         "dispatch": false,
@@ -16343,13 +16345,13 @@
     },
     "problems": [],
     "publication": {
-      "commit": "63ffe12e0ea797f6567257b0f96450abe417e778",
+      "commit": "845225f7ecb89399bd3a8e805522f949fccb4164",
       "valid": true,
       "health": {
         "state": "degraded",
         "mode": "refreshed",
-        "checkedAt": "2026-11-04T15:15:59.763Z",
-        "lastSuccessfulRefreshAt": "2026-11-04T15:14:23.826Z",
+        "checkedAt": "2026-11-04T23:39:01.796Z",
+        "lastSuccessfulRefreshAt": "2026-11-04T23:37:24.470Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -16361,11 +16363,12 @@
         "total": 240,
         "populated": 240,
         "stale": 1,
-        "sparse": 5,
-        "fallback": 17,
+        "sparse": 6,
+        "fallback": 16,
         "issues": [],
         "warnings": [
           "PR/world: only 1 relevant articles.",
+          "TT/tech: only 2 relevant articles.",
           "SR/sports: serving recent cached articles.",
           "SR/crime: only 2 relevant articles.",
           "GF/business: only 2 relevant articles.",
@@ -16378,7 +16381,7 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-04T18:50:10.147Z",
+  "checkedAt": "2026-11-04T23:39:31.124Z",
   "activeAlerts": [],
   "repairs": [
     {
