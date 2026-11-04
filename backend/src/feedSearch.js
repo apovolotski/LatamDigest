@@ -384,6 +384,11 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   let title = headline;
   if (feed.key === "culture") {
     title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ").replace(politicalCulture, " ").replace(booksAsPolicyMetaphor, " ").replace(/\barte de pensar\b/g, " ");
+    // Effie/workplace culture describes an agency's commercial practice.
+    // Remove that phrase, preserving independent arts or museum coverage.
+    title = title.replace(/\bcultura (?:dentro de la agencia|effie)\b/g, " ");
+    // This vehicle-construction metaphor does not by itself establish arts.
+    if (/\bpapamovil\b/.test(title)) title = title.replace(/\bobra de arte\b/g, " ");
     // A minister's unrelated criminal case is not arts coverage merely due
     // to their portfolio. Keep cultural policy and independent arts evidence,
     // including criminal investigations involving museums or heritage.
@@ -418,6 +423,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     // Academic/industry congresses are conferences, not legislatures. An
     // independent government, election or policy reference can still qualify.
     title = title.replace(/\b(?:congreso|congresso) (?:internacional|latinoamericano|cientifico|academico|medico)\b|\b(?:international|academic|medical|scientific) congress\b/g, " ");
+    title = title.replace(/\bcongreso mundial de ingenieros agronomos\b/g, " ");
   }
   if (feed.key === "world") {
     title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ").replace(/\b(?:camino|ruta|avenida|carretera) internacional\b/g, " ");
