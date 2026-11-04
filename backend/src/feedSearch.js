@@ -300,6 +300,18 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
       /\btable (?:football scores results fixtures|standings football rankings)$|\blive .+ football scores highlights \d{1,2} \d{1,2} \d{4}$/.test(normalized(article.title))) return false;
   if (normalized(article.sourceName ?? "") === "fotmob" &&
       /^minutes played .+ stats for .+ \d{4}(?: \d{4})?$/.test(normalized(article.title))) return false;
+  // ESPN's dated Dutch match-summary template is a live score/statistics page,
+  // including before kickoff. The date in its title is the fixture date.
+  if (normalized(article.sourceName ?? "") === "espn nl" &&
+      /^.+ vs .+ voetbal wedstrijd samenvatting \d{1,2} [a-z]+ \d{4}$/.test(normalized(article.title))) return false;
+  // This observed bare pairing supplies no news account. Keep previews and
+  // reports from Voetbalzone, including reporting about this same fixture.
+  if (normalized(article.sourceName ?? "") === "voetbalzone" &&
+      normalized(article.title) === "litouwen v suriname") return false;
+  // Broadcaster replay catalogues are collections, not individual reports.
+  // Dated news broadcasts and reporting about programmes remain eligible.
+  if (["outre mer la 1ere", "france tv"].includes(normalized(article.sourceName ?? "")) &&
+      /\s[-–—]\sles replays et vid[eé]os en streaming\s[-–—]\s/i.test(article.title)) return false;
   // The named stock-analysis landing template is a changing company database,
   // not an individually dated news report. Keep the publisher's actual articles.
   if (normalized(article.sourceName ?? "") === "simply wall st" &&
@@ -340,7 +352,11 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   if (country.id === "GF" && /\b(porsche|taycan)\b/i.test(article.title)) geographicTitle = geographicTitle.replace(/\bcayenne\b/g, " ");
   // Some French headlines call the republic of Guyana "Guyane". Its capital,
   // president or former British name do not establish French Guiana coverage.
-  if (country.id === "GF" && /\b(?:irfaan ali|georgetown|guyane britannique|guyana)\b/.test(geographicTitle) &&
+  // CiberCuba's French translation of this actor's Guyana visit also says
+  // Guyane; its Spanish original and French body identify the republic.
+  const reviewedGuyanaVisit = normalized(article.sourceName ?? "") === "cibercuba" &&
+    /\bjudith gonzalez\b/.test(geographicTitle) && /\bguyane\b/.test(geographicTitle);
+  if (country.id === "GF" && (/\b(?:irfaan ali|georgetown|guyane britannique|guyana)\b/.test(geographicTitle) || reviewedGuyanaVisit) &&
       !/\b(?:guyane francaise|french guian\w*|cayenne|kourou|macouria|matoury|saint laurent du maroni|guyane et (?:le )?guyana|guyana et (?:la )?guyane)\b/.test(geographicTitle)) return false;
   // Puerto Rico is also a resort in Mogán, Gran Canaria. Keep independent
   // Puerto Rican/diaspora evidence rather than treating that resort as a nation.
