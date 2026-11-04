@@ -14642,12 +14642,12 @@
       ]
     }
   },
-  "status": "healthy",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-04T11:29:36.633Z",
+    "checkedAt": "2026-11-04T14:28:44.993Z",
     "workflows": {
       "feeds": {
-        "due": "2026-11-04T06:17:00.000Z",
+        "due": "2026-11-04T12:17:00.000Z",
         "state": "active",
         "active": []
       },
@@ -14661,23 +14661,25 @@
       "feeds": {
         "dispatch": false,
         "reason": "publication_current",
-        "due": "2026-11-04T06:17:00.000Z"
+        "due": "2026-11-04T12:17:00.000Z"
       },
       "backend": {
-        "dispatch": false,
-        "reason": "schedule_grace",
-        "due": "2026-11-04T10:43:00.000Z"
+        "dispatch": true,
+        "key": "backend-20261104104300000",
+        "kind": "backend",
+        "due": "2026-11-04T10:43:00.000Z",
+        "reason": "late_schedule"
       }
     },
     "problems": [],
     "publication": {
-      "commit": "1056cce3c3196fa6ad94bab2fe73b335f98ea287",
+      "commit": "5c4cc582c55a3bc26e77f3d1e40e09a6023d46ea",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-11-04T06:47:13.176Z",
-        "lastSuccessfulRefreshAt": "2026-11-04T06:45:27.166Z",
+        "checkedAt": "2026-11-04T14:28:13.127Z",
+        "lastSuccessfulRefreshAt": "2026-11-04T14:26:17.817Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -14689,22 +14691,23 @@
         "total": 240,
         "populated": 240,
         "stale": 0,
-        "sparse": 4,
-        "fallback": 14,
+        "sparse": 5,
+        "fallback": 16,
         "issues": [],
         "warnings": [
           "PR/world: only 1 relevant articles.",
+          "SR/crime: only 2 relevant articles.",
           "GF/business: only 2 relevant articles.",
           "GF/economy: only 2 relevant articles.",
           "GF/world: only 1 relevant articles."
         ]
       },
       "issues": [],
-      "expiresAt": "2026-11-05T06:45:27.753Z",
+      "expiresAt": "2026-11-05T14:26:18.590Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-04T11:29:36.633Z",
+  "checkedAt": "2026-11-04T14:28:44.993Z",
   "activeAlerts": [],
   "repairs": [
     {
