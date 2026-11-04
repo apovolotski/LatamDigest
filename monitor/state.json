@@ -14199,6 +14199,82 @@
           "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
         }
       }
+    },
+    "41787628819:1": {
+      "id": 41787628819,
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "createdAt": "2026-11-04T06:45:15Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "e9fade1fc4bbef9ce39b251585c351fff6b25a0b",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41787628819",
+      "verifiedAt": "2026-11-04T06:47:52.204Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success",
+          "stepMetadataCount": 12
+        }
+      ],
+      "completeLogSha256": "40c7582fac6ef82663e9f76fc7be74c4995f84896e2a7cb808b519641e90968f",
+      "completeLogLines": 1076,
+      "jobLogs": [
+        {
+          "id": 126433309791,
+          "name": "refresh",
+          "sha256": "40c7582fac6ef82663e9f76fc7be74c4995f84896e2a7cb808b519641e90968f",
+          "lines": 1076
+        }
+      ],
+      "valid": true,
+      "issues": [],
+      "tests": {
+        "refresh": 224
+      },
+      "testEvidence": {
+        "refresh:6": {
+          "jobId": 126433309791,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "40c7582fac6ef82663e9f76fc7be74c4995f84896e2a7cb808b519641e90968f",
+          "jobLogLines": 1076,
+          "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "minimum": 145,
+          "summary": {
+            "tests": 224,
+            "pass": 224,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "isolation": true
+        }
+      },
+      "audits": {
+        "refresh": 0
+      },
+      "auditEvidence": {
+        "refresh": {
+          "jobId": 126433309791,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "40c7582fac6ef82663e9f76fc7be74c4995f84896e2a7cb808b519641e90968f",
+          "jobLogLines": 1076,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+        }
+      },
+      "productionEvidence": {
+        "jobId": 126433309791,
+        "stepNumber": 7,
+        "source": "github-step-and-original-log",
+        "jobLogSha256": "40c7582fac6ef82663e9f76fc7be74c4995f84896e2a7cb808b519641e90968f",
+        "jobLogLines": 1076,
+        "startedAt": "2026-11-04T06:45:26.000Z",
+        "completedAt": "2026-11-04T06:47:14.000Z"
+      }
     }
   },
   "receipts": {
@@ -14343,16 +14419,14 @@
       ]
     }
   },
-  "status": "recovery_pending",
+  "status": "healthy",
   "latest": {
-    "checkedAt": "2026-11-04T06:46:19.463Z",
+    "checkedAt": "2026-11-04T06:47:52.204Z",
     "workflows": {
       "feeds": {
         "due": "2026-11-04T06:17:00.000Z",
         "state": "active",
-        "active": [
-          41787628819
-        ]
+        "active": []
       },
       "backend": {
         "due": "2026-11-03T10:43:00.000Z",
@@ -14363,7 +14437,8 @@
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "run_active"
+        "reason": "schedule_grace",
+        "due": "2026-11-04T06:17:00.000Z"
       },
       "backend": {
         "dispatch": false,
@@ -14373,13 +14448,13 @@
     },
     "problems": [],
     "publication": {
-      "commit": "e067a91426f73ad620088fa1b4717f0342c23baa",
+      "commit": "1056cce3c3196fa6ad94bab2fe73b335f98ea287",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-11-04T06:11:42.321Z",
-        "lastSuccessfulRefreshAt": "2026-11-04T06:09:56.967Z",
+        "checkedAt": "2026-11-04T06:47:13.176Z",
+        "lastSuccessfulRefreshAt": "2026-11-04T06:45:27.166Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -14391,24 +14466,22 @@
         "total": 240,
         "populated": 240,
         "stale": 0,
-        "sparse": 6,
-        "fallback": 15,
+        "sparse": 4,
+        "fallback": 14,
         "issues": [],
         "warnings": [
           "PR/world: only 1 relevant articles.",
-          "SR/sports: only 2 relevant articles.",
-          "SR/crime: only 2 relevant articles.",
           "GF/business: only 2 relevant articles.",
           "GF/economy: only 2 relevant articles.",
           "GF/world: only 1 relevant articles."
         ]
       },
       "issues": [],
-      "expiresAt": "2026-11-05T06:09:57.494Z",
+      "expiresAt": "2026-11-05T06:45:27.753Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-04T06:46:19.463Z",
+  "checkedAt": "2026-11-04T06:47:52.204Z",
   "activeAlerts": [],
   "repairs": [
     {
