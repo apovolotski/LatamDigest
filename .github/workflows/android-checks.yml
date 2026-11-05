@@ -64,14 +64,16 @@ jobs:
           exit 1
       - name: Test real Android navigation and persistence
         working-directory: android
-        run: ./gradlew --no-daemon --max-workers=2 connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apovolotski.latamdigest.WorkspaceTest
+        run: |
+          ./gradlew --no-daemon --max-workers=2 connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apovolotski.latamdigest.WorkspaceTest
+          cp -R app/build/outputs/androidTest-results app/build/workspace-test-results
       - name: Capture actual app screenshots
         working-directory: android
         run: |
           adb shell settings put system system_locales en-GB
           ./gradlew --no-daemon --max-workers=2 connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apovolotski.latamdigest.StoreScreenshotTest
           mkdir -p app/build/store-screenshots
-          adb pull /sdcard/Android/data/com.apovolotski.latamdigest/files/. app/build/store-screenshots/
+          adb pull /sdcard/Download/latam-store/. app/build/store-screenshots/
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -80,5 +82,6 @@ jobs:
             android/app/build/reports/androidTests/
             android/app/build/outputs/androidTest-results/
             android/app/build/store-screenshots/
+            android/app/build/workspace-test-results/
             /tmp/latam-emulator.log
           retention-days: 14

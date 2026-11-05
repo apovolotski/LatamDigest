@@ -39,6 +39,14 @@ public class StoreScreenshotTest {
       image.compress(Bitmap.CompressFormat.PNG, 100, out);
     }
     image.recycle();
+    // Gradle uninstalls the tested app after the run. Stage screenshots in a
+    // shell-owned directory before that removes the app-specific files.
+    String source = new File(instrumentation.getTargetContext().getExternalFilesDir(null), name + ".png").getAbsolutePath();
+    try (android.os.ParcelFileDescriptor command = instrumentation.getUiAutomation()
+        .executeShellCommand("mkdir -p /sdcard/Download/latam-store && cp " + source + " /sdcard/Download/latam-store/" + name + ".png");
+        FileInputStream result = new FileInputStream(command.getFileDescriptor())) {
+      while (result.read() != -1) { }
+    }
   }
 
   @Test
