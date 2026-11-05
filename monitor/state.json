@@ -16798,6 +16798,15 @@
       "runId": 42058326586,
       "conclusion": "success",
       "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42058326586"
+    },
+    "feeds-failed-42098189923-1": {
+      "dispatch": true,
+      "key": "feeds-failed-42098189923-1",
+      "kind": "feeds",
+      "due": "2026-11-05T18:17:00.000Z",
+      "reason": "failed_run",
+      "reservedAt": "2026-11-05T22:13:41.244Z",
+      "status": "reserved"
     }
   },
   "alerts": {
