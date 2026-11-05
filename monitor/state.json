@@ -16836,9 +16836,9 @@
       ]
     }
   },
-  "status": "attention_required",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-05T19:55:48.866Z",
+    "checkedAt": "2026-11-05T22:13:41.244Z",
     "workflows": {
       "feeds": {
         "due": "2026-11-05T18:17:00.000Z",
@@ -16854,9 +16854,11 @@
     },
     "decisions": {
       "feeds": {
-        "dispatch": false,
-        "reason": "cooldown",
-        "due": "2026-11-05T18:17:00.000Z"
+        "dispatch": true,
+        "key": "feeds-failed-42098189923-1",
+        "kind": "feeds",
+        "due": "2026-11-05T18:17:00.000Z",
+        "reason": "failed_run"
       },
       "backend": {
         "dispatch": false,
@@ -16865,8 +16867,7 @@
       }
     },
     "problems": [
-      "Published data: Missing, future or over-24-hour feed timestamps.",
-      "Refresh Static Feeds remains failed; see run 42098189923."
+      "Published data: Missing, future or over-24-hour feed timestamps."
     ],
     "publication": {
       "commit": "91065da210a6d1427036b618420fb1ad77c1bd84",
@@ -16906,7 +16907,7 @@
       "expiresAt": "2026-11-05T14:28:00.055Z"
     }
   },
-  "checkedAt": "2026-11-05T19:55:48.866Z",
+  "checkedAt": "2026-11-05T22:13:41.244Z",
   "activeAlerts": [
     "9268ff959a65f4f09d667f3e95d56d8ab66de3f37aab07164235fec09ddb74c2"
   ],
