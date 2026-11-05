@@ -46,8 +46,10 @@ jobs:
           echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --name latam-ci --package 'system-images;android-36;google_apis;x86_64' --device pixel_6
           sudo chmod 666 /dev/kvm
           "$ANDROID_HOME/emulator/emulator" -avd latam-ci -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -memory 2048 > /tmp/latam-emulator.log 2>&1 &
-          adb wait-for-device
+          emulator_pid=$!
+          timeout 150 adb wait-for-device || { cat /tmp/latam-emulator.log; exit 1; }
           for attempt in $(seq 1 90); do
+            kill -0 "$emulator_pid" || { cat /tmp/latam-emulator.log; exit 1; }
             if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = '1' ]; then exit 0; fi
             sleep 2
           done
@@ -71,4 +73,5 @@ jobs:
             android/app/build/reports/androidTests/
             android/app/build/outputs/androidTest-results/
             android/app/build/store-screenshots/
+            /tmp/latam-emulator.log
           retention-days: 14
