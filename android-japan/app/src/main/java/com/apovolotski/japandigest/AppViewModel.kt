@@ -67,7 +67,11 @@ class AppViewModel(application: Application) : AndroidViewModel(application) {
                 if (!mutable.value.ready || mutable.value.readOnly) return@withLock
                 try {
                     val updated = transform(mutable.value.data).validated()
-                    withContext(Dispatchers.IO) { atomicWrite(file, json.encodeToString(updated)) }
+                    withContext(Dispatchers.IO) {
+                        val encoded = json.encodeToString(updated)
+                        require(encoded.toByteArray(Charsets.UTF_8).size <= 12_000_000) { "Local storage limit" }
+                        atomicWrite(file, encoded)
+                    }
                     mutable.value = mutable.value.copy(data = updated)
                     after?.invoke()
                 } catch (cancelled: CancellationException) { throw cancelled }
