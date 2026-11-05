@@ -32,21 +32,21 @@ public class StoreScreenshotTest {
     instrumentation.waitForIdleSync();
     Bitmap image = instrumentation.getUiAutomation().takeScreenshot();
     assertNotNull(image);
-    try (FileOutputStream out =
-        new FileOutputStream(
-            new File(
-                instrumentation.getTargetContext().getExternalFilesDir(null), name + ".png"))) {
-      image.compress(Bitmap.CompressFormat.PNG, 100, out);
+    // Shared Downloads survive Gradle uninstalling the app after a test run.
+    // Use Android's scoped-storage API rather than shell access to app files.
+    assertTrue(android.os.Build.VERSION.SDK_INT >= 29);
+    android.content.ContentValues values = new android.content.ContentValues();
+    values.put(android.provider.MediaStore.Downloads.DISPLAY_NAME, name + ".png");
+    values.put(android.provider.MediaStore.Downloads.MIME_TYPE, "image/png");
+    values.put(android.provider.MediaStore.Downloads.RELATIVE_PATH, "Download/latam-store");
+    android.content.ContentResolver resolver = instrumentation.getTargetContext().getContentResolver();
+    android.net.Uri uri = resolver.insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+    assertNotNull(uri);
+    try (OutputStream out = resolver.openOutputStream(uri)) {
+      assertNotNull(out);
+      assertTrue(image.compress(Bitmap.CompressFormat.PNG, 100, out));
     }
     image.recycle();
-    // Gradle uninstalls the tested app after the run. Stage screenshots in a
-    // shell-owned directory before that removes the app-specific files.
-    String source = new File(instrumentation.getTargetContext().getExternalFilesDir(null), name + ".png").getAbsolutePath();
-    try (android.os.ParcelFileDescriptor command = instrumentation.getUiAutomation()
-        .executeShellCommand("mkdir -p /sdcard/Download/latam-store && cp " + source + " /sdcard/Download/latam-store/" + name + ".png");
-        FileInputStream result = new FileInputStream(command.getFileDescriptor())) {
-      while (result.read() != -1) { }
-    }
   }
 
   @Test

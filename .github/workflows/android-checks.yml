@@ -72,6 +72,9 @@ jobs:
         run: |
           adb shell settings put system system_locales en-GB
           ./gradlew --no-daemon --max-workers=2 connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apovolotski.latamdigest.StoreScreenshotTest
+          for image in 01-library 02-workspace 03-feeds; do
+            adb shell test -s "/sdcard/Download/latam-store/$image.png"
+          done
           mkdir -p app/build/store-screenshots
           adb pull /sdcard/Download/latam-store/. app/build/store-screenshots/
       - uses: actions/upload-artifact@v4
