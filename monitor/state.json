@@ -171,12 +171,17 @@
     },
     "feeds": {
       "runIds": [
-        41935150812
+        41935150812,
+        41981778002
       ],
       "attempts": {
         "41935150812:1": {
           "conclusion": "success",
           "verifiedAt": "2026-11-04T23:39:31.124Z"
+        },
+        "41981778002:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-11-05T06:40:49.582Z"
         }
       },
       "history": [
@@ -16226,6 +16231,82 @@
         "startedAt": "2026-11-04T23:40:11.000Z",
         "completedAt": "2026-11-04T23:41:48.000Z"
       }
+    },
+    "41981778002:1": {
+      "id": 41981778002,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-11-05T06:38:33Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "9d5792a22af4ec7c580cef163a43f88be69df28f",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41981778002",
+      "verifiedAt": "2026-11-05T06:40:49.582Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success",
+          "stepMetadataCount": 12
+        }
+      ],
+      "completeLogSha256": "4d1cba5308a0eec75343027eb00860e886dd06925335948980e142cd29b63345",
+      "completeLogLines": 1118,
+      "jobLogs": [
+        {
+          "id": 127093283514,
+          "name": "refresh",
+          "sha256": "4d1cba5308a0eec75343027eb00860e886dd06925335948980e142cd29b63345",
+          "lines": 1118
+        }
+      ],
+      "valid": true,
+      "issues": [],
+      "tests": {
+        "refresh": 231
+      },
+      "testEvidence": {
+        "refresh:6": {
+          "jobId": 127093283514,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "4d1cba5308a0eec75343027eb00860e886dd06925335948980e142cd29b63345",
+          "jobLogLines": 1118,
+          "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "minimum": 145,
+          "summary": {
+            "tests": 231,
+            "pass": 231,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "isolation": true
+        }
+      },
+      "audits": {
+        "refresh": 0
+      },
+      "auditEvidence": {
+        "refresh": {
+          "jobId": 127093283514,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "4d1cba5308a0eec75343027eb00860e886dd06925335948980e142cd29b63345",
+          "jobLogLines": 1118,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+        }
+      },
+      "productionEvidence": {
+        "jobId": 127093283514,
+        "stepNumber": 7,
+        "source": "github-step-and-original-log",
+        "jobLogSha256": "4d1cba5308a0eec75343027eb00860e886dd06925335948980e142cd29b63345",
+        "jobLogLines": 1118,
+        "startedAt": "2026-11-05T06:38:46.000Z",
+        "completedAt": "2026-11-05T06:40:21.000Z"
+      }
     }
   },
   "receipts": {
@@ -16396,10 +16477,10 @@
   },
   "status": "healthy",
   "latest": {
-    "checkedAt": "2026-11-05T00:30:20.428Z",
+    "checkedAt": "2026-11-05T06:40:49.582Z",
     "workflows": {
       "feeds": {
-        "due": "2026-11-05T00:17:00.000Z",
+        "due": "2026-11-05T06:17:00.000Z",
         "state": "active",
         "active": []
       },
@@ -16413,7 +16494,7 @@
       "feeds": {
         "dispatch": false,
         "reason": "schedule_grace",
-        "due": "2026-11-05T00:17:00.000Z"
+        "due": "2026-11-05T06:17:00.000Z"
       },
       "backend": {
         "dispatch": false,
@@ -16423,13 +16504,13 @@
     },
     "problems": [],
     "publication": {
-      "commit": "9d5792a22af4ec7c580cef163a43f88be69df28f",
+      "commit": "91065da210a6d1427036b618420fb1ad77c1bd84",
       "valid": true,
       "health": {
         "state": "degraded",
         "mode": "refreshed",
-        "checkedAt": "2026-11-04T23:41:47.012Z",
-        "lastSuccessfulRefreshAt": "2026-11-04T23:40:11.542Z",
+        "checkedAt": "2026-11-05T06:40:20.786Z",
+        "lastSuccessfulRefreshAt": "2026-11-05T06:38:46.845Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -16442,7 +16523,7 @@
         "populated": 240,
         "stale": 1,
         "sparse": 6,
-        "fallback": 15,
+        "fallback": 16,
         "issues": [],
         "warnings": [
           "PR/world: only 1 relevant articles.",
@@ -16459,7 +16540,7 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-05T00:30:20.428Z",
+  "checkedAt": "2026-11-05T06:40:49.582Z",
   "activeAlerts": [],
   "repairs": [
     {
