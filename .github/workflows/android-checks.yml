@@ -39,8 +39,8 @@ jobs:
           java-version: '17'
       - name: Install Android 16 emulator
         run: |
-          sdkmanager 'system-images;android-36;google_apis;x86_64' 'emulator' 'platform-tools'
-          echo no | avdmanager create avd --name latam-ci --package 'system-images;android-36;google_apis;x86_64' --device pixel_6
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'system-images;android-36;google_apis;x86_64' 'emulator' 'platform-tools'
+          echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --name latam-ci --package 'system-images;android-36;google_apis;x86_64' --device pixel_6
           sudo chmod 666 /dev/kvm
           "$ANDROID_HOME/emulator/emulator" -avd latam-ci -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -memory 2048 > /tmp/latam-emulator.log 2>&1 &
           adb wait-for-device
