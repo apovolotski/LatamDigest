@@ -16493,37 +16493,43 @@
       ]
     }
   },
-  "status": "healthy",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-05T07:18:38.543Z",
+    "checkedAt": "2026-11-05T15:45:43.752Z",
     "workflows": {
       "feeds": {
-        "due": "2026-11-05T06:17:00.000Z",
+        "due": "2026-11-05T12:17:00.000Z",
         "state": "active",
         "active": []
       },
       "backend": {
-        "due": "2026-11-04T10:43:00.000Z",
+        "due": "2026-11-05T10:43:00.000Z",
         "state": "active",
         "active": []
       }
     },
     "decisions": {
       "feeds": {
-        "dispatch": false,
-        "reason": "schedule_grace",
-        "due": "2026-11-05T06:17:00.000Z"
+        "dispatch": true,
+        "key": "feeds-publication-91065da210a6d1427036b618420fb1ad77c1bd84",
+        "kind": "feeds",
+        "due": "2026-11-05T12:17:00.000Z",
+        "reason": "publication_invalid_or_expiring"
       },
       "backend": {
-        "dispatch": false,
-        "reason": "daily_check_covered",
-        "due": "2026-11-04T10:43:00.000Z"
+        "dispatch": true,
+        "key": "backend-20261105104300000",
+        "kind": "backend",
+        "due": "2026-11-05T10:43:00.000Z",
+        "reason": "late_schedule"
       }
     },
-    "problems": [],
+    "problems": [
+      "Published data: Missing, future or over-24-hour feed timestamps."
+    ],
     "publication": {
       "commit": "91065da210a6d1427036b618420fb1ad77c1bd84",
-      "valid": true,
+      "valid": false,
       "health": {
         "state": "degraded",
         "mode": "refreshed",
@@ -16553,12 +16559,13 @@
           "GF/world: only 1 relevant articles."
         ]
       },
-      "issues": [],
-      "expiresAt": "2026-11-05T14:28:00.055Z",
-      "appFacingFilesMatched": 243
+      "issues": [
+        "Missing, future or over-24-hour feed timestamps."
+      ],
+      "expiresAt": "2026-11-05T14:28:00.055Z"
     }
   },
-  "checkedAt": "2026-11-05T07:18:38.543Z",
+  "checkedAt": "2026-11-05T15:45:43.752Z",
   "activeAlerts": [],
   "repairs": [
     {
