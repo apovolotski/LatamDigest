@@ -1,0 +1,92 @@
+name: Android Checks
+on:
+  push:
+    paths: ['android/**', '.github/workflows/android-checks.yml']
+  pull_request:
+    paths: ['android/**', '.github/workflows/android-checks.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Test, lint and build Android
+        working-directory: android
+        run: ./gradlew --no-daemon --max-workers=2 testDebugUnitTest lintDebug assembleDebug assembleDebugAndroidTest bundleRelease
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-validation
+          path: |
+            android/app/build/reports/
+            android/app/build/outputs/apk/
+            android/app/build/outputs/bundle/release/
+          retention-days: 14
+  device:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install Android 16 emulator
+        run: |
+          export ANDROID_AVD_HOME="$RUNNER_TEMP/latam-avd"
+          export ANDROID_USER_HOME="$RUNNER_TEMP/latam-android-user"
+          echo "ANDROID_AVD_HOME=$ANDROID_AVD_HOME" >> "$GITHUB_ENV"
+          echo "ANDROID_USER_HOME=$ANDROID_USER_HOME" >> "$GITHUB_ENV"
+          mkdir -p "$ANDROID_AVD_HOME" "$ANDROID_USER_HOME"
+          export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" 'system-images;android-36;google_apis;x86_64' 'emulator' 'platform-tools'
+          echo no | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd --name latam-ci --package 'system-images;android-36;google_apis;x86_64' --device pixel_6 --path "$ANDROID_AVD_HOME/latam-ci.avd"
+          test -f "$ANDROID_AVD_HOME/latam-ci.ini"
+          "$ANDROID_HOME/emulator/emulator" -list-avds
+          sudo chmod 666 /dev/kvm
+          "$ANDROID_HOME/emulator/emulator" -avd latam-ci -no-window -no-audio -no-boot-anim -gpu swiftshader_indirect -no-snapshot -memory 2048 > /tmp/latam-emulator.log 2>&1 &
+          emulator_pid=$!
+          timeout 150 adb wait-for-device || { cat /tmp/latam-emulator.log; exit 1; }
+          for attempt in $(seq 1 90); do
+            kill -0 "$emulator_pid" || { cat /tmp/latam-emulator.log; exit 1; }
+            if [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = '1' ]; then exit 0; fi
+            sleep 2
+          done
+          cat /tmp/latam-emulator.log
+          exit 1
+      - name: Test real Android navigation and persistence
+        working-directory: android
+        run: |
+          ./gradlew --no-daemon --max-workers=2 connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apovolotski.latamdigest.WorkspaceTest
+          cp -R app/build/outputs/androidTest-results app/build/workspace-test-results
+      - name: Capture actual app screenshots
+        working-directory: android
+        run: |
+          adb shell settings put system system_locales en-GB
+          adb shell wm size 1080x1920
+          adb shell wm density 420
+          ./gradlew --no-daemon --max-workers=2 connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=com.apovolotski.latamdigest.StoreScreenshotTest
+          for image in 01-library 02-workspace 03-feeds; do
+            adb shell test -s "/sdcard/Download/latam-store/$image.png"
+          done
+          mkdir -p app/build/store-screenshots
+          adb pull /sdcard/Download/latam-store/. app/build/store-screenshots/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-device-verification
+          path: |
+            android/app/build/reports/androidTests/
+            android/app/build/outputs/androidTest-results/
+            android/app/build/store-screenshots/
+            android/app/build/workspace-test-results/
+            /tmp/latam-emulator.log
+          retention-days: 14

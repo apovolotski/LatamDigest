@@ -1,0 +1,103 @@
+package com.apovolotski.latamdigest;
+
+import static org.junit.Assert.*;
+
+import android.content.*;
+import android.graphics.Bitmap;
+import android.view.*;
+import android.widget.*;
+import androidx.test.core.app.ActivityScenario;
+import androidx.test.platform.app.InstrumentationRegistry;
+import java.io.*;
+import org.json.*;
+import org.junit.Test;
+
+/**
+ * Captures actual native screens using a current public story and clearly named example research.
+ */
+public class StoreScreenshotTest {
+  private TextView find(View v, String title) {
+    if (v instanceof TextView && title.equals(((TextView) v).getText().toString()))
+      return (TextView) v;
+    if (v instanceof ViewGroup)
+      for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++) {
+        TextView t = find(((ViewGroup) v).getChildAt(i), title);
+        if (t != null) return t;
+      }
+    return null;
+  }
+
+  private void capture(String name) throws Exception {
+    var instrumentation = InstrumentationRegistry.getInstrumentation();
+    instrumentation.waitForIdleSync();
+    Bitmap image = instrumentation.getUiAutomation().takeScreenshot();
+    assertNotNull(image);
+    // Shared Downloads survive Gradle uninstalling the app after a test run.
+    // Use Android's scoped-storage API rather than shell access to app files.
+    assertTrue(android.os.Build.VERSION.SDK_INT >= 29);
+    android.content.ContentValues values = new android.content.ContentValues();
+    values.put(android.provider.MediaStore.Downloads.DISPLAY_NAME, name + ".png");
+    values.put(android.provider.MediaStore.Downloads.MIME_TYPE, "image/png");
+    values.put(android.provider.MediaStore.Downloads.RELATIVE_PATH, "Download/latam-store");
+    android.content.ContentResolver resolver = instrumentation.getTargetContext().getContentResolver();
+    android.net.Uri uri = resolver.insert(android.provider.MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+    assertNotNull(uri);
+    try (OutputStream out = resolver.openOutputStream(uri)) {
+      assertNotNull(out);
+      assertTrue(image.compress(Bitmap.CompressFormat.PNG, 100, out));
+    }
+    image.recycle();
+  }
+
+  @Test
+  public void captureReleaseScreens() throws Exception {
+    var instrumentation = InstrumentationRegistry.getInstrumentation();
+    Context c = instrumentation.getTargetContext();
+    NewsClient.Result result = new NewsClient(c).load("MX", "top");
+    JSONObject article = result.articles().getJSONObject(0);
+    String url = article.getString("url"), articleTitle = article.getString("title");
+    JSONObject dossier =
+        new JSONObject()
+            .put("title", "Example: regional briefing")
+            .put("assessment", "Exploratory")
+            .put("note", "Compare reporting across original sources.")
+            .put("evidence", new JSONArray().put(article));
+    c.getSharedPreferences("workspace", 0)
+        .edit()
+        .clear()
+        .putString("country", "MX")
+        .putString("category", "top")
+        .putString("screen", "Library")
+        .putString("saved", new JSONObject().put(url, article).toString())
+        .putString(
+            "notes",
+            new JSONObject()
+                .put(url, "Review the original reporting before drawing a conclusion.")
+                .toString())
+        .putString("dossiers", new JSONArray().put(dossier).toString())
+        .putString(
+            "tasks",
+            new JSONArray()
+                .put(
+                    new JSONObject()
+                        .put("title", "Compare source coverage")
+                        .put("detail", "Check dates and distinguish reporting from opinion.")
+                        .put("done", false))
+                .toString())
+        .commit();
+    try (ActivityScenario<MainActivity> scene = ActivityScenario.launch(MainActivity.class)) {
+      capture("01-library");
+      scene.onActivity(a -> find(a.getWindow().getDecorView(), "Workspace").performClick());
+      capture("02-workspace");
+      scene.onActivity(a -> find(a.getWindow().getDecorView(), "Feeds").performClick());
+      long until = System.currentTimeMillis() + 60000;
+      boolean[] ready = {false};
+      while (System.currentTimeMillis() < until && !ready[0]) {
+        Thread.sleep(500);
+        scene.onActivity(a -> ready[0] = find(a.getWindow().getDecorView(), articleTitle) != null);
+      }
+      assertTrue("Live feed loaded", ready[0]);
+      capture("03-feeds");
+    }
+  }
+}
