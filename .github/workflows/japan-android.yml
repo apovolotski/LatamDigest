@@ -19,6 +19,8 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+          cache: gradle
+          cache-dependency-path: android-japan/**/*.gradle.kts
       - name: Build and verify
         working-directory: android-japan
         run: ./gradlew :app:assembleDebug :app:assembleDebugAndroidTest :app:testDebugUnitTest :app:lintDebug :app:bundleRelease :app:assembleRelease --console=plain -Dorg.gradle.jvmargs="-Xmx2048m -Dfile.encoding=UTF-8"
@@ -38,7 +40,7 @@ jobs:
           working-directory: android-japan
           script: |
             ./gradlew :app:connectedDebugAndroidTest --console=plain -Dorg.gradle.jvmargs="-Xmx2048m -Dfile.encoding=UTF-8"
-            adb pull /sdcard/Android/data/com.apovolotski.japandigest/files/screenshots app/build/outputs/screenshots
+            adb pull /sdcard/Pictures/JapanDigest app/build/outputs/screenshots
       - name: Retain test evidence and unsigned build products
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
