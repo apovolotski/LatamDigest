@@ -36,4 +36,4 @@ Android support: https://apovolotski.github.io/LatamDigest/japan/android-support
 
 RSS use is limited to personal, non-commercial reading in accordance with the existing documented feed-use basis at `../release/JapanDigest-content-use.md`. No separate publisher license or commercial redistribution rights are claimed.
 
-Build, test, upload and sharing results will be recorded in `RELEASE-STATUS.md` after verification.
+Verified build, test, Google Play submission and tester enrollment details are in [RELEASE-STATUS.md](RELEASE-STATUS.md).
