@@ -4,7 +4,7 @@ Verified November 5, 2026.
 
 ## Google Play submission
 
-Version 1.0, version code 1, package `com.apovolotski.japandigest`, was uploaded successfully and submitted to the **Closed testing – Alpha** track. Publishing overview shows **Changes in review**; automated quick checks are still running. This is a test-release submission, not an approved or public production release. Managed publishing is off, so approved changes can publish to the configured closed test automatically.
+Version 1.0, version code 1, package `com.apovolotski.japandigest`, was uploaded successfully and submitted to the **Closed testing – Alpha** track. Publishing overview shows **Changes in review** after the automated quick checks finished. Google states: “Your changes are now in review.” Submission ID **1**, submitted November 5, 2026 at **3:19 pm America/Toronto**. This is a test-release submission, not an approved or public production release. Managed publishing is off, so approved changes can publish to the configured closed test automatically.
 
 Verified developer: **Alexander Povolotskiy**, Google Play account 5217672764285117070. App ID 4975438358362192066. Closed-test countries: Japan and Canada. The Japanese store listing includes the original icon, feature graphic and three actual Android screenshots (news, notebooks and topics).
 
