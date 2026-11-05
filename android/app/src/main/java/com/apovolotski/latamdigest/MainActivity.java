@@ -159,7 +159,7 @@ public class MainActivity extends Activity {
                     ? "Public safety"
                     : s.equals("tech")
                         ? "Technology"
-                        : s.substring(0, 1).toUpperCase() + s.substring(1));
+                        : s.substring(0, 1).toUpperCase(Locale.ROOT) + s.substring(1));
   }
 
   private TextView text(String s, int size, int color) {
@@ -187,7 +187,7 @@ public class MainActivity extends Activity {
 
   private LinearLayout card() {
     LinearLayout c = new LinearLayout(this);
-    c.setOrientation(1);
+    c.setOrientation(LinearLayout.VERTICAL);
     c.setPadding(dp(16), dp(12), dp(16), dp(12));
     c.setBackground(background(Color.WHITE, 16));
     LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(-1, -2);
@@ -231,7 +231,7 @@ public class MainActivity extends Activity {
 
   private void build() {
     root = new LinearLayout(this);
-    root.setOrientation(1);
+    root.setOrientation(LinearLayout.VERTICAL);
     root.setBackgroundColor(Color.rgb(245, 247, 247));
     root.setOnApplyWindowInsetsListener(
         (v, insets) -> {
@@ -261,7 +261,7 @@ public class MainActivity extends Activity {
     ScrollView sc = new ScrollView(this);
     sc.setFillViewport(true);
     body = new LinearLayout(this);
-    body.setOrientation(1);
+    body.setOrientation(LinearLayout.VERTICAL);
     body.setPadding(dp(20), dp(10), dp(20), dp(20));
     sc.addView(body);
     root.addView(sc, new LinearLayout.LayoutParams(-1, 0, 1));
@@ -544,7 +544,7 @@ public class MainActivity extends Activity {
             MUTED);
     body.addView(status);
     LinearLayout list = new LinearLayout(this);
-    list.setOrientation(1);
+    list.setOrientation(LinearLayout.VERTICAL);
     list.setTag("articles");
     body.addView(list);
     drawArticles();
@@ -871,7 +871,7 @@ public class MainActivity extends Activity {
     JSONObject old = index < 0 ? new JSONObject() : dossiers.optJSONObject(index);
     LinearLayout form = new LinearLayout(this);
     form.setPadding(dp(20), dp(8), dp(20), dp(8));
-    form.setOrientation(1);
+    form.setOrientation(LinearLayout.VERTICAL);
     EditText title = field(form, "Title", old.optString("title")),
         note = field(form, "Notes", old.optString("note")),
         conclusion = field(form, "Conclusion", old.optString("conclusion")),
@@ -993,7 +993,7 @@ public class MainActivity extends Activity {
 
   private void editTask() {
     LinearLayout form = new LinearLayout(this);
-    form.setOrientation(1);
+    form.setOrientation(LinearLayout.VERTICAL);
     form.setPadding(dp(20), dp(10), dp(20), 0);
     EditText name = field(form, "Task", ""), detail = field(form, "Details", "");
     Spinner topic = choice(form, topics, "politics");
@@ -1062,7 +1062,7 @@ public class MainActivity extends Activity {
     JSONObject old = plans.optJSONObject(topic);
     if (old == null) old = new JSONObject();
     LinearLayout form = new LinearLayout(this);
-    form.setOrientation(1);
+    form.setOrientation(LinearLayout.VERTICAL);
     form.setPadding(dp(20), dp(8), dp(20), dp(8));
     form.addView(text(tr("Status / priority / confidence"), 14, MUTED));
     String[] statuses = {"Observing", "Escalating", "Archived"},
@@ -1284,6 +1284,9 @@ public class MainActivity extends Activity {
     super.onPause();
   }
 
+  // API 33+ uses the native OnBackInvokedDispatcher registered in onCreate.
+  // This override remains only for the supported API 26-32 legacy back button.
+  @android.annotation.SuppressLint("GestureBackNavigation")
   @Override
   public void onBackPressed() {
     if (!screen.equals("Today")) switchTo("Today");
