@@ -11,6 +11,6 @@
     "check:coverage": "node ../../scripts/check-feed-coverage.mjs"
   },
   "dependencies": {
-    "fast-xml-parser": "^5.2.5"
+    "fast-xml-parser": "^5.12.0"
   }
 }
