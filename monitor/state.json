@@ -16628,6 +16628,42 @@
         "Failure annotations remain.",
         "A required job did not pass."
       ]
+    },
+    "42119708067:1": {
+      "id": 42119708067,
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "createdAt": "2026-11-05T22:13:59Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "7bb736d300880457f354e948fb97c873ca3e4f1f",
+      "conclusion": "failure",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42119708067",
+      "verifiedAt": "2026-11-06T02:47:31.753Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "failure",
+          "stepMetadataCount": 12
+        }
+      ],
+      "completeLogSha256": "f23f4e6d740bfdc448a60533119c63be0972a51e14d7a663938343138d99c799",
+      "completeLogLines": 1094,
+      "jobLogs": [
+        {
+          "id": 127568560227,
+          "name": "refresh",
+          "sha256": "f23f4e6d740bfdc448a60533119c63be0972a51e14d7a663938343138d99c799",
+          "lines": 1094
+        }
+      ],
+      "maintenanceKey": "feeds-failed-42098189923-1",
+      "valid": false,
+      "issues": [
+        "Workflow failed; inspect its complete logs and annotations.",
+        "Failure annotations remain.",
+        "A required job did not pass."
+      ]
     }
   },
   "receipts": {
@@ -16806,7 +16842,10 @@
       "due": "2026-11-05T18:17:00.000Z",
       "reason": "failed_run",
       "reservedAt": "2026-11-05T22:13:41.244Z",
-      "status": "dispatched"
+      "status": "completed",
+      "runId": 42119708067,
+      "conclusion": "failure",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42119708067"
     }
   },
   "alerts": {
@@ -16836,15 +16875,15 @@
       ]
     }
   },
-  "status": "recovery_pending",
+  "status": "attention_required",
   "latest": {
-    "checkedAt": "2026-11-05T22:13:41.244Z",
+    "checkedAt": "2026-11-06T02:47:31.753Z",
     "workflows": {
       "feeds": {
-        "due": "2026-11-05T18:17:00.000Z",
+        "due": "2026-11-06T00:17:00.000Z",
         "state": "active",
         "active": [],
-        "failed": 42098189923
+        "failed": 42119708067
       },
       "backend": {
         "due": "2026-11-05T10:43:00.000Z",
@@ -16854,11 +16893,9 @@
     },
     "decisions": {
       "feeds": {
-        "dispatch": true,
-        "key": "feeds-failed-42098189923-1",
-        "kind": "feeds",
-        "due": "2026-11-05T18:17:00.000Z",
-        "reason": "failed_run"
+        "dispatch": false,
+        "reason": "cooldown",
+        "due": "2026-11-06T00:17:00.000Z"
       },
       "backend": {
         "dispatch": false,
@@ -16867,7 +16904,8 @@
       }
     },
     "problems": [
-      "Published data: Missing, future or over-24-hour feed timestamps."
+      "Published data: Missing, future or over-24-hour feed timestamps.",
+      "Refresh Static Feeds remains failed; see run 42119708067."
     ],
     "publication": {
       "commit": "91065da210a6d1427036b618420fb1ad77c1bd84",
@@ -16907,7 +16945,7 @@
       "expiresAt": "2026-11-05T14:28:00.055Z"
     }
   },
-  "checkedAt": "2026-11-05T22:13:41.244Z",
+  "checkedAt": "2026-11-06T02:47:31.753Z",
   "activeAlerts": [
     "9268ff959a65f4f09d667f3e95d56d8ab66de3f37aab07164235fec09ddb74c2"
   ],
