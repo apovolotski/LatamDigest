@@ -95,6 +95,8 @@ const queryTopics = {
   // Puerto Rico's sparse world feed needs its English fallback to find UN
   // status hearings as well as diplomatic reporting. Retain three searches,
   // the country scope and the same date/relevance/publication-age gates.
+  "PR/es/world": "diplomacia|relaciones exteriores|internacional|cancillería|política exterior|cooperación|intervención militar|apoyo militar|ONU|embajada|Naciones Unidas|diplomacia",
+  "SR/nl/sports": "sport|voetbal|basketbal|toernooi|kampioenschap|atletiek|doelman|keeper|interland|Natio|voetbal|basketbal",
   "PR/en/world": "foreign affairs|diplomacy|embassy|consulate|United Nations|decolonization",
   "en/world": "foreign affairs|diplomacy|ambassador|CARICOM|bilateral|United Nations",
   "fr/business": "entreprises|commerce|investissement|comptables|production|entreprendre|entreprise",
@@ -115,7 +117,7 @@ const topicMatchTerms = {
   "es/culture": "cultur*|music*|cineasta*|cinefil*|cinematograf*|artista*|artístic*|literar*|teatr*|conciert*|documental*|patrimonio",
   "es/crime": "criminal*|policia*|asesinat*|homicid*|femicid*|feminicid*|detenid*|delit*|delincuen*|corrup*|narcotraf*",
   "es/economy": "econom*|inflacion*|export*|presupuest*|desempleo|arancel*|salarial*",
-  "es/world": "internacional*|diplomat*|embajad*|consulad*|canciller*|bilateral*|relaciones internacionales|consultas políticas|ONU|OTAN|UNESCO",
+  "es/world": "internacional*|diplomat*|embajad*|consulad*|canciller*|bilateral*|relaciones internacionales|consultas políticas|ONU|OTAN|UNESCO|intervención militar|apoyo militar",
   "pt/politics": "polític*|eleiç*|eleitor*|parlament*|deputad*|senad*|presiden*|ministr*|voto*",
   "pt/business": "empresa*|comerci*|investidor*|investimento*|industri*|negócio*|corporativ*",
   "pt/sports": "esport*|futebol*|basquet*|campeon*|atlet*|rúgbi|rugby|futsal|copa do brasil|copa do mundo|copa américa",
@@ -136,7 +138,7 @@ const topicMatchTerms = {
   "fr/world": "internationa*|diplomat*|ambassad*|consulat*|bilatéra*|relations internationales|frontali*|ONU|OTAN|UNESCO",
   "nl/politics": "politiek*|regering*|parlement*|verkiezing*|presiden*|minister*|kabinet*",
   "nl/business": "bedrijf*|bedrijv*|handels*|invester*|investeer*|industri*|ondernemer*|onderneming*",
-  "nl/sports": "sport*|voetbal*|basketbal*|toernooi*|kampioen*|atlet*|rugby*|futsal|tennis",
+  "nl/sports": "sport*|voetbal*|basketbal*|toernooi*|kampioen*|atlet*|rugby*|futsal|tennis|doelman*|doelvrouw*|keeper*|interland*",
   "nl/tech": "technolog*|innovat*|digita*|telecom*|cyber*|informatica*|AI|robot*|5G|6G",
   "nl/culture": "cultureel|culturele|muziek*|muzik*|film*|bioscoop*|cinema|concert*|documentaire*|kunsten|kunstenaar*|kunstenar*|artiest*|artistiek*|theater*|literair*|erfgoed",
   "nl/crime": "crimi*|justiti*|moord*|misdrijf*|aangehoud*|arrestatie*|corrupt*|cocaïne|drug*|politieagent*|politiebureau*|politieonderzoek*",
@@ -348,6 +350,11 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // Keep new Tele13 reporting about the same case eligible.
   if (normalized(article.sourceName ?? "") === "tele13 radio" &&
       normalized(article.title) === "dale play jueves 06 de junio fiscal general de venezuela aseguro que el crimen del ex teniente ronald ojeda se trato de una operacion de falsa bandera") return false;
+  // Nueva Revolucion's November syndication links the original RealPolitik
+  // interview dated October 15, 2026. Do not renew this exact old interview
+  // from its newer RSS date; new reporting about Anglada remains eligible.
+  if (["nueva revolucion", "nr", "realpolitik"].includes(normalized(article.sourceName ?? "")) &&
+      normalized(article.title) === "rafael anglada en el tema del colonialismo puerto rico y malvinas hemos vivido como gemelos") return false;
   const [localLanguage, , aliases] = profiles[country.id];
   const countryTerms = `${aliases}|${country.name}`.split("|");
   // Syndication can retain a second publisher's trailing credit. Its name
@@ -431,6 +438,14 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   }
   if (feed.key === "world") {
     title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ").replace(/\b(?:camino|ruta|avenida|carretera) internacional\b/g, " ");
+    // Military support/intervention needs a named foreign participant or
+    // destination. Domestic military aid, bands and isolated military labels
+    // do not establish world affairs.
+    const foreignNames = Object.entries(profiles).filter(([id]) => id !== country.id)
+      .flatMap(([id, profile]) => [...profile[2].split("|"), ...translatedCountries[id]]);
+    if (![...foreignNames, ...externalPartners].some(term => matches(title, term))) {
+      title = title.replace(/\b(?:intervencion|apoyo) militar\b/g, " ");
+    }
     // Unimed Mercosul is a regional Brazilian medical-cooperative federation,
     // not the international bloc; its domestic cooperation needs another partner.
     const domestic = domesticCooperation.test(title) || /\bunimed mercosul\b/.test(title) || matches(title, `por ${profiles[country.id][1]}`);
