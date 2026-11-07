@@ -17842,17 +17842,17 @@
       ]
     }
   },
-  "status": "healthy",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-07T10:38:15.960Z",
+    "checkedAt": "2026-11-07T12:56:35.439Z",
     "workflows": {
       "feeds": {
-        "due": "2026-11-07T06:17:00.000Z",
+        "due": "2026-11-07T12:17:00.000Z",
         "state": "active",
         "active": []
       },
       "backend": {
-        "due": "2026-11-06T10:43:00.000Z",
+        "due": "2026-11-07T10:43:00.000Z",
         "state": "active",
         "active": []
       }
@@ -17860,24 +17860,26 @@
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "publication_current",
-        "due": "2026-11-07T06:17:00.000Z"
+        "reason": "schedule_grace",
+        "due": "2026-11-07T12:17:00.000Z"
       },
       "backend": {
-        "dispatch": false,
-        "reason": "daily_check_covered",
-        "due": "2026-11-06T10:43:00.000Z"
+        "dispatch": true,
+        "key": "backend-20261107104300000",
+        "kind": "backend",
+        "due": "2026-11-07T10:43:00.000Z",
+        "reason": "late_schedule"
       }
     },
     "problems": [],
     "publication": {
-      "commit": "453b0ced3dd052b081f5a6031c12997e3c5fa576",
+      "commit": "b35605c9b918cb2102a75f36248fd1b8ac139bdd",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-11-07T05:54:44.755Z",
-        "lastSuccessfulRefreshAt": "2026-11-07T05:53:13.618Z",
+        "checkedAt": "2026-11-07T12:56:07.032Z",
+        "lastSuccessfulRefreshAt": "2026-11-07T12:54:37.114Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -17890,7 +17892,7 @@
         "populated": 240,
         "stale": 0,
         "sparse": 3,
-        "fallback": 13,
+        "fallback": 14,
         "issues": [],
         "warnings": [
           "GF/business: only 2 relevant articles.",
@@ -17899,11 +17901,11 @@
         ]
       },
       "issues": [],
-      "expiresAt": "2026-11-08T05:53:14.199Z",
+      "expiresAt": "2026-11-08T12:54:37.759Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-07T10:38:15.960Z",
+  "checkedAt": "2026-11-07T12:56:35.439Z",
   "activeAlerts": [],
   "repairs": [
     {
