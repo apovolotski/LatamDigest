@@ -193,7 +193,8 @@
       "runIds": [
         42175300599,
         42278614809,
-        42344579886
+        42344579886,
+        42374526414
       ],
       "attempts": {
         "42175300599:1": {
@@ -207,6 +208,10 @@
         "42344579886:1": {
           "conclusion": "success",
           "verifiedAt": "2026-11-07T05:55:13.405Z"
+        },
+        "42374526414:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-11-07T12:56:35.439Z"
         }
       },
       "history": [
@@ -510,7 +515,8 @@
           "repairCommit": "98f95884494337d5fccdaa80e39af0f9301bb5ea",
           "cutoff": "2026-11-04T15:22:07Z"
         }
-      ]
+      ],
+      "completedAt": "2026-11-07T12:56:35.439Z"
     }
   },
   "inspected": {
@@ -17516,6 +17522,82 @@
         "startedAt": "2026-11-07T05:53:13.000Z",
         "completedAt": "2026-11-07T05:54:45.000Z"
       }
+    },
+    "42374526414:1": {
+      "id": 42374526414,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-11-07T12:54:24Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "453b0ced3dd052b081f5a6031c12997e3c5fa576",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42374526414",
+      "verifiedAt": "2026-11-07T12:56:35.439Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success",
+          "stepMetadataCount": 12
+        }
+      ],
+      "completeLogSha256": "a8ccacf7f7a6ed145bbd2af8522f33422e766463c9a6c41f9b43b877bee799b2",
+      "completeLogLines": 1116,
+      "jobLogs": [
+        {
+          "id": 128409290264,
+          "name": "refresh",
+          "sha256": "a8ccacf7f7a6ed145bbd2af8522f33422e766463c9a6c41f9b43b877bee799b2",
+          "lines": 1116
+        }
+      ],
+      "valid": true,
+      "issues": [],
+      "tests": {
+        "refresh": 235
+      },
+      "testEvidence": {
+        "refresh:6": {
+          "jobId": 128409290264,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "a8ccacf7f7a6ed145bbd2af8522f33422e766463c9a6c41f9b43b877bee799b2",
+          "jobLogLines": 1116,
+          "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "minimum": 145,
+          "summary": {
+            "tests": 235,
+            "pass": 235,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "isolation": true
+        }
+      },
+      "audits": {
+        "refresh": 0
+      },
+      "auditEvidence": {
+        "refresh": {
+          "jobId": 128409290264,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "a8ccacf7f7a6ed145bbd2af8522f33422e766463c9a6c41f9b43b877bee799b2",
+          "jobLogLines": 1116,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+        }
+      },
+      "productionEvidence": {
+        "jobId": 128409290264,
+        "stepNumber": 7,
+        "source": "github-step-and-original-log",
+        "jobLogSha256": "a8ccacf7f7a6ed145bbd2af8522f33422e766463c9a6c41f9b43b877bee799b2",
+        "jobLogLines": 1116,
+        "startedAt": "2026-11-07T12:54:36.000Z",
+        "completedAt": "2026-11-07T12:56:08.000Z"
+      }
     }
   },
   "receipts": {
@@ -17722,6 +17804,15 @@
       "runId": 42332611955,
       "conclusion": "success",
       "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42332611955"
+    },
+    "backend-20261107104300000": {
+      "dispatch": true,
+      "key": "backend-20261107104300000",
+      "kind": "backend",
+      "due": "2026-11-07T10:43:00.000Z",
+      "reason": "late_schedule",
+      "reservedAt": "2026-11-07T12:56:35.439Z",
+      "status": "reserved"
     }
   },
   "alerts": {
