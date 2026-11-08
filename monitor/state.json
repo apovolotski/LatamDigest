@@ -18425,17 +18425,17 @@
       ]
     }
   },
-  "status": "healthy",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-08T07:54:36.579Z",
+    "checkedAt": "2026-11-08T13:19:08.121Z",
     "workflows": {
       "feeds": {
-        "due": "2026-11-08T06:17:00.000Z",
+        "due": "2026-11-08T12:17:00.000Z",
         "state": "active",
         "active": []
       },
       "backend": {
-        "due": "2026-11-07T10:43:00.000Z",
+        "due": "2026-11-08T10:43:00.000Z",
         "state": "active",
         "active": []
       }
@@ -18443,24 +18443,26 @@
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "publication_current",
-        "due": "2026-11-08T06:17:00.000Z"
+        "reason": "schedule_grace",
+        "due": "2026-11-08T12:17:00.000Z"
       },
       "backend": {
-        "dispatch": false,
-        "reason": "daily_check_covered",
-        "due": "2026-11-07T10:43:00.000Z"
+        "dispatch": true,
+        "key": "backend-20261108104300000",
+        "kind": "backend",
+        "due": "2026-11-08T10:43:00.000Z",
+        "reason": "late_schedule"
       }
     },
     "problems": [],
     "publication": {
-      "commit": "dc0ac3d9dbb2e29c449a9a0078125d87cf95c3a2",
+      "commit": "87c47781653ffd25b70487caa37ea7a0daa5d329",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-11-08T05:57:04.130Z",
-        "lastSuccessfulRefreshAt": "2026-11-08T05:55:45.333Z",
+        "checkedAt": "2026-11-08T13:18:39.698Z",
+        "lastSuccessfulRefreshAt": "2026-11-08T13:17:02.259Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -18481,11 +18483,11 @@
         ]
       },
       "issues": [],
-      "expiresAt": "2026-11-09T05:55:45.849Z",
+      "expiresAt": "2026-11-09T13:17:02.913Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-08T07:54:36.579Z",
+  "checkedAt": "2026-11-08T13:19:08.121Z",
   "activeAlerts": [],
   "repairs": [
     {
