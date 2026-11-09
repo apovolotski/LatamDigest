@@ -242,6 +242,10 @@
         "42572042472:1": {
           "conclusion": "success",
           "verifiedAt": "2026-11-09T06:18:57.528Z"
+        },
+        "42654582227:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-11-09T16:27:42.151Z"
         }
       },
       "history": [
@@ -18559,6 +18563,82 @@
         "startedAt": "2026-11-09T06:16:53.000Z",
         "completedAt": "2026-11-09T06:18:26.000Z"
       }
+    },
+    "42654582227:1": {
+      "id": 42654582227,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-11-09T16:25:16Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "2bad0a05ca473be937146ef8154519b4e8477ab8",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42654582227",
+      "verifiedAt": "2026-11-09T16:27:42.151Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success",
+          "stepMetadataCount": 12
+        }
+      ],
+      "completeLogSha256": "cf6656d1815d488a07a9279158b14e7ee1aa94de104066e341266d219f24e95b",
+      "completeLogLines": 1116,
+      "jobLogs": [
+        {
+          "id": 129289540906,
+          "name": "refresh",
+          "sha256": "cf6656d1815d488a07a9279158b14e7ee1aa94de104066e341266d219f24e95b",
+          "lines": 1116
+        }
+      ],
+      "valid": true,
+      "issues": [],
+      "tests": {
+        "refresh": 235
+      },
+      "testEvidence": {
+        "refresh:6": {
+          "jobId": 129289540906,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "cf6656d1815d488a07a9279158b14e7ee1aa94de104066e341266d219f24e95b",
+          "jobLogLines": 1116,
+          "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "minimum": 145,
+          "summary": {
+            "tests": 235,
+            "pass": 235,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "isolation": true
+        }
+      },
+      "audits": {
+        "refresh": 0
+      },
+      "auditEvidence": {
+        "refresh": {
+          "jobId": 129289540906,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "cf6656d1815d488a07a9279158b14e7ee1aa94de104066e341266d219f24e95b",
+          "jobLogLines": 1116,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+        }
+      },
+      "productionEvidence": {
+        "jobId": 129289540906,
+        "stepNumber": 7,
+        "source": "github-step-and-original-log",
+        "jobLogSha256": "cf6656d1815d488a07a9279158b14e7ee1aa94de104066e341266d219f24e95b",
+        "jobLogLines": 1116,
+        "startedAt": "2026-11-09T16:25:27.000Z",
+        "completedAt": "2026-11-09T16:27:13.000Z"
+      }
     }
   },
   "receipts": {
@@ -18801,6 +18881,15 @@
       "runId": 42484408285,
       "conclusion": "success",
       "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42484408285"
+    },
+    "backend-20261109104300000": {
+      "dispatch": true,
+      "key": "backend-20261109104300000",
+      "kind": "backend",
+      "due": "2026-11-09T10:43:00.000Z",
+      "reason": "late_schedule",
+      "reservedAt": "2026-11-09T16:27:42.151Z",
+      "status": "reserved"
     }
   },
   "alerts": {
