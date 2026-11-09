@@ -18919,17 +18919,17 @@
       ]
     }
   },
-  "status": "healthy",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-09T07:06:09.963Z",
+    "checkedAt": "2026-11-09T16:27:42.151Z",
     "workflows": {
       "feeds": {
-        "due": "2026-11-09T06:17:00.000Z",
+        "due": "2026-11-09T12:17:00.000Z",
         "state": "active",
         "active": []
       },
       "backend": {
-        "due": "2026-11-08T10:43:00.000Z",
+        "due": "2026-11-09T10:43:00.000Z",
         "state": "active",
         "active": []
       }
@@ -18937,24 +18937,26 @@
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "schedule_grace",
-        "due": "2026-11-09T06:17:00.000Z"
+        "reason": "publication_current",
+        "due": "2026-11-09T12:17:00.000Z"
       },
       "backend": {
-        "dispatch": false,
-        "reason": "daily_check_covered",
-        "due": "2026-11-08T10:43:00.000Z"
+        "dispatch": true,
+        "key": "backend-20261109104300000",
+        "kind": "backend",
+        "due": "2026-11-09T10:43:00.000Z",
+        "reason": "late_schedule"
       }
     },
     "problems": [],
     "publication": {
-      "commit": "2bad0a05ca473be937146ef8154519b4e8477ab8",
+      "commit": "6384e00ba7c4d319dd2084c9efd3978bca7017e5",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-11-09T06:18:25.175Z",
-        "lastSuccessfulRefreshAt": "2026-11-09T06:16:53.940Z",
+        "checkedAt": "2026-11-09T16:27:11.974Z",
+        "lastSuccessfulRefreshAt": "2026-11-09T16:25:28.365Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -18966,19 +18968,21 @@
         "total": 240,
         "populated": 240,
         "stale": 0,
-        "sparse": 1,
+        "sparse": 3,
         "fallback": 14,
         "issues": [],
         "warnings": [
+          "TT/tech: only 2 relevant articles.",
+          "GF/politics: only 2 relevant articles.",
           "GF/world: only 1 relevant articles."
         ]
       },
       "issues": [],
-      "expiresAt": "2026-11-10T06:16:54.551Z",
+      "expiresAt": "2026-11-10T16:25:28.989Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-09T07:06:09.963Z",
+  "checkedAt": "2026-11-09T16:27:42.151Z",
   "activeAlerts": [],
   "repairs": [
     {
