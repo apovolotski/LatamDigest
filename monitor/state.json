@@ -256,6 +256,10 @@
         "42736040760:1": {
           "conclusion": "success",
           "verifiedAt": "2026-11-10T01:30:54.238Z"
+        },
+        "42837726307:1": {
+          "conclusion": "success",
+          "verifiedAt": "2026-11-10T14:50:07.189Z"
         }
       },
       "history": [
@@ -18962,6 +18966,159 @@
         "startedAt": "2026-11-10T01:28:57.000Z",
         "completedAt": "2026-11-10T01:30:22.000Z"
       }
+    },
+    "42798051350:1": {
+      "id": 42798051350,
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "createdAt": "2026-11-10T10:18:42Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "6775ff1974b68df154dfe4c659066d798cc4cab3",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42798051350",
+      "verifiedAt": "2026-11-10T14:50:07.189Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success",
+          "stepMetadataCount": 12
+        }
+      ],
+      "completeLogSha256": "01aa63ade0ec362f428cc2dcbe39931c9f1712628012776a8acb5394630add85",
+      "completeLogLines": 1119,
+      "jobLogs": [
+        {
+          "id": 129768184076,
+          "name": "refresh",
+          "sha256": "01aa63ade0ec362f428cc2dcbe39931c9f1712628012776a8acb5394630add85",
+          "lines": 1119
+        }
+      ],
+      "maintenanceKey": "feeds-20261110061700000",
+      "valid": true,
+      "issues": [],
+      "tests": {
+        "refresh": 235
+      },
+      "testEvidence": {
+        "refresh:6": {
+          "jobId": 129768184076,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "01aa63ade0ec362f428cc2dcbe39931c9f1712628012776a8acb5394630add85",
+          "jobLogLines": 1119,
+          "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "minimum": 145,
+          "summary": {
+            "tests": 235,
+            "pass": 235,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "isolation": true
+        }
+      },
+      "audits": {
+        "refresh": 0
+      },
+      "auditEvidence": {
+        "refresh": {
+          "jobId": 129768184076,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "01aa63ade0ec362f428cc2dcbe39931c9f1712628012776a8acb5394630add85",
+          "jobLogLines": 1119,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+        }
+      },
+      "productionEvidence": {
+        "jobId": 129768184076,
+        "stepNumber": 7,
+        "source": "github-step-and-original-log",
+        "jobLogSha256": "01aa63ade0ec362f428cc2dcbe39931c9f1712628012776a8acb5394630add85",
+        "jobLogLines": 1119,
+        "startedAt": "2026-11-10T10:18:57.000Z",
+        "completedAt": "2026-11-10T10:20:25.000Z"
+      }
+    },
+    "42837726307:1": {
+      "id": 42837726307,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-11-10T14:47:49Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "8ff6200f5f1beb41a94ef7251e4529925bb273d3",
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42837726307",
+      "verifiedAt": "2026-11-10T14:50:07.189Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "success",
+          "stepMetadataCount": 12
+        }
+      ],
+      "completeLogSha256": "bf67ce0e2aad1f6970925c6a067e600a72a422dc02aecf4869942c071e3e2d36",
+      "completeLogLines": 1117,
+      "jobLogs": [
+        {
+          "id": 129904303276,
+          "name": "refresh",
+          "sha256": "bf67ce0e2aad1f6970925c6a067e600a72a422dc02aecf4869942c071e3e2d36",
+          "lines": 1117
+        }
+      ],
+      "valid": true,
+      "issues": [],
+      "tests": {
+        "refresh": 235
+      },
+      "testEvidence": {
+        "refresh:6": {
+          "jobId": 129904303276,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "bf67ce0e2aad1f6970925c6a067e600a72a422dc02aecf4869942c071e3e2d36",
+          "jobLogLines": 1117,
+          "command": "npm run check --workspace=@latam-digest/static-feeds\nnpm test --workspace=@latam-digest/static-feeds\nnpm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false",
+          "minimum": 145,
+          "summary": {
+            "tests": 235,
+            "pass": 235,
+            "fail": 0,
+            "cancelled": 0,
+            "skipped": 0,
+            "todo": 0
+          },
+          "isolation": true
+        }
+      },
+      "audits": {
+        "refresh": 0
+      },
+      "auditEvidence": {
+        "refresh": {
+          "jobId": 129904303276,
+          "stepNumber": 6,
+          "source": "github-step-and-original-log",
+          "jobLogSha256": "bf67ce0e2aad1f6970925c6a067e600a72a422dc02aecf4869942c071e3e2d36",
+          "jobLogLines": 1117,
+          "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
+        }
+      },
+      "productionEvidence": {
+        "jobId": 129904303276,
+        "stepNumber": 7,
+        "source": "github-step-and-original-log",
+        "jobLogSha256": "bf67ce0e2aad1f6970925c6a067e600a72a422dc02aecf4869942c071e3e2d36",
+        "jobLogLines": 1117,
+        "startedAt": "2026-11-10T14:47:59.000Z",
+        "completedAt": "2026-11-10T14:49:41.000Z"
+      }
     }
   },
   "receipts": {
@@ -19224,7 +19381,10 @@
       "due": "2026-11-10T06:17:00.000Z",
       "reason": "late_schedule",
       "reservedAt": "2026-11-10T10:18:15.869Z",
-      "status": "dispatched"
+      "status": "completed",
+      "runId": 42798051350,
+      "conclusion": "success",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42798051350"
     }
   },
   "alerts": {
@@ -19254,44 +19414,42 @@
       ]
     }
   },
-  "status": "recovery_pending",
+  "status": "healthy",
   "latest": {
-    "checkedAt": "2026-11-10T10:18:15.869Z",
+    "checkedAt": "2026-11-10T14:50:07.189Z",
     "workflows": {
       "feeds": {
-        "due": "2026-11-10T06:17:00.000Z",
+        "due": "2026-11-10T12:17:00.000Z",
         "state": "active",
         "active": []
       },
       "backend": {
-        "due": "2026-11-09T10:43:00.000Z",
+        "due": "2026-11-10T10:43:00.000Z",
         "state": "active",
         "active": []
       }
     },
     "decisions": {
       "feeds": {
-        "dispatch": true,
-        "key": "feeds-20261110061700000",
-        "kind": "feeds",
-        "due": "2026-11-10T06:17:00.000Z",
-        "reason": "late_schedule"
+        "dispatch": false,
+        "reason": "publication_current",
+        "due": "2026-11-10T12:17:00.000Z"
       },
       "backend": {
         "dispatch": false,
-        "reason": "daily_check_covered",
-        "due": "2026-11-09T10:43:00.000Z"
+        "reason": "cooldown",
+        "due": "2026-11-10T10:43:00.000Z"
       }
     },
     "problems": [],
     "publication": {
-      "commit": "6775ff1974b68df154dfe4c659066d798cc4cab3",
+      "commit": "d35c33e66f380a31959aca116c5fada605617d61",
       "valid": true,
       "health": {
         "state": "healthy",
         "mode": "refreshed",
-        "checkedAt": "2026-11-10T01:30:20.998Z",
-        "lastSuccessfulRefreshAt": "2026-11-10T01:28:57.435Z",
+        "checkedAt": "2026-11-10T14:49:40.253Z",
+        "lastSuccessfulRefreshAt": "2026-11-10T14:47:59.907Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -19303,21 +19461,22 @@
         "total": 240,
         "populated": 240,
         "stale": 0,
-        "sparse": 3,
-        "fallback": 13,
+        "sparse": 4,
+        "fallback": 14,
         "issues": [],
         "warnings": [
-          "TT/tech: only 2 relevant articles.",
+          "PR/world: only 2 relevant articles.",
           "GF/politics: only 2 relevant articles.",
+          "GF/economy: only 2 relevant articles.",
           "GF/world: only 1 relevant articles."
         ]
       },
       "issues": [],
-      "expiresAt": "2026-11-11T01:28:58.041Z",
+      "expiresAt": "2026-11-11T14:48:00.458Z",
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-10T10:18:15.869Z",
+  "checkedAt": "2026-11-10T14:50:07.189Z",
   "activeAlerts": [],
   "repairs": [
     {
