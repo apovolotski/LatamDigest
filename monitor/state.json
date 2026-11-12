@@ -20387,31 +20387,33 @@
       ]
     }
   },
-  "status": "healthy",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-12T03:18:37.991Z",
+    "checkedAt": "2026-11-12T11:46:02.742Z",
     "workflows": {
       "feeds": {
-        "due": "2026-11-12T00:17:00.000Z",
+        "due": "2026-11-12T06:17:00.000Z",
         "state": "active",
         "active": []
       },
       "backend": {
-        "due": "2026-11-11T10:43:00.000Z",
+        "due": "2026-11-12T10:43:00.000Z",
         "state": "active",
         "active": []
       }
     },
     "decisions": {
       "feeds": {
-        "dispatch": false,
-        "reason": "publication_current",
-        "due": "2026-11-12T00:17:00.000Z"
+        "dispatch": true,
+        "key": "feeds-20261112061700000",
+        "kind": "feeds",
+        "due": "2026-11-12T06:17:00.000Z",
+        "reason": "late_schedule"
       },
       "backend": {
         "dispatch": false,
-        "reason": "daily_check_covered",
-        "due": "2026-11-11T10:43:00.000Z"
+        "reason": "schedule_grace",
+        "due": "2026-11-12T10:43:00.000Z"
       }
     },
     "problems": [],
@@ -20452,7 +20454,7 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-12T03:18:37.991Z",
+  "checkedAt": "2026-11-12T11:46:02.742Z",
   "activeAlerts": [],
   "repairs": [
     {
