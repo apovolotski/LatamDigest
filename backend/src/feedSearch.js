@@ -99,6 +99,9 @@ const queryTopics = {
   "SR/nl/sports": "sport|voetbal|basketbal|toernooi|kampioenschap|atletiek|doelman|keeper|interland|Natio|voetbal|basketbal",
   "PR/en/world": "foreign affairs|diplomacy|embassy|consulate|United Nations|decolonization",
   "en/world": "foreign affairs|diplomacy|ambassador|CARICOM|bilateral|United Nations",
+  // Rotate the sparse French Guiana world fallback to European/regional affairs
+  // vocabulary; keep the same three country-scoped searches and age gates.
+  "GF/fr/world": "international|diplomatie|affaires étrangères|coopération|ambassadeur|frontière|Caricom|Union européenne|régions ultrapériphériques|relations internationales|diplomatique|bilatéral",
   "fr/business": "entreprises|commerce|investissement|comptables|production|entreprendre|entreprise",
   "fr/economy": "économie|emploi|budget|prix|pétrole|carburant",
   "fr/tech": "technologie|innovation|intelligence artificielle|numérique|spatial|Ariane"
@@ -135,7 +138,7 @@ const topicMatchTerms = {
   "fr/culture": "culturel*|culturelle*|musical*|musicien*|cinéma*|artiste*|artistiqu*|littérair*|littératur*|théâtr*|opéra*|concert*|documentaire*|patrimoine",
   "fr/crime": "crimin*|policier*|judici*|assassin*|homicid*|violent*|interpell*|corrupt*|trafic*",
   "fr/economy": "économ*|export*|inflation*|budgétair*|pétrol*|salarial*|chômage",
-  "fr/world": "internationa*|diplomat*|ambassad*|consulat*|bilatéra*|relations internationales|frontali*|ONU|OTAN|UNESCO",
+  "fr/world": "internationa*|diplomat*|ambassad*|consulat*|bilatéra*|relations internationales|frontali*|ONU|OTAN|UNESCO|Commission européenne",
   "nl/politics": "politiek*|regering*|parlement*|verkiezing*|presiden*|minister*|kabinet*",
   "nl/business": "bedrijf*|bedrijv*|handels*|invester*|investeer*|industri*|ondernemer*|onderneming*",
   "nl/sports": "sport*|voetbal*|basketbal*|toernooi*|kampioen*|atlet*|rugby*|futsal|tennis|doelman*|doelvrouw*|keeper*|interland*",
