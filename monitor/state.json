@@ -20380,7 +20380,7 @@
   },
   "status": "healthy",
   "latest": {
-    "checkedAt": "2026-11-12T00:38:56.964Z",
+    "checkedAt": "2026-11-12T03:18:37.991Z",
     "workflows": {
       "feeds": {
         "due": "2026-11-12T00:17:00.000Z",
@@ -20396,7 +20396,7 @@
     "decisions": {
       "feeds": {
         "dispatch": false,
-        "reason": "schedule_grace",
+        "reason": "publication_current",
         "due": "2026-11-12T00:17:00.000Z"
       },
       "backend": {
@@ -20443,7 +20443,7 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-12T00:38:56.964Z",
+  "checkedAt": "2026-11-12T03:18:37.991Z",
   "activeAlerts": [],
   "repairs": [
     {
