@@ -20,13 +20,14 @@ export async function generateFeeds({
   destination = outputRoot,
   fetchFeed = fetchArticlesForFeed,
   feeds = feedConfigs,
+  source = "Google News RSS with direct publisher fallbacks",
   signal = AbortSignal.timeout(20 * 60_000)
 } = {}) {
   countries ??= JSON.parse(await fs.readFile(countriesPath, "utf8"));
   let previous = { countries: [] };
   try { previous = JSON.parse(await fs.readFile(path.join(destination, "manifest.json"), "utf8")); } catch {}
   const pending = [];
-  const manifest = { generatedAt: new Date().toISOString(), source: "Google News RSS",
+  const manifest = { generatedAt: new Date().toISOString(), source,
     feeds: feeds.map(({ key, label }) => ({ key, label })), countries: [] };
   let succeeded = 0;
   let consecutiveUpstreamFailures = 0;
@@ -120,6 +121,7 @@ export async function fetchArticlesForFeed(country, feedConfig, options) {
   let searches = 0;
   let lookbackDays = 0;
   let fallbackUnavailable = false;
+  let primaryFailure;
   for (const plan of plans) {
     const url = new URL("https://news.google.com/rss/search");
     url.searchParams.set("q", plan.query);
@@ -128,7 +130,8 @@ export async function fetchArticlesForFeed(country, feedConfig, options) {
     searches++;
     try { parsed = await fetchRSS(url, options); }
     catch (error) {
-      if (!deduped.size || options?.signal?.aborted) throw error;
+      if (!(error instanceof FeedRequestError) || options?.signal?.aborted) throw error;
+      primaryFailure = error;
       fallbackUnavailable = true;
       break;
     }
@@ -148,10 +151,86 @@ export async function fetchArticlesForFeed(country, feedConfig, options) {
     }
     if (deduped.size >= 3 || feedConfig.query) break;
   }
+  const publishers = new Set();
+  if (!feedConfig.query && deduped.size < 3) {
+    const fallback = await (options?.fetchPublisher ?? fetchPublisherArticles)(country, feedConfig, options);
+    for (const article of fallback) {
+      const key = `${article.title.toLowerCase()}|${article.sourceName.toLowerCase()}`;
+      // Prefer the original publisher's URL/date over Google's syndicated copy
+      // of the same headline. Never create a date from the retrieval time.
+      for (const [id, existing] of deduped) {
+        if (`${existing.title.toLowerCase()}|${existing.sourceName.toLowerCase()}` === key) deduped.delete(id);
+      }
+      deduped.set(article.id, article);
+      seenHeadlines.add(key);
+      publishers.add(article.sourceName);
+    }
+  }
+  if (!deduped.size && primaryFailure) throw primaryFailure;
   const articles = Array.from(deduped.values()).sort((left, right) =>
     right.publishedAt.localeCompare(left.publishedAt)).slice(0, 12);
   if (!feedConfig.query) articles.coverage = { languages: [...languages], lookbackDays,
-    searches, fallbackUsed: searches > 1, fallbackUnavailable };
+    searches, fallbackUsed: searches > 1 || publishers.size > 0, fallbackUnavailable,
+    ...(publishers.size ? { publishers: [...publishers] } : {}) };
+  return articles;
+}
+
+// Reviewed publisher feeds are independent of Google and strictly scoped to
+// the affected country/category. A publisher's location is never substituted
+// for country evidence in the headline, and its section is not category proof.
+const publisherFeeds = {
+  "TT/politics": [
+    { url: "https://www.ttt.live/category/news/government-news/feed/", name: "TTT News", host: "www.ttt.live" },
+    { url: "https://www.ttt.live/category/politics/feed/", name: "TTT News", host: "www.ttt.live" }
+  ],
+  "GF/economy": [
+    { url: "https://www.franceguyane.fr/actualite/economie-consommation/rss.xml", name: "franceguyane.fr", host: "www.franceguyane.fr" }
+  ]
+};
+
+function publisherText(value) {
+  if (typeof value !== "string") return "";
+  const entities = { amp: "&", quot: '"', apos: "'", lt: "<", gt: ">", nbsp: " ", ndash: "–", mdash: "—", rsquo: "’", lsquo: "‘", rdquo: "”", ldquo: "“" };
+  // WordPress embeds HTML entities inside RSS CDATA. Decode one layer for the
+  // displayed headline and URL; never derive dates from feed/build timestamps.
+  return value.replace(/&(#(?:x[0-9a-f]+|[0-9]+)|[a-z]+);/gi, (entity, code) => {
+    if (!code.startsWith("#")) return entities[code.toLowerCase()] ?? entity;
+    const point = code[1].toLowerCase() === "x" ? parseInt(code.slice(2), 16) : Number(code.slice(1));
+    return point >= 32 && point <= 0x10ffff && !(point >= 0xd800 && point <= 0xdfff) ? String.fromCodePoint(point) : entity;
+  }).trim();
+}
+
+export async function fetchPublisherArticles(country, feed, options = {}) {
+  const selected = new Map();
+  for (const source of publisherFeeds[`${country.id}/${feed.key}`] ?? []) {
+    options.signal?.throwIfAborted();
+    let parsed;
+    try { parsed = await fetchRSS(new URL(source.url), options); }
+    catch (error) {
+      options.signal?.throwIfAborted();
+      if (!(error instanceof FeedRequestError)) throw error;
+      continue;
+    }
+    let items = parsed?.rss?.channel?.item ?? [];
+    if (!Array.isArray(items)) items = [items];
+    for (const item of items) {
+      const link = publisherText(item?.link);
+      if (!isWebURL(link)) continue;
+      const url = new URL(link);
+      if (url.protocol !== "https:" || url.hostname !== source.host || url.username || url.password || url.port) continue;
+      // The publishers append campaign parameters to every feed link. Remove
+      // only those known tracking parameters before computing the stable ID.
+      for (const key of [...url.searchParams.keys()]) if (key.startsWith("utm_")) url.searchParams.delete(key);
+      const article = toArticle({ ...item, title: publisherText(item.title), link: url.href, source: source.name }, country, feed);
+      if (!article || !isRelevantArticle(article, country, feed, { lookbackDays: MAX_PUBLICATION_AGE_MS / 86_400_000 })) continue;
+      article.snippet = `${feed.label} reporting from ${source.name}.`;
+      selected.set(article.id, article);
+    }
+    if (selected.size >= 3) break;
+  }
+  const articles = [...selected.values()].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)).slice(0, 12);
+  if (articles.length) articles.coverage = { publishers: [...new Set(articles.map(a => a.sourceName))],
+    fallbackUsed: true, independentPublisher: true };
   return articles;
 }
 

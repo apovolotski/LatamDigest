@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
-import { generateFeeds } from "./generate-static-feeds.mjs";
+import { generateFeeds, fetchPublisherArticles } from "./generate-static-feeds.mjs";
 import { checkCoverage } from "./check-feed-coverage.mjs";
 import { UpstreamUnavailableError } from "../src/rssClient.js";
 import { feedConfigs } from "../src/feedSearch.js";
@@ -57,7 +57,7 @@ async function verifiedCache(destination, countries, now) {
     sparseFeeds: current.filter(status => status.count > 0 && status.count < 3).length };
   await fs.writeFile(path.join(destination, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
   const report = await checkCoverage({ destination, countries, now, minimumFreshnessMs: PUBLICATION_SAFETY_MS });
-  if (report.issues.length) throw new Error("Cached coverage is incomplete or invalid; refresh cannot recover safely.");
+  if (report.issues.length) throw new Error(`Cached coverage is incomplete or invalid; refresh cannot recover safely: ${report.issues.join(" ")}`);
   return { report, manifest, expiredArticlesRemoved, expiringArticlesRemoved };
 }
 
@@ -89,12 +89,35 @@ export async function refreshFeeds({
   destination = outputRoot,
   countries,
   generate = generateFeeds,
+  recover = options => generateFeeds({ ...options, fetchFeed: fetchPublisherArticles, source: "Direct publisher RSS with verified cache" }),
   sleep = delay,
   cooldownMs = 60_000,
   now = Date.now,
   signal = AbortSignal.timeout(20 * 60_000),
   summaryFile = process.env.GITHUB_STEP_SUMMARY
 } = {}) {
+  async function publishResult(result, staged, workspace, attempt) {
+    if (!result.succeeded) throw new Error("No feeds refreshed; refusing to publish an empty refresh.");
+    const report = await checkCoverage({ destination: staged, countries, now: now(), minimumFreshnessMs: PUBLICATION_SAFETY_MS });
+    if (report.issues.length) throw new Error(`Generated feed validation failed: ${report.issues.join(" ")}`);
+    const candidateManifest = JSON.parse(await fs.readFile(path.join(staged, "manifest.json"), "utf8"));
+    const cached = candidateManifest.countries.flatMap(country => Object.values(country.feeds)).filter(status => status.stale);
+    if (cached.some(status => !Number.isFinite(Date.parse(status.updatedAt)) ||
+        now() - Date.parse(status.updatedAt) > MAX_CACHE_AGE_MS || Date.parse(status.updatedAt) > now() + 3600_000)) {
+      throw new Error("Cached feed refresh timestamps exceed the 24-hour recovery limit.");
+    }
+    const status = { state: report.stale ? "degraded" : "healthy", mode: "refreshed",
+      checkedAt: new Date(now()).toISOString(), lastSuccessfulRefreshAt: result.manifest.generatedAt,
+      publicationSafetyHours: PUBLICATION_SAFETY_MS / 3600_000,
+      cacheLimitHours: MAX_CACHE_AGE_MS / 3600_000,
+      totalFeeds: report.total, refreshedFeeds: result.succeeded, cachedFeeds: report.stale, attempts: attempt };
+    await recordStatus(staged, status);
+    // Swap only verified output. Roll back if the second rename fails.
+    await publishVerified(staged, destination, workspace);
+    await recordStatus(destination, status, summaryFile);
+    console.log(`Refresh completed: ${status.state}; ${status.refreshedFeeds}/${status.totalFeeds} refreshed; attempts=${attempt}.`);
+    return status;
+  }
   let upstreamFailure;
   let attempts = 0;
   for (let attempt = 1; attempt <= 2; attempt++) {
@@ -115,26 +138,7 @@ export async function refreshFeeds({
       }
       signal.throwIfAborted();
       if (result) {
-        if (!result.succeeded) throw new Error("No feeds refreshed; refusing to publish an empty refresh.");
-        const report = await checkCoverage({ destination: staged, countries, now: now(), minimumFreshnessMs: PUBLICATION_SAFETY_MS });
-        if (report.issues.length) throw new Error(`Generated feed validation failed: ${report.issues.join(" ")}`);
-        const candidateManifest = JSON.parse(await fs.readFile(path.join(staged, "manifest.json"), "utf8"));
-        const cached = candidateManifest.countries.flatMap(country => Object.values(country.feeds)).filter(status => status.stale);
-        if (cached.some(status => !Number.isFinite(Date.parse(status.updatedAt)) ||
-            now() - Date.parse(status.updatedAt) > MAX_CACHE_AGE_MS || Date.parse(status.updatedAt) > now() + 3600_000)) {
-          throw new Error("Cached feed refresh timestamps exceed the 24-hour recovery limit.");
-        }
-        const status = { state: report.stale ? "degraded" : "healthy", mode: "refreshed",
-          checkedAt: new Date(now()).toISOString(), lastSuccessfulRefreshAt: result.manifest.generatedAt,
-          publicationSafetyHours: PUBLICATION_SAFETY_MS / 3600_000,
-          cacheLimitHours: MAX_CACHE_AGE_MS / 3600_000,
-          totalFeeds: report.total, refreshedFeeds: result.succeeded, cachedFeeds: report.stale, attempts: attempt };
-        await recordStatus(staged, status);
-        // Swap only verified output. Roll back if the second rename fails.
-        await publishVerified(staged, destination, workspace);
-        await recordStatus(destination, status, summaryFile);
-        console.log(`Refresh completed: ${status.state}; ${status.refreshedFeeds}/${status.totalFeeds} refreshed; attempts=${attempt}.`);
-        return status;
+        return await publishResult(result, staged, workspace, attempt);
       }
     } finally { await fs.rm(workspace, { recursive: true, force: true }); }
     if (attempt === 1) {
@@ -150,6 +154,12 @@ export async function refreshFeeds({
   const staged = path.join(workspace, "candidate");
   try {
     await fs.cp(destination, staged, { recursive: true });
+    // After the primary provider's bounded retries, try independent publishers.
+    // Only genuinely fetched feeds get new timestamps. Every other feed keeps
+    // its original timestamp and must still satisfy both cache and age limits.
+    const recovered = await recover({ destination: staged, countries, signal });
+    signal.throwIfAborted();
+    if (recovered?.succeeded) return await publishResult(recovered, staged, workspace, attempts);
     const { report, manifest, expiredArticlesRemoved, expiringArticlesRemoved } = await verifiedCache(staged, countries, now());
     const status = { state: "degraded", mode: "cached", checkedAt: new Date(now()).toISOString(),
       lastSuccessfulRefreshAt: manifest.generatedAt, totalFeeds: report.total,

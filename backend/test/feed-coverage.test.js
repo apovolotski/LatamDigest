@@ -168,6 +168,7 @@ test("English fallback stays scoped and preserves real publication dates", async
   let calls = 0;
   const article = story("French Guiana economy sees export growth", 9);
   const result = await fetchArticlesForFeed(getCountry("GF"), getFeed("economy"), { ...options,
+    fetchPublisher: async () => [], // This test isolates the Google language fallback.
     fetchImpl: async url => {
       calls++;
       if (calls < 3) return new Response(rss([]));

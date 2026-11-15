@@ -104,6 +104,8 @@ const queryTopics = {
   "GF/fr/world": "international|diplomatie|affaires étrangères|coopération|ambassadeur|frontière|Caricom|Union européenne|régions ultrapériphériques|relations internationales|diplomatique|bilatéral",
   "fr/business": "entreprises|commerce|investissement|comptables|production|entreprendre|entreprise",
   "fr/economy": "économie|emploi|budget|prix|pétrole|carburant",
+  "GF/fr/economy": "économie|emploi|budget|prix|pétrole|carburant|valeur ajoutée|chômage|salaires|inflation|croissance|exportations",
+  "TT/en/politics": "politics|government|congress|election|president|parliament|prime minister|senator|legislation|secretary of state|foreign minister|cabinet minister",
   "fr/tech": "technologie|innovation|intelligence artificielle|numérique|spatial|Ariane"
 };
 
@@ -147,7 +149,7 @@ const topicMatchTerms = {
   "nl/crime": "crimi*|justiti*|moord*|misdrijf*|aangehoud*|arrestatie*|corrupt*|cocaïne|drug*|politieagent*|politiebureau*|politieonderzoek*",
   "nl/economy": "econom*|inflati*|export*|begrot*|werkgelegen*|centrale bank*|groeicijfers",
   "nl/world": "internationa*|diplomat*|ambassad*|consulaat*|bilatera*|verdrag*|buitenlandse betrekkingen|VN|NAVO|UNESCO",
-  "en/politics": "politic*|parliament*|congress*|presiden*|electoral|legislat*|prime minister|PM|senator*",
+  "en/politics": "politic*|parliament*|congress*|presiden*|electoral|legislat*|prime minister|PM|senator*|secretary of state|foreign minister|cabinet minister",
   "en/business": "industr*|firm*|commercial|commerce|investor*|investment*|corporat*|entrepreneur*",
   "en/sports": "sport*|football*|basketball*|champion*|athlet*|rugby*|futsal|tennis|touchdown*",
   "en/tech": "technolog*|innovat*|telecom*|cyber*|AI|broadband|robot*|5G|6G|data centre|data center|radio spectrum|spectrum management|spectrum week|satellite connectivity",
@@ -385,6 +387,11 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   if (country.id === "PR" && /\bmanito britez\b|\bpuerto rico misiones\b|\b(?:policia|provincia|camara de apelaciones) de misiones\b/.test(geographicTitle)) geographicTitle = geographicTitle.replace(/\bpuerto rico\b/g, " ");
   if (!countryTerms.some(term => matches(geographicTitle, term))) return false;
   if (["top", "latest"].includes(feed.key)) return true;
+  // Value added in a quantified company-output report is economic evidence;
+  // a figurative claim that art or education adds value is not.
+  if (feed.key === "economy" && /\bvaleur ajoutee\b/.test(normalized(headline)) &&
+      /\bentreprises?\b/.test(normalized(headline)) &&
+      /\b(?:millions?|milliards?) d euros\b/.test(normalized(headline))) return true;
   if (feed.key === "tech" && /world wide technology championship/i.test(article.title)) return false;
   const languages = [...new Set([localLanguage, "en"])];
   const terms = languages.flatMap(language => [
