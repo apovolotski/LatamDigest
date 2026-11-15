@@ -22270,15 +22270,15 @@
   },
   "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-15T09:50:17.883Z",
+    "checkedAt": "2026-11-15T17:22:25.383Z",
     "workflows": {
       "feeds": {
-        "due": "2026-11-15T06:17:00.000Z",
+        "due": "2026-11-15T12:17:00.000Z",
         "state": "active",
         "active": []
       },
       "backend": {
-        "due": "2026-11-14T10:43:00.000Z",
+        "due": "2026-11-15T10:43:00.000Z",
         "state": "active",
         "active": []
       }
@@ -22286,26 +22286,25 @@
     "decisions": {
       "feeds": {
         "dispatch": true,
-        "key": "feeds-20261115061700000",
+        "key": "feeds-20261115121700000",
         "kind": "feeds",
-        "due": "2026-11-15T06:17:00.000Z",
+        "due": "2026-11-15T12:17:00.000Z",
         "reason": "late_schedule"
       },
       "backend": {
         "dispatch": false,
-        "reason": "daily_check_covered",
-        "due": "2026-11-14T10:43:00.000Z"
+        "reason": "run_active"
       }
     },
     "problems": [],
     "publication": {
-      "commit": "2f87851b6cfa572c7992afb48bd7f3520661d326",
+      "commit": "e47ac9ab20f80e325919b2c0575d3547dabc522f",
       "valid": true,
       "health": {
         "state": "degraded",
         "mode": "refreshed",
-        "checkedAt": "2026-11-15T06:22:33.285Z",
-        "lastSuccessfulRefreshAt": "2026-11-15T06:21:08.120Z",
+        "checkedAt": "2026-11-15T09:52:18.520Z",
+        "lastSuccessfulRefreshAt": "2026-11-15T09:50:50.913Z",
         "publicationSafetyHours": 24,
         "cacheLimitHours": 24,
         "totalFeeds": 240,
@@ -22318,7 +22317,7 @@
         "populated": 240,
         "stale": 1,
         "sparse": 7,
-        "fallback": 17,
+        "fallback": 16,
         "issues": [],
         "warnings": [
           "PR/world: only 1 relevant articles.",
@@ -22336,7 +22335,7 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-15T09:50:17.883Z",
+  "checkedAt": "2026-11-15T17:22:25.383Z",
   "activeAlerts": [],
   "repairs": [
     {
