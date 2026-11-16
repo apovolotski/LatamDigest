@@ -60,3 +60,28 @@ test('primary matching decodes text entities but ignores unrelated recommended-a
  const html=`<meta property="og:title" content="Trinidad &amp; Tobago: artist&#8217;s film"><meta property="article:published_time" content="${original}"><script type="application/ld+json">${JSON.stringify({'@type':'WebPage',itemListElement:[{'@type':'NewsArticle',headline,datePublished:date(0)}]})}</script>`;
  assert.equal(originalPublisherDate(html,headline),original);
 });
+
+test('principal WebPage mainEntity dates are accepted only for the matching article, not recommended stories',()=>{
+ const title='Guyane accueille les victimes de violences',published='2026-11-14T20:19:59+01:00';
+ const wrap=node=>`<script type="application/ld+json">${JSON.stringify(node)}</script>`;
+ const article={'@type':'NewsArticle',headline:title,datePublished:published};
+ assert.equal(originalPublisherDate(wrap({'@type':'WebPage',mainEntity:article}),title),'2026-11-14T19:19:59.000Z');
+ assert.equal(originalPublisherDate(wrap({'@type':'WebPage',mainEntity:{...article,headline:'Another story'}}),title),null);
+ assert.equal(originalPublisherDate(wrap({'@type':'WebPage',itemListElement:[article],datePublished:published}),title),null);
+ assert.equal(originalPublisherDate(wrap({'@type':'WebPage',mainEntity:{...article,datePublished:undefined,dateModified:published}}),title),null);
+});
+
+test('publication precision differences retain the earliest stated instant, while conflicting dates still fail',()=>{
+ const title='Puerto Rico technology report',meta=d=>`<meta property="og:title" content="${title}"><meta property="article:published_time" content="${d}">`;
+ assert.equal(originalPublisherDate(meta('2026-11-14T20:53:38.984Z')+meta('2026-11-14T20:53:38Z'),title),'2026-11-14T20:53:38.000Z');
+ for(const other of ['2026-11-14T20:53:39Z','2026-11-14T20:53:38.700Z','2026-11-13T20:53:38Z'])assert.equal(originalPublisherDate(meta('2026-11-14T20:53:38.984Z')+meta(other),title),null);
+});
+
+test('primary metadata may append an exact reviewed publisher credit without weakening headline identity',()=>{
+ const title='Cartelera Cinemateca Boliviana – 12 al 18 de noviembre',published='2026-11-12T14:05:13-04:00';
+ const html=t=>`<meta property="og:title" content="${t}"><meta property="article:published_time" content="${published}">`;
+ assert.equal(originalPublisherDate(html(title+' - movidadealtura.com'),title,['movidadealtura.com']),'2026-11-12T18:05:13.000Z');
+ assert.equal(originalPublisherDate(html(title+' - Unknown publisher'),title,['movidadealtura.com']),null);
+ assert.equal(originalPublisherDate(html(title+' and unrelated new claim - movidadealtura.com'),title,['movidadealtura.com']),null);
+ assert.equal(originalPublisherDate(html(title+' - movidadealtura.com'),title),null);
+});

@@ -143,3 +143,35 @@ test('publisher transport is bounded to three concurrent requests and honors can
  const controller=new AbortController();controller.abort();
  await assert.rejects(fetchPublisherArticles(c,f,{signal:controller.signal,fetchImpl:()=>assert.fail('aborted transport must not fetch')}));
 });
+
+test('publisher-owned archives refresh all 240 feeds when Google is down and every prior cache is 49 hours old',async t=>{
+ const folder=await mkdtemp(path.join(tmpdir(),'latam-archive-outage-'));t.after(()=>rm(folder,{recursive:true,force:true}));
+ const destination=path.join(folder,'api'),archives=new Map(),published=date(1);let google=0;
+ for(const c of countries)for(const f of feedConfigs){
+  const sources=publisherSourcesFor(c,f),s=sources.find(s=>s.kind==='wordpress'&&countryPublisherFeeds[c.id].some(n=>n.url===s.url))??sources.find(s=>s.kind==='wordpress');
+  assert.ok(s,`${c.id}/${f.key} has archive discovery`);
+  const archiveURL=new URL(s.url);archiveURL.searchParams.sort();
+  if(!archives.has(archiveURL.href))archives.set(archiveURL.href,[]);
+  archives.get(archiveURL.href).push({id:countries.indexOf(c)*10+feedConfigs.indexOf(f)+1,date_gmt:published.slice(0,19),title:{rendered:title(c,f)},link:`https://${s.hosts[0]}/archive-test/${c.id}/${f.key}`});
+ }
+ await generateFeeds({destination,countries,fetchFeed:async(c,f)=>[toArticle({...story(c,f),source:'Example'},c,f)]});
+ const manifestPath=path.join(destination,'manifest.json'),prior=JSON.parse(await readFile(manifestPath));
+ for(const c of prior.countries)for(const s of Object.values(c.feeds))s.updatedAt=date(49/24);
+ await writeFile(manifestPath,JSON.stringify(prior));
+ const fetchImpl=async url=>{
+  if(url.hostname==='news.google.com'){google++;return new Response('mock outage',{status:503});}
+  if(url.pathname.startsWith('/archive-test/')){
+   const [id,key]=url.pathname.slice(14).split('/'),c=countries.find(c=>c.id===id),f=feedConfigs.find(f=>f.key===key);
+   return new Response(`<meta property="og:title" content="${title(c,f)}"><meta property="article:published_time" content="${published}">`);
+  }
+  const base=new URL(url);for(const key of ['per_page','page','after','orderby','order','_fields'])base.searchParams.delete(key);
+  base.searchParams.sort();
+  return new Response(archives.has(base.href)?JSON.stringify(archives.get(base.href)):'<rss><channel/></rss>');
+ };
+ const status=await refreshFeeds({destination,countries,sleep:instant,summaryFile:path.join(folder,'summary'),
+  generate:o=>generateFeeds({...o,fetchFeed:(c,f,options)=>fetchArticlesForFeed(c,f,{...options,fetchImpl,sleep:instant})})});
+ assert.equal(status.refreshedFeeds,240);assert.equal(status.cachedFeeds,0);assert.equal(google,15);
+ assert.deepEqual((await checkCoverage({destination,countries,minimumFreshnessMs:86400000})).issues,[]);
+ const after=JSON.parse(await readFile(manifestPath));
+ for(const c of after.countries)for(const s of Object.values(c.feeds)){assert.equal(s.stale,false);assert.ok(Date.parse(s.updatedAt)>Date.now()-60000);}
+});

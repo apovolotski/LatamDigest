@@ -1,3 +1,5 @@
+import { publisherFetch } from '../src/publisherHttp.js';
+import { fetchPublisherArchive } from '../src/publisherArchive.js';
 import { articleID, isWebURL } from "../src/articleIdentity.js";
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -216,8 +218,9 @@ export async function fetchPublisherArticles(country, feed, options = {}) {
     try {
       // Three requests at a time with short per-request deadlines prevent
       // unavailable publishers from monopolizing the overall refresh budget.
+      if (["wordpress", "outremers"].includes(source.kind)) return await fetchPublisherArchive(source, options);
       if (!cache.has(source.url)) cache.set(source.url, fetchRSS(new URL(source.url),
-        { ...options, timeoutMs: Math.min(options.timeoutMs ?? 8_000, 8_000) }));
+        { ...options, fetchImpl: (url, requestOptions) => (options.fetchImpl ?? publisherFetch)(url, { ...requestOptions, allowedHosts: [new URL(source.url).hostname, ...source.hosts] }), timeoutMs: Math.min(options.timeoutMs ?? 8_000, 8_000) }));
       return await cache.get(source.url);
     }
     catch (error) {

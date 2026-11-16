@@ -137,8 +137,8 @@ const topicMatchTerms = {
   "fr/business": "entreprise*|entrepreneur*|commerc*|investiss*|industri*|comptabl*|société d'événementiel",
   "fr/sports": "sport*|football*|basket*|tournoi*|champion*|athlét*|rugby*|futsal|tennis|handball|cyclis*",
   "fr/tech": "technolog*|innovat*|informatiqu*|informaticien*|télécom*|numériqu*|cyber*|IA|robot*|5G|6G|réseaux mobiles",
-  "fr/culture": "culturel*|culturelle*|musical*|musicien*|cinéma*|artiste*|artistiqu*|littérair*|littératur*|théâtr*|opéra*|concert*|documentaire*|patrimoine",
-  "fr/crime": "crimin*|policier*|judici*|assassin*|homicid*|violent*|interpell*|corrupt*|trafic*",
+  "fr/culture": "culturel*|culturelle*|musical*|musicien*|cinéma*|artiste*|artistiqu*|littérair*|littératur*|théâtr*|opéra|opéras|opératique*|concert*|documentaire*|patrimoine",
+  "fr/crime": "crimin*|policier*|judici*|assassin*|homicid*|violent*|interpell*|corrupt*|trafic*|victimes de violences|violences conjugales",
   "fr/economy": "économ*|export*|inflation*|budgétair*|pétrol*|salarial*|chômage",
   "fr/world": "internationa*|diplomat*|ambassad*|consulat*|bilatéra*|relations internationales|frontali*|ONU|OTAN|UNESCO|Commission européenne",
   "nl/politics": "politiek*|regering*|parlement*|verkiezing*|presiden*|minister*|kabinet*",
@@ -360,6 +360,11 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // from its newer RSS date; new reporting about Anglada remains eligible.
   if (["nueva revolucion", "nr", "realpolitik"].includes(normalized(article.sourceName ?? "")) &&
       normalized(article.title) === "rafael anglada en el tema del colonialismo puerto rico y malvinas hemos vivido como gemelos") return false;
+  // This exact page identifies itself as a reprint of an October 26 embassy
+  // release despite November page metadata. Hold it until its original date
+  // can be verified; do not invent a date or quarantine other Panama reporting.
+  if (normalized(article.sourceName ?? "") === "newsroom panama" &&
+      normalized(article.title) === "press release from the united states embassy in panama oct 26 2026") return false;
   const [localLanguage, , aliases] = profiles[country.id];
   const countryTerms = `${aliases}|${country.name}`.split("|");
   // Syndication can retain a second publisher's trailing credit. Its name
@@ -400,10 +405,17 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   ]);
   let title = headline;
   if (feed.key === "culture") {
+    // Reviewed concert coverage names both the band and its musical tour.
+    // Neither an arbitrary tour nor a band-name mention alone establishes arts.
+    if (/\bgorillaz\b/.test(normalized(title)) && /\bthe mountain tour\b/.test(normalized(title))) terms.push("gorillaz");
     title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ").replace(politicalCulture, " ").replace(booksAsPolicyMetaphor, " ").replace(/\barte de pensar\b/g, " ");
     // Financial culture and natural heritage are not independent arts
     // evidence. Preserve museums, arts and cultural heritage elsewhere.
     title = title.replace(/\bcultura fobaproa\b|\bnatural heritage\b|\bpatrimonio natural\b|\bpatrimoine naturel\b|\bnatuurlijk erfgoed\b/g, " ");
+    // Wage negotiations / public consultations are not concerts. Personal
+    // assets of defendants are not cultural heritage; independent arts survive.
+    title = title.replace(/\bconcertacion\w*\b|\bconcertation\w*\b/g, " ")
+      .replace(/\bpatrimonio de (?:los )?(?:imputad|acusad|condenad)\w*\b/g, " ");
     // Effie/workplace culture describes an agency's commercial practice.
     // Remove that phrase, preserving independent arts or museum coverage.
     title = title.replace(/\bcultura (?:dentro de la agencia|effie)\b/g, " ");
@@ -427,6 +439,9 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     // Illicit drug trade alone does not establish commercial reporting.
     // Company, investment or other independent business evidence still can.
     title = title.replace(/\b(?:drug|cocaine|narcotics) trade\b|\bcomercio de (?:drogas|cocaina|narcoticos)\b/g, " ");
+    // French artists "investissent le quartier" occupy an arts space; the
+    // verb alone does not establish financial investment or business coverage.
+    title = title.replace(/\b((?:artistes|musiciens|comediens) )investissent (?=(?:le|la|les|un|une|des)\b)/g, "$1 ");
     // El Comercio names the newspaper presenting this mural, not trade.
     title = title.replace(/^el comercio(?= presenta mural\b)/, " ");
   }
