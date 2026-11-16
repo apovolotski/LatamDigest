@@ -13,7 +13,7 @@ const rss = articles => `<rss><channel>${articles.map(a => `<item><title>${a.tit
 
 test("incident 43212001512: French Guiana's bounded fallback finds European affairs before the singleton expires", async () => {
   const current = story(title, 8), old = story("La coopération entre la Guyane et le Brésil reste fragile malgré la victoire de Lula", 13.3), calls = [];
-  const result = await fetchArticlesForFeed(country, world, { fetchImpl: async url => {
+  const result = await fetchArticlesForFeed(country, world, { fetchPublisher: async () => [], fetchImpl: async url => {
     calls.push(url.searchParams.get("q"));
     return new Response(rss(calls.length === 2 ? [current, old, story(title, 15), story("Commission européenne en visite en Belgique"), story("Festival de musique européenne en Guyane")] : [old]));
   }});

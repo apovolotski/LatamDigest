@@ -32,7 +32,7 @@ async function fixture(t) {
   await writeFile(file, JSON.stringify([old]));
   const manifestFile = path.join(options.destination, 'manifest.json');
   const before = JSON.parse(await readFile(manifestFile));
-  const recover = o => generateFeeds({...o, source: 'Direct publisher RSS with verified cache', fetchFeed: (c, f) => fetchPublisherArticles(c, f, {fetchImpl: direct([item()]), sleep: instant})});
+  const recover = o => generateFeeds({...o, source: 'Direct publisher RSS with verified cache', fetchFeed: (c, f) => f.key !== "politics" ? [] : fetchPublisherArticles(c, f, {verifyPublisherArticle: async article => article, fetchImpl: direct([item()]), sleep: instant})});
   const snapshot = async () => Promise.all((await readdir(options.destination, {recursive:true})).filter(f=>f.endsWith('.json')).sort().map(async f=>[f,await readFile(path.join(options.destination,f),'utf8')]));
   return {options, file, manifestFile, before, recover, snapshot};
 }
@@ -61,7 +61,7 @@ test('new political-office and quantified value-added evidence retains country a
 
 test('publisher fallback preserves the original date and stable URL while rejecting unsafe and unrelated items', async () => {
   const good=item(ttTitle,'https://www.ttt.live/reviewed-report/?utm_source=rss&utm_medium=rss');
-  const articles=await fetchPublisherArticles(tt,politics,{fetchImpl:direct([good,
+  const articles=await fetchPublisherArticles(tt,politics,{verifyPublisherArticle: async article => article, fetchImpl:direct([good,
     item(ttTitle, 'https://evil.example/report'),item(ttTitle,'https://www.ttt.live.evil.example/report'),
     item(ttTitle,'https://user:secret@www.ttt.live/report'),item(ttTitle,'http://www.ttt.live/report'),
     item(ttTitle,'https://www.ttt.live/old',14),item(ttTitle,'https://www.ttt.live/future',-2),
@@ -74,7 +74,7 @@ test('publisher fallback preserves the original date and stable URL while reject
 
 test('actual WordPress CDATA entities preserve national evidence and do not corrupt stable URLs', async () => {
   const encoded = item(ttTitle.replace('T&T', 'T&#038;T'), 'https://www.ttt.live/reviewed-report/?utm_source=rss&#038;utm_medium=rss');
-  const a = await fetchPublisherArticles(tt, politics, {fetchImpl: direct([encoded])});
+  const a = await fetchPublisherArticles(tt, politics, {verifyPublisherArticle: async article => article, fetchImpl: direct([encoded])});
   assert.equal(a.length, 1); assert.equal(a[0].title, ttTitle);
   assert.equal(a[0].url, 'https://www.ttt.live/reviewed-report/');
   assert.equal(a[0].publishedAt, encoded.pubDate);
@@ -82,7 +82,7 @@ test('actual WordPress CDATA entities preserve national evidence and do not corr
 
 test('publisher economy feed does not turn its entire section into Guyane economic news', async () => {
   const good=item(gfTitle,'https://www.franceguyane.fr/actualite/economie-consommation/report.php',3);
-  const articles=await fetchPublisherArticles(gf,economy,{fetchImpl:direct([good,
+  const articles=await fetchPublisherArticles(gf,economy,{verifyPublisherArticle: async article => article, fetchImpl:direct([good,
     item('France inflation en hausse','https://www.franceguyane.fr/france.php'),
     item('Guyane Cup : Trois duos brésiliens en finale','https://www.franceguyane.fr/sports.php'),
     item(gfTitle,'https://www.franceguyane.fr/old.php',14)])});
@@ -91,7 +91,7 @@ test('publisher economy feed does not turn its entire section into Guyane econom
 
 for(const status of [200,503]) test(`independent publisher replaces an empty or failed Google response (${status})`,async()=>{
   let google=0,publisher=0;
-  const a=await fetchArticlesForFeed(tt,politics,{sleep:instant,fetchImpl:async url=>{
+  const a=await fetchArticlesForFeed(tt,politics,{sleep:instant,verifyPublisherArticle: async article => article, fetchImpl:async url=>{
     if(url.hostname==='news.google.com'){google++;return new Response(status===200?xml([]):'private outage body',{status});}
     publisher++;return new Response(xml([item()]));
   }});
@@ -100,9 +100,9 @@ for(const status of [200,503]) test(`independent publisher replaces an empty or 
 });
 
 test('failed independent publisher preserves the original provider error without exposing response bodies',async()=>{
-  await assert.rejects(fetchArticlesForFeed(tt,politics,{sleep:instant,fetchImpl:async()=>new Response('private body',{status:503})}),e=>e instanceof FeedRequestError && e.status===503 && !e.message.includes('private'));
+  await assert.rejects(fetchArticlesForFeed(tt,politics,{sleep:instant,verifyPublisherArticle: async article => article, fetchImpl:async()=>new Response('private body',{status:503})}),e=>e instanceof FeedRequestError && e.status===503 && !e.message.includes('private'));
   const abort=new AbortController();abort.abort();
-  await assert.rejects(fetchPublisherArticles(tt,politics,{signal:abort.signal,fetchImpl:()=>assert.fail('aborted request')}));
+  await assert.rejects(fetchPublisherArticles(tt,politics,{signal:abort.signal,verifyPublisherArticle: async article => article, fetchImpl:()=>assert.fail('aborted request')}));
 });
 
 test('incident 43748698009: primary outage plus aging singleton recovers atomically using a fresh publisher report',async t=>{
@@ -143,7 +143,7 @@ test('programming and validation failures do not trigger publisher recovery',asy
 test('a publisher duplicate supplies its original date and URL instead of an aggregator crawl timestamp',async()=>{
   const original=item(gfTitle,'https://www.franceguyane.fr/report.php',3);
   const google={...original,link:'https://news.google.com/rss/articles/copy',pubDate:date(1)};
-  const result=await fetchArticlesForFeed(gf,economy,{fetchImpl:async url=>new Response(url.hostname==='news.google.com'?
+  const result=await fetchArticlesForFeed(gf,economy,{verifyPublisherArticle: async article => article, fetchImpl:async url=>new Response(url.hostname==='news.google.com'?
     `<rss><channel><item><title><![CDATA[${google.title}]]></title><link>${google.link}</link><source>franceguyane.fr</source><pubDate>${google.pubDate}</pubDate></item></channel></rss>`:xml([original]))});
   assert.equal(result.length,1);assert.equal(result[0].url,original.link);assert.equal(result[0].publishedAt,original.pubDate);
   assert.deepEqual(result.coverage.publishers,['franceguyane.fr']);

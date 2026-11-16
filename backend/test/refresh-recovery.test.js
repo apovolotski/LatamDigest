@@ -28,7 +28,7 @@ async function fixture(t) {
     const files = (await readdir(destination, { recursive: true })).filter(file => file.endsWith(".json") && file !== "refresh-status.json").sort();
     return Promise.all(files.map(async file => [file, await readFile(path.join(destination, file), "utf8")]));
   };
-  return { destination, countries: [country], snapshot, summaryFile: path.join(folder, "summary.md") };
+  return { recover: async () => ({ succeeded: 0 }), destination, countries: [country], snapshot, summaryFile: path.join(folder, "summary.md") };
 }
 
 async function assertRetained(f, before) {
@@ -59,7 +59,7 @@ test("incident 39946815347: fresh Suriname culture replaces the lone aging story
   const inputs = JSON.parse(await readFile(new URL("fixtures/suriname-culture.json", import.meta.url)));
   const status = await refreshFeeds({ ...f, countries: [sr], generate: options => generateFeeds({ ...options,
     fetchFeed: (country, feed) => feed.key !== "culture" ? Promise.resolve([srArticle()]) : fetchArticlesForFeed(country, feed, {
-      fetchImpl: async () => new Response(`<rss><channel>${inputs.map((item, i) => `<item><title>${item.title}</title><link>https://example.com/culture-${i}</link><source>${item.sourceName}</source><pubDate>${new Date(Date.now() - item.daysAgo * 86_400_000).toISOString()}</pubDate></item>`).join("")}</channel></rss>`)
+      fetchPublisher: async () => [], fetchImpl: async () => new Response(`<rss><channel>${inputs.map((item, i) => `<item><title>${item.title}</title><link>https://example.com/culture-${i}</link><source>${item.sourceName}</source><pubDate>${new Date(Date.now() - item.daysAgo * 86_400_000).toISOString()}</pubDate></item>`).join("")}</channel></rss>`)
     })
   }) });
   assert.equal(status.state, "healthy");
@@ -86,7 +86,7 @@ test("incident 41474100155: telecom fallback replaces an aging singleton and rem
   let searches = 0;
   const status = await refreshFeeds({ ...f, countries: [tt], generate: options => generateFeeds({ ...options,
     fetchFeed: (country, feed) => feed.key !== "tech" ? Promise.resolve([ttArticle()]) : fetchArticlesForFeed(country, feed, {
-      fetchImpl: async () => new Response(++searches < 3 ? "<rss><channel/></rss>" :
+      fetchPublisher: async () => [], fetchImpl: async () => new Response(++searches < 3 ? "<rss><channel/></rss>" :
         `<rss><channel><item><title>TATT convenes TT Spectrum Week from Nov 02</title><link>https://example.com/spectrum-week</link><source>Tech News TT</source><pubDate>${publishedAt}</pubDate></item></channel></rss>`)
     })
   }) });
@@ -117,7 +117,7 @@ test("incident regression: thirty HTTP 503 responses preserve verified coverage 
   const status = await refreshFeeds({ ...f, sleep: async ms => pauses.push(ms),
     generate: options => generateFeeds({ ...options, fetchFeed: (country, feed, options) => fetchArticlesForFeed(country, feed, {
       ...options, sleep: instant, random: () => 0,
-      fetchImpl: async () => { requests++; return new Response("private provider body", { status: 503 }); }
+      fetchPublisher: async () => [], fetchImpl: async () => { requests++; return new Response("private provider body", { status: 503 }); }
     }) })
   });
   assert.equal(requests, 30); // 3 attempts × 5 feeds × 2 full refresh attempts
@@ -142,7 +142,7 @@ test("provider recovery after the cooldown publishes a healthy verified refresh"
     const outage = ++attempts === 1;
     return generateFeeds({ ...options, fetchFeed: (country, feed, options) => fetchArticlesForFeed(country, feed, {
       ...options, sleep: instant,
-      fetchImpl: async () => {
+      fetchPublisher: async () => [], fetchImpl: async () => {
         requests++;
         if (outage) return new Response("", { status: 503 });
         const a = article();

@@ -19,7 +19,7 @@ const old = () => article("La embajada de Trump interrogó a Colau por la flotil
 
 test("incident 41615295227: Puerto Rico's English fallback finds UN hearings after its only story ages out", async () => {
   const current = { ...article(title, 10), sourceName: "Pasquines" }, requests = [];
-  const result = await fetchArticlesForFeed(country, world, { fetchImpl: async url => {
+  const result = await fetchArticlesForFeed(country, world, { fetchPublisher: async () => [], fetchImpl: async url => {
     requests.push(url);
     return new Response(rss(requests.length < 3 ? [old()] : [current,
       article(title.replace("Puerto Rico", "Guam")), article(title, 15), article(title, -2),
@@ -69,7 +69,7 @@ test("the world fallback replaces aging cache atomically and preserves original 
   let searches = 0;
   const status = await refreshFeeds({ ...options, generate: o => generateFeeds({ ...o,
     fetchFeed: (c, f) => f.key !== "world" ? Promise.resolve([generic()]) : fetchArticlesForFeed(c, f, {
-      fetchImpl: async () => new Response(rss(++searches < 3 ? [old()] : [current]))
+      fetchPublisher: async () => [], fetchImpl: async () => new Response(rss(++searches < 3 ? [old()] : [current]))
     })
   }) });
   assert.equal(searches, 3);

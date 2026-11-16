@@ -35,7 +35,7 @@ test('both sparse searches replace an aging singleton without changing article d
   for (const [country, feed, title] of [[pr, world, military], [sr, sports, goalkeeper]]) {
     const current = make(title, country, feed, 6), old = make(title, country, feed, 13.2);
     let calls = 0;
-    const result = await fetchArticlesForFeed(country, feed, { fetchImpl: async () => {
+    const result = await fetchArticlesForFeed(country, feed, { fetchPublisher: async () => [], fetchImpl: async () => {
       const items = ++calls === 2 ? [current, old, make(title, country, feed, -2)] : [old];
       return new Response(`<rss><channel>${items.map(a => `<item><title>${a.title}</title><link>${a.url}</link><source>${a.sourceName}</source><pubDate>${a.publishedAt}</pubDate></item>`).join('')}</channel></rss>`);
     }});

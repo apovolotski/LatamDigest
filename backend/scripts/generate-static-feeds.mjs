@@ -4,6 +4,8 @@ import path from "node:path";
 import { pathToFileURL, fileURLToPath } from "node:url";
 import { FeedRequestError, UpstreamUnavailableError, feedFailureLabel, fetchRSS } from "../src/rssClient.js";
 import { feedConfigs, searchPlans, isRelevantArticle } from "../src/feedSearch.js";
+import { verifyPublisherArticle } from "../src/publisherArticle.js";
+import { publisherSourcesFor } from "../src/publisherSources.js";
 import { MAX_CACHE_AGE_MS, MAX_PUBLICATION_AGE_MS } from "../src/feedFreshness.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,6 +29,7 @@ export async function generateFeeds({
   let previous = { countries: [] };
   try { previous = JSON.parse(await fs.readFile(path.join(destination, "manifest.json"), "utf8")); } catch {}
   const pending = [];
+  const requestContext = createFeedRequestContext();
   const manifest = { generatedAt: new Date().toISOString(), source,
     feeds: feeds.map(({ key, label }) => ({ key, label })), countries: [] };
   let succeeded = 0;
@@ -41,7 +44,7 @@ export async function generateFeeds({
       const oldStatus = previous.countries.find(item => item.id === country.id)?.feeds?.[feed.key];
       let articles;
       try {
-        articles = await fetchFeed(country, feed, { signal });
+        articles = await fetchFeed(country, feed, { signal, requestContext });
         if (!articles.length) throw new FeedRequestError("empty-feed");
       } catch (error) {
         if (signal.aborted) throw new Error("Refresh deadline exceeded; no files published.");
@@ -51,7 +54,7 @@ export async function generateFeeds({
         consecutiveUpstreamFailures = error instanceof FeedRequestError && error.code !== "empty-feed"
           ? consecutiveUpstreamFailures + 1 : 0;
         console.error(`Refresh unavailable for ${country.id}/${feed.key}: ${label}.`);
-        if (consecutiveUpstreamFailures >= 5) {
+        if (consecutiveUpstreamFailures >= 5 && !requestContext.primary.blocked) {
           throw new UpstreamUnavailableError(error);
         }
         articles = null;
@@ -89,6 +92,7 @@ export async function generateFeeds({
     emptyFeeds: statuses.filter(status => !status.count).length,
     sparseFeeds: statuses.filter(status => status.count > 0 && status.count < 3).length };
   console.log(`Feed refresh: ${succeeded}/${countries.length * feeds.length} refreshed; failures=${JSON.stringify(Object.fromEntries(failures))}`);
+  if (!succeeded && requestContext.primary.failure) throw new UpstreamUnavailableError(requestContext.primary.failure);
   // A total outage must leave the entire previous publication byte-for-byte intact.
   if (succeeded) {
     if (signal.aborted) throw new Error("Refresh deadline exceeded; no files published.");
@@ -110,7 +114,17 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   }
 }
 
-export async function fetchArticlesForFeed(country, feedConfig, options) {
+// One context per generation, never persisted or shared with the next refresh.
+// Reuse each RSS response (including failures) across categories. Reading it
+// does not change article dates or make an old publication cache fresh.
+export function createFeedRequestContext() {
+  return { publisherRSS: new Map(), publisherArticles: new Map(), primary: { failures: 0, blocked: false, failure: null } };
+}
+
+export async function fetchArticlesForFeed(country, feedConfig, options = {}) {
+  const requestContext = options.requestContext ?? createFeedRequestContext();
+  options = { ...options, requestContext };
+  const primary = requestContext.primary;
   // Custom queries remain injectable for focused tests and callers. Production
   // feeds always use the localized plans and headline/date relevance checks.
   const plans = feedConfig.query ? [{ query: feedConfig.query({ countryName: country.name, countryCode: country.id }),
@@ -120,18 +134,24 @@ export async function fetchArticlesForFeed(country, feedConfig, options) {
   const languages = new Set();
   let searches = 0;
   let lookbackDays = 0;
-  let fallbackUnavailable = false;
-  let primaryFailure;
-  for (const plan of plans) {
+  let fallbackUnavailable = primary.blocked;
+  let primaryFailure = primary.blocked ? primary.failure : null;
+  for (const plan of primary.blocked ? [] : plans) {
     const url = new URL("https://news.google.com/rss/search");
     url.searchParams.set("q", plan.query);
     for (const [key, value] of Object.entries(plan.locale)) url.searchParams.set(key, value);
     let parsed;
     searches++;
-    try { parsed = await fetchRSS(url, options); }
+    try { parsed = await fetchRSS(url, options); primary.failures = 0; }
     catch (error) {
       if (!(error instanceof FeedRequestError) || options?.signal?.aborted) throw error;
       primaryFailure = error;
+      primary.failure = error;
+      primary.failures++;
+      if (primary.failures >= 5) {
+        primary.blocked = true;
+        console.warn("Google RSS repeatedly unavailable; independent publisher recovery will continue for every remaining feed.");
+      }
       fallbackUnavailable = true;
       break;
     }
@@ -175,19 +195,6 @@ export async function fetchArticlesForFeed(country, feedConfig, options) {
   return articles;
 }
 
-// Reviewed publisher feeds are independent of Google and strictly scoped to
-// the affected country/category. A publisher's location is never substituted
-// for country evidence in the headline, and its section is not category proof.
-const publisherFeeds = {
-  "TT/politics": [
-    { url: "https://www.ttt.live/category/news/government-news/feed/", name: "TTT News", host: "www.ttt.live" },
-    { url: "https://www.ttt.live/category/politics/feed/", name: "TTT News", host: "www.ttt.live" }
-  ],
-  "GF/economy": [
-    { url: "https://www.franceguyane.fr/actualite/economie-consommation/rss.xml", name: "franceguyane.fr", host: "www.franceguyane.fr" }
-  ]
-};
-
 function publisherText(value) {
   if (typeof value !== "string") return "";
   const entities = { amp: "&", quot: '"', apos: "'", lt: "<", gt: ">", nbsp: " ", ndash: "–", mdash: "—", rsquo: "’", lsquo: "‘", rdquo: "”", ldquo: "“" };
@@ -201,32 +208,55 @@ function publisherText(value) {
 }
 
 export async function fetchPublisherArticles(country, feed, options = {}) {
+  options = { ...options, requestContext: options.requestContext ?? createFeedRequestContext() };
   const selected = new Map();
-  for (const source of publisherFeeds[`${country.id}/${feed.key}`] ?? []) {
-    options.signal?.throwIfAborted();
-    let parsed;
-    try { parsed = await fetchRSS(new URL(source.url), options); }
+  const cache = options.requestContext?.publisherRSS ?? new Map();
+  const sources = publisherSourcesFor(country, feed);
+  async function load(source) {
+    try {
+      // Three requests at a time with short per-request deadlines prevent
+      // unavailable publishers from monopolizing the overall refresh budget.
+      if (!cache.has(source.url)) cache.set(source.url, fetchRSS(new URL(source.url),
+        { ...options, timeoutMs: Math.min(options.timeoutMs ?? 8_000, 8_000) }));
+      return await cache.get(source.url);
+    }
     catch (error) {
       options.signal?.throwIfAborted();
       if (!(error instanceof FeedRequestError)) throw error;
-      continue;
+      return null;
     }
-    let items = parsed?.rss?.channel?.item ?? [];
-    if (!Array.isArray(items)) items = [items];
-    for (const item of items) {
-      const link = publisherText(item?.link);
-      if (!isWebURL(link)) continue;
-      const url = new URL(link);
-      if (url.protocol !== "https:" || url.hostname !== source.host || url.username || url.password || url.port) continue;
-      // The publishers append campaign parameters to every feed link. Remove
-      // only those known tracking parameters before computing the stable ID.
-      for (const key of [...url.searchParams.keys()]) if (key.startsWith("utm_")) url.searchParams.delete(key);
-      const article = toArticle({ ...item, title: publisherText(item.title), link: url.href, source: source.name }, country, feed);
-      if (!article || !isRelevantArticle(article, country, feed, { lookbackDays: MAX_PUBLICATION_AGE_MS / 86_400_000 })) continue;
-      article.snippet = `${feed.label} reporting from ${source.name}.`;
-      selected.set(article.id, article);
+  }
+  for (let offset = 0; offset < sources.length && selected.size < 3; offset += 3) {
+    options.signal?.throwIfAborted();
+    const batch = sources.slice(offset, offset + 3);
+    const responses = await Promise.all(batch.map(load));
+    for (const [index, source] of batch.entries()) {
+      const parsed = responses[index];
+      let items = parsed?.rss?.channel?.item ?? [];
+      if (!Array.isArray(items)) items = [items];
+      const candidates = [];
+      for (const item of items) {
+        const link = publisherText(item?.link);
+        if (!isWebURL(link)) continue;
+        const url = new URL(link);
+        if (url.protocol !== "https:" || !source.hosts.includes(url.hostname) || url.username || url.password || url.port) continue;
+        // The publishers append campaign parameters to every feed link. Remove
+        // only those known tracking parameters before computing the stable ID.
+        for (const key of [...url.searchParams.keys()]) if (key.startsWith("utm_")) url.searchParams.delete(key);
+        const article = toArticle({ ...item, title: publisherText(item.title), link: url.href, source: source.name }, country, feed);
+        if (!article || !isRelevantArticle(article, country, feed, { lookbackDays: MAX_PUBLICATION_AGE_MS / 86_400_000 })) continue;
+        article.snippet = `${feed.label} reporting from ${source.name}.`;
+        candidates.push(article);
+      }
+      // Verify original publication instants on the actual publisher page.
+      // RSS build/update times are not sufficient when publishers reuse them.
+      for (let start = 0; start < Math.min(candidates.length, 12) && selected.size < 3; start += 3) {
+        const checked = await Promise.all(candidates.slice(start, start + 3).map(article =>
+          (options.verifyPublisherArticle ?? verifyPublisherArticle)(article, source, options)));
+        for (const article of checked) if (article && isRelevantArticle(article, country, feed,
+          { lookbackDays: MAX_PUBLICATION_AGE_MS / 86_400_000 })) selected.set(article.id, article);
+      }
     }
-    if (selected.size >= 3) break;
   }
   const articles = [...selected.values()].sort((a, b) => b.publishedAt.localeCompare(a.publishedAt)).slice(0, 12);
   if (articles.length) articles.coverage = { publishers: [...new Set(articles.map(a => a.sourceName))],

@@ -13,7 +13,7 @@ const getFeed = key => feedConfigs.find(feed => feed.key === key);
 const story = (title, daysAgo = 0, key = title) => ({ title, url: `https://example.com/${encodeURIComponent(key)}`,
   sourceName: "Example", publishedAt: new Date(Date.now() - daysAgo * 86_400_000).toISOString() });
 const rss = articles => `<rss><channel>${articles.map(article => `<item><title>${article.title}</title><link>${article.url}</link><source>${article.sourceName}</source><pubDate>${article.publishedAt}</pubDate></item>`).join("")}</channel></rss>`;
-const options = { sleep: async () => {} };
+const options = { fetchPublisher: async () => [], sleep: async () => {} };
 const cultureIncident = JSON.parse(await readFile(new URL("fixtures/suriname-culture.json", import.meta.url)));
 
 test("incident 39946815347: Surinamese adjectives and Dutch cultural compounds retain real reporting", async () => {

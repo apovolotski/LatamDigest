@@ -150,7 +150,7 @@ const topicMatchTerms = {
   "nl/economy": "econom*|inflati*|export*|begrot*|werkgelegen*|centrale bank*|groeicijfers",
   "nl/world": "internationa*|diplomat*|ambassad*|consulaat*|bilatera*|verdrag*|buitenlandse betrekkingen|VN|NAVO|UNESCO",
   "en/politics": "politic*|parliament*|congress*|presiden*|electoral|legislat*|prime minister|PM|senator*|secretary of state|foreign minister|cabinet minister",
-  "en/business": "industr*|firm*|commercial|commerce|investor*|investment*|corporat*|entrepreneur*",
+  "en/business": "industr*|firm|firms|commercial|commerce|investor*|investment*|corporat*|entrepreneur*",
   "en/sports": "sport*|football*|basketball*|champion*|athlet*|rugby*|futsal|tennis|touchdown*",
   "en/tech": "technolog*|innovat*|telecom*|cyber*|AI|broadband|robot*|5G|6G|data centre|data center|radio spectrum|spectrum management|spectrum week|satellite connectivity",
   "en/culture": "cultural|music*|artist*|cinema*|concert*|documentar*|heritage|literar*|theatr*|carnival*|cuisine|culinary",
@@ -401,6 +401,9 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   let title = headline;
   if (feed.key === "culture") {
     title = normalized(title).replace(figurativeCulture, " ").replace(financialOrPreventiveCulture, " ").replace(politicalCulture, " ").replace(booksAsPolicyMetaphor, " ").replace(/\barte de pensar\b/g, " ");
+    // Financial culture and natural heritage are not independent arts
+    // evidence. Preserve museums, arts and cultural heritage elsewhere.
+    title = title.replace(/\bcultura fobaproa\b|\bnatural heritage\b|\bpatrimonio natural\b|\bpatrimoine naturel\b|\bnatuurlijk erfgoed\b/g, " ");
     // Effie/workplace culture describes an agency's commercial practice.
     // Remove that phrase, preserving independent arts or museum coverage.
     title = title.replace(/\bcultura (?:dentro de la agencia|effie)\b/g, " ");
@@ -421,20 +424,25 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   }
   if (feed.key === "business") {
     title = normalized(title).replace(diplomaticBusinessTitles, " ");
+    // Illicit drug trade alone does not establish commercial reporting.
+    // Company, investment or other independent business evidence still can.
+    title = title.replace(/\b(?:drug|cocaine|narcotics) trade\b|\bcomercio de (?:drogas|cocaina|narcoticos)\b/g, " ");
     // El Comercio names the newspaper presenting this mural, not trade.
     title = title.replace(/^el comercio(?= presenta mural\b)/, " ");
   }
   if (feed.key === "crime") {
-    // The football club's name is not a justice-system reference. Preserve
-    // independent reports about actual crimes involving the club.
-    title = normalized(title).replace(noncriminalJustice, " ").replace(/\bdefensa y justicia\b/g, " ");
+    // A football club or political party name is not a justice-system
+    // reference. Preserve independent criminal reporting about either.
+    title = normalized(title).replace(noncriminalJustice, " ").replace(/\b(?:defensa y justicia|primero justicia)\b/g, " ");
     // A CCJ dispute over CARICOM affairs is not criminal evidence merely
     // because the headline discusses making it the final appellate court.
     const regionalTreatyDispute = /\b(?:ccj|caribbean court of justice)\b/.test(title) && /\bcaricom\b/.test(title) && /\bdispute\w*\b/.test(title);
     // ANJ/ABERT/ANER's reviewed injunction concerns commercial copyright
     // terms. Preserve separate criminal evidence and other court reporting.
     const publishersInjunction = /\bliminar\b/.test(title) && /\b(?:associacao nacional de jornais|abert|aner)\b/.test(title);
-    if ((civilDispute.test(title) || regionalTreatyDispute || publishersInjunction) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
+    // This civil damages/advertising context cannot rely on justicia alone.
+    const advertisingDispute = /\b(?:demanda|litigio|pleito)\b/.test(title) && /\b(?:comercial|publicidad|uso de (?:su |la )?imagen)\b/.test(title);
+    if ((civilDispute.test(title) || regionalTreatyDispute || publishersInjunction || advertisingDispute) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     if ((policeCommunityEvents.test(title) || /\bascensos?\b/.test(title) || sports.some(term => matches(title, term))) &&
         !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
