@@ -6,6 +6,7 @@ import {fetchPublisherArticles,toArticle} from '../scripts/generate-static-feeds
 import {publisherSourcesFor} from '../src/publisherSources.js';
 const countries=JSON.parse(await readFile(new URL('../../LatamDigest/Resources/Countries.json',import.meta.url)));
 const cases=[
+ ['AR','culture','La histórica dificultad de los argentinos para brillar en la Bundesliga: la cultura, el “estilo diferente” y la lista de 53 representantes','Argentina estrena un documental sobre la cultura de la Bundesliga'],
  ['CO','culture','Precio del dólar en Colombia: qué pasará con la moneda durante la concertación del aumento del salario mínimo de 2027','Colombia abre un concierto de música durante la concertación cultural'],
  ['PY','culture','Paraguay. Sindicatos exigen incautar patrimonio de imputados relacionados a Ueno Bank','Paraguay recupera patrimonio cultural de un museo durante una investigación'],
  ['GF','culture',"La Collectivité territoriale de Guyane s'explique après la polémique sur une opération de dépistage du cancer du sein","Guyane : les opéras et la musique au théâtre de Cayenne"],

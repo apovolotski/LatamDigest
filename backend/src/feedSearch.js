@@ -416,6 +416,9 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     // assets of defendants are not cultural heritage; independent arts survive.
     title = title.replace(/\bconcertacion\w*\b|\bconcertation\w*\b/g, " ")
       .replace(/\bpatrimonio de (?:los )?(?:imputad|acusad|condenad)\w*\b/g, " ");
+    // A football league's playing/living culture is not independent arts.
+    // Keep actual music, cinema, literature or heritage about that league.
+    if (/\b(?:bundesliga|premier league|champions league|ligue 1)\b/.test(title)) title = title.replace(/\b(?:cultur\w*|cultuur\w*)\b/g, " ");
     // Effie/workplace culture describes an agency's commercial practice.
     // Remove that phrase, preserving independent arts or museum coverage.
     title = title.replace(/\bcultura (?:dentro de la agencia|effie)\b/g, " ");
