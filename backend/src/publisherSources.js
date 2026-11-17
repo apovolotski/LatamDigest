@@ -926,6 +926,14 @@ export const countryPublisherFeeds = {
       "kind": "outremers"
     },
     {
+      "url": "https://www.karibinfo.com/wp-json/wp/v2/posts?search=Guyane",
+      "name": "KARIBINFO",
+      "hosts": [
+        "www.karibinfo.com"
+      ],
+      "kind": "wordpress"
+    },
+    {
       "url": "https://www.franceguyane.fr/actualite/fil-info/rss.xml",
       "name": "franceguyane.fr",
       "hosts": [

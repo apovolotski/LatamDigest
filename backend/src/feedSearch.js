@@ -101,7 +101,7 @@ const queryTopics = {
   "en/world": "foreign affairs|diplomacy|ambassador|CARICOM|bilateral|United Nations",
   // Rotate the sparse French Guiana world fallback to European/regional affairs
   // vocabulary; keep the same three country-scoped searches and age gates.
-  "GF/fr/world": "international|diplomatie|affaires étrangères|coopération|ambassadeur|frontière|Caricom|Union européenne|régions ultrapériphériques|relations internationales|diplomatique|bilatéral",
+  "GF/fr/world": "international|diplomatie|affaires étrangères|coopération|ambassadeur|frontière|Caricom|Union européenne|régions ultrapériphériques|relations internationales|diplomatique|fonds européens",
   "fr/business": "entreprises|commerce|investissement|comptables|production|entreprendre|entreprise",
   "fr/economy": "économie|emploi|budget|prix|pétrole|carburant",
   "GF/fr/economy": "économie|emploi|budget|prix|pétrole|carburant|valeur ajoutée|chômage|salaires|inflation|croissance|exportations",
@@ -474,6 +474,13 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   }
   if (feed.key === "world") {
     title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ").replace(/\b(?:camino|ruta|avenida|carretera) internacional\b/g, " ");
+    // EU cohesion programmes are international institutional affairs. A bare
+    // European investment fund or a European-labelled event is not enough:
+    // require explicit public programme/territorial governance in the headline.
+    if (/\bfonds europeens\b/.test(title) &&
+        /\b(?:collectivite territoriale|politique de cohesion|feder|feader|feampa|fse)\b/.test(title)) {
+      terms.push("fonds européens");
+    }
     // Military support/intervention needs a named foreign participant or
     // destination. Domestic military aid, bands and isolated military labels
     // do not establish world affairs.
