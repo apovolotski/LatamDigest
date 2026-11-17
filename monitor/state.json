@@ -24276,6 +24276,42 @@
         "Failure annotations remain.",
         "A required job did not pass."
       ]
+    },
+    "44174181553:1": {
+      "id": 44174181553,
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "createdAt": "2026-11-17T20:54:19Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "34473ffd7374dd122ae33a8c6dc83bec2ff01542",
+      "conclusion": "failure",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44174181553",
+      "verifiedAt": "2026-11-17T22:36:47.775Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "failure",
+          "stepMetadataCount": 12
+        }
+      ],
+      "completeLogSha256": "1092592d63cd6475c97a571deb92d74005649047ae9806697281c718462ec258",
+      "completeLogLines": 2380,
+      "jobLogs": [
+        {
+          "id": 134360993360,
+          "name": "refresh",
+          "sha256": "1092592d63cd6475c97a571deb92d74005649047ae9806697281c718462ec258",
+          "lines": 2380
+        }
+      ],
+      "maintenanceKey": "feeds-failed-44173537851-1",
+      "valid": false,
+      "issues": [
+        "Workflow failed; inspect its complete logs and annotations.",
+        "Failure annotations remain.",
+        "A required job did not pass."
+      ]
     }
   },
   "receipts": {
@@ -24706,7 +24742,10 @@
       "due": "2026-11-17T18:17:00.000Z",
       "reason": "failed_run",
       "reservedAt": "2026-11-17T20:53:54.710Z",
-      "status": "dispatched"
+      "status": "completed",
+      "runId": 44174181553,
+      "conclusion": "failure",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44174181553"
     }
   },
   "alerts": {
@@ -24736,21 +24775,21 @@
       ]
     },
     "721b65af67e0f94886f5b774a2b25c544a2acd457a47eaf373047b1951dfe806": {
-      "firstRaisedAt": "2026-11-15T18:53:02.115Z",
+      "firstRaisedAt": "2026-11-17T22:36:47.775Z",
       "problems": [
-        "Refresh Static Feeds remains failed; see run 43748698009."
+        "Refresh Static Feeds remains failed; see run 44174181553."
       ]
     }
   },
-  "status": "recovery_pending",
+  "status": "attention_required",
   "latest": {
-    "checkedAt": "2026-11-17T20:53:54.710Z",
+    "checkedAt": "2026-11-17T22:36:47.775Z",
     "workflows": {
       "feeds": {
         "due": "2026-11-17T18:17:00.000Z",
         "state": "active",
         "active": [],
-        "failed": 44173537851
+        "failed": 44174181553
       },
       "backend": {
         "due": "2026-11-17T10:43:00.000Z",
@@ -24760,11 +24799,9 @@
     },
     "decisions": {
       "feeds": {
-        "dispatch": true,
-        "key": "feeds-failed-44173537851-1",
-        "kind": "feeds",
-        "due": "2026-11-17T18:17:00.000Z",
-        "reason": "failed_run"
+        "dispatch": false,
+        "reason": "cooldown",
+        "due": "2026-11-17T18:17:00.000Z"
       },
       "backend": {
         "dispatch": false,
@@ -24772,7 +24809,9 @@
         "due": "2026-11-17T10:43:00.000Z"
       }
     },
-    "problems": [],
+    "problems": [
+      "Refresh Static Feeds remains failed; see run 44174181553."
+    ],
     "publication": {
       "commit": "34473ffd7374dd122ae33a8c6dc83bec2ff01542",
       "valid": true,
@@ -24813,8 +24852,10 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-17T20:53:54.710Z",
-  "activeAlerts": [],
+  "checkedAt": "2026-11-17T22:36:47.775Z",
+  "activeAlerts": [
+    "721b65af67e0f94886f5b774a2b25c544a2acd457a47eaf373047b1951dfe806"
+  ],
   "repairs": [
     {
       "recordedAt": "2026-10-31T03:27:38Z",
