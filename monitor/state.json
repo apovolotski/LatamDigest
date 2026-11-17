@@ -281,10 +281,7 @@
       ]
     },
     "feeds": {
-      "runIds": [
-        43965239218,
-        44041688462
-      ],
+      "runIds": [],
       "attempts": {
         "43965239218:1": {
           "conclusion": "success",
@@ -293,6 +290,10 @@
         "44041688462:1": {
           "conclusion": "success",
           "verifiedAt": "2026-11-17T08:03:26.027Z"
+        },
+        "44173537851:1": {
+          "conclusion": "failure",
+          "verifiedAt": "2026-11-17T20:53:54.710Z"
         }
       },
       "history": [
@@ -758,6 +759,13 @@
           "reason": "source_independent_archive_resilience",
           "repairCommit": "38edb0e46af1c52b031d6f6166227f297cc473c4",
           "cutoff": "2026-11-16T05:31:19Z"
+        },
+        {
+          "endedAt": "2026-11-17T20:53:54.710Z",
+          "runIds": [
+            43965239218,
+            44041688462
+          ]
         }
       ]
     }
@@ -24233,6 +24241,41 @@
           "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
         }
       }
+    },
+    "44173537851:1": {
+      "id": 44173537851,
+      "attempt": 1,
+      "event": "schedule",
+      "createdAt": "2026-11-17T20:50:35Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "34473ffd7374dd122ae33a8c6dc83bec2ff01542",
+      "conclusion": "failure",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44173537851",
+      "verifiedAt": "2026-11-17T20:53:54.710Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "failure",
+          "stepMetadataCount": 12
+        }
+      ],
+      "completeLogSha256": "9439e762e724550fb729a5eeac045f48af62341d806646f1575b38029baa7fa6",
+      "completeLogLines": 2379,
+      "jobLogs": [
+        {
+          "id": 134358706745,
+          "name": "refresh",
+          "sha256": "9439e762e724550fb729a5eeac045f48af62341d806646f1575b38029baa7fa6",
+          "lines": 2379
+        }
+      ],
+      "valid": false,
+      "issues": [
+        "Workflow failed; inspect its complete logs and annotations.",
+        "Failure annotations remain.",
+        "A required job did not pass."
+      ]
     }
   },
   "receipts": {
@@ -24655,6 +24698,15 @@
       "runId": 44096252004,
       "conclusion": "success",
       "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44096252004"
+    },
+    "feeds-failed-44173537851-1": {
+      "dispatch": true,
+      "key": "feeds-failed-44173537851-1",
+      "kind": "feeds",
+      "due": "2026-11-17T18:17:00.000Z",
+      "reason": "failed_run",
+      "reservedAt": "2026-11-17T20:53:54.710Z",
+      "status": "reserved"
     }
   },
   "alerts": {
