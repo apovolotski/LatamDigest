@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T07:20:01.102Z",
+  "generatedAt": "2026-11-18T20:26:52.986Z",
   "source": "Google News RSS with direct publisher fallbacks",
   "feeds": [
     {
@@ -50,7 +50,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:01.688Z",
+          "updatedAt": "2026-11-18T20:26:53.663Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -64,7 +64,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:01.740Z",
+          "updatedAt": "2026-11-18T20:26:53.749Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -78,7 +78,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:02.110Z",
+          "updatedAt": "2026-11-18T20:26:54.256Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -92,7 +92,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:02.548Z",
+          "updatedAt": "2026-11-18T20:26:54.786Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -106,7 +106,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:02.900Z",
+          "updatedAt": "2026-11-18T20:26:55.188Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -120,7 +120,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:03.261Z",
+          "updatedAt": "2026-11-18T20:26:55.602Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -134,7 +134,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:03.664Z",
+          "updatedAt": "2026-11-18T20:26:56.099Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -148,7 +148,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:04.131Z",
+          "updatedAt": "2026-11-18T20:26:56.552Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -162,7 +162,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:04.657Z",
+          "updatedAt": "2026-11-18T20:26:57.182Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -175,8 +175,8 @@
           }
         },
         "world": {
-          "count": 8,
-          "updatedAt": "2026-11-18T07:20:05.038Z",
+          "count": 12,
+          "updatedAt": "2026-11-18T20:26:57.864Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -196,7 +196,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:05.539Z",
+          "updatedAt": "2026-11-18T20:26:58.379Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -210,7 +210,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:05.595Z",
+          "updatedAt": "2026-11-18T20:26:58.491Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -224,7 +224,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:06.210Z",
+          "updatedAt": "2026-11-18T20:26:59.154Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -238,7 +238,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:06.498Z",
+          "updatedAt": "2026-11-18T20:26:59.784Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -252,7 +252,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:06.930Z",
+          "updatedAt": "2026-11-18T20:27:00.273Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -265,8 +265,8 @@
           }
         },
         "tech": {
-          "count": 8,
-          "updatedAt": "2026-11-18T07:20:08.768Z",
+          "count": 11,
+          "updatedAt": "2026-11-18T20:27:00.816Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -280,7 +280,7 @@
         },
         "culture": {
           "count": 10,
-          "updatedAt": "2026-11-18T07:20:10.597Z",
+          "updatedAt": "2026-11-18T20:27:01.368Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -294,7 +294,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:11.005Z",
+          "updatedAt": "2026-11-18T20:27:01.885Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -307,8 +307,8 @@
           }
         },
         "economy": {
-          "count": 10,
-          "updatedAt": "2026-11-18T07:20:11.287Z",
+          "count": 12,
+          "updatedAt": "2026-11-18T20:27:02.323Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -322,7 +322,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:11.803Z",
+          "updatedAt": "2026-11-18T20:27:02.855Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -342,7 +342,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:12.117Z",
+          "updatedAt": "2026-11-18T20:27:03.315Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -356,7 +356,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:12.173Z",
+          "updatedAt": "2026-11-18T20:27:03.352Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -370,7 +370,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:12.507Z",
+          "updatedAt": "2026-11-18T20:27:04.068Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -384,7 +384,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:12.879Z",
+          "updatedAt": "2026-11-18T20:27:04.538Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -398,7 +398,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:13.195Z",
+          "updatedAt": "2026-11-18T20:27:05.167Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -412,7 +412,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:13.585Z",
+          "updatedAt": "2026-11-18T20:27:05.809Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -426,7 +426,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:13.965Z",
+          "updatedAt": "2026-11-18T20:27:06.458Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -440,7 +440,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:14.373Z",
+          "updatedAt": "2026-11-18T20:27:06.957Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -454,7 +454,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:14.724Z",
+          "updatedAt": "2026-11-18T20:27:07.576Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -468,7 +468,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:15.461Z",
+          "updatedAt": "2026-11-18T20:27:08.189Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -488,7 +488,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:15.877Z",
+          "updatedAt": "2026-11-18T20:27:08.634Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -502,7 +502,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:15.905Z",
+          "updatedAt": "2026-11-18T20:27:08.656Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -516,7 +516,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:16.361Z",
+          "updatedAt": "2026-11-18T20:27:09.075Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -530,7 +530,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:16.761Z",
+          "updatedAt": "2026-11-18T20:27:09.612Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -544,7 +544,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:17.139Z",
+          "updatedAt": "2026-11-18T20:27:10.192Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -558,7 +558,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:17.584Z",
+          "updatedAt": "2026-11-18T20:27:10.673Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -572,7 +572,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:18.003Z",
+          "updatedAt": "2026-11-18T20:27:11.112Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -585,8 +585,8 @@
           }
         },
         "crime": {
-          "count": 9,
-          "updatedAt": "2026-11-18T07:20:18.229Z",
+          "count": 12,
+          "updatedAt": "2026-11-18T20:27:11.546Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -600,7 +600,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:18.611Z",
+          "updatedAt": "2026-11-18T20:27:12.106Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -614,7 +614,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:19.073Z",
+          "updatedAt": "2026-11-18T20:27:12.635Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -634,7 +634,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:19.401Z",
+          "updatedAt": "2026-11-18T20:27:13.175Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -648,7 +648,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:19.431Z",
+          "updatedAt": "2026-11-18T20:27:13.269Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -662,7 +662,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:19.876Z",
+          "updatedAt": "2026-11-18T20:27:13.830Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -676,7 +676,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:20.199Z",
+          "updatedAt": "2026-11-18T20:27:14.278Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -690,7 +690,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:20.604Z",
+          "updatedAt": "2026-11-18T20:27:14.808Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -704,7 +704,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:21.027Z",
+          "updatedAt": "2026-11-18T20:27:15.466Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -718,7 +718,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:21.399Z",
+          "updatedAt": "2026-11-18T20:27:16.020Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -732,7 +732,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:21.799Z",
+          "updatedAt": "2026-11-18T20:27:16.590Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -746,7 +746,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:22.130Z",
+          "updatedAt": "2026-11-18T20:27:17.177Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -760,7 +760,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:22.504Z",
+          "updatedAt": "2026-11-18T20:27:17.725Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -780,7 +780,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:23.026Z",
+          "updatedAt": "2026-11-18T20:27:18.597Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -794,7 +794,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:23.077Z",
+          "updatedAt": "2026-11-18T20:27:19.707Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -808,7 +808,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:23.360Z",
+          "updatedAt": "2026-11-18T20:27:20.219Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -822,7 +822,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:23.653Z",
+          "updatedAt": "2026-11-18T20:27:20.709Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -836,7 +836,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:24.013Z",
+          "updatedAt": "2026-11-18T20:27:21.373Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -850,7 +850,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:24.338Z",
+          "updatedAt": "2026-11-18T20:27:21.941Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -863,8 +863,8 @@
           }
         },
         "culture": {
-          "count": 12,
-          "updatedAt": "2026-11-18T07:20:24.787Z",
+          "count": 11,
+          "updatedAt": "2026-11-18T20:27:22.596Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -878,7 +878,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:25.255Z",
+          "updatedAt": "2026-11-18T20:27:23.290Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -892,7 +892,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:25.604Z",
+          "updatedAt": "2026-11-18T20:27:24.040Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -905,16 +905,16 @@
           }
         },
         "world": {
-          "count": 5,
-          "updatedAt": "2026-11-18T07:20:26.630Z",
+          "count": 4,
+          "updatedAt": "2026-11-18T20:27:24.722Z",
           "stale": false,
           "coverage": {
             "languages": [
               "es"
             ],
-            "lookbackDays": 14,
-            "searches": 2,
-            "fallbackUsed": true,
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
             "fallbackUnavailable": false
           }
         }
@@ -926,7 +926,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:27.065Z",
+          "updatedAt": "2026-11-18T20:27:25.304Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -940,7 +940,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:27.092Z",
+          "updatedAt": "2026-11-18T20:27:25.320Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -954,7 +954,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:27.450Z",
+          "updatedAt": "2026-11-18T20:27:25.800Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -968,7 +968,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:27.744Z",
+          "updatedAt": "2026-11-18T20:27:26.424Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -982,7 +982,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:28.098Z",
+          "updatedAt": "2026-11-18T20:27:27.021Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -996,7 +996,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:28.312Z",
+          "updatedAt": "2026-11-18T20:27:27.459Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1010,7 +1010,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:28.571Z",
+          "updatedAt": "2026-11-18T20:27:27.931Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1024,7 +1024,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:28.802Z",
+          "updatedAt": "2026-11-18T20:27:28.391Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1038,7 +1038,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:29.033Z",
+          "updatedAt": "2026-11-18T20:27:28.886Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1052,7 +1052,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:29.438Z",
+          "updatedAt": "2026-11-18T20:27:29.391Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1072,7 +1072,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:29.848Z",
+          "updatedAt": "2026-11-18T20:27:30.053Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1086,7 +1086,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:29.902Z",
+          "updatedAt": "2026-11-18T20:27:30.273Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1100,7 +1100,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:30.171Z",
+          "updatedAt": "2026-11-18T20:27:30.771Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1114,7 +1114,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:30.522Z",
+          "updatedAt": "2026-11-18T20:27:31.166Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1128,7 +1128,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:31.019Z",
+          "updatedAt": "2026-11-18T20:27:31.866Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1142,7 +1142,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:31.287Z",
+          "updatedAt": "2026-11-18T20:27:32.582Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1156,7 +1156,7 @@
         },
         "culture": {
           "count": 10,
-          "updatedAt": "2026-11-18T07:20:31.647Z",
+          "updatedAt": "2026-11-18T20:27:33.145Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1170,7 +1170,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:31.932Z",
+          "updatedAt": "2026-11-18T20:27:33.895Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1184,7 +1184,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:32.196Z",
+          "updatedAt": "2026-11-18T20:27:34.271Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1198,7 +1198,7 @@
         },
         "world": {
           "count": 5,
-          "updatedAt": "2026-11-18T07:20:32.623Z",
+          "updatedAt": "2026-11-18T20:27:34.810Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1218,7 +1218,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:32.957Z",
+          "updatedAt": "2026-11-18T20:27:35.483Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1232,7 +1232,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:33.013Z",
+          "updatedAt": "2026-11-18T20:27:35.523Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1246,7 +1246,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:33.503Z",
+          "updatedAt": "2026-11-18T20:27:36.040Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1260,7 +1260,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:33.802Z",
+          "updatedAt": "2026-11-18T20:27:36.443Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1274,7 +1274,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:34.168Z",
+          "updatedAt": "2026-11-18T20:27:37.139Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1288,7 +1288,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:34.544Z",
+          "updatedAt": "2026-11-18T20:27:37.551Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1301,8 +1301,8 @@
           }
         },
         "culture": {
-          "count": 11,
-          "updatedAt": "2026-11-18T07:20:34.900Z",
+          "count": 12,
+          "updatedAt": "2026-11-18T20:27:38.068Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1316,7 +1316,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:35.267Z",
+          "updatedAt": "2026-11-18T20:27:38.448Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1330,7 +1330,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:35.570Z",
+          "updatedAt": "2026-11-18T20:27:39.090Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1344,7 +1344,7 @@
         },
         "world": {
           "count": 3,
-          "updatedAt": "2026-11-18T07:20:35.993Z",
+          "updatedAt": "2026-11-18T20:27:39.681Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1364,7 +1364,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:36.328Z",
+          "updatedAt": "2026-11-18T20:27:40.150Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1378,7 +1378,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:36.377Z",
+          "updatedAt": "2026-11-18T20:27:40.690Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1392,7 +1392,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:36.968Z",
+          "updatedAt": "2026-11-18T20:27:41.287Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1406,7 +1406,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:37.244Z",
+          "updatedAt": "2026-11-18T20:27:41.922Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1420,7 +1420,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:37.637Z",
+          "updatedAt": "2026-11-18T20:27:42.581Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1433,8 +1433,8 @@
           }
         },
         "tech": {
-          "count": 5,
-          "updatedAt": "2026-11-18T07:20:37.923Z",
+          "count": 7,
+          "updatedAt": "2026-11-18T20:27:43.103Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1448,7 +1448,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:38.203Z",
+          "updatedAt": "2026-11-18T20:27:43.707Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1462,7 +1462,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:38.561Z",
+          "updatedAt": "2026-11-18T20:27:44.412Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1475,8 +1475,8 @@
           }
         },
         "economy": {
-          "count": 12,
-          "updatedAt": "2026-11-18T07:20:38.867Z",
+          "count": 11,
+          "updatedAt": "2026-11-18T20:27:44.866Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1490,7 +1490,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:39.207Z",
+          "updatedAt": "2026-11-18T20:27:45.358Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1510,7 +1510,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:39.590Z",
+          "updatedAt": "2026-11-18T20:27:45.891Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1524,7 +1524,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:39.641Z",
+          "updatedAt": "2026-11-18T20:27:46.404Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1538,7 +1538,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:40.069Z",
+          "updatedAt": "2026-11-18T20:27:46.975Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1552,7 +1552,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:40.408Z",
+          "updatedAt": "2026-11-18T20:27:47.426Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1566,7 +1566,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:40.727Z",
+          "updatedAt": "2026-11-18T20:27:47.911Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1579,8 +1579,8 @@
           }
         },
         "tech": {
-          "count": 9,
-          "updatedAt": "2026-11-18T07:20:41.071Z",
+          "count": 10,
+          "updatedAt": "2026-11-18T20:27:48.290Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1593,22 +1593,22 @@
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-18T07:20:41.354Z",
+          "count": 7,
+          "updatedAt": "2026-11-18T20:27:49.127Z",
           "stale": false,
           "coverage": {
             "languages": [
               "es"
             ],
-            "lookbackDays": 7,
-            "searches": 1,
-            "fallbackUsed": false,
+            "lookbackDays": 14,
+            "searches": 2,
+            "fallbackUsed": true,
             "fallbackUnavailable": false
           }
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:41.730Z",
+          "updatedAt": "2026-11-18T20:27:49.840Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1622,7 +1622,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:42.029Z",
+          "updatedAt": "2026-11-18T20:27:50.414Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1636,7 +1636,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:42.431Z",
+          "updatedAt": "2026-11-18T20:27:51.207Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1656,7 +1656,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:42.755Z",
+          "updatedAt": "2026-11-18T20:27:51.632Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1670,7 +1670,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:42.782Z",
+          "updatedAt": "2026-11-18T20:27:52.051Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1684,7 +1684,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:43.048Z",
+          "updatedAt": "2026-11-18T20:27:52.567Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1698,7 +1698,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:43.386Z",
+          "updatedAt": "2026-11-18T20:27:53.303Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1712,7 +1712,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:43.725Z",
+          "updatedAt": "2026-11-18T20:27:53.792Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1726,7 +1726,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:43.970Z",
+          "updatedAt": "2026-11-18T20:27:54.217Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1740,7 +1740,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:44.303Z",
+          "updatedAt": "2026-11-18T20:27:54.792Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1754,7 +1754,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:44.601Z",
+          "updatedAt": "2026-11-18T20:27:55.124Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1768,7 +1768,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:44.896Z",
+          "updatedAt": "2026-11-18T20:27:55.559Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1782,7 +1782,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:45.328Z",
+          "updatedAt": "2026-11-18T20:27:56.043Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1802,7 +1802,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:45.751Z",
+          "updatedAt": "2026-11-18T20:27:56.620Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1816,7 +1816,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:45.801Z",
+          "updatedAt": "2026-11-18T20:27:56.742Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1830,7 +1830,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:46.108Z",
+          "updatedAt": "2026-11-18T20:27:57.272Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1843,8 +1843,8 @@
           }
         },
         "business": {
-          "count": 12,
-          "updatedAt": "2026-11-18T07:20:46.396Z",
+          "count": 10,
+          "updatedAt": "2026-11-18T20:27:57.757Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1858,7 +1858,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:46.733Z",
+          "updatedAt": "2026-11-18T20:27:58.455Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1871,22 +1871,22 @@
           }
         },
         "tech": {
-          "count": 6,
-          "updatedAt": "2026-11-18T07:20:47.266Z",
+          "count": 3,
+          "updatedAt": "2026-11-18T20:27:58.932Z",
           "stale": false,
           "coverage": {
             "languages": [
               "es"
             ],
-            "lookbackDays": 14,
-            "searches": 2,
-            "fallbackUsed": true,
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
             "fallbackUnavailable": false
           }
         },
         "culture": {
           "count": 4,
-          "updatedAt": "2026-11-18T07:20:47.537Z",
+          "updatedAt": "2026-11-18T20:27:59.658Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1900,7 +1900,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:47.813Z",
+          "updatedAt": "2026-11-18T20:28:00.293Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1913,8 +1913,8 @@
           }
         },
         "economy": {
-          "count": 12,
-          "updatedAt": "2026-11-18T07:20:48.089Z",
+          "count": 11,
+          "updatedAt": "2026-11-18T20:28:00.848Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1928,7 +1928,7 @@
         },
         "world": {
           "count": 8,
-          "updatedAt": "2026-11-18T07:20:48.479Z",
+          "updatedAt": "2026-11-18T20:28:01.446Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1948,7 +1948,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:48.857Z",
+          "updatedAt": "2026-11-18T20:28:02.271Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1962,7 +1962,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:48.906Z",
+          "updatedAt": "2026-11-18T20:28:02.318Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1976,7 +1976,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:49.241Z",
+          "updatedAt": "2026-11-18T20:28:02.924Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -1990,7 +1990,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:49.511Z",
+          "updatedAt": "2026-11-18T20:28:03.717Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2004,7 +2004,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:49.839Z",
+          "updatedAt": "2026-11-18T20:28:04.320Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2018,7 +2018,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:50.175Z",
+          "updatedAt": "2026-11-18T20:28:04.698Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2031,8 +2031,8 @@
           }
         },
         "culture": {
-          "count": 8,
-          "updatedAt": "2026-11-18T07:20:50.534Z",
+          "count": 12,
+          "updatedAt": "2026-11-18T20:28:05.121Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2046,7 +2046,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:50.783Z",
+          "updatedAt": "2026-11-18T20:28:05.871Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2060,7 +2060,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:51.055Z",
+          "updatedAt": "2026-11-18T20:28:06.423Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2074,7 +2074,7 @@
         },
         "world": {
           "count": 7,
-          "updatedAt": "2026-11-18T07:20:51.346Z",
+          "updatedAt": "2026-11-18T20:28:07.058Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2094,7 +2094,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:51.746Z",
+          "updatedAt": "2026-11-18T20:28:07.749Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2108,7 +2108,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:51.795Z",
+          "updatedAt": "2026-11-18T20:28:07.790Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2122,7 +2122,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:52.161Z",
+          "updatedAt": "2026-11-18T20:28:08.574Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2136,7 +2136,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:52.570Z",
+          "updatedAt": "2026-11-18T20:28:09.009Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2150,7 +2150,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:52.941Z",
+          "updatedAt": "2026-11-18T20:28:09.561Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2163,8 +2163,8 @@
           }
         },
         "tech": {
-          "count": 12,
-          "updatedAt": "2026-11-18T07:20:53.189Z",
+          "count": 9,
+          "updatedAt": "2026-11-18T20:28:10.195Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2178,7 +2178,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:53.519Z",
+          "updatedAt": "2026-11-18T20:28:10.621Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2192,7 +2192,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:53.800Z",
+          "updatedAt": "2026-11-18T20:28:11.124Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2206,7 +2206,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:54.106Z",
+          "updatedAt": "2026-11-18T20:28:11.791Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2219,8 +2219,8 @@
           }
         },
         "world": {
-          "count": 6,
-          "updatedAt": "2026-11-18T07:20:54.543Z",
+          "count": 7,
+          "updatedAt": "2026-11-18T20:28:12.418Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2240,7 +2240,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:54.940Z",
+          "updatedAt": "2026-11-18T20:28:12.896Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2254,7 +2254,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:54.966Z",
+          "updatedAt": "2026-11-18T20:28:12.921Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2268,7 +2268,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:55.247Z",
+          "updatedAt": "2026-11-18T20:28:13.491Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2282,7 +2282,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:55.755Z",
+          "updatedAt": "2026-11-18T20:28:13.878Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2296,7 +2296,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:56.116Z",
+          "updatedAt": "2026-11-18T20:28:14.228Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2310,7 +2310,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:56.414Z",
+          "updatedAt": "2026-11-18T20:28:14.654Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2324,7 +2324,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:56.666Z",
+          "updatedAt": "2026-11-18T20:28:15.004Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2338,7 +2338,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:56.992Z",
+          "updatedAt": "2026-11-18T20:28:15.493Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2352,7 +2352,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:57.386Z",
+          "updatedAt": "2026-11-18T20:28:15.839Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2366,7 +2366,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:57.758Z",
+          "updatedAt": "2026-11-18T20:28:16.260Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2386,7 +2386,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:58.145Z",
+          "updatedAt": "2026-11-18T20:28:16.955Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2400,7 +2400,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:58.196Z",
+          "updatedAt": "2026-11-18T20:28:16.995Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2414,7 +2414,7 @@
         },
         "politics": {
           "count": 11,
-          "updatedAt": "2026-11-18T07:20:58.480Z",
+          "updatedAt": "2026-11-18T20:28:17.451Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2428,7 +2428,7 @@
         },
         "business": {
           "count": 5,
-          "updatedAt": "2026-11-18T07:20:58.804Z",
+          "updatedAt": "2026-11-18T20:28:17.919Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2442,7 +2442,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:20:59.059Z",
+          "updatedAt": "2026-11-18T20:28:18.506Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2455,8 +2455,8 @@
           }
         },
         "tech": {
-          "count": 4,
-          "updatedAt": "2026-11-18T07:21:01.072Z",
+          "count": 6,
+          "updatedAt": "2026-11-18T20:28:19.029Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2469,8 +2469,8 @@
           }
         },
         "culture": {
-          "count": 6,
-          "updatedAt": "2026-11-18T07:21:01.392Z",
+          "count": 10,
+          "updatedAt": "2026-11-18T20:28:19.549Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2483,8 +2483,8 @@
           }
         },
         "crime": {
-          "count": 11,
-          "updatedAt": "2026-11-18T07:21:01.710Z",
+          "count": 12,
+          "updatedAt": "2026-11-18T20:28:19.928Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2498,7 +2498,7 @@
         },
         "economy": {
           "count": 6,
-          "updatedAt": "2026-11-18T07:21:03.790Z",
+          "updatedAt": "2026-11-18T20:28:20.404Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2511,8 +2511,8 @@
           }
         },
         "world": {
-          "count": 7,
-          "updatedAt": "2026-11-18T07:21:05.627Z",
+          "count": 5,
+          "updatedAt": "2026-11-18T20:28:20.937Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2532,7 +2532,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:06.043Z",
+          "updatedAt": "2026-11-18T20:28:21.437Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2546,7 +2546,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:07.899Z",
+          "updatedAt": "2026-11-18T20:28:21.483Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2560,7 +2560,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:12.342Z",
+          "updatedAt": "2026-11-18T20:28:21.959Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2574,7 +2574,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:12.692Z",
+          "updatedAt": "2026-11-18T20:28:22.449Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2587,8 +2587,8 @@
           }
         },
         "sports": {
-          "count": 10,
-          "updatedAt": "2026-11-18T07:21:13.009Z",
+          "count": 11,
+          "updatedAt": "2026-11-18T20:28:23.013Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2602,7 +2602,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:13.418Z",
+          "updatedAt": "2026-11-18T20:28:23.468Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2615,8 +2615,8 @@
           }
         },
         "culture": {
-          "count": 9,
-          "updatedAt": "2026-11-18T07:21:13.783Z",
+          "count": 6,
+          "updatedAt": "2026-11-18T20:28:24.231Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2630,7 +2630,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:14.150Z",
+          "updatedAt": "2026-11-18T20:28:24.724Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2644,7 +2644,7 @@
         },
         "economy": {
           "count": 11,
-          "updatedAt": "2026-11-18T07:21:14.522Z",
+          "updatedAt": "2026-11-18T20:28:25.229Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2658,7 +2658,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:14.978Z",
+          "updatedAt": "2026-11-18T20:28:25.887Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2678,7 +2678,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:15.392Z",
+          "updatedAt": "2026-11-18T20:28:26.549Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2692,7 +2692,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:15.447Z",
+          "updatedAt": "2026-11-18T20:28:26.932Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2706,7 +2706,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:15.892Z",
+          "updatedAt": "2026-11-18T20:28:27.467Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2720,7 +2720,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:16.275Z",
+          "updatedAt": "2026-11-18T20:28:28.062Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2734,7 +2734,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:16.659Z",
+          "updatedAt": "2026-11-18T20:28:28.720Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2748,7 +2748,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:16.997Z",
+          "updatedAt": "2026-11-18T20:28:29.436Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2762,7 +2762,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:17.347Z",
+          "updatedAt": "2026-11-18T20:28:30.057Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2776,7 +2776,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:17.669Z",
+          "updatedAt": "2026-11-18T20:28:30.567Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2790,7 +2790,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:17.963Z",
+          "updatedAt": "2026-11-18T20:28:31.178Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2804,7 +2804,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:18.455Z",
+          "updatedAt": "2026-11-18T20:28:31.846Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2824,7 +2824,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:18.860Z",
+          "updatedAt": "2026-11-18T20:28:32.346Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2838,7 +2838,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:18.885Z",
+          "updatedAt": "2026-11-18T20:28:32.816Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2852,7 +2852,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:19.309Z",
+          "updatedAt": "2026-11-18T20:28:33.362Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2866,7 +2866,7 @@
         },
         "business": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:19.714Z",
+          "updatedAt": "2026-11-18T20:28:33.868Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2880,7 +2880,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:20.038Z",
+          "updatedAt": "2026-11-18T20:28:34.342Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2894,7 +2894,7 @@
         },
         "tech": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:20.353Z",
+          "updatedAt": "2026-11-18T20:28:34.848Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2908,7 +2908,7 @@
         },
         "culture": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:20.777Z",
+          "updatedAt": "2026-11-18T20:28:35.331Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2922,7 +2922,7 @@
         },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:21.014Z",
+          "updatedAt": "2026-11-18T20:28:35.770Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2936,7 +2936,7 @@
         },
         "economy": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:21.407Z",
+          "updatedAt": "2026-11-18T20:28:36.227Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2950,7 +2950,7 @@
         },
         "world": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:21.834Z",
+          "updatedAt": "2026-11-18T20:28:37.019Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2970,7 +2970,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:22.143Z",
+          "updatedAt": "2026-11-18T20:28:37.511Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2984,7 +2984,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:22.159Z",
+          "updatedAt": "2026-11-18T20:28:37.611Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -2998,7 +2998,7 @@
         },
         "politics": {
           "count": 7,
-          "updatedAt": "2026-11-18T07:21:49.187Z",
+          "updatedAt": "2026-11-18T20:29:06.292Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3016,8 +3016,8 @@
           }
         },
         "business": {
-          "count": 6,
-          "updatedAt": "2026-11-18T07:21:49.515Z",
+          "count": 5,
+          "updatedAt": "2026-11-18T20:29:06.772Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3030,8 +3030,8 @@
           }
         },
         "sports": {
-          "count": 3,
-          "updatedAt": "2026-11-18T07:21:53.010Z",
+          "count": 4,
+          "updatedAt": "2026-11-18T20:29:09.680Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3047,8 +3047,27 @@
           }
         },
         "tech": {
+          "count": 6,
+          "updatedAt": "2026-11-18T20:29:12.661Z",
+          "stale": false,
+          "coverage": {
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 14,
+            "searches": 3,
+            "fallbackUsed": true,
+            "fallbackUnavailable": false,
+            "publishers": [
+              "Caribbean News Global",
+              "TTT News",
+              "fundsforNGOs News"
+            ]
+          }
+        },
+        "culture": {
           "count": 3,
-          "updatedAt": "2026-11-18T07:21:53.296Z",
+          "updatedAt": "2026-11-18T20:29:13.003Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3060,23 +3079,9 @@
             "fallbackUnavailable": false
           }
         },
-        "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-18T07:21:53.901Z",
-          "stale": false,
-          "coverage": {
-            "languages": [
-              "en"
-            ],
-            "lookbackDays": 14,
-            "searches": 2,
-            "fallbackUsed": true,
-            "fallbackUnavailable": false
-          }
-        },
         "crime": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:54.193Z",
+          "updatedAt": "2026-11-18T20:29:13.541Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3090,7 +3095,7 @@
         },
         "economy": {
           "count": 3,
-          "updatedAt": "2026-11-18T07:21:54.465Z",
+          "updatedAt": "2026-11-18T20:29:13.892Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3103,8 +3108,8 @@
           }
         },
         "world": {
-          "count": 4,
-          "updatedAt": "2026-11-18T07:21:55.249Z",
+          "count": 3,
+          "updatedAt": "2026-11-18T20:29:14.939Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3124,7 +3129,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:55.585Z",
+          "updatedAt": "2026-11-18T20:29:15.430Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3138,7 +3143,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:21:55.607Z",
+          "updatedAt": "2026-11-18T20:29:16.208Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3152,7 +3157,7 @@
         },
         "politics": {
           "count": 4,
-          "updatedAt": "2026-11-18T07:21:55.855Z",
+          "updatedAt": "2026-11-18T20:29:16.542Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3165,8 +3170,8 @@
           }
         },
         "business": {
-          "count": 4,
-          "updatedAt": "2026-11-18T07:21:56.213Z",
+          "count": 7,
+          "updatedAt": "2026-11-18T20:29:17.085Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3180,7 +3185,7 @@
         },
         "sports": {
           "count": 5,
-          "updatedAt": "2026-11-18T07:21:56.471Z",
+          "updatedAt": "2026-11-18T20:29:17.421Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3194,7 +3199,7 @@
         },
         "tech": {
           "count": 4,
-          "updatedAt": "2026-11-18T07:22:08.362Z",
+          "updatedAt": "2026-11-18T20:29:35.371Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3212,8 +3217,8 @@
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-18T07:22:08.913Z",
+          "count": 4,
+          "updatedAt": "2026-11-18T20:29:35.887Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3227,7 +3232,7 @@
         },
         "crime": {
           "count": 5,
-          "updatedAt": "2026-11-18T07:22:09.143Z",
+          "updatedAt": "2026-11-18T20:29:36.438Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3240,8 +3245,8 @@
           }
         },
         "economy": {
-          "count": 4,
-          "updatedAt": "2026-11-18T07:22:09.405Z",
+          "count": 3,
+          "updatedAt": "2026-11-18T20:29:36.866Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3254,8 +3259,8 @@
           }
         },
         "world": {
-          "count": 6,
-          "updatedAt": "2026-11-18T07:22:09.634Z",
+          "count": 8,
+          "updatedAt": "2026-11-18T20:29:37.137Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3275,7 +3280,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:22:09.943Z",
+          "updatedAt": "2026-11-18T20:29:37.577Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3289,7 +3294,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:22:09.961Z",
+          "updatedAt": "2026-11-18T20:29:37.592Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3303,7 +3308,7 @@
         },
         "politics": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:22:10.190Z",
+          "updatedAt": "2026-11-18T20:29:38.085Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3316,8 +3321,8 @@
           }
         },
         "business": {
-          "count": 10,
-          "updatedAt": "2026-11-18T07:22:10.458Z",
+          "count": 9,
+          "updatedAt": "2026-11-18T20:29:38.625Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3331,7 +3336,7 @@
         },
         "sports": {
           "count": 6,
-          "updatedAt": "2026-11-18T07:22:10.742Z",
+          "updatedAt": "2026-11-18T20:29:38.988Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3344,8 +3349,8 @@
           }
         },
         "tech": {
-          "count": 10,
-          "updatedAt": "2026-11-18T07:22:11.180Z",
+          "count": 8,
+          "updatedAt": "2026-11-18T20:29:39.900Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3359,7 +3364,7 @@
         },
         "culture": {
           "count": 4,
-          "updatedAt": "2026-11-18T07:22:11.962Z",
+          "updatedAt": "2026-11-18T20:29:41.049Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3373,7 +3378,7 @@
         },
         "crime": {
           "count": 5,
-          "updatedAt": "2026-11-18T07:22:12.213Z",
+          "updatedAt": "2026-11-18T20:29:41.512Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3386,8 +3391,8 @@
           }
         },
         "economy": {
-          "count": 3,
-          "updatedAt": "2026-11-18T07:22:12.409Z",
+          "count": 4,
+          "updatedAt": "2026-11-18T20:29:42.061Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3401,7 +3406,7 @@
         },
         "world": {
           "count": 4,
-          "updatedAt": "2026-11-18T07:22:12.659Z",
+          "updatedAt": "2026-11-18T20:29:42.488Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3421,7 +3426,7 @@
       "feeds": {
         "top": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:22:12.944Z",
+          "updatedAt": "2026-11-18T20:29:42.977Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3435,7 +3440,7 @@
         },
         "latest": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:22:12.961Z",
+          "updatedAt": "2026-11-18T20:29:42.992Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3448,8 +3453,8 @@
           }
         },
         "politics": {
-          "count": 6,
-          "updatedAt": "2026-11-18T07:22:13.214Z",
+          "count": 3,
+          "updatedAt": "2026-11-18T20:29:43.300Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3463,7 +3468,7 @@
         },
         "business": {
           "count": 8,
-          "updatedAt": "2026-11-18T07:22:13.439Z",
+          "updatedAt": "2026-11-18T20:29:43.791Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3477,7 +3482,7 @@
         },
         "sports": {
           "count": 12,
-          "updatedAt": "2026-11-18T07:22:13.665Z",
+          "updatedAt": "2026-11-18T20:29:44.202Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3491,7 +3496,7 @@
         },
         "tech": {
           "count": 3,
-          "updatedAt": "2026-11-18T07:22:47.791Z",
+          "updatedAt": "2026-11-18T20:30:13.288Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3508,8 +3513,8 @@
           }
         },
         "culture": {
-          "count": 7,
-          "updatedAt": "2026-11-18T07:22:48.048Z",
+          "count": 5,
+          "updatedAt": "2026-11-18T20:30:13.624Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3522,8 +3527,8 @@
           }
         },
         "crime": {
-          "count": 3,
-          "updatedAt": "2026-11-18T07:22:48.277Z",
+          "count": 4,
+          "updatedAt": "2026-11-18T20:30:13.896Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3537,7 +3542,7 @@
         },
         "economy": {
           "count": 4,
-          "updatedAt": "2026-11-18T07:22:48.706Z",
+          "updatedAt": "2026-11-18T20:30:14.741Z",
           "stale": false,
           "coverage": {
             "languages": [
@@ -3551,7 +3556,7 @@
         },
         "world": {
           "count": 1,
-          "updatedAt": "2026-11-18T07:22:52.571Z",
+          "updatedAt": "2026-11-18T20:30:19.051Z",
           "stale": false,
           "coverage": {
             "languages": [
