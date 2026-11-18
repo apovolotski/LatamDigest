@@ -117,10 +117,10 @@ const queryTopics = {
 const topicMatchTerms = {
   "es/politics": "polític*|eleccio*|electoral*|parlament*|congres*|diputad*|senad*|presiden*|ministr*|votación",
   "es/business": "empresa*|comerci*|inversi*|industri*|negocio*|corporativ*",
-  "es/sports": "deport*|futbol*|beisbol*|baloncest*|campeon*|bicampeon*|tenis*|tenista*|rugby|futsal|premundial|mundial femenino|mundial sub",
+  "es/sports": "deporte*|deportiv*|deportist*|futbol*|beisbol*|baloncest*|campeon*|bicampeon*|tenis*|tenista*|rugby|futsal|premundial|mundial femenino|mundial sub",
   "es/tech": "tecnolog*|innov*|informátic*|telecom*|digital*|ciber*|IA|robot*|5G|6G",
   "es/culture": "cultur*|music*|cineasta*|cinefil*|cinematograf*|artista*|artístic*|literar*|teatr*|conciert*|documental*|patrimonio",
-  "es/crime": "criminal*|policia*|asesinat*|homicid*|femicid*|feminicid*|detenid*|delit*|delincuen*|corrup*|narcotraf*",
+  "es/crime": "criminal*|policia*|asesinat*|homicid*|femicid*|feminicid*|detenid*|delit*|delincuen*|corrup*|narcotraf*|pederast*|penitenciari*|operativos contra grupos armados",
   "es/economy": "econom*|inflacion*|export*|presupuest*|desempleo|arancel*|salarial*",
   "es/world": "internacional*|diplomat*|embajad*|consulad*|canciller*|bilateral*|relaciones internacionales|consultas políticas|ONU|OTAN|UNESCO|intervención militar|apoyo militar",
   "pt/politics": "polític*|eleiç*|eleitor*|parlament*|deputad*|senad*|presiden*|ministr*|voto*",
@@ -188,7 +188,7 @@ const externalPartners = "Spain|España|Espanha|Spanje|Espagne|France|Francia|Fr
 const sportingEventTerms = "FIFA|UEFA|CONMEBOL|world cup|copa mundial|copa del mundo|copa do mundo|coupe du monde|wereldbeker".split("|");
 const domesticCooperation = /\b(?:local(?:es)?|locais|lokale|municip\w*|provinc\w*|interprovinc\w*)\b/;
 const scienceFestival = /\b(?:neurocien\w*|neuroscien\w*|neurowetensch\w*)\b/;
-const wildlifeFestival = /\b(?:gato andino|felinos|wildlife|biodiversidad|biodiversity|biodiversite|biodiversiteit)\b/;
+const wildlifeFestival = /\b(?:gato andino|felinos|aviturismo|birding|observacion de aves|wildlife|biodiversidad|biodiversity|biodiversite|biodiversiteit)\b/;
 // These festivals exhibit model aircraft or hold chess competitions. The
 // reviewed Festival Internacional de Réplicas is an aeromodelling event;
 // replicas in independent museum/arts reporting remain eligible.
@@ -212,7 +212,7 @@ const booksAsPolicyMetaphor = /\barmas (?:y )?no libros\b|\barmas (?:e )?nao liv
 
 // Workplace/organizational "culture" is not arts or cultural heritage. Remove
 // only that phrase so independent cultural reporting in the title still counts.
-const figurativeCulture = /\b(?:safety|security|workplace|corporate|organizational|organisational|compliance) culture\b|\bculture of (?:safety|security|compliance|corruption|violence)\b|\bcultura (?:de |da |do )?(?:seguridad|seguranca|empresarial|organizacional|corporativa|corrupcion|corrupcao|violencia)\b|\bculture (?:de |d |du |des |la )*(?:securite|entreprise|organisationnelle|corruption|violence)\b|\b(?:veiligheids|bedrijfs|organisatie|bestuurs)cultuur\b|\bcultuur van (?:veiligheid|corruptie|geweld)\b/g;
+const figurativeCulture = /\b(?:safety|security|cybersecurity|workplace|corporate|organizational|organisational|compliance) culture\b|\bculture of (?:safety|security|compliance|corruption|violence)\b|\bcultura (?:de |da |do )?(?:seguridad|ciberseguridad|seguranca|ciberseguranca|empresarial|organizacional|corporativa|corrupcion|corrupcao|violencia)\b|\bculture (?:de |d |du |des |la )*(?:securite|entreprise|organisationnelle|corruption|violence)\b|\b(?:veiligheids|bedrijfs|organisatie|bestuurs)cultuur\b|\bcultuur van (?:veiligheid|corruptie|geweld)\b/g;
 const financialOrPreventiveCulture = /\b(?:savings|investment|financial|tax|prevention) culture\b|\bculture of (?:saving|savings|investment|investing|prevention)\b|\bcultura (?:de |da |do )?(?:ahorro|inversion|investimento|financiera|financeira|tributaria|fiscal|prevencion|poupanca|prevencao)\b|\bculture (?:de |d |du |des |la |l )*(?:epargne|investissement|financiere|fiscale|prevention)\b|\b(?:spaar|beleggings|investerings|preventie)cultuur\b|\bcultuur van (?:sparen|beleggen|investeren|preventie)\b/g;
 // Political habits do not establish arts coverage; retain independent music,
 // heritage and other cultural evidence elsewhere in the headline.
@@ -298,6 +298,10 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   // not dated reporting. A fresh RSS crawl is not original publication proof.
   if (normalized(article.sourceName ?? "") === "finanzas digital" &&
       /^.+ panama situacion (?:no )?consolidado centro bancario internacional$/.test(normalized(article.title))) return false;
+  // This reviewed gambling advertorial is labelled commercial content by RPP,
+  // not a sports report. Keep independent reporting about betting companies.
+  if (normalized(article.sourceName ?? "") === "rpp" &&
+      /^stake apuestas deportivas peru \d{4} mercados funciones y opiniones$/.test(normalized(article.title))) return false;
   // Google can assign a recent crawl date to evergreen sports database pages.
   // Country and sports keywords do not turn standings/statistics into news.
   if (/\b(?:records (?:and )?stats|standings history|games standings squad|schedule for the international football season)\b|\blive score\b.*\bh2h\b.*\blineups\b/.test(normalized(article.title))) return false;
@@ -404,6 +408,13 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     ...(topicMatchTerms[`${language}/${feed.key}`] ?? "").split("|").filter(Boolean)
   ]);
   let title = headline;
+  // A ministerial technology portfolio alone is not a technology story.
+  // Independent digital, telecom, software or other technical evidence remains.
+  if (feed.key === "tech") title = normalized(title).replace(/\b(?:vice)?ministr[oa] de tecnologias?\b/g, " ");
+  // A football field converted into a military base is not a match report.
+  // Remove that reviewed facility phrase, retaining separate sporting action.
+  if (feed.key === "sports" && /\bbase militar\b/.test(normalized(title)))
+    title = normalized(title).replace(/\bcampo de futbol\b/g, " ");
   if (feed.key === "culture") {
     // Reviewed concert coverage names both the band and its musical tour.
     // Neither an arbitrary tour nor a band-name mention alone establishes arts.
@@ -438,7 +449,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
         !terms.filter(term => term !== "festival").some(term => matches(title, term))) return false;
   }
   if (feed.key === "business") {
-    title = normalized(title).replace(diplomaticBusinessTitles, " ");
+    title = normalized(title).replace(diplomaticBusinessTitles, " ").replace(/\bnegocio politico\b|\bnegocios politicos\b/g, " ");
     // Illicit drug trade alone does not establish commercial reporting.
     // Company, investment or other independent business evidence still can.
     title = title.replace(/\b(?:drug|cocaine|narcotics) trade\b|\bcomercio de (?:drogas|cocaina|narcoticos)\b/g, " ");
@@ -451,7 +462,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   if (feed.key === "crime") {
     // A football club or political party name is not a justice-system
     // reference. Preserve independent criminal reporting about either.
-    title = normalized(title).replace(noncriminalJustice, " ").replace(/\b(?:defensa y justicia|primero justicia)\b/g, " ");
+    title = normalized(title).replace(/\bministr[oa] de justicia\b|\bjustice minister\b/g, " ").replace(noncriminalJustice, " ").replace(/\b(?:defensa y justicia|primero justicia)\b/g, " ");
     // A CCJ dispute over CARICOM affairs is not criminal evidence merely
     // because the headline discusses making it the final appellate court.
     const regionalTreatyDispute = /\b(?:ccj|caribbean court of justice)\b/.test(title) && /\bcaricom\b/.test(title) && /\bdispute\w*\b/.test(title);
@@ -466,6 +477,9 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
         !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
   }
   if (feed.key === "politics") {
+    // Presidency of the reviewed accountants' professional order is not an
+    // elected political office; separate government/election evidence remains.
+    title = normalized(title).replace(/\bpresidence de l ordre des experts comptables\b/g, " ");
     title = normalized(title).replace(/\b\d{1,2}(?: \d{2})? pm\b/g, " ");
     // Academic/industry congresses are conferences, not legislatures. An
     // independent government, election or policy reference can still qualify.
@@ -473,7 +487,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     title = title.replace(/\bcongreso (?:mundial de ingenieros agronomos|de extension universitaria)\b/g, " ");
   }
   if (feed.key === "world") {
-    title = normalized(title).replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ").replace(/\b(?:camino|ruta|avenida|carretera) internacional\b/g, " ");
+    title = normalized(title).replace(/\bembajador(?:a|es|as)? de la fauna\b|\bwildlife ambassador\w*\b/g, " ").replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ").replace(/\b(?:camino|ruta|avenida|carretera) internacional\b/g, " ");
     // EU cohesion programmes are international institutional affairs. A bare
     // European investment fund or a European-labelled event is not enough:
     // require explicit public programme/territorial governance in the headline.

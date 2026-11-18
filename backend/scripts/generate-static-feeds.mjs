@@ -1,4 +1,6 @@
 import { publisherFetch } from '../src/publisherHttp.js';
+import {fetchPublisherIndex} from '../src/publisherIndex.js';
+import {fetchPublisherNewsSitemap} from '../src/publisherNewsSitemap.js';
 import { fetchPublisherArchive } from '../src/publisherArchive.js';
 import { articleID, isWebURL } from "../src/articleIdentity.js";
 import fs from "node:fs/promises";
@@ -212,12 +214,19 @@ function publisherText(value) {
 export async function fetchPublisherArticles(country, feed, options = {}) {
   options = { ...options, requestContext: options.requestContext ?? createFeedRequestContext() };
   const selected = new Map();
+  const minimumPublishers = Math.max(1, Math.min(3, Number(options.minimumPublishers) || 2));
+  const minimumHeadroomHours = Math.max(0, Math.min(72, Number(options.minimumHeadroomHours) || 0));
+  const hasHeadroom = article => Date.parse(article.publishedAt) + MAX_PUBLICATION_AGE_MS - Date.now() >= minimumHeadroomHours * 3600000;
+  const hasPublisher = source => [...selected.values()].some(a => a.sourceName === source.name && hasHeadroom(a));
+  const enough = () => selected.size >= 3 && new Set([...selected.values()].filter(hasHeadroom).map(a => a.sourceName)).size >= minimumPublishers;
   const cache = options.requestContext?.publisherRSS ?? new Map();
   const sources = publisherSourcesFor(country, feed);
   async function load(source) {
     try {
       // Three requests at a time with short per-request deadlines prevent
       // unavailable publishers from monopolizing the overall refresh budget.
+      if (source.kind === "publisher-index") return await fetchPublisherIndex(source, options);
+      if (source.kind === "news-sitemap") return await fetchPublisherNewsSitemap(source, options);
       if (["wordpress", "outremers"].includes(source.kind)) return await fetchPublisherArchive(source, options);
       if (!cache.has(source.url)) cache.set(source.url, fetchRSS(new URL(source.url),
         { ...options, fetchImpl: (url, requestOptions) => (options.fetchImpl ?? publisherFetch)(url, { ...requestOptions, allowedHosts: [new URL(source.url).hostname, ...source.hosts] }), timeoutMs: Math.min(options.timeoutMs ?? 8_000, 8_000) }));
@@ -229,12 +238,15 @@ export async function fetchPublisherArticles(country, feed, options = {}) {
       return null;
     }
   }
-  for (let offset = 0; offset < sources.length && selected.size < 3; offset += 3) {
+  for (let offset = 0; offset < sources.length && !enough(); offset += 3) {
     options.signal?.throwIfAborted();
     const batch = sources.slice(offset, offset + 3);
     const responses = await Promise.all(batch.map(load));
     for (const [index, source] of batch.entries()) {
       const parsed = responses[index];
+      // Once this publisher supplied enough stories, keep looking at other
+      // publishers instead of treating additional sections as independence.
+      if (selected.size >= 3 && hasPublisher(source)) continue;
       let items = parsed?.rss?.channel?.item ?? [];
       if (!Array.isArray(items)) items = [items];
       const candidates = [];
@@ -253,7 +265,8 @@ export async function fetchPublisherArticles(country, feed, options = {}) {
       }
       // Verify original publication instants on the actual publisher page.
       // RSS build/update times are not sufficient when publishers reuse them.
-      for (let start = 0; start < Math.min(candidates.length, 12) && selected.size < 3; start += 3) {
+      for (let start = 0; start < Math.min(candidates.length, 12) && !enough() &&
+          (selected.size < 3 || !hasPublisher(source)); start += 3) {
         const checked = await Promise.all(candidates.slice(start, start + 3).map(article =>
           (options.verifyPublisherArticle ?? verifyPublisherArticle)(article, source, options)));
         for (const article of checked) if (article && isRelevantArticle(article, country, feed,

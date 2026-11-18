@@ -164,6 +164,13 @@ export const countryPublisherFeeds = {
       "hosts": [
         "www.infobae.com"
       ]
+    },
+    {
+      "url": "https://www.portafolio.co/rss/economia.xml",
+      "name": "Portafolio",
+      "hosts": [
+        "www.portafolio.co"
+      ]
     }
   ],
   "AR": [
@@ -191,6 +198,20 @@ export const countryPublisherFeeds = {
       "name": "Ámbito",
       "hosts": [
         "www.ambito.com"
+      ]
+    },
+    {
+      "url": "https://www.lanacion.com.ar/arc/outboundfeeds/rss/",
+      "name": "LA NACION Argentina",
+      "hosts": [
+        "www.lanacion.com.ar"
+      ]
+    },
+    {
+      "url": "https://www.iprofesional.com/rss/home",
+      "name": "iProfesional",
+      "hosts": [
+        "www.iprofesional.com"
       ]
     }
   ],
@@ -335,6 +356,30 @@ export const countryPublisherFeeds = {
         "hch.tv"
       ],
       "kind": "wordpress"
+    },
+    {
+      "url": "https://diarioroatan.com/wp-json/wp/v2/posts",
+      "name": "Diario Roatán",
+      "hosts": [
+        "diarioroatan.com"
+      ],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://www.elheraldo.hn/sitemapforgoogle.xml",
+      "name": "El Heraldo Honduras",
+      "hosts": [
+        "www.elheraldo.hn"
+      ],
+      "kind": "news-sitemap"
+    },
+    {
+      "url": "https://www.honduras.com/wp-json/wp/v2/posts",
+      "name": "Honduras.com",
+      "hosts": [
+        "www.honduras.com"
+      ],
+      "kind": "wordpress"
     }
   ],
   "PA": [
@@ -363,6 +408,21 @@ export const countryPublisherFeeds = {
       "hosts": [
         "www.prensa.com"
       ]
+    },
+    {
+      "url": "https://www.panamaamerica.com.pa/rss.xml",
+      "name": "Panamá América",
+      "hosts": [
+        "www.panamaamerica.com.pa"
+      ]
+    },
+    {
+      "url": "https://www.tvn-2.com/tvn_sitemap_google_news.xml",
+      "name": "TVN Panamá",
+      "hosts": [
+        "www.tvn-2.com"
+      ],
+      "kind": "news-sitemap"
     }
   ],
   "PY": [
@@ -407,6 +467,35 @@ export const countryPublisherFeeds = {
       "name": "La Nación Paraguay",
       "hosts": [
         "www.lanacion.com.py"
+      ]
+    },
+    {
+      "url": "https://elnacional.com.py/sitemapNews.xml",
+      "name": "El Nacional Paraguay",
+      "hosts": [
+        "elnacional.com.py"
+      ],
+      "kind": "news-sitemap"
+    },
+    {
+      "url": "https://www.abc.com.py/arc/outboundfeeds/rss/nacionales/?outputType=xml",
+      "name": "ABC Color",
+      "hosts": [
+        "www.abc.com.py"
+      ]
+    },
+    {
+      "url": "https://www.abc.com.py/arc/outboundfeeds/rss/deportes/?outputType=xml",
+      "name": "ABC Color",
+      "hosts": [
+        "www.abc.com.py"
+      ]
+    },
+    {
+      "url": "https://www.abc.com.py/arc/outboundfeeds/rss/tecnologia/?outputType=xml",
+      "name": "ABC Color",
+      "hosts": [
+        "www.abc.com.py"
       ]
     }
   ],
@@ -460,6 +549,13 @@ export const countryPublisherFeeds = {
       "name": "Infobae",
       "hosts": [
         "www.infobae.com"
+      ]
+    },
+    {
+      "url": "https://elcomercio.pe/arc/outboundfeeds/rss/category/deporte-total/?outputType=xml",
+      "name": "El Comercio Perú",
+      "hosts": [
+        "elcomercio.pe"
       ]
     }
   ],
@@ -540,6 +636,34 @@ export const countryPublisherFeeds = {
         "noticel.com"
       ],
       "kind": "wordpress"
+    },
+    {
+      "url": "https://sincomillas.com/wp-json/wp/v2/posts",
+      "name": "Sin Comillas",
+      "hosts": [
+        "sincomillas.com"
+      ],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://www.elvocero.com/tncms/sitemap/news.xml",
+      "name": "El Vocero",
+      "hosts": [
+        "www.elvocero.com"
+      ],
+      "kind": "news-sitemap"
+    },
+    {
+      "url": "https://www.elnuevodia.com/arc/outboundfeeds/news-sitemap/?outputType=xml",
+      "name": "El Nuevo Día",
+      "hosts": [
+        "www.elnuevodia.com"
+      ],
+      "kind": "news-sitemap",
+      "pages": [
+        "https://www.elnuevodia.com/arc/outboundfeeds/news-sitemap/?outputType=xml&from=100",
+        "https://www.elnuevodia.com/arc/outboundfeeds/news-sitemap/?outputType=xml&from=200"
+      ]
     }
   ],
   "UY": [
@@ -595,6 +719,14 @@ export const countryPublisherFeeds = {
         "uruguayaldia.com.uy"
       ],
       "kind": "wordpress"
+    },
+    {
+      "url": "https://www.elobservador.com.uy/sitemap-news.xml",
+      "name": "El Observador Uruguay",
+      "hosts": [
+        "www.elobservador.com.uy"
+      ],
+      "kind": "news-sitemap"
     }
   ],
   "NI": [
@@ -907,6 +1039,14 @@ export const countryPublisherFeeds = {
         "news.fundsforngos.org"
       ],
       "kind": "wordpress"
+    },
+    {
+      "url": "https://trinidadexpress.com/tncms/sitemap/news.xml",
+      "name": "Trinidad Express",
+      "hosts": [
+        "trinidadexpress.com"
+      ],
+      "kind": "news-sitemap"
     }
   ],
   "GF": [
@@ -988,6 +1128,29 @@ export const countryPublisherFeeds = {
       "hosts": [
         "www.franceguyane.fr"
       ]
+    },
+    {
+      "url": "https://www.ctguyane.fr/wp-json/wp/v2/posts",
+      "name": "Collectivité Territoriale de Guyane",
+      "hosts": [
+        "www.ctguyane.fr"
+      ],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://www.peyiguyane.com/",
+      "pages": [
+        "https://www.peyiguyane.com/actualites/rubrique/spatial",
+        "https://www.peyiguyane.com/actualites/rubrique/justice",
+        "https://www.peyiguyane.com/actualites/rubrique/politique",
+        "https://www.peyiguyane.com/actualites/rubrique/economie"
+      ],
+      "name": "PÉYI GUYANE",
+      "hosts": [
+        "www.peyiguyane.com"
+      ],
+      "kind": "publisher-index",
+      "articlePathPrefix": "/actualites/"
     }
   ],
   "BO": [
@@ -1052,6 +1215,37 @@ export const countryPublisherFeeds = {
       "hosts": [
         "www.eldiario.net"
       ]
+    },
+    {
+      "url": "https://www.lostiempos.com/rss/portada",
+      "name": "Los Tiempos",
+      "hosts": [
+        "www.lostiempos.com"
+      ]
+    },
+    {
+      "url": "https://eju.tv/wp-json/wp/v2/posts",
+      "name": "eju.tv",
+      "hosts": [
+        "eju.tv"
+      ],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://eldeber.com.bo/sitemap-news.xml",
+      "name": "El Deber",
+      "hosts": [
+        "eldeber.com.bo"
+      ],
+      "kind": "news-sitemap"
+    },
+    {
+      "url": "https://www.reduno.com.bo/sitemap-news.xml",
+      "name": "Red Uno",
+      "hosts": [
+        "www.reduno.com.bo"
+      ],
+      "kind": "news-sitemap"
     }
   ],
   "CL": [
@@ -1079,6 +1273,22 @@ export const countryPublisherFeeds = {
       "hosts": [
         "www.cooperativa.cl"
       ]
+    },
+    {
+      "url": "https://www.elciudadano.com/wp-json/wp/v2/posts?search=Chile",
+      "name": "El Ciudadano",
+      "hosts": [
+        "www.elciudadano.com"
+      ],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://www.elmostrador.cl/sitemap_news.xml",
+      "name": "El Mostrador",
+      "hosts": [
+        "www.elmostrador.cl"
+      ],
+      "kind": "news-sitemap"
     }
   ],
   "CU": [
@@ -1109,6 +1319,14 @@ export const countryPublisherFeeds = {
       "hosts": [
         "www.escambray.cu"
       ]
+    },
+    {
+      "url": "https://oncubanews.com/wp-json/wp/v2/posts",
+      "name": "OnCuba",
+      "hosts": [
+        "oncubanews.com"
+      ],
+      "kind": "wordpress"
     }
   ],
   "SV": [
@@ -1128,6 +1346,29 @@ export const countryPublisherFeeds = {
       "name": "Diario Co Latino",
       "hosts": [
         "www.diariocolatino.com"
+      ],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://diarioelsalvador.com/rss.xml",
+      "name": "Diario El Salvador",
+      "hosts": [
+        "diarioelsalvador.com"
+      ]
+    },
+    {
+      "url": "https://www.cultura.gob.sv/wp-json/wp/v2/posts",
+      "name": "Ministerio de Cultura de El Salvador",
+      "hosts": [
+        "www.cultura.gob.sv"
+      ],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://www.elsalvador.com/wp-json/wp/v2/posts",
+      "name": "El Diario de Hoy",
+      "hosts": [
+        "www.elsalvador.com"
       ],
       "kind": "wordpress"
     }
@@ -1152,6 +1393,22 @@ export const countryPublisherFeeds = {
       "name": "Prensa Comunitaria",
       "hosts": [
         "prensacomunitaria.org"
+      ],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://lahora.gt/wp-json/wp/v2/posts",
+      "name": "La Hora Guatemala",
+      "hosts": [
+        "lahora.gt"
+      ],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://www.prensalibre.com/wp-json/wp/v2/posts?search=Guatemala",
+      "name": "Prensa Libre",
+      "hosts": [
+        "www.prensalibre.com"
       ],
       "kind": "wordpress"
     }
@@ -1375,6 +1632,98 @@ export const regionalPublisherFeeds = [
     ],
     "kind": "wordpress",
     "countrySearch": true
+  },
+  {
+    "url": "https://feeds.bbci.co.uk/mundo/rss.xml",
+    "name": "BBC Mundo",
+    "hosts": [
+      "www.bbc.com",
+      "www.bbc.co.uk"
+    ]
+  },
+  {
+    "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/deportes/",
+    "name": "Infobae",
+    "hosts": [
+      "www.infobae.com"
+    ]
+  },
+  {
+    "url": "https://www.itsitio.com/wp-json/wp/v2/posts",
+    "name": "ITSitio",
+    "hosts": [
+      "www.itsitio.com"
+    ],
+    "kind": "wordpress",
+    "countrySearch": true,
+    "queryLanguage": "es"
+  },
+  {
+    "url": "https://dplnews.com/wp-json/wp/v2/posts",
+    "name": "DPL News",
+    "hosts": [
+      "dplnews.com"
+    ],
+    "kind": "wordpress",
+    "countrySearch": true,
+    "queryLanguage": "es"
+  },
+  {
+    "url": "https://www.telesemana.com/wp-json/wp/v2/posts",
+    "name": "TeleSemana",
+    "hosts": [
+      "www.telesemana.com"
+    ],
+    "kind": "wordpress",
+    "countrySearch": true,
+    "queryLanguage": "es"
+  },
+  {
+    "url": "https://www.caribbeanlife.com/wp-json/wp/v2/posts",
+    "name": "Caribbean Life",
+    "hosts": [
+      "www.caribbeanlife.com"
+    ],
+    "kind": "wordpress",
+    "countrySearch": true,
+    "queryLanguage": "en"
+  },
+  {
+    "url": "https://caribbeantimes.com/wp-json/wp/v2/posts",
+    "name": "Caribbean Times",
+    "hosts": [
+      "caribbeantimes.com"
+    ],
+    "kind": "wordpress",
+    "countrySearch": true,
+    "queryLanguage": "en"
+  },
+  {
+    "url": "https://antiguaobserver.com/wp-json/wp/v2/posts",
+    "name": "Antigua Observer",
+    "hosts": [
+      "antiguaobserver.com"
+    ],
+    "kind": "wordpress",
+    "countrySearch": true,
+    "queryLanguage": "en"
+  },
+  {
+    "url": "https://demerarawaves.com/wp-json/wp/v2/posts",
+    "name": "Demerara Waves",
+    "hosts": [
+      "demerarawaves.com"
+    ],
+    "kind": "wordpress",
+    "countrySearch": true,
+    "queryLanguage": "en"
+  },
+  {
+    "url": "https://www.france24.com/es/rss",
+    "name": "France 24",
+    "hosts": [
+      "www.france24.com"
+    ]
   }
 ];
 
