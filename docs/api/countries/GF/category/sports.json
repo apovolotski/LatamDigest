@@ -45,15 +45,6 @@
     "publishedAt": "2026-11-16T14:00:03.000Z"
   },
   {
-    "id": "c105c100-fe2d-1e87-bf50-441a1e88f9e7",
-    "title": "Guyane - Porto Rico en direct - Ligue des nations de la CONCACAF : Football Scores & Résultats - 16/11/2026",
-    "snippet": "Sports coverage for French Guiana via Eurosport on Google News. Curated from recent sports reporting.",
-    "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPVkp4UnZDdGhJTUF4XzRJcmd2WlBWY1Y4MURHZ0gxUUdic3VjQW5QR05FTU5rZXdSVVh5QjI2WWUwTVhKamowdFBfNVFKQ1c5SVdjTlhtSjFTc0QzVmdKZUI5MXRMNGxsX3dEN1BBWk9XNnp2Z2NvUmhha0VmbEhMa1JaSUh3Mk5ZMXBTV0FzUnBmYV9sdVBSNUhVdVdXYnMwVU05alVjazQ2WWd1eWxVeEhELWxtSG12MnNNVE1mVQ?oc=5",
-    "sourceName": "Eurosport",
-    "sourceLogoURL": null,
-    "publishedAt": "2026-11-15T23:10:01.000Z"
-  },
-  {
     "id": "ca846e27-712e-014b-4a45-d90fc85b9716",
     "title": "Supercoupe Antilles-Guyane de handball : l'UJ Redoute et l'Étoile de Morne-à-l'Eau écrivent l'histoire",
     "snippet": "Sports coverage for French Guiana via Outre-mer La 1ère on Google News. Curated from recent sports reporting.",
@@ -61,6 +52,15 @@
     "sourceName": "Outre-mer La 1ère",
     "sourceLogoURL": null,
     "publishedAt": "2026-11-15T19:03:48.000Z"
+  },
+  {
+    "id": "3d10451b-2cc9-edfb-674e-f99d0f58698a",
+    "title": "À Saint-Laurent-du-Maroni, un colloque pour mieux comprendre l’impact du cycle menstruel sur les sportives",
+    "snippet": "Sports coverage for French Guiana via Outre-mer La 1ère on Google News. Curated from recent sports reporting.",
+    "url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxObzRGSHJqUEE2R3B1c2dWX0s2T29zQVdqZl9BV0plazgxWXVla0VqcHJMc09nN0NST0pzZVhJZHFUdjZxMmFTUmVCMDBuSTNkakhaaEhMd1ZKVEtvTzFPRVkxamM5QlVIUlpHNW1XdnAtVVE2YU5pU3dyR0pkOGVYd0RQVHp3R0RBclh1T1E5S1k4MnBlX0ZkYXZxVlRVU29sMmpDVkx6TVItZUg0Mmw0b3FfaS16X1JEbm5RbjB0MjVNWHhxbF96cHY5eUxraVpDT1RQT1BwejFyU05IY3R2SXBHS2Zua3FsbzhyUzM5V0RlWmRGdURCNzVnZ0pHdw?oc=5",
+    "sourceName": "Outre-mer La 1ère",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-15T17:09:36.000Z"
   },
   {
     "id": "4378dd8d-f3ca-7042-f7a0-acf7f2e00359",
@@ -79,23 +79,5 @@
     "sourceName": "franceguyane.fr",
     "sourceLogoURL": null,
     "publishedAt": "2026-11-14T21:55:08.000Z"
-  },
-  {
-    "id": "23110ec7-9e66-7531-6a93-f3e92fe249a9",
-    "title": "Supercoupe Antilles-Guyane de handball : le grand dénouement ce samedi à Trinité",
-    "snippet": "Sports coverage for French Guiana via Outre-mer La 1ère on Google News. Curated from recent sports reporting.",
-    "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQZWtpbGJEODB5UG9zYXhfaFdvR2VPX2xRdUp6MTlXa3AzNklOcUQzc0hpZ1ZDeDh0cXdscUNjQ293ZXUweG1mVVhzVEpfOEVJVTZtSG1SSEI2S3JJUFhPckhteEtlMEtVYURIVWotY3MyazBPbVlZcTVUeHJRa3B3RGZkNHRHbU51VHBYcE5FYXotRk1ZeERBYXotV3lRY2l3dVQ3YTVIRnM1RXVsV2I0MjhVU2lKeHg1dGJMTi15X3VEazhRcEEwNHMwVQ?oc=5",
-    "sourceName": "Outre-mer La 1ère",
-    "sourceLogoURL": null,
-    "publishedAt": "2026-11-14T15:07:51.000Z"
-  },
-  {
-    "id": "cad52028-4b01-8b07-977f-96fcaa44f7f7",
-    "title": "Guyane la 1ère : football des Yana Dòkò et direct de Ouanary ce samedi",
-    "snippet": "Sports coverage for French Guiana via Megazap on Google News. Curated from recent sports reporting.",
-    "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNSnlQMThFWTdpZ0dMc19KMDFtQnFjZEhJeEdUT2Jtc0dqQ1E3NTM4SUF2Y0YwS2dHWEQ1S05YclZqS2VsZnk1aEoyT2g1SFVWalFpRFlwUUpPQ0tXNFdlOEstRHMteFJnTHJWcVliczI3SHljR2ZhX3VYcEpON2wxTWMtQ0NTOXgtUUtIeXI2b2ktV19pWElGRDNtRlhOOVpwT1JPXzU3MjA0LWZEMUxoZEJjS29CdmF6UGxfNzlZNDU5NEw4ZlRXWlJRMlFkcXFvM3dkWjdPUUU4d3N4bFRlS1hKaw?oc=5",
-    "sourceName": "Megazap",
-    "sourceLogoURL": null,
-    "publishedAt": "2026-11-14T08:27:00.000Z"
   }
 ]
