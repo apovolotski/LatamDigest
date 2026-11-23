@@ -27229,6 +27229,41 @@
           "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
         }
       }
+    },
+    "45286776077:1": {
+      "id": 45286776077,
+      "attempt": 1,
+      "event": "workflow_dispatch",
+      "createdAt": "2026-11-23T23:12:37Z",
+      "inspectionVersion": 5,
+      "completeLogFormat": "github-run-archive-v1",
+      "source": "58311fe67c5cf215a662d9da7313b6aa61ca0755",
+      "conclusion": "failure",
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/45286776077",
+      "verifiedAt": "2026-11-23T23:16:37.977Z",
+      "jobs": [
+        {
+          "name": "refresh",
+          "conclusion": "failure",
+          "stepMetadataCount": 12
+        }
+      ],
+      "completeLogSha256": "1b9f0953dd7df5adca5e07f8f82c1a25aa210619d17398954cffec65f4c85f2e",
+      "completeLogLines": 2405,
+      "jobLogs": [
+        {
+          "id": 138085047664,
+          "name": "refresh",
+          "sha256": "1b9f0953dd7df5adca5e07f8f82c1a25aa210619d17398954cffec65f4c85f2e",
+          "lines": 2405
+        }
+      ],
+      "valid": false,
+      "issues": [
+        "Workflow failed; inspect its complete logs and annotations.",
+        "Failure annotations remain.",
+        "A required job did not pass."
+      ]
     }
   },
   "receipts": {
@@ -27772,13 +27807,13 @@
   },
   "status": "attention_required",
   "latest": {
-    "checkedAt": "2026-11-23T22:14:04.807Z",
+    "checkedAt": "2026-11-23T23:16:37.977Z",
     "workflows": {
       "feeds": {
         "due": "2026-11-23T18:17:00.000Z",
         "state": "active",
         "active": [],
-        "failed": 45260061308
+        "failed": 45286776077
       },
       "backend": {
         "due": "2026-11-23T10:43:00.000Z",
@@ -27799,7 +27834,7 @@
       }
     },
     "problems": [
-      "Refresh Static Feeds remains failed; see run 45260061308."
+      "Refresh Static Feeds remains failed; see run 45286776077."
     ],
     "publication": {
       "commit": "58311fe67c5cf215a662d9da7313b6aa61ca0755",
@@ -27832,7 +27867,7 @@
       "appFacingFilesMatched": 243
     }
   },
-  "checkedAt": "2026-11-23T22:14:04.807Z",
+  "checkedAt": "2026-11-23T23:16:37.977Z",
   "activeAlerts": [
     "721b65af67e0f94886f5b774a2b25c544a2acd457a47eaf373047b1951dfe806"
   ],
