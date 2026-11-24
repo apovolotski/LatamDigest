@@ -2,41 +2,11 @@
   "schemaVersion": 1,
   "repository": "apovolotski/LatamDigest",
   "continuous": true,
-  "cutoff": "2026-11-18T00:38:33Z",
+  "cutoff": "2026-11-24T14:53:06Z",
   "milestone": {
     "backend": {
-      "runIds": [
-        44375986692,
-        44595183749,
-        44796095528,
-        44931816585
-      ],
-      "attempts": {
-        "44375986692:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-18T19:02:31.863Z"
-        },
-        "44595183749:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-19T19:09:45.512Z"
-        },
-        "44796095528:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-20T18:49:08.824Z"
-        },
-        "44931816585:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-21T17:47:08.495Z"
-        },
-        "45052561887:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-22T18:01:33.291Z"
-        },
-        "45277433370:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-23T22:14:04.807Z"
-        }
-      },
+      "runIds": [],
+      "attempts": {},
       "history": [
         {
           "endedAt": "2026-10-31T03:27:38Z",
@@ -323,68 +293,51 @@
           "reason": "source_proactive_all_feed_publisher_diversity",
           "repairCommit": "8a72a02cb67b844a31fc7a88255e1800eb747123",
           "cutoff": "2026-11-17T23:30:04Z"
+        },
+        {
+          "runIds": [
+            44375986692,
+            44595183749,
+            44796095528,
+            44931816585
+          ],
+          "attempts": {
+            "44375986692:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-18T19:02:31.863Z"
+            },
+            "44595183749:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-19T19:09:45.512Z"
+            },
+            "44796095528:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-20T18:49:08.824Z"
+            },
+            "44931816585:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-21T17:47:08.495Z"
+            },
+            "45052561887:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-22T18:01:33.291Z"
+            },
+            "45277433370:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-23T22:14:04.807Z"
+            }
+          },
+          "completedAt": "2026-11-21T17:47:08.495Z",
+          "endedAt": "2026-11-24T14:53:06Z",
+          "reason": "source_explicit_gf_world_unavailability_and_large_ledger_recovery",
+          "repairCommit": "bd8b23a03ba6be08b7eced1c52b5ddb1409b8531",
+          "cutoff": "2026-11-18T00:38:33Z"
         }
-      ],
-      "completedAt": "2026-11-21T17:47:08.495Z"
+      ]
     },
     "feeds": {
-      "runIds": [
-        45368629423
-      ],
-      "attempts": {
-        "44257992791:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-18T07:23:18.856Z"
-        },
-        "44391054134:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-18T20:30:49.446Z"
-        },
-        "44478450962:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-19T07:22:00.950Z"
-        },
-        "44609224103:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-19T20:33:55.069Z"
-        },
-        "44692539986:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-20T07:10:26.227Z"
-        },
-        "44808443066:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-20T20:12:27.842Z"
-        },
-        "44878082613:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-21T07:02:57.907Z"
-        },
-        "44939403755:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-21T19:13:08.723Z"
-        },
-        "44994728252:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-22T06:42:58.962Z"
-        },
-        "45061200320:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-22T19:35:17.139Z"
-        },
-        "45131356337:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-23T07:33:54.672Z"
-        },
-        "45291979172:1": {
-          "conclusion": "failure",
-          "verifiedAt": "2026-11-24T04:40:23.481Z"
-        },
-        "45368629423:1": {
-          "conclusion": "success",
-          "verifiedAt": "2026-11-24T09:52:26.761Z"
-        }
-      },
+      "runIds": [],
+      "attempts": {},
       "history": [
         {
           "endedAt": "2026-10-31T03:27:38Z",
@@ -893,6 +846,69 @@
             44478450962,
             44609224103
           ]
+        },
+        {
+          "runIds": [
+            45368629423
+          ],
+          "attempts": {
+            "44257992791:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-18T07:23:18.856Z"
+            },
+            "44391054134:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-18T20:30:49.446Z"
+            },
+            "44478450962:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-19T07:22:00.950Z"
+            },
+            "44609224103:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-19T20:33:55.069Z"
+            },
+            "44692539986:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-20T07:10:26.227Z"
+            },
+            "44808443066:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-20T20:12:27.842Z"
+            },
+            "44878082613:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-21T07:02:57.907Z"
+            },
+            "44939403755:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-21T19:13:08.723Z"
+            },
+            "44994728252:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-22T06:42:58.962Z"
+            },
+            "45061200320:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-22T19:35:17.139Z"
+            },
+            "45131356337:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-23T07:33:54.672Z"
+            },
+            "45291979172:1": {
+              "conclusion": "failure",
+              "verifiedAt": "2026-11-24T04:40:23.481Z"
+            },
+            "45368629423:1": {
+              "conclusion": "success",
+              "verifiedAt": "2026-11-24T09:52:26.761Z"
+            }
+          },
+          "endedAt": "2026-11-24T14:53:06Z",
+          "reason": "source_explicit_gf_world_unavailability_and_large_ledger_recovery",
+          "repairCommit": "bd8b23a03ba6be08b7eced1c52b5ddb1409b8531",
+          "cutoff": "2026-11-18T00:38:33Z"
         }
       ]
     }
@@ -9388,7 +9404,7 @@
       ],
       "valid": false,
       "issues": [
-        "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
+        "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
       ],
       "tests": {
         "refresh": 184
@@ -9520,7 +9536,7 @@
         "rejectedArticlePlacements": 1,
         "affectedFeeds": 1,
         "githubConclusionUnchanged": true,
-        "reason": "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
+        "reason": "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
         "primarySourceEvidence": [
           {
             "url": "https://www.acuite.fr/annonces/magasins/ceder-fonds-de-commerce-doptique-lunetterie-en-guyane-francaise-a337361",
@@ -9678,7 +9694,7 @@
       ],
       "valid": false,
       "issues": [
-        "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
+        "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed. Repaired by ce7f288eb67da77af9baa120d9b2430bd809d152."
       ],
       "tests": {
         "refresh": 184
@@ -9810,7 +9826,7 @@
         "rejectedArticlePlacements": 1,
         "affectedFeeds": 1,
         "githubConclusionUnchanged": true,
-        "reason": "GF/business contained a publisher-identified Acuité optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
+        "reason": "GF/business contained a publisher-identified Acuit\u00e9 optical-shop sale classified, not a news report. Its October 22 publication date is not disputed.",
         "primarySourceEvidence": [
           {
             "url": "https://www.acuite.fr/annonces/magasins/ceder-fonds-de-commerce-doptique-lunetterie-en-guyane-francaise-a337361",
@@ -11952,13 +11968,13 @@
           {
             "url": "https://www.dimar.mil.co/print/pdf/node/7156",
             "publisherDate": "2026-02-23",
-            "title": "Colombia, Chile y Ecuador fortalecen la Cooperación Internacional en la Antártica",
+            "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
             "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
           },
           {
             "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
             "publisherDate": "2026-10-23",
-            "title": "Colombia y Ecuador fortalecen la cooperación marítima y amplían oportunidades para la gente de mar",
+            "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
             "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
           },
           {
@@ -12418,13 +12434,13 @@
           {
             "url": "https://www.dimar.mil.co/print/pdf/node/7156",
             "publisherDate": "2026-02-23",
-            "title": "Colombia, Chile y Ecuador fortalecen la Cooperación Internacional en la Antártica",
+            "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
             "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
           },
           {
             "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
             "publisherDate": "2026-10-23",
-            "title": "Colombia y Ecuador fortalecen la cooperación marítima y amplían oportunidades para la gente de mar",
+            "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
             "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
           },
           {
@@ -12848,13 +12864,13 @@
           {
             "url": "https://www.dimar.mil.co/print/pdf/node/7156",
             "publisherDate": "2026-02-23",
-            "title": "Colombia, Chile y Ecuador fortalecen la Cooperación Internacional en la Antártica",
+            "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
             "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
           },
           {
             "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
             "publisherDate": "2026-10-23",
-            "title": "Colombia y Ecuador fortalecen la cooperación marítima y amplían oportunidades para la gente de mar",
+            "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
             "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
           },
           {
@@ -14574,7 +14590,7 @@
             "observation": "Tele13 Radio publisher podcast feed identifies the exact June 6 episode by guid 66619bd4b3a8e1659c433568 and pubDate Thu, 06 Jun 2024 11:17:24 GMT, contradicting the November 3 Google RSS timestamp. Only the exact episode is excluded; new reporting remains eligible."
           }
         ],
-        "limitations": "Bounded six-placement semantic and original-date review, not exhaustive proof. The exact Tele13 episode is primary-dated June 6, 2024; no dates are invented and no publisher-wide ban is added. Ecuador al Día credit and police-promotion exclusions use bounded headline evidence; their exact linked primary pages/dates remain unavailable. ANJ first-party civil-court evidence corroborates the truncated Instagram headline, without establishing that exact post date. Prior unresolved original-date observations remain retained in private review history. All prior tests, audits, age, URL, relevance and cache gates remain blocking. No controller/cron change or local routine catch-up; manual runs never count and maintenance continues after milestones."
+        "limitations": "Bounded six-placement semantic and original-date review, not exhaustive proof. The exact Tele13 episode is primary-dated June 6, 2024; no dates are invented and no publisher-wide ban is added. Ecuador al D\u00eda credit and police-promotion exclusions use bounded headline evidence; their exact linked primary pages/dates remain unavailable. ANJ first-party civil-court evidence corroborates the truncated Instagram headline, without establishing that exact post date. Prior unresolved original-date observations remain retained in private review history. All prior tests, audits, age, URL, relevance and cache gates remain blocking. No controller/cron change or local routine catch-up; manual runs never count and maintenance continues after milestones."
       }
     },
     "41787570700:1": {
@@ -15063,11 +15079,11 @@
           },
           {
             "url": "https://mia2027.org/",
-            "observation": "Organizer confirms the agronomy meeting and March 8–10, 2027 event dates. Event dates are not substituted for the news publication date."
+            "observation": "Organizer confirms the agronomy meeting and March 8\u201310, 2027 event dates. Event dates are not substituted for the news publication date."
           },
           {
             "url": "https://noticias.vtv.com.uy/35-personas-y-un-mes-y-medio-de-trabajo-por-dentro-el-vehiculo-del-papa/",
-            "observation": "November 3 VTV report describes mechanical conversion of a Fiat vehicle for the pope. A project engineer attributes the work-of-art characterization to the Vatican. This corroborates the metaphor; it does not establish the separate La Mañana article date."
+            "observation": "November 3 VTV report describes mechanical conversion of a Fiat vehicle for the pope. A project engineer attributes the work-of-art characterization to the Vatican. This corroborates the metaphor; it does not establish the separate La Ma\u00f1ana article date."
           },
           {
             "url": "https://uv.cl/archivo-noticias-uv/29803-experiencia-de-la-uv-en-caleta-el-membrillo-llego-al-9-congreso-de-extension-universitaria-en-uruguay",
@@ -15082,19 +15098,19 @@
         "observedRejectedPlacements": [
           {
             "feed": "AR/culture",
-            "title": "Initiative Argentina: “Effie es una cultura dentro de la agencia y para con los clientes”"
+            "title": "Initiative Argentina: \u201cEffie es una cultura dentro de la agencia y para con los clientes\u201d"
           },
           {
             "feed": "UY/culture",
-            "title": "De una camioneta Fiat a “una obra de arte”: cómo se construyó en Uruguay el papamóvil que usará León XIV"
+            "title": "De una camioneta Fiat a \u201cuna obra de arte\u201d: c\u00f3mo se construy\u00f3 en Uruguay el papam\u00f3vil que usar\u00e1 Le\u00f3n XIV"
           },
           {
             "feed": "UY/politics",
-            "title": "Uruguay será sede del VII Congreso Mundial de Ingenieros Agrónomos"
+            "title": "Uruguay ser\u00e1 sede del VII Congreso Mundial de Ingenieros Agr\u00f3nomos"
           },
           {
             "feed": "UY/politics",
-            "title": "Experiencia de la UV en Caleta El Membrillo llegó al 9° Congreso de Extensión Universitaria en Uruguay"
+            "title": "Experiencia de la UV en Caleta El Membrillo lleg\u00f3 al 9\u00b0 Congreso de Extensi\u00f3n Universitaria en Uruguay"
           }
         ]
       }
@@ -15628,11 +15644,11 @@
           },
           {
             "url": "https://mia2027.org/",
-            "observation": "Organizer confirms the agronomy meeting and March 8–10, 2027 event dates. Event dates are not substituted for the news publication date."
+            "observation": "Organizer confirms the agronomy meeting and March 8\u201310, 2027 event dates. Event dates are not substituted for the news publication date."
           },
           {
             "url": "https://noticias.vtv.com.uy/35-personas-y-un-mes-y-medio-de-trabajo-por-dentro-el-vehiculo-del-papa/",
-            "observation": "November 3 VTV report describes mechanical conversion of a Fiat vehicle for the pope. A project engineer attributes the work-of-art characterization to the Vatican. This corroborates the metaphor; it does not establish the separate La Mañana article date."
+            "observation": "November 3 VTV report describes mechanical conversion of a Fiat vehicle for the pope. A project engineer attributes the work-of-art characterization to the Vatican. This corroborates the metaphor; it does not establish the separate La Ma\u00f1ana article date."
           },
           {
             "url": "https://uv.cl/archivo-noticias-uv/29803-experiencia-de-la-uv-en-caleta-el-membrillo-llego-al-9-congreso-de-extension-universitaria-en-uruguay",
@@ -15647,7 +15663,7 @@
         "observedRejectedPlacements": [
           {
             "feed": "UY/politics",
-            "title": "Experiencia de la UV en Caleta El Membrillo llegó al 9° Congreso de Extensión Universitaria en Uruguay"
+            "title": "Experiencia de la UV en Caleta El Membrillo lleg\u00f3 al 9\u00b0 Congreso de Extensi\u00f3n Universitaria en Uruguay"
           }
         ]
       }
@@ -16062,11 +16078,11 @@
           },
           {
             "url": "https://mia2027.org/",
-            "observation": "Organizer confirms the agronomy meeting and March 8–10, 2027 event dates. Event dates are not substituted for the news publication date."
+            "observation": "Organizer confirms the agronomy meeting and March 8\u201310, 2027 event dates. Event dates are not substituted for the news publication date."
           },
           {
             "url": "https://noticias.vtv.com.uy/35-personas-y-un-mes-y-medio-de-trabajo-por-dentro-el-vehiculo-del-papa/",
-            "observation": "November 3 VTV report describes mechanical conversion of a Fiat vehicle for the pope. A project engineer attributes the work-of-art characterization to the Vatican. This corroborates the metaphor; it does not establish the separate La Mañana article date."
+            "observation": "November 3 VTV report describes mechanical conversion of a Fiat vehicle for the pope. A project engineer attributes the work-of-art characterization to the Vatican. This corroborates the metaphor; it does not establish the separate La Ma\u00f1ana article date."
           },
           {
             "url": "https://uv.cl/archivo-noticias-uv/29803-experiencia-de-la-uv-en-caleta-el-membrillo-llego-al-9-congreso-de-extension-universitaria-en-uruguay",
@@ -16081,7 +16097,7 @@
         "observedRejectedPlacements": [
           {
             "feed": "PE/business",
-            "title": "El Comercio presenta mural de 167 metros dedicado al papa León XIV en el Callao a días de su llegada al Perú"
+            "title": "El Comercio presenta mural de 167 metros dedicado al papa Le\u00f3n XIV en el Callao a d\u00edas de su llegada al Per\u00fa"
           }
         ]
       }
@@ -22672,25 +22688,25 @@
           {
             "country": "MX",
             "feed": "culture",
-            "title": "Ondas cortas y ondas largas en la cultura Fobaproa de México",
+            "title": "Ondas cortas y ondas largas en la cultura Fobaproa de M\u00e9xico",
             "reason": "Financial/political use of culture, without independent arts evidence; primary publisher classifies it as political opinion. Exact full body unavailable, no date invented."
           },
           {
             "country": "GY",
             "feed": "culture",
-            "title": "Protecting Guyana’s Natural Heritage",
+            "title": "Protecting Guyana\u2019s Natural Heritage",
             "reason": "Publisher e-paper identifies environmental conservation and biodiversity, not independent arts evidence. General coverage remains eligible."
           },
           {
             "country": "UY",
             "feed": "crime",
-            "title": "Justicia desestimó millonaria demanda de Luisana Lopilato por un comercial en Uruguay",
+            "title": "Justicia desestim\u00f3 millonaria demanda de Luisana Lopilato por un comercial en Uruguay",
             "reason": "Primary November 15 report identifies civil advertising/image-rights damages; not crime merely because it mentions justice."
           },
           {
             "country": "VE",
             "feed": "crime",
-            "title": "Primero Justicia aprovechó furor por estreno de GTA 6 para cuestionar los retrasos de obras públicas en Venezuela",
+            "title": "Primero Justicia aprovech\u00f3 furor por estreno de GTA 6 para cuestionar los retrasos de obras p\u00fablicas en Venezuela",
             "reason": "Primary article describes an opposition political party using a video-game release to criticize public works, not criminal allegations."
           }
         ]
@@ -28537,22 +28553,22 @@
       "primarySourceEvidence": {
         "originalDates": [
           {
-            "title": "CBN, Farmacop, Sofía, Embol y Tigo lideran el ranking de las empresas con mejor reputación de Bolivia en 2022",
+            "title": "CBN, Farmacop, Sof\u00eda, Embol y Tigo lideran el ranking de las empresas con mejor reputaci\u00f3n de Bolivia en 2022",
             "originalDate": "2023-07-06",
             "url": "https://www.economy.com.bo/articulo/business/cbn-farmacop-sofia-embol-coca-cola-tigo-lideran-ranking-empresas-mejor-reputacion-bolivia-2022/20230706110809010289.html"
           },
           {
-            "title": "Economy celebra siete años y se consolida como referente informativo del ecosistema empresarial boliviano",
+            "title": "Economy celebra siete a\u00f1os y se consolida como referente informativo del ecosistema empresarial boliviano",
             "originalDate": "2025-05-20",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-celebra-siete-anos-como-referente-informativo-ecosistema-empresarial-boliviano/20250520115248018408.html"
           },
           {
-            "title": "Economy cumple 8 años consolidando el ecosistema de información económica y empresarial de mayor influencia en Bolivia",
+            "title": "Economy cumple 8 a\u00f1os consolidando el ecosistema de informaci\u00f3n econ\u00f3mica y empresarial de mayor influencia en Bolivia",
             "originalDate": "2026-05-19",
             "url": "https://www.economy.com.bo/articulo/branding-y-rse/economy-cumple-8-anos-consolidando-ecosistema-informacion-economica-empresarial-streaming-bolivia/20260519161211022513.amp.html"
           },
           {
-            "title": "Bolivia y Paraguay plantean corredor de 1.222 kilómetros para ampliar el comercio y la conexión con el Atlántico",
+            "title": "Bolivia y Paraguay plantean corredor de 1.222 kil\u00f3metros para ampliar el comercio y la conexi\u00f3n con el Atl\u00e1ntico",
             "originalDate": "2026-09-21",
             "url": "https://www.economy.com.bo/articulo/business/bolivia-paraguay-plantean-corredor-1222-kilometros-ampliar-comercio-conexion-atlantico/20260921100728024153.html"
           },
@@ -28582,7 +28598,7 @@
       "precedingSourceCommits": [
         "e5d937a4b3341f9d2049ddc8b7369361a1b635a3"
       ],
-      "reason": "Add the exact Economy Bolivia source alias to the existing publisher quarantine and exclude bounded TNT/FotMob database templates in live selection and cached recovery. No publisher-wide TNT/FotMob exclusion; substantive news stays eligible. TeCNIa exclusion remains precautionary, not an assertion of an old event. Reject the exact standalone Filtración TOBAGO TAXI DRIVER VIRAL VIDEO promotion; ordinary police reporting and Port of Rotterdam cooperation reporting remain eligible.",
+      "reason": "Add the exact Economy Bolivia source alias to the existing publisher quarantine and exclude bounded TNT/FotMob database templates in live selection and cached recovery. No publisher-wide TNT/FotMob exclusion; substantive news stays eligible. TeCNIa exclusion remains precautionary, not an assertion of an old event. Reject the exact standalone Filtraci\u00f3n TOBAGO TAXI DRIVER VIRAL VIDEO promotion; ordinary police reporting and Port of Rotterdam cooperation reporting remain eligible.",
       "previousCutoff": "2026-11-01T07:15:08Z",
       "cutoff": "2026-11-01T16:33:20Z",
       "regressionTestsAdded": 4,
@@ -28645,7 +28661,7 @@
         }
       ],
       "retainedPrimaryReviewedStory": {
-        "title": "Comisión de Educación y Cultura Senado de la Nación Argentina",
+        "title": "Comisi\u00f3n de Educaci\u00f3n y Cultura Senado de la Naci\u00f3n Argentina",
         "url": "https://revista.elarcondeclio.com.ar/comision-de-educacion-y-cultura-senado-de-la-nacion-argentina/",
         "originalPublicationDate": "2026-11-01",
         "finding": "The article substantively covers national heritage, museum preservation, musical instruments and traditions. Culture placement is supported; it was retained."
@@ -28657,7 +28673,7 @@
       "type": "source_classified_and_business_search_repair",
       "sourceCommit": "ce7f288eb67da77af9baa120d9b2430bd809d152",
       "precedingSourceCommits": [],
-      "reason": "Exclude the bounded Acuité optical-shop classified template in live selection and cache recovery; rotate singular entreprise into the existing bounded French business fallback and recognize the commercial phrase société d’événementiel without accepting société alone. All age, URL, relevance and cache guards retained.",
+      "reason": "Exclude the bounded Acuit\u00e9 optical-shop classified template in live selection and cache recovery; rotate singular entreprise into the existing bounded French business fallback and recognize the commercial phrase soci\u00e9t\u00e9 d\u2019\u00e9v\u00e9nementiel without accepting soci\u00e9t\u00e9 alone. All age, URL, relevance and cache guards retained.",
       "previousCutoff": "2026-11-01T16:33:20Z",
       "cutoff": "2026-11-02T02:40:14Z",
       "regressionTestsAdded": 2,
@@ -28718,7 +28734,7 @@
           "finding": "Current Surinamese national 3x3 basketball reporting. Historical 2023 reference does not establish an old publication."
         }
       ],
-      "limitations": "Bounded Acuité classified-template exclusion is not a publisher-wide ban and does not dispute the ad date. Société alone does not establish business; the commercial service-company phrase is bounded. Replacement RSS date is corroborated by a secondary listing; the full original publisher body was unavailable. No dates were invented and all age, URL, relevance, cache, test and audit gates remain blocking."
+      "limitations": "Bounded Acuit\u00e9 classified-template exclusion is not a publisher-wide ban and does not dispute the ad date. Soci\u00e9t\u00e9 alone does not establish business; the commercial service-company phrase is bounded. Replacement RSS date is corroborated by a secondary listing; the full original publisher body was unavailable. No dates were invented and all age, URL, relevance, cache, test and audit gates remain blocking."
     },
     {
       "recordedAt": "2026-11-02T16:36:50Z",
@@ -28943,13 +28959,13 @@
         {
           "url": "https://www.dimar.mil.co/print/pdf/node/7156",
           "publisherDate": "2026-02-23",
-          "title": "Colombia, Chile y Ecuador fortalecen la Cooperación Internacional en la Antártica",
+          "title": "Colombia, Chile y Ecuador fortalecen la Cooperaci\u00f3n Internacional en la Ant\u00e1rtica",
           "finding": "The primary PDF dates the Antarctic expedition article February 23, well outside the 14-day hard bound. RSS assigned October 30. This is an original-date defect, not simply an article aging after a valid publication."
         },
         {
           "url": "https://www.dimar.mil.co/colombia-y-ecuador-fortalecen-la-cooperacion-maritima-y-amplian-oportunidades-para-la-gente-de-mar",
           "publisherDate": "2026-10-23",
-          "title": "Colombia y Ecuador fortalecen la cooperación marítima y amplían oportunidades para la gente de mar",
+          "title": "Colombia y Ecuador fortalecen la cooperaci\u00f3n mar\u00edtima y ampl\u00edan oportunidades para la gente de mar",
           "finding": "Primary body and news listing date this agreement October 23, despite October 30 RSS date. It is current substantive cooperation, not proven old; quarantine is precautionary until production can verify original dates."
         },
         {
@@ -29156,7 +29172,7 @@
           "observation": "Tele13 Radio publisher podcast feed identifies the exact June 6 episode by guid 66619bd4b3a8e1659c433568 and pubDate Thu, 06 Jun 2024 11:17:24 GMT, contradicting the November 3 Google RSS timestamp. Only the exact episode is excluded; new reporting remains eligible."
         }
       ],
-      "limitations": "Bounded six-placement semantic and original-date review, not exhaustive proof. The exact Tele13 episode is primary-dated June 6, 2024; no dates are invented and no publisher-wide ban is added. Ecuador al Día credit and police-promotion exclusions use bounded headline evidence; their exact linked primary pages/dates remain unavailable. ANJ first-party civil-court evidence corroborates the truncated Instagram headline, without establishing that exact post date. Prior unresolved original-date observations remain retained in private review history. All prior tests, audits, age, URL, relevance and cache gates remain blocking. No controller/cron change or local routine catch-up; manual runs never count and maintenance continues after milestones."
+      "limitations": "Bounded six-placement semantic and original-date review, not exhaustive proof. The exact Tele13 episode is primary-dated June 6, 2024; no dates are invented and no publisher-wide ban is added. Ecuador al D\u00eda credit and police-promotion exclusions use bounded headline evidence; their exact linked primary pages/dates remain unavailable. ANJ first-party civil-court evidence corroborates the truncated Instagram headline, without establishing that exact post date. Prior unresolved original-date observations remain retained in private review history. All prior tests, audits, age, URL, relevance and cache gates remain blocking. No controller/cron change or local routine catch-up; manual runs never count and maintenance continues after milestones."
     },
     {
       "recordedAt": "2026-11-04T15:22:07Z",
@@ -29212,11 +29228,11 @@
         },
         {
           "url": "https://mia2027.org/",
-          "observation": "Organizer confirms the agronomy meeting and March 8–10, 2027 event dates. Event dates are not substituted for the news publication date."
+          "observation": "Organizer confirms the agronomy meeting and March 8\u201310, 2027 event dates. Event dates are not substituted for the news publication date."
         },
         {
           "url": "https://noticias.vtv.com.uy/35-personas-y-un-mes-y-medio-de-trabajo-por-dentro-el-vehiculo-del-papa/",
-          "observation": "November 3 VTV report describes mechanical conversion of a Fiat vehicle for the pope. A project engineer attributes the work-of-art characterization to the Vatican. This corroborates the metaphor; it does not establish the separate La Mañana article date."
+          "observation": "November 3 VTV report describes mechanical conversion of a Fiat vehicle for the pope. A project engineer attributes the work-of-art characterization to the Vatican. This corroborates the metaphor; it does not establish the separate La Ma\u00f1ana article date."
         },
         {
           "url": "https://uv.cl/archivo-noticias-uv/29803-experiencia-de-la-uv-en-caleta-el-membrillo-llego-al-9-congreso-de-extension-universitaria-en-uruguay",
@@ -29654,6 +29670,64 @@
         "checkedAt": "2026-11-18T00:26:43.184Z"
       },
       "limitations": "A live bounded snapshot and simulated outage are not a guarantee of future article availability or provider/GitHub uptime. Residual sparse/single-publisher/low-headroom feeds are recorded explicitly. No stale, irrelevant, unsafe, undated or misdated story bypasses validation. Source quarantines, historical failures, receipts, prior uncertainties and milestone history are preserved. No controller/cron/notification changes or local routine catch-ups. Manual/push/bot runs never count; maintenance continues after milestones."
+    },
+    {
+      "recordedAt": "2026-11-24T14:53:06Z",
+      "type": "source_explicit_gf_world_unavailability_and_large_ledger_recovery",
+      "sourceCommit": "bd8b23a03ba6be08b7eced1c52b5ddb1409b8531",
+      "previousCutoff": "2026-11-18T00:38:33Z",
+      "cutoff": "2026-11-24T14:53:06Z",
+      "regressionTestsAdded": 3,
+      "historicalFailedRuns": [
+        45260061308,
+        45286776077,
+        45291979172,
+        45277638146,
+        45292429004
+      ],
+      "reason": "GF/world had no eligible article or usable cache. The deployed source represents only that feed as explicitly unavailable with an empty payload and no invented refresh timestamp, allowing the other 239 verified feeds to publish. The controller also retrieves the exact Git blob when the Contents API omits an inline ledger above 1 MB.",
+      "baselines": {
+        "backend": {
+          "id": 45418245501,
+          "event": "workflow_dispatch",
+          "source": "5d37e20607fc198cd11661be90f4da4743cde47c",
+          "fullTests": 335,
+          "feedTests": 319,
+          "controllerTests": 69,
+          "productionAudits": 0
+        },
+        "feeds": {
+          "id": 45327984042,
+          "event": "workflow_dispatch",
+          "source": "bd8b23a03ba6be08b7eced1c52b5ddb1409b8531",
+          "publication": "0f4821cfada5a782e48ea06c78ec4a3d81f61023",
+          "feedTests": 319,
+          "refreshedFeeds": 239,
+          "cachedFeeds": 0,
+          "unavailableFeeds": 1,
+          "healthState": "degraded",
+          "publicationSafetyHours": 24
+        },
+        "hosted": {
+          "id": 45418733989,
+          "event": "workflow_dispatch",
+          "source": "5d37e20607fc198cd11661be90f4da4743cde47c",
+          "controllerTests": 69,
+          "appFacingFilesMatched": 243,
+          "currentPublication": "5d37e20607fc198cd11661be90f4da4743cde47c"
+        }
+      },
+      "sourceAssociation": "The two subsequent publication commits changed only docs/api; backend and workflow source in the manual backend and monitor checks is unchanged from the repair commit. The prior successful manual feed baseline is reused, avoiding another publication dispatch.",
+      "currentPublication": {
+        "commit": "5d37e20607fc198cd11661be90f4da4743cde47c",
+        "scheduledFeedRun": 45368629423,
+        "refreshedFeeds": 239,
+        "cachedFeeds": 0,
+        "unavailableFeeds": 1,
+        "unavailableFeed": "GF/world",
+        "healthState": "degraded"
+      },
+      "limitations": "This is explicit partial availability, not 240 populated feeds or proof that independent coverage is complete. No new publisher sources were added by this repair. Original article dates, relevance, URL/ID checks, 13-day publication age, 14-day hard age and 24-hour cache/publication limits remain unchanged. Historical failures and prior source/date uncertainties remain retained. Manual/push/dispatch runs do not count. Maintenance continues after milestones."
     }
   ]
 }
