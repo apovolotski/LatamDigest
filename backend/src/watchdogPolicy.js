@@ -1,3 +1,5 @@
+import { isUnavailableFeed } from "./feedFreshness.js";
+
 const HOUR = 3_600_000;
 export const WORKFLOWS = {
   feeds: { file: "refresh-static-feeds.yml", name: "Refresh Static Feeds", cron: "17 */6 * * *", cooldown: 6 * HOUR },
@@ -83,9 +85,13 @@ export function validateHealth({ manifest, health, now, total = 240, articleExpi
   const issues = [];
   const generated = Date.parse(manifest.generatedAt);
   const checked = Date.parse(health.checkedAt);
-  const statuses = manifest.countries.flatMap(country => Object.values(country.feeds));
+  const entries = manifest.countries.flatMap(country =>
+    Object.entries(country.feeds).map(([key, status]) => ({ key, status, country: country.id })));
+  const statuses = entries.filter(entry => !isUnavailableFeed(entry.country, entry.key, entry.status))
+    .map(entry => entry.status);
+  const unavailable = entries.length - statuses.length;
   const ages = statuses.map(status => Date.parse(status.updatedAt));
-  if (statuses.length !== total || ages.some(time => !Number.isFinite(time) || time > checked || now - time > 24 * HOUR)) {
+  if (entries.length !== total || !statuses.length || ages.some(time => !Number.isFinite(time) || time > checked || now - time > 24 * HOUR)) {
     issues.push("Missing, future or over-24-hour feed timestamps.");
   }
   if (!Number.isFinite(generated) || !Number.isFinite(checked) || generated > checked || checked > now ||
@@ -94,9 +100,10 @@ export function validateHealth({ manifest, health, now, total = 240, articleExpi
     issues.push("Publication health timestamps or safety limits are inconsistent.");
   }
   const stale = statuses.filter(status => status.stale).length;
-  if (health.cachedFeeds !== stale || health.refreshedFeeds !== total - stale ||
-      health.state !== (stale ? "degraded" : "healthy") ||
-      !["cached", "refreshed"].includes(health.mode) || (health.mode === "cached" && stale !== total)) {
+  if (health.cachedFeeds !== stale || health.refreshedFeeds !== total - stale - unavailable ||
+      (health.unavailableFeeds ?? 0) !== unavailable ||
+      health.state !== (stale || unavailable ? "degraded" : "healthy") ||
+      !["cached", "refreshed"].includes(health.mode) || (health.mode === "cached" && stale + unavailable !== total)) {
     issues.push("Published health does not truthfully describe feed recovery.");
   }
   if (stale === 0 && ages.some(time => time < generated)) issues.push("Fresh publication has older feed timestamps.");

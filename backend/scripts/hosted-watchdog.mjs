@@ -7,6 +7,8 @@ import { createHash } from "node:crypto";
 import { setTimeout as delay } from "node:timers/promises";
 import { WORKFLOWS, mainRun, recoveryDecision, recordScheduled, validateHealth } from "../src/watchdogPolicy.js";
 
+import { isUnavailableFeed } from "../src/feedFreshness.js";
+
 const root = fileURLToPath(new URL("../..", import.meta.url));
 const stateBranch = "latam-monitor-state";
 const statePath = "monitor/state.json";
@@ -239,7 +241,17 @@ export class Ledger {
     const file = await this.api.request(`contents/${statePath}?ref=${stateBranch}`, { missing: true });
     if (file) {
       this.sha = file.sha;
-      const state = decodeJSON(Buffer.from(file.content, "base64"), "hosted ledger");
+      // The Contents API omits inline contents once the ledger exceeds 1 MB.
+      let content = file.content;
+      if (file.encoding === "none" && content === "" && /^[a-f0-9]{40}$/.test(file.sha)) {
+        const blob = await this.api.request(`git/blobs/${file.sha}`);
+        if (blob.sha !== file.sha || blob.encoding !== "base64" ||
+            typeof blob.content !== "string" || Buffer.from(blob.content, "base64").length !== file.size) {
+          throw new Error("Hosted ledger blob did not match its file metadata.");
+        }
+        content = blob.content;
+      }
+      const state = decodeJSON(Buffer.from(content, "base64"), "hosted ledger");
       if (state.schemaVersion !== 1 || state.repository !== this.api.repository) throw new Error("Invalid hosted monitor ledger.");
       return state;
     }
@@ -323,7 +335,7 @@ async function inspectPublication(commit, now, { publicationTime = false } = {})
     }
     const consistency = validateHealth({ manifest, health, now: at, articleExpiry: Math.min(...dates) });
     const issues = [...report.issues, ...(horizon?.issues ?? []), ...consistency.issues];
-    if (report.total !== 240 || report.populated !== 240) issues.push("Incomplete country/category coverage.");
+    if (report.total !== 240 || report.populated + (report.unavailable ?? 0) !== 240) issues.push("Incomplete country/category coverage.");
     return { commit, valid: !issues.length, issues, report, horizon, health, manifest,
       oldestUpdatedAt: consistency.oldestUpdatedAt, expiresAt: consistency.expiresAt, relativeFiles,
       directory, cleanup: () => fs.rm(directory, { recursive: true, force: true }) };
@@ -428,6 +440,7 @@ export async function inspectRun(api, kind, run, now) {
         }
         for (const country of publication.manifest.countries) {
           for (const [key, status] of Object.entries(country.feeds)) {
+            if (isUnavailableFeed(country.id, key, status)) continue;
             if (status.stale) {
               if (status.updatedAt !== before.countries.find(item => item.id === country.id)?.feeds[key]?.updatedAt) {
                 result.issues.push("Cached feed timestamp was renewed.");

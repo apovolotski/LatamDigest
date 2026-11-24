@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { feedConfigs, isRelevantArticle } from "../src/feedSearch.js";
 import { articleID, isWebURL } from "../src/articleIdentity.js";
-import { MAX_ARTICLE_AGE_MS } from "../src/feedFreshness.js";
+import { isUnavailableFeed, MAX_ARTICLE_AGE_MS } from "../src/feedFreshness.js";
 
 const root = fileURLToPath(new URL("../../docs/api", import.meta.url));
 const countriesFile = fileURLToPath(new URL("../../LatamDigest/Resources/Countries.json", import.meta.url));
@@ -18,6 +18,7 @@ export async function checkCoverage({ destination = root, countries, now = Date.
   if (JSON.stringify(expectedIDs) !== JSON.stringify(actualIDs)) issues.push("Manifest country set differs from app country set.");
   let populated = 0;
   let stale = 0;
+  let unavailable = 0;
   let sparse = 0;
   let fallback = 0;
   for (const country of countries) {
@@ -33,6 +34,12 @@ export async function checkCoverage({ destination = root, countries, now = Date.
       let articles;
       try { articles = JSON.parse(await fs.readFile(file, "utf8")); }
       catch { issues.push(`${label}: missing or unreadable feed.`); continue; }
+      if (Array.isArray(articles) && !articles.length && isUnavailableFeed(country.id, feed.key, status)) {
+        unavailable++;
+        warnings.push(`${label}: temporarily unavailable; no eligible articles.`);
+        continue;
+      }
+      if (status?.unavailable !== undefined) issues.push(`${label}: invalid unavailable status.`);
       if (!Array.isArray(articles) || !articles.length) { issues.push(`${label}: empty feed.`); continue; }
       populated++;
       if (!status || status.count !== articles.length) issues.push(`${label}: manifest count mismatch.`);
@@ -54,12 +61,12 @@ export async function checkCoverage({ destination = root, countries, now = Date.
       if (status?.coverage?.fallbackUsed) fallback++;
     }
   }
-  return { total: countries.length * feedConfigs.length, populated, stale, sparse, fallback, issues: [...new Set(issues)], warnings };
+  return { total: countries.length * feedConfigs.length, populated, stale, unavailable, sparse, fallback, issues: [...new Set(issues)], warnings };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const report = await checkCoverage();
-  console.log(`Coverage: ${report.populated}/${report.total} populated; ${report.stale} stale; ${report.sparse} sparse; ${report.fallback} used fallback.`);
+  console.log(`Coverage: ${report.populated}/${report.total} populated; ${report.stale} stale; ${report.unavailable} unavailable; ${report.sparse} sparse; ${report.fallback} used fallback.`);
   let cachedRecovery = false;
   try {
     const health = JSON.parse(await fs.readFile(path.join(root, "refresh-status.json"), "utf8"));

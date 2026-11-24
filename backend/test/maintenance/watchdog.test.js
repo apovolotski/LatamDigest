@@ -304,3 +304,37 @@ test("privileged completion trigger checks trusted main and never checks out PR 
   assert.match(workflow, /ref: main/); assert.match(workflow, /persist-credentials: false/);
   assert.doesNotMatch(workflow, /ref:.*head_sha|pull_request_target|OPENAI_API_KEY/);
 });
+
+test("a ledger above the Contents API limit loads its exact blob and keeps the write precondition", async () => {
+  const state = seed();
+  state.receipts.previous = { status: "completed" };
+  const bytes = Buffer.from(JSON.stringify(state) + " ".repeat(1024 * 1024));
+  const sha = "a".repeat(40);
+  const requests = [];
+  const api = { repository, request: async (endpoint, options) => {
+    requests.push({ endpoint, options });
+    if (endpoint.includes("?ref=")) return { sha, encoding: "none", content: "", size: bytes.length };
+    if (endpoint === `git/blobs/${sha}`) return { sha, encoding: "base64", content: bytes.toString("base64") };
+    assert.equal(options.body.sha, sha);
+    return { content: { sha: "b".repeat(40) } };
+  } };
+  const ledger = new Ledger(api);
+  assert.deepEqual(await ledger.load(seed()), state);
+  await ledger.save(state);
+  assert.equal(requests.length, 3);
+});
+
+test("health counts a permitted unavailable feed separately and rejects a forged absence elsewhere", () => {
+  const fixture = healthFixture();
+  const country = fixture.manifest.countries[0];
+  country.id = "GF";
+  delete country.feeds[0];
+  country.feeds.world = { count: 0, unavailable: true, updatedAt: null, stale: false };
+  Object.assign(fixture.health, { state: "degraded", refreshedFeeds: 239, unavailableFeeds: 1 });
+  assert.equal(validateHealth(fixture).valid, true);
+  fixture.health.unavailableFeeds = 0;
+  assert.equal(validateHealth(fixture).valid, false);
+  fixture.health.unavailableFeeds = 1;
+  country.id = "PR";
+  assert.equal(validateHealth(fixture).valid, false);
+});

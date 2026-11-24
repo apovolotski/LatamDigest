@@ -10,7 +10,7 @@ import { FeedRequestError, UpstreamUnavailableError, feedFailureLabel, fetchRSS 
 import { feedConfigs, searchPlans, isRelevantArticle } from "../src/feedSearch.js";
 import { verifyPublisherArticle } from "../src/publisherArticle.js";
 import { publisherSourcesFor } from "../src/publisherSources.js";
-import { MAX_CACHE_AGE_MS, MAX_PUBLICATION_AGE_MS } from "../src/feedFreshness.js";
+import { allowsUnavailableFeed, MAX_CACHE_AGE_MS, MAX_PUBLICATION_AGE_MS } from "../src/feedFreshness.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -83,7 +83,9 @@ export async function generateFeeds({
         pending.push([file, retained]);
         countryManifest.feeds[feed.key] = { count: retained.length,
           updatedAt: retained.length ? oldStatus.updatedAt : null,
-          stale: true, error: "Feed refresh unavailable." };
+          ...(!retained.length && allowsUnavailableFeed(country.id, feed.key)
+            ? { stale: false, unavailable: true } : { stale: true }),
+          error: "Feed refresh unavailable." };
         console.error(`Retained ${retained.length} articles for ${country.id}/${feed.key}.`);
       }
     }

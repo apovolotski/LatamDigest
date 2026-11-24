@@ -6,7 +6,7 @@ import { generateFeeds, fetchPublisherArticles } from "./generate-static-feeds.m
 import { checkCoverage } from "./check-feed-coverage.mjs";
 import { UpstreamUnavailableError } from "../src/rssClient.js";
 import { feedConfigs } from "../src/feedSearch.js";
-import { MAX_ARTICLE_AGE_MS, MAX_CACHE_AGE_MS, MAX_PUBLICATION_AGE_MS, PUBLICATION_SAFETY_MS } from "../src/feedFreshness.js";
+import { isUnavailableFeed, MAX_ARTICLE_AGE_MS, MAX_CACHE_AGE_MS, MAX_PUBLICATION_AGE_MS, PUBLICATION_SAFETY_MS } from "../src/feedFreshness.js";
 
 const outputRoot = fileURLToPath(new URL("../../docs/api", import.meta.url));
 
@@ -18,7 +18,8 @@ async function verifiedCache(destination, countries, now) {
   if (JSON.stringify(manifest.countries.map(country => country.id).sort()) !== JSON.stringify(countries.map(country => country.id).sort())) {
     throw new Error("Cached coverage is incomplete or invalid; refresh cannot recover safely.");
   }
-  const statuses = manifest.countries.flatMap(country => Object.values(country.feeds));
+  const statuses = manifest.countries.flatMap(country => Object.entries(country.feeds)
+    .filter(([key, status]) => !isUnavailableFeed(country.id, key, status)).map(([, status]) => status));
   if (statuses.some(status => !Number.isFinite(Date.parse(status.updatedAt)) ||
       now - Date.parse(status.updatedAt) > MAX_CACHE_AGE_MS || Date.parse(status.updatedAt) > now + 3600_000)) {
     throw new Error("Cached feed refresh timestamps exceed the 24-hour recovery limit.");
@@ -38,6 +39,7 @@ async function verifiedCache(destination, countries, now) {
       catch { throw new Error("Cached coverage is incomplete or invalid; refresh cannot recover safely."); }
       const status = entry.feeds[feed.key];
       if (!Array.isArray(articles) || articles.length !== status.count) throw new Error("Cached coverage is incomplete or invalid; refresh cannot recover safely.");
+      if (isUnavailableFeed(country.id, feed.key, status)) continue;
       // Leave a full recovery window before the validator's hard age limit.
       // Invalid or future dates remain present so validation still rejects them.
       const retained = articles.filter(article => {
@@ -52,7 +54,7 @@ async function verifiedCache(destination, countries, now) {
     }
   }
   const current = manifest.countries.flatMap(country => Object.values(country.feeds));
-  manifest.coverage = { totalFeeds: current.length, freshFeeds: 0, staleFeeds: current.length,
+  manifest.coverage = { totalFeeds: current.length, freshFeeds: 0, staleFeeds: current.filter(status => status.stale).length,
     emptyFeeds: current.filter(status => !status.count).length,
     sparseFeeds: current.filter(status => status.count > 0 && status.count < 3).length };
   await fs.writeFile(path.join(destination, "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
@@ -78,6 +80,7 @@ async function recordStatus(destination, status, summaryFile) {
     await fs.appendFile(summaryFile, `## Static feed refresh: ${status.state}\n\n` +
       `- Refreshed feeds: ${status.refreshedFeeds}/${status.totalFeeds}\n` +
       `- Cached feeds: ${status.cachedFeeds}\n` +
+        `- Unavailable feeds: ${status.unavailableFeeds ?? 0}\n` +
       `- Refresh attempts: ${status.attempts}\n` +
       `- Publication freshness safety margin: ${status.publicationSafetyHours} hours\n` +
       `- Last successful publication: ${status.lastSuccessfulRefreshAt}\n` +
@@ -106,11 +109,11 @@ export async function refreshFeeds({
         now() - Date.parse(status.updatedAt) > MAX_CACHE_AGE_MS || Date.parse(status.updatedAt) > now() + 3600_000)) {
       throw new Error("Cached feed refresh timestamps exceed the 24-hour recovery limit.");
     }
-    const status = { state: report.stale ? "degraded" : "healthy", mode: "refreshed",
+    const status = { state: report.stale || report.unavailable ? "degraded" : "healthy", mode: "refreshed",
       checkedAt: new Date(now()).toISOString(), lastSuccessfulRefreshAt: result.manifest.generatedAt,
       publicationSafetyHours: PUBLICATION_SAFETY_MS / 3600_000,
       cacheLimitHours: MAX_CACHE_AGE_MS / 3600_000,
-      totalFeeds: report.total, refreshedFeeds: result.succeeded, cachedFeeds: report.stale, attempts: attempt };
+      totalFeeds: report.total, refreshedFeeds: result.succeeded, cachedFeeds: report.stale, unavailableFeeds: report.unavailable, attempts: attempt };
     await recordStatus(staged, status);
     // Swap only verified output. Roll back if the second rename fails.
     await publishVerified(staged, destination, workspace);
@@ -163,7 +166,7 @@ export async function refreshFeeds({
     const { report, manifest, expiredArticlesRemoved, expiringArticlesRemoved } = await verifiedCache(staged, countries, now());
     const status = { state: "degraded", mode: "cached", checkedAt: new Date(now()).toISOString(),
       lastSuccessfulRefreshAt: manifest.generatedAt, totalFeeds: report.total,
-      refreshedFeeds: 0, cachedFeeds: report.total, attempts, cacheLimitHours: 24,
+      refreshedFeeds: 0, cachedFeeds: report.stale, unavailableFeeds: report.unavailable, attempts, cacheLimitHours: 24,
       publicationSafetyHours: PUBLICATION_SAFETY_MS / 3600_000,
       expiredArticlesRemoved, expiringArticlesRemoved, failure: upstreamFailure.failure };
     signal.throwIfAborted();

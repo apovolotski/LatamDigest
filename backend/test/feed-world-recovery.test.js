@@ -90,3 +90,35 @@ test("the world fallback replaces aging cache atomically and preserves original 
   assert.equal(cached.stale, true);
   assert.deepEqual((await checkCoverage(options)).issues, []);
 });
+
+test("French Guiana World can be unavailable without blocking verified feeds, and recovers on the next refresh", async t => {
+  const folder = await mkdtemp(path.join(tmpdir(), "latam-gf-world-"));
+  t.after(() => rm(folder, { recursive: true, force: true }));
+  const gf = { id: "GF", name: "French Guiana" };
+  const options = { destination: path.join(folder, "api"), countries: [gf], summaryFile: null };
+  const headline = "Guyane: économie, politique, entreprises, sports, technologie, culture, crime et diplomatie";
+  const story = toArticle({ title: headline, link: "https://example.com/guyane",
+    source: "Example", pubDate: new Date().toISOString() }, gf, world);
+  const generate = unavailable => o => generateFeeds({ ...o,
+    fetchFeed: async (_, feed) => unavailable && feed.key === "world" ? [] : [story]
+  });
+  const degraded = await refreshFeeds({ ...options, generate: generate(true) });
+  assert.equal(degraded.state, "degraded");
+  assert.equal(degraded.refreshedFeeds, 9);
+  assert.equal(degraded.unavailableFeeds, 1);
+  const manifestPath = path.join(options.destination, "manifest.json");
+  const manifest = JSON.parse(await readFile(manifestPath));
+  const status = manifest.countries[0].feeds.world;
+  assert.equal(status.updatedAt, null);
+  assert.equal(status.stale, false);
+  assert.equal(status.unavailable, true);
+  assert.deepEqual(JSON.parse(await readFile(path.join(options.destination, "countries/GF/category/world.json"))), []);
+  assert.deepEqual((await checkCoverage(options)).issues, []);
+  status.updatedAt = story.publishedAt;
+  await writeFile(manifestPath, JSON.stringify(manifest));
+  assert.match((await checkCoverage(options)).issues.join(" "), /invalid unavailable status/);
+  const recovered = await refreshFeeds({ ...options, generate: generate(false) });
+  assert.equal(recovered.state, "healthy");
+  assert.equal(recovered.refreshedFeeds, 10);
+  assert.equal(recovered.unavailableFeeds, 0);
+});

@@ -4,3 +4,11 @@ export const MAX_ARTICLE_AGE_MS = 14 * 86_400_000;
 export const PUBLICATION_SAFETY_MS = 24 * 3600_000;
 export const MAX_PUBLICATION_AGE_MS = MAX_ARTICLE_AGE_MS - PUBLICATION_SAFETY_MS;
 export const MAX_CACHE_AGE_MS = 24 * 3600_000;
+
+// French Guiana World can have no qualifying stories during a refresh.
+export const allowsUnavailableFeed = (country, key) => country === "GF" && key === "world";
+
+export function isUnavailableFeed(country, key, status) {
+  return allowsUnavailableFeed(country, key) && status?.unavailable === true &&
+    status.count === 0 && status.updatedAt === null && status.stale === false;
+}
