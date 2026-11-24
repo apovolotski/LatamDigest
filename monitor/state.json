@@ -27854,12 +27854,12 @@
       "attempt": 1,
       "event": "schedule",
       "createdAt": "2026-11-24T22:21:12Z",
-      "inspectionVersion": 5,
+      "inspectionVersion": 6,
       "completeLogFormat": "github-run-archive-v1",
       "source": "5d37e20607fc198cd11661be90f4da4743cde47c",
       "conclusion": "success",
       "url": "https://github.com/apovolotski/LatamDigest/actions/runs/45500117017",
-      "verifiedAt": "2026-11-24T22:25:24.177Z",
+      "verifiedAt": "2026-11-24T22:42:51.529Z",
       "jobs": [
         {
           "name": "refresh",
@@ -27915,6 +27915,7 @@
           "command": "npm audit --omit=dev --workspace=@latam-digest/static-feeds --include-workspace-root=false"
         }
       },
+      "publicationCommit": "082ffedfc1a2d53f55c27c073681106fbb55b2fa",
       "productionEvidence": {
         "jobId": 138820838952,
         "stepNumber": 7,
@@ -27923,7 +27924,16 @@
         "jobLogLines": 2436,
         "startedAt": "2026-11-24T22:21:37.000Z",
         "completedAt": "2026-11-24T22:24:57.000Z"
-      }
+      },
+      "verificationHistory": [
+        {
+          "inspectionVersion": 5,
+          "verifiedAt": "2026-11-24T22:25:24.177Z",
+          "valid": true,
+          "issues": [],
+          "completeLogSha256": "9a062727874cdee92661f3e4fa1b9ef1b9c1d2141ae0925453c7719ac4707f69"
+        }
+      ]
     }
   },
   "receipts": {
@@ -27937,7 +27947,8 @@
       "status": "completed",
       "runId": 40788625631,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40788625631"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40788625631",
+      "attempt": 1
     },
     "probe-40788557235-backend": {
       "dispatch": true,
@@ -27949,7 +27960,8 @@
       "status": "completed",
       "runId": 40788632904,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40788632904"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40788632904",
+      "attempt": 1
     },
     "feeds-20261029181700000": {
       "dispatch": true,
@@ -27961,7 +27973,8 @@
       "status": "completed",
       "runId": 40962160936,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40962160936"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/40962160936",
+      "attempt": 1
     },
     "backend-20261030104300000": {
       "dispatch": true,
@@ -27973,7 +27986,8 @@
       "status": "completed",
       "runId": 41058370929,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41058370929"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41058370929",
+      "attempt": 1
     },
     "feeds-20261031001700000": {
       "dispatch": true,
@@ -27985,7 +27999,8 @@
       "status": "completed",
       "runId": 41163776868,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41163776868"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41163776868",
+      "attempt": 1
     },
     "backend-20261031104300000": {
       "dispatch": true,
@@ -27997,7 +28012,8 @@
       "status": "completed",
       "runId": 41207324993,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41207324993"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41207324993",
+      "attempt": 1
     },
     "feeds-20261101121700000": {
       "dispatch": true,
@@ -28009,7 +28025,8 @@
       "status": "completed",
       "runId": 41326286730,
       "conclusion": "failure",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41326286730"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41326286730",
+      "attempt": 1
     },
     "feeds-failed-41474100155-1": {
       "dispatch": true,
@@ -28021,7 +28038,8 @@
       "status": "completed",
       "runId": 41474602145,
       "conclusion": "failure",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41474602145"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41474602145",
+      "attempt": 1
     },
     "backend-20261102104300000": {
       "dispatch": true,
@@ -28033,7 +28051,8 @@
       "status": "completed",
       "runId": 41474621000,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41474621000"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41474621000",
+      "attempt": 1
     },
     "feeds-20261103061700000": {
       "dispatch": true,
@@ -28045,7 +28064,8 @@
       "status": "completed",
       "runId": 41615295227,
       "conclusion": "failure",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41615295227"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41615295227",
+      "attempt": 1
     },
     "backend-20261104104300000": {
       "dispatch": true,
@@ -28057,7 +28077,8 @@
       "status": "completed",
       "runId": 41848012332,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41848012332"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41848012332",
+      "attempt": 1
     },
     "feeds-20261104181700000": {
       "dispatch": true,
@@ -28069,7 +28090,8 @@
       "status": "completed",
       "runId": 41935483410,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41935483410"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/41935483410",
+      "attempt": 1
     },
     "feeds-publication-91065da210a6d1427036b618420fb1ad77c1bd84": {
       "dispatch": true,
@@ -28081,7 +28103,8 @@
       "status": "completed",
       "runId": 42058301163,
       "conclusion": "failure",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42058301163"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42058301163",
+      "attempt": 1
     },
     "backend-20261105104300000": {
       "dispatch": true,
@@ -28093,7 +28116,8 @@
       "status": "completed",
       "runId": 42058326586,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42058326586"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42058326586",
+      "attempt": 1
     },
     "feeds-failed-42098189923-1": {
       "dispatch": true,
@@ -28105,7 +28129,8 @@
       "status": "completed",
       "runId": 42119708067,
       "conclusion": "failure",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42119708067"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42119708067",
+      "attempt": 1
     },
     "feeds-20261106121700000": {
       "dispatch": true,
@@ -28117,7 +28142,8 @@
       "status": "completed",
       "runId": 42263862015,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42263862015"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42263862015",
+      "attempt": 1
     },
     "feeds-20261107001700000": {
       "dispatch": true,
@@ -28129,7 +28155,8 @@
       "status": "completed",
       "runId": 42332611955,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42332611955"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42332611955",
+      "attempt": 1
     },
     "backend-20261107104300000": {
       "dispatch": true,
@@ -28141,7 +28168,8 @@
       "status": "completed",
       "runId": 42374710066,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42374710066"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42374710066",
+      "attempt": 1
     },
     "feeds-20261107181700000": {
       "dispatch": true,
@@ -28153,7 +28181,8 @@
       "status": "completed",
       "runId": 42414094898,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42414094898"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42414094898",
+      "attempt": 1
     },
     "backend-20261108104300000": {
       "dispatch": true,
@@ -28165,7 +28194,8 @@
       "status": "completed",
       "runId": 42484408285,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42484408285"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42484408285",
+      "attempt": 1
     },
     "backend-20261109104300000": {
       "dispatch": true,
@@ -28177,7 +28207,8 @@
       "status": "completed",
       "runId": 42655073412,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42655073412"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42655073412",
+      "attempt": 1
     },
     "feeds-20261110061700000": {
       "dispatch": true,
@@ -28189,7 +28220,8 @@
       "status": "completed",
       "runId": 42798051350,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42798051350"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42798051350",
+      "attempt": 1
     },
     "backend-20261110104300000": {
       "dispatch": true,
@@ -28201,7 +28233,8 @@
       "status": "completed",
       "runId": 42872579740,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42872579740"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42872579740",
+      "attempt": 1
     },
     "feeds-failed-42921753808-1": {
       "dispatch": true,
@@ -28213,7 +28246,8 @@
       "status": "completed",
       "runId": 42925180721,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42925180721"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/42925180721",
+      "attempt": 1
     },
     "feeds-20261111181700000": {
       "dispatch": true,
@@ -28225,7 +28259,8 @@
       "status": "completed",
       "runId": 43110113585,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43110113585"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43110113585",
+      "attempt": 1
     },
     "feeds-20261112061700000": {
       "dispatch": true,
@@ -28237,7 +28272,8 @@
       "status": "completed",
       "runId": 43212001512,
       "conclusion": "failure",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43212001512"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43212001512",
+      "attempt": 1
     },
     "feeds-20261113121700000": {
       "dispatch": true,
@@ -28249,7 +28285,8 @@
       "status": "completed",
       "runId": 43472055813,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43472055813"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43472055813",
+      "attempt": 1
     },
     "backend-20261113104300000": {
       "dispatch": true,
@@ -28261,7 +28298,8 @@
       "status": "completed",
       "runId": 43472078206,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43472078206"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43472078206",
+      "attempt": 1
     },
     "feeds-20261114001700000": {
       "dispatch": true,
@@ -28273,7 +28311,8 @@
       "status": "completed",
       "runId": 43552009028,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43552009028"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43552009028",
+      "attempt": 1
     },
     "feeds-20261114181700000": {
       "dispatch": true,
@@ -28285,7 +28324,8 @@
       "status": "completed",
       "runId": 43644018296,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43644018296"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43644018296",
+      "attempt": 1
     },
     "feeds-20261115061700000": {
       "dispatch": true,
@@ -28297,7 +28337,8 @@
       "status": "completed",
       "runId": 43701176556,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43701176556"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43701176556",
+      "attempt": 1
     },
     "feeds-20261115121700000": {
       "dispatch": true,
@@ -28309,7 +28350,8 @@
       "status": "completed",
       "runId": 43740770176,
       "conclusion": "failure",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43740770176"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43740770176",
+      "attempt": 1
     },
     "feeds-20261116181700000": {
       "dispatch": true,
@@ -28321,7 +28363,8 @@
       "status": "completed",
       "runId": 43952192676,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43952192676"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/43952192676",
+      "attempt": 1
     },
     "feeds-20261117061700000": {
       "dispatch": true,
@@ -28333,7 +28376,8 @@
       "status": "completed",
       "runId": 44043552853,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44043552853"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44043552853",
+      "attempt": 1
     },
     "backend-20261117104300000": {
       "dispatch": true,
@@ -28345,7 +28389,8 @@
       "status": "completed",
       "runId": 44096252004,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44096252004"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44096252004",
+      "attempt": 1
     },
     "feeds-failed-44173537851-1": {
       "dispatch": true,
@@ -28357,7 +28402,8 @@
       "status": "completed",
       "runId": 44174181553,
       "conclusion": "failure",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44174181553"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44174181553",
+      "attempt": 1
     },
     "backend-20261120104300000": {
       "dispatch": true,
@@ -28369,7 +28415,8 @@
       "status": "completed",
       "runId": 44795939527,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44795939527"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44795939527",
+      "attempt": 1
     },
     "feeds-20261121121700000": {
       "dispatch": true,
@@ -28381,7 +28428,8 @@
       "status": "completed",
       "runId": 44927237162,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44927237162"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/44927237162",
+      "attempt": 1
     },
     "feeds-20261122121700000": {
       "dispatch": true,
@@ -28393,7 +28441,8 @@
       "status": "completed",
       "runId": 45052562036,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/45052562036"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/45052562036",
+      "attempt": 1
     },
     "backend-20261122104300000": {
       "dispatch": true,
@@ -28405,7 +28454,8 @@
       "status": "completed",
       "runId": 45052575499,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/45052575499"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/45052575499",
+      "attempt": 1
     },
     "feeds-20261123181700000": {
       "dispatch": true,
@@ -28417,7 +28467,8 @@
       "status": "completed",
       "runId": 45260061308,
       "conclusion": "failure",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/45260061308"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/45260061308",
+      "attempt": 1
     },
     "backend-20261123104300000": {
       "dispatch": true,
@@ -28429,7 +28480,8 @@
       "status": "completed",
       "runId": 45260084753,
       "conclusion": "success",
-      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/45260084753"
+      "url": "https://github.com/apovolotski/LatamDigest/actions/runs/45260084753",
+      "attempt": 1
     },
     "feeds-20261124181700000": {
       "dispatch": true,
@@ -28438,7 +28490,19 @@
       "due": "2026-11-24T18:17:00.000Z",
       "reason": "late_schedule",
       "reservedAt": "2026-11-24T20:53:00.548Z",
-      "status": "uncertain_or_rejected"
+      "status": "superseded",
+      "resolution": {
+        "reason": "verified_replacement",
+        "resolvedAt": "2026-11-24T22:42:51.529Z",
+        "previousStatus": "uncertain_or_rejected",
+        "dispatchOutcome": "unconfirmed",
+        "runId": 45500117017,
+        "attempt": 1,
+        "event": "schedule",
+        "source": "5d37e20607fc198cd11661be90f4da4743cde47c",
+        "verifiedAt": "2026-11-24T22:42:51.529Z",
+        "publication": "082ffedfc1a2d53f55c27c073681106fbb55b2fa"
+      }
     }
   },
   "alerts": {
@@ -28480,9 +28544,9 @@
       ]
     }
   },
-  "status": "attention_required",
+  "status": "recovery_pending",
   "latest": {
-    "checkedAt": "2026-11-24T22:25:24.177Z",
+    "checkedAt": "2026-11-24T22:42:51.529Z",
     "workflows": {
       "feeds": {
         "due": "2026-11-24T18:17:00.000Z",
@@ -28492,7 +28556,9 @@
       "backend": {
         "due": "2026-11-24T10:43:00.000Z",
         "state": "active",
-        "active": []
+        "active": [
+          45503432552
+        ]
       }
     },
     "decisions": {
@@ -28503,13 +28569,10 @@
       },
       "backend": {
         "dispatch": false,
-        "reason": "daily_check_covered",
-        "due": "2026-11-24T10:43:00.000Z"
+        "reason": "run_active"
       }
     },
-    "problems": [
-      "Unconfirmed catch-up feeds-20261124181700000; GitHub dispatch/access needs review."
-    ],
+    "problems": [],
     "publication": {
       "commit": "082ffedfc1a2d53f55c27c073681106fbb55b2fa",
       "valid": true,
@@ -28542,9 +28605,25 @@
       "issues": [],
       "expiresAt": "2026-11-25T22:21:38.576Z",
       "appFacingFilesMatched": 243
-    }
+    },
+    "receiptResolutions": [
+      {
+        "key": "feeds-20261124181700000",
+        "kind": "feeds",
+        "reason": "verified_replacement",
+        "resolvedAt": "2026-11-24T22:42:51.529Z",
+        "previousStatus": "uncertain_or_rejected",
+        "dispatchOutcome": "unconfirmed",
+        "runId": 45500117017,
+        "attempt": 1,
+        "event": "schedule",
+        "source": "5d37e20607fc198cd11661be90f4da4743cde47c",
+        "verifiedAt": "2026-11-24T22:42:51.529Z",
+        "publication": "082ffedfc1a2d53f55c27c073681106fbb55b2fa"
+      }
+    ]
   },
-  "checkedAt": "2026-11-24T22:25:24.177Z",
+  "checkedAt": "2026-11-24T22:42:51.529Z",
   "activeAlerts": [
     "2afb8b2e6a38c5e9961385aee49c7a8a1510e98480e8fd3c63402ba74a77200e"
   ],
