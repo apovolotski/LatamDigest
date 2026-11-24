@@ -83,7 +83,7 @@ test("ambiguous duplicated audit blocks are not accepted as proof", () => {
   assert.equal(inspectAudits("backend", data.jobs, data.logs).audits.check, undefined);
 });
 
-test("only legacy invalid inspections are rechecked after the parser upgrade", () => {
+test("legacy invalid inspections are rechecked while sufficient valid evidence remains reusable", () => {
   assert.equal(needsInspection(undefined), true);
   assert.equal(needsInspection({ valid: false }), true);
   assert.equal(needsInspection({ valid: false, inspectionVersion: 1 }), true);

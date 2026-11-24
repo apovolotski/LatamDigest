@@ -5,7 +5,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { setTimeout as delay } from "node:timers/promises";
-import { WORKFLOWS, mainRun, recoveryDecision, recordScheduled, validateHealth } from "../src/watchdogPolicy.js";
+import { WORKFLOWS, mainRun, recoveryDecision, recordScheduled, validateHealth,
+  reconcileReceiptRuns, supersedeRecoveredReceipts, unconfirmedReceipt } from "../src/watchdogPolicy.js";
 
 import { isUnavailableFeed } from "../src/feedFreshness.js";
 
@@ -14,9 +15,10 @@ const stateBranch = "latam-monitor-state";
 const statePath = "monitor/state.json";
 const hash = data => createHash("sha256").update(data).digest("hex");
 const iso = now => new Date(now).toISOString();
-export const INSPECTION_VERSION = 5;
+export const INSPECTION_VERSION = 6;
 export const needsInspection = previous => !previous ||
-  (previous.valid === false && (previous.inspectionVersion ?? 1) < INSPECTION_VERSION);
+  ((previous.inspectionVersion ?? 1) < INSPECTION_VERSION &&
+    (previous.valid === false || Boolean(previous.tests?.refresh && !previous.publicationCommit)));
 export function recordInspection(state, run, inspected) {
   const key = `${run.id}:${run.run_attempt}`;
   const previous = state.inspected[key];
@@ -71,6 +73,7 @@ export class GitHub {
       if (missing && response.status === 404) return null;
       if (method === "GET" && response.status >= 500 && attempt < 2) continue;
       if (!response.ok) throw Object.assign(new Error(`GitHub ${method} request failed (HTTP ${response.status}); access or service review required.`), {
+        httpStatus: response.status,
         transient: response.status >= 500 || response.status === 429 || (response.status === 403 && response.headers?.get("x-ratelimit-remaining") === "0")
       });
       return response.status === 204 ? null : decodeJSON(await response.text(), `GitHub ${method} ${endpoint}`);
@@ -285,8 +288,14 @@ export async function reserveAndDispatch({ api, ledger, state, kind, publication
       method: "POST", body: { ref: "main", inputs: { maintenance_key: decision.key } }
     });
     receipt.status = "dispatched";
+    receipt.dispatchOutcome = "accepted";
   } catch (error) {
     receipt.status = "uncertain_or_rejected";
+    receipt.dispatchOutcome = "unconfirmed";
+    receipt.dispatchError = {
+      ...(typeof error.transient === "boolean" ? { transient: error.transient } : {}),
+      ...(Number.isInteger(error.httpStatus) ? { httpStatus: error.httpStatus } : {})
+    };
     await ledger.save(state);
     throw error;
   }
@@ -420,6 +429,7 @@ export async function inspectRun(api, kind, run, now) {
       const publication = await inspectPublication(commit, now, { publicationTime: true });
       try {
         result.publication = { commit, health: publication.health, report: publication.report, horizon: publication.horizon };
+        result.publicationCommit = commit; // Durable identity for recovery reconciliation; no publication payload in the ledger.
         result.issues.push(...publication.issues);
         const production = jobs.flatMap(job => job.steps ?? []).find(step => step.name === "Refresh static feeds with outage recovery");
         const executed = commandEvidence(jobs, jobLogs, { job: "refresh", step: "Refresh static feeds with outage recovery",
@@ -474,6 +484,7 @@ export async function inspectRun(api, kind, run, now) {
 
 export async function monitor({ api, ledger, state, now = Date.now(), exercise, outputDirectory }) {
   const evidence = { checkedAt: iso(now), workflows: {}, decisions: {}, problems: [] };
+  const workflowRuns = {};
   runCommand("git", ["fetch", "--quiet", "origin", "main"]);
   for (const [kind, config] of Object.entries(WORKFLOWS)) {
     const workflow = await api.request(`actions/workflows/${config.file}`);
@@ -484,6 +495,7 @@ export async function monitor({ api, ledger, state, now = Date.now(), exercise, 
       evidence.decisions[`${kind}_enable`] = "Re-enabled the existing native workflow.";
     }
     const runs = await api.runs(kind);
+    workflowRuns[kind] = runs;
     evidence.workflows[kind] = { due: latestDue(kind, now), state: workflow.state, active: runs.filter(run => run.status !== "completed").map(run => run.id) };
     const pending = runs.filter(run => run.status === "completed" && Date.parse(run.created_at) > Date.parse(state.cutoff) &&
       needsInspection(state.inspected[`${run.id}:${run.run_attempt}`])).sort((a, b) => Date.parse(a.created_at) - Date.parse(b.created_at));
@@ -493,11 +505,7 @@ export async function monitor({ api, ledger, state, now = Date.now(), exercise, 
       recordScheduled(state, kind, { ...run, conclusion: inspected.valid ? "success" : "failure" }, iso(now));
       if (outputDirectory) await fs.writeFile(path.join(outputDirectory, `run-${run.id}-${run.run_attempt}.json`), JSON.stringify(inspected, null, 2));
     }
-    for (const receipt of Object.values(state.receipts)) {
-      const run = runs.find(item => state.inspected[`${item.id}:${item.run_attempt}`]?.maintenanceKey === receipt.key ||
-        item.display_title?.includes(`[${receipt.key}]`)); // Also reconcile the original deployment proof.
-      if (run) Object.assign(receipt, { runId: run.id, status: run.status, conclusion: run.conclusion, url: run.html_url });
-    }
+    reconcileReceiptRuns(state, kind, runs);
     const latest = runs[0];
     if (latest?.status === "completed") {
       if (latest.conclusion !== "success") evidence.workflows[kind].failed = latest.id;
@@ -529,6 +537,8 @@ export async function monitor({ api, ledger, state, now = Date.now(), exercise, 
       issues: publication.issues, expiresAt: iso(publication.expiresAt), appFacingFilesMatched: publication.appFacingFilesMatched };
     if (!publication.valid) evidence.problems.push(`Published data: ${publication.issues.join(" ")}`);
     for (const kind of Object.keys(WORKFLOWS)) {
+      const resolved = supersedeRecoveredReceipts({ state, kind, runs: workflowRuns[kind], publication, now });
+      if (resolved.length) (evidence.receiptResolutions ??= []).push(...resolved);
       evidence.decisions[kind] = await reserveAndDispatch({ api, ledger, state, kind, publication, now, exercise });
       if (evidence.workflows[kind].failed && !evidence.decisions[kind].dispatch) {
         evidence.problems.push(`${WORKFLOWS[kind].name} remains failed; see run ${evidence.workflows[kind].failed}.`);
@@ -538,11 +548,20 @@ export async function monitor({ api, ledger, state, now = Date.now(), exercise, 
       }
     }
   } finally { if (publication) await publication.cleanup(); }
+  const attention = recordMonitorOutcome(state, evidence, now);
+  // The exact-blob reader supports the growing ledger. Keep durable receipts,
+  // inspected identities and milestone history; artifact retention is separate.
+  await ledger.save(state);
+  if (outputDirectory) await fs.writeFile(path.join(outputDirectory, "report.json"), JSON.stringify({ ...evidence, status: state.status }, null, 2));
+  return { attention, evidence, status: state.status };
+}
+
+export function recordMonitorOutcome(state, evidence, now) {
   const recovering = Object.values(evidence.workflows).some(workflow => workflow.active.length > 0) || Object.values(state.receipts).some(receipt =>
     ["queued", "in_progress", "pending", "waiting", "requested"].includes(receipt.status) ||
     (["reserved", "dispatched"].includes(receipt.status) && now - Date.parse(receipt.reservedAt) < 3_600_000));
   for (const receipt of Object.values(state.receipts)) {
-    if (["reserved", "dispatched", "uncertain_or_rejected"].includes(receipt.status) &&
+    if (unconfirmedReceipt(receipt) &&
         now - Date.parse(receipt.reservedAt) >= 3_600_000) evidence.problems.push(`Unconfirmed catch-up ${receipt.key}; GitHub dispatch/access needs review.`);
   }
   state.latest = evidence;
@@ -557,21 +576,8 @@ export async function monitor({ api, ledger, state, now = Date.now(), exercise, 
     state.activeAlerts.push(fingerprint);
   }
   if (!evidence.problems.length && !recovering) state.activeAlerts = [];
-  // GitHub retains complete logs/artifacts separately. Keep the live ledger
-  // below the Contents API size limit without re-inspecting a 30-day run list.
-  const oldest = now - 31 * 86_400_000;
-  for (const [key, item] of Object.entries(state.inspected)) if (Date.parse(item.createdAt) < oldest) delete state.inspected[key];
-  for (const [key, item] of Object.entries(state.receipts)) {
-    if (item.status === "completed" && Date.parse(item.reservedAt) < oldest) delete state.receipts[key];
-  }
-  for (const window of Object.values(state.milestone)) {
-    for (const [key, attempt] of Object.entries(window.attempts)) if (Date.parse(attempt.verifiedAt) < oldest) delete window.attempts[key];
-    window.history = window.history.slice(-100);
-  }
   state.status = recovering ? "recovery_pending" : evidence.problems.length ? "attention_required" : "healthy";
-  await ledger.save(state);
-  if (outputDirectory) await fs.writeFile(path.join(outputDirectory, "report.json"), JSON.stringify({ ...evidence, status: state.status }, null, 2));
-  return { attention, evidence, status: state.status };
+  return attention;
 }
 
 // This adapter keeps time calculations in the same tested policy module.

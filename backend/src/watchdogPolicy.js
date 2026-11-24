@@ -9,6 +9,62 @@ export const activeRun = run => run.status !== "completed";
 export const mainRun = (run, repository) => run.head_branch === "main" &&
   run.event !== "pull_request" && run.head_repository?.full_name === repository;
 
+export const unconfirmedReceipt = receipt =>
+  ["reserved", "dispatched", "uncertain_or_rejected"].includes(receipt.status);
+
+export function reconcileReceiptRuns(state, kind, runs) {
+  for (const receipt of Object.values(state.receipts)) {
+    if (receipt.kind !== kind) continue;
+    const matches = runs.filter(run => mainRun(run, state.repository) && run.event === "workflow_dispatch" &&
+      Date.parse(run.created_at) >= Date.parse(receipt.reservedAt) &&
+      (state.inspected[`${run.id}:${run.run_attempt}`]?.maintenanceKey === receipt.key ||
+        run.display_title?.includes(`[${receipt.key}]`)));
+    // Do not arbitrarily select one identity if upstream metadata is ambiguous.
+    if (matches.length !== 1) continue;
+    const run = matches[0];
+    const confirmation = { runId: run.id, attempt: run.run_attempt, status: run.status,
+      conclusion: run.conclusion, url: run.html_url };
+    if (receipt.status === "superseded") receipt.lateConfirmation = confirmation;
+    else Object.assign(receipt, confirmation);
+  }
+}
+
+export function supersedeRecoveredReceipts({ state, kind, runs, publication, now }) {
+  const resolutions = [];
+  const trusted = runs.filter(run => mainRun(run, state.repository));
+  // An actual active run or a more recent failure must remain visible.
+  if (trusted.some(activeRun)) return resolutions;
+  const run = [...trusted].sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at))[0];
+  const inspected = run && state.inspected[`${run.id}:${run.run_attempt}`];
+  if (!run || run.status !== "completed" || run.conclusion !== "success" || inspected?.valid !== true ||
+      inspected.id !== run.id || inspected.attempt !== run.run_attempt || inspected.source !== run.head_sha ||
+      inspected.event !== run.event || inspected.conclusion !== "success" || inspected.issues?.length !== 0) return resolutions;
+  for (const receipt of Object.values(state.receipts)) {
+    if (receipt.kind !== kind || !unconfirmedReceipt(receipt) || receipt.runId ||
+        typeof receipt.key !== "string" || receipt.dispatchError?.transient === false ||
+        receipt.reason === "transport_exercise" || receipt.key.startsWith("probe-")) continue;
+    const reserved = Date.parse(receipt.reservedAt), created = Date.parse(run.created_at);
+    if (!Number.isFinite(reserved) || !Number.isFinite(created) || created <= reserved || created > now) continue;
+    if (kind === "feeds") {
+      // A green run alone does not prove recovery. It must have published the
+      // current, byte-matched, fresh and non-expiring app-facing publication.
+      if (!publication?.valid || publication.appFacingFilesMatched !== 243 ||
+          !inspected.publicationCommit || inspected.publicationCommit !== publication.commit ||
+          !(publication.oldestUpdatedAt >= reserved && publication.oldestUpdatedAt <= now) ||
+          !(now - publication.oldestUpdatedAt < 7.5 * HOUR) || !(publication.expiresAt > now + HOUR)) continue;
+    } else if (kind === "backend") {
+      if (!Number.isFinite(Date.parse(receipt.due)) || created < Date.parse(receipt.due)) continue;
+    } else continue;
+    receipt.resolution = { reason: "verified_replacement", resolvedAt: new Date(now).toISOString(),
+      previousStatus: receipt.status, dispatchOutcome: "unconfirmed", runId: run.id,
+      attempt: run.run_attempt, event: run.event, source: run.head_sha, verifiedAt: inspected.verifiedAt,
+      ...(kind === "feeds" ? { publication: publication.commit } : {}) };
+    receipt.status = "superseded";
+    resolutions.push({ key: receipt.key, kind, ...receipt.resolution });
+  }
+  return resolutions;
+}
+
 export function latestSlot(kind, now) {
   const date = new Date(now);
   if (!Number.isFinite(date.getTime()) || !WORKFLOWS[kind]) throw new Error("Invalid monitor clock or workflow.");
