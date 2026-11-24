@@ -87,6 +87,27 @@ export const countryPublisherFeeds = {
   ],
   "BR": [
     {
+      "url": "https://en.mercopress.com/rss/brazil",
+      "name": "MercoPress",
+      "hosts": ["en.mercopress.com"]
+    },
+    {
+      "url": "https://admin.cnnbrasil.com.br/wp-json/wp/v2/posts/?search=Brasil",
+      "name": "CNN Brasil",
+      "hosts": ["www.cnnbrasil.com.br"],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/portuguese/rss.xml",
+      "name": "BBC News Brasil",
+      "hosts": ["www.bbc.com", "www.bbc.co.uk"]
+    },
+    {
+      "url": "https://www.poder360.com.br/feed/",
+      "name": "Poder360",
+      "hosts": ["www.poder360.com.br"]
+    },
+    {
       "url": "https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml",
       "name": "Agência Brasil",
       "hosts": [
@@ -175,6 +196,11 @@ export const countryPublisherFeeds = {
   ],
   "AR": [
     {
+      "url": "https://en.mercopress.com/rss/argentina",
+      "name": "MercoPress",
+      "hosts": ["en.mercopress.com"]
+    },
+    {
       "url": "https://buenosairesherald.com/feed",
       "pages": [
         "https://buenosairesherald.com/feed?paged=2",
@@ -216,6 +242,12 @@ export const countryPublisherFeeds = {
     }
   ],
   "EC": [
+    {
+      "url": "https://www.primicias.ec/sitemap-google-news.xml",
+      "name": "Primicias",
+      "hosts": ["www.primicias.ec"],
+      "kind": "news-sitemap"
+    },
     {
       "url": "https://www.elcomercio.com/wp-json/wp/v2/posts",
       "name": "El Comercio Ecuador",
@@ -426,6 +458,11 @@ export const countryPublisherFeeds = {
     }
   ],
   "PY": [
+    {
+      "url": "https://en.mercopress.com/rss/paraguay",
+      "name": "MercoPress",
+      "hosts": ["en.mercopress.com"]
+    },
     {
       "url": "https://www.ultimahora.com/arte-y-espectaculos.rss",
       "name": "Última Hora",
@@ -668,6 +705,11 @@ export const countryPublisherFeeds = {
   ],
   "UY": [
     {
+      "url": "https://en.mercopress.com/rss/uruguay",
+      "name": "MercoPress",
+      "hosts": ["en.mercopress.com"]
+    },
+    {
       "url": "https://metronomo.uy/wp-json/wp/v2/posts",
       "name": "Metrónomo",
       "hosts": [
@@ -778,6 +820,11 @@ export const countryPublisherFeeds = {
     }
   ],
   "VE": [
+    {
+      "url": "https://en.mercopress.com/rss/venezuela",
+      "name": "MercoPress",
+      "hosts": ["en.mercopress.com"]
+    },
     {
       "url": "https://www.elnacional.com/feed/",
       "name": "EL NACIONAL",
@@ -1051,6 +1098,11 @@ export const countryPublisherFeeds = {
   ],
   "GF": [
     {
+      "url": "https://www.rfi.fr/fr/tag/guyane/rss",
+      "name": "RFI",
+      "hosts": ["www.rfi.fr"]
+    },
+    {
       "url": "https://www.franceguyane.fr/actualite/economie-consommation/rss.xml",
       "name": "franceguyane.fr",
       "hosts": [
@@ -1249,6 +1301,11 @@ export const countryPublisherFeeds = {
     }
   ],
   "CL": [
+    {
+      "url": "https://en.mercopress.com/rss/chile",
+      "name": "MercoPress",
+      "hosts": ["en.mercopress.com"]
+    },
     {
       "url": "https://www.latercera.com/arc/outboundfeeds/rss/?outputType=xml",
       "name": "La Tercera",
@@ -1728,6 +1785,21 @@ export const regionalPublisherFeeds = [
 ];
 
 const sectionPublisherFeeds = {
+  // Institutional reporting is scoped to international affairs; academic
+  // elections, course advertisements and jobs do not expand other categories.
+  "GF/world": [
+    {
+      "url": "https://www.univ-guyane.fr/wp-json/wp/v2/posts",
+      "name": "Université de Guyane",
+      "hosts": ["www.univ-guyane.fr"],
+      "kind": "wordpress"
+    },
+    {
+      "url": "https://www.univ-guyane.fr/feed/",
+      "name": "Université de Guyane",
+      "hosts": ["www.univ-guyane.fr"]
+    }
+  ],
   "TT/politics": [
     {
       "url": "https://www.ttt.live/category/news/government-news/feed/",

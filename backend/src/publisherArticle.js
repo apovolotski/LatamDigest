@@ -39,6 +39,23 @@ export function originalPublisherDate(html, expectedTitle, publisherNames=[]) {
     return false;
   };
   if(titles.some(matchesTitle))for(const m of metas)if(['article:published_time','datepublished'].includes((m.property??m.name??'').toLowerCase()))dates.push(m.content);
+  // MercoPress publishes its original UTC minute directly below the article
+  // headline, separately from the live Montevideo clock and related stories.
+  // Read only that reviewed structure and exact headline on the reviewed host.
+  if (publisherNames.includes('en.mercopress.com')) {
+    for (const block of html.matchAll(/<h2\b([^>]*)>([\s\S]*?)<\/h2>\s*<div\b([^>]*)>\s*<span>([\s\S]*?)<\/span>/gi)) {
+      if (attributes(block[1]).class !== 'title' || attributes(block[3]).class !== 'content-data' ||
+          !matchesTitle(block[2].replace(/<[^>]+>/g, ''))) continue;
+      const value = decode(block[4].replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim();
+      const match = /^(Sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday), (January|February|March|April|May|June|July|August|September|October|November|December) (\d{1,2})(?:st|nd|rd|th) (\d{4}) - (\d{2}):(\d{2}) UTC$/.exec(value);
+      if (!match) continue;
+      const month = ['January','February','March','April','May','June','July','August','September','October','November','December'].indexOf(match[2]) + 1;
+      const candidate = `${match[4]}-${String(month).padStart(2,'0')}-${match[3].padStart(2,'0')}T${match[5]}:${match[6]}:00.000Z`;
+      const time = new Date(candidate);
+      if (Number.isFinite(+time) && time.toISOString() === candidate &&
+          ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][time.getUTCDay()] === match[1]) dates.push(candidate);
+    }
+  }
   function visit(node) {
     if(!node||typeof node!=='object')return;
     if(Array.isArray(node)){node.forEach(visit);return;}

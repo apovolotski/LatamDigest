@@ -459,6 +459,11 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     // El Comercio names the newspaper presenting this mural, not trade.
     title = title.replace(/^el comercio(?= presenta mural\b)/, " ");
   }
+  if (feed.key === "economy" && /\bprosecutors?\b/.test(normalized(title))) {
+    // An accused company's exporter label alone is not economic reporting.
+    // Independent exports, employment, inflation or tariff evidence survives.
+    title = normalized(title).replace(/\bexporters?\b/g, " ");
+  }
   if (feed.key === "crime") {
     // A football club or political party name is not a justice-system
     // reference. Preserve independent criminal reporting about either.
@@ -471,7 +476,8 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     const publishersInjunction = /\bliminar\b/.test(title) && /\b(?:associacao nacional de jornais|abert|aner)\b/.test(title);
     // This civil damages/advertising context cannot rely on justicia alone.
     const advertisingDispute = /\b(?:demanda|litigio|pleito)\b/.test(title) && /\b(?:comercial|publicidad|uso de (?:su |la )?imagen)\b/.test(title);
-    if ((civilDispute.test(title) || regionalTreatyDispute || publishersInjunction || advertisingDispute) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
+    const commemorativeDispute = /\bbatalha na justica\b/.test(title) && /\bapagar homenagem\b/.test(title);
+    if ((civilDispute.test(title) || regionalTreatyDispute || publishersInjunction || advertisingDispute || commemorativeDispute) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     if ((policeCommunityEvents.test(title) || /\bascensos?\b/.test(title) || sports.some(term => matches(title, term))) &&
         !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
@@ -487,6 +493,9 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     title = title.replace(/\bcongreso (?:mundial de ingenieros agronomos|de extension universitaria)\b/g, " ");
   }
   if (feed.key === "world") {
+    // Accession to this named international treaty is foreign affairs;
+    // merchandise, training courses or a bare acronym are not evidence.
+    if (/\bcptpp accession\b|\baccession to (?:the )?cptpp\b/.test(normalized(title))) terms.push("CPTPP");
     title = normalized(title).replace(/\bembajador(?:a|es|as)? de la fauna\b|\bwildlife ambassador\w*\b/g, " ").replace(honoraryAmbassadors, " ").replace(internationalAirport, " ").replace(/\bcentro bancario internacional\b/g, " ").replace(/\b(?:camino|ruta|avenida|carretera) internacional\b/g, " ");
     // EU cohesion programmes are international institutional affairs. A bare
     // European investment fund or a European-labelled event is not enough:
