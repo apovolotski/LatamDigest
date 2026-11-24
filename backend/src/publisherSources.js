@@ -1388,6 +1388,24 @@ export const countryPublisherFeeds = {
   ],
   "SV": [
     {
+      "url": "https://diario.elmundo.sv/nacionales",
+      "pages": [
+        "https://diario.elmundo.sv/nacionales?page=2",
+        "https://diario.elmundo.sv/nacionales?page=3",
+        "https://diario.elmundo.sv/nacionales?page=4",
+        "https://diario.elmundo.sv/nacionales?page=5",
+        "https://diario.elmundo.sv/nacionales?page=6",
+        "https://diario.elmundo.sv/nacionales?page=7",
+        "https://diario.elmundo.sv/nacionales?page=8",
+        "https://diario.elmundo.sv/nacionales?page=9",
+        "https://diario.elmundo.sv/nacionales?page=10"
+      ],
+      "name": "Diario El Mundo",
+      "hosts": ["diario.elmundo.sv"],
+      "kind": "publisher-index",
+      "articlePathPrefix": "/nacionales/"
+    },
+    {
       "url": "https://www.diariocolatino.com/feed/",
       "pages": [
         "https://www.diariocolatino.com/feed/?paged=2",
@@ -1785,6 +1803,23 @@ export const regionalPublisherFeeds = [
 ];
 
 const sectionPublisherFeeds = {
+  "TT/culture": [
+    {
+      "url": "https://icdn.today/wp-json/wp/v2/posts?search=Trinidad",
+      "name": "Indo-Caribbean Diaspora News",
+      "hosts": ["icdn.today"],
+      "kind": "wordpress"
+    }
+  ],
+  "TT/world": [
+    {
+      "url": "https://www.caribbeannationalweekly.com/categories/trinidad-tobago-news",
+      "name": "Caribbean National Weekly",
+      "hosts": ["www.caribbeannationalweekly.com"],
+      "kind": "publisher-index",
+      "articlePathPrefix": "/posts/"
+    }
+  ],
   // Institutional reporting is scoped to international affairs; academic
   // elections, course advertisements and jobs do not expand other categories.
   "GF/world": [

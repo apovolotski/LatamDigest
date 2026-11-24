@@ -224,7 +224,9 @@ const cultureSearchAliases = {
 };
 
 function normalized(value) {
-  return value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().replace(/[^\p{L}\p{N}*]+/gu, " ").trim();
+  // Typographic compatibility characters (for example mathematical bold)
+  // represent the same letters, not a different country or category.
+  return value.normalize("NFKD").replace(/\p{M}/gu, "").toLowerCase().replace(/[^\p{L}\p{N}*]+/gu, " ").trim();
 }
 function matches(text, term) {
   const value = ` ${normalized(text)} `;
@@ -416,6 +418,7 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
   if (feed.key === "sports" && /\bbase militar\b/.test(normalized(title)))
     title = normalized(title).replace(/\bcampo de futbol\b/g, " ");
   if (feed.key === "culture") {
+    if (/\b(?:divali|diwali) (?:celebration|festival)\b/.test(normalized(title))) terms.push("divali", "diwali");
     // Reviewed concert coverage names both the band and its musical tour.
     // Neither an arbitrary tour nor a band-name mention alone establishes arts.
     if (/\bgorillaz\b/.test(normalized(title)) && /\bthe mountain tour\b/.test(normalized(title))) terms.push("gorillaz");
@@ -493,6 +496,14 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     title = title.replace(/\bcongreso (?:mundial de ingenieros agronomos|de extension universitaria)\b/g, " ");
   }
   if (feed.key === "world") {
+    // Negotiations on accepting deportees from a named foreign state are
+    // migration diplomacy, not merely travel, visiting officials or branding.
+    if (/\b(?:talks|agreement) with (?:the )?(?:us|united states)\b/.test(normalized(title)) &&
+        /\bthird country deportees\b/.test(normalized(title))) terms.push("deportees");
+    // Domestic reassignment of a minister's portfolios is not foreign affairs
+    // solely because one of those portfolios bears that name.
+    if (/\bassigned additional responsibilities\b/.test(normalized(title)))
+      title = normalized(title).replace(/\bforeign affairs minister\b/g, " ");
     // Accession to this named international treaty is foreign affairs;
     // merchandise, training courses or a bare acronym are not evidence.
     if (/\bcptpp accession\b|\baccession to (?:the )?cptpp\b/.test(normalized(title))) terms.push("CPTPP");

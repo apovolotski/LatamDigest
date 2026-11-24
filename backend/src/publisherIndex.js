@@ -15,7 +15,13 @@ export function publisherIndexLinks(html,source){
  const mostRead = [...html.matchAll(/<ol\b[^>]*class="plus-lus"[^>]*>([\s\S]*?)<\/ol>/gi)]
   .flatMap(m => [...m[1].matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)])
   .map(m => `<a ${m[1]}><h3>${m[2]}</h3></a>`).join('');
- for(const m of (html + headingLinks + mostRead).matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)){
+ // El Mundo labels its news-card titles with this exact class instead of
+ // heading elements. Navigation, image captions and listing dates are ignored.
+ const cardTitles = source.hosts.length === 1 && source.hosts[0] === 'diario.elmundo.sv'
+  ? [...html.matchAll(/<div\b[^>]*class="article-title"[^>]*>([\s\S]*?)<\/div>/gi)]
+   .flatMap(m => [...m[1].matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)])
+   .map(m => `<a ${m[1]}><h3>${m[2]}</h3></a>`).join('') : '';
+ for(const m of (html + headingLinks + mostRead + cardTitles).matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)){
   const href=/\bhref="([^"]+)"/i.exec(m[1])?.[1],heading=/<h[23]\b[^>]*>([\s\S]*?)<\/h[23]>/i.exec(m[2])?.[1];
   if(!href||!heading)continue;
   let url;try{url=new URL(href,source.url);}catch{continue;}
