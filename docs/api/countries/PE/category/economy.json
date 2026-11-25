@@ -1,38 +1,110 @@
 [
   {
-    "id": "3c304818-55ab-d5b9-9f59-c1ee25d581d1",
-    "title": "MEF: Economía peruana mantiene su resiliencia y fortaleza fiscal para afrontar El Niño",
-    "snippet": "Economy reporting from Agencia Andina.",
-    "url": "https://andina.pe/agencia/noticia-mef-economia-peruana-mantiene-su-resiliencia-y-fortaleza-fiscal-para-afrontar-nino-1101291.aspx",
+    "id": "452f0f1d-a9bb-25b7-b7d9-a6964513c87c",
+    "title": "MEF proyecta crecimiento de 3.1% para Perú en 2026 pese a efectos de El Niño",
+    "snippet": "Economy coverage for Peru via Expreso on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOWG9wS05RY2xMMkh0MkxJemlleFFJX0tDWWRySkYtUUVWTVV1MGtabzByXzNQWjlHbXZqdnQ4MzdxRUo2bUVXanp6V18zcG1VaWhzQkppRkZCdEpjdXFCT2dLMzB4ZjVvdzFnd08wWUdsMXhfZEF5bEQwRzdibnA4WDJfVUluUnYzcGoyMkRMWkJuV09jM2trZjkwbk84MklUcDdQd3lrYlBxN0lLX0JEcEhOSFhESURTVHp6dmVWaFdlNjZRaF9F?oc=5",
+    "sourceName": "Expreso",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-25T00:27:52.000Z"
+  },
+  {
+    "id": "f2034694-7b17-36d6-1fd7-eeb1b41c5a8f",
+    "title": "Perú supera a Chile en crecimiento económico y podría convertirse en la cuarta mayor economía de Sudamérica en 2026",
+    "snippet": "Economy coverage for Peru via Publimicro on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxNZmtzcDB4RS1aXzFQMWVjeWRoS3VjX19LYU1ib2N5OThoSXdxYjJYWG9LQ3VrUGs2NTlJY2NKdGg5SjRaWkQ2LVozcXZPQlllS2gtVXNLd2xVZHEzdEdSUjdGZVpTUExVbnNQYUgtX3UzQnZVeDdnWm84bFJfNzJwUTFzb1hkeWd4WEs5WllGdS1LbTNBajUtNnQ4YUtfaXI1U1NyY0hFWXQxU0stUHhIWEVEMXI4REozNnNrZ1hFOFRKeTVZUG5pYmx4R0tlREw1VGFhMw?oc=5",
+    "sourceName": "Publimicro",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-24T23:53:23.000Z"
+  },
+  {
+    "id": "b887b2dc-4be6-da1e-def3-5fa2410363fd",
+    "title": "Empleo minero en Perú alcanza récord de 298.608 puestos directos en setiembre del 2026",
+    "snippet": "Economy coverage for Peru via Rumbo Minero on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQYlNtUEd1TExYQmVsZ3pWU3ZNRm1UelpIWDFleVZsd1Ztb1p3MXJodFRtZS12aHlaaTh2akFTajRNdWMta3hreUg0YURodXhBZmdGcXhMMXJ1LTR4WmxCTnlOd2Y1cDgyUUhnY1I4dVVYNzZuSjhvWFd5ODJ1TVhnSjZ5UGE?oc=5",
+    "sourceName": "Rumbo Minero",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-24T22:00:00.000Z"
+  },
+  {
+    "id": "35a37afa-f496-9662-3096-b09d2c5e18f5",
+    "title": "MEF reduce a 3.1% su proyección de crecimiento para Perú en 2026: ¿qué frenará al país?",
+    "snippet": "Economy coverage for Peru via Perú Retail on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNVVJLOUt4cWU3Y1Mzc2xnRTJtdnVDUlpyVG1fMjkxY21wN2EzekJGREdxbzR0Z21uTGZUYVJzSV8yLWhkR1BzcnZxWlQ3ZW9acko2bmJZVXFGN1RyOWpHMzl6dW80bUZYUWtXbV9OeWRQMUNLZjM2ajk1b2lWNEJBSnl0aEp4WEVZYXBqVDJyNjRweHBaMXppbG5kbzY3Nko2MWk0Vk54WHgzMndMMVhWM0M5VlBRYjhsRG5n?oc=5",
+    "sourceName": "Perú Retail",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-24T21:44:25.000Z"
+  },
+  {
+    "id": "e3e7f437-2f1e-0d70-07df-ee7291f37fde",
+    "title": "Perú crece más rápido que Chile y podría superarlo como cuarta economía sudamericana en 2027",
+    "snippet": "Economy coverage for Peru via https://zonazero.cl/ on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNUmN5Z3paeFpBSUtLa3FBcWlvalp5azc2ckRxVlpIVm5VcllkMExUZVhpaVRINExzN0RUWnFFM3hITFNic0ZMT3dfVmREM1hEajlfN0I5VVFicUQ3alR3TmdRWGw5U19BQzh0cWxnUzdwbzk4YThZejh0LTNRMHJZTW0wU2s2aEVlLVlyQU5HSElpR3BuRzhzSGNud1QxSTgzWUxnYVBtSDFBemJ1MWVIZ181bGJzeFdaWUdjdXF3?oc=5",
+    "sourceName": "https://zonazero.cl/",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-24T19:00:09.000Z"
+  },
+  {
+    "id": "2aed1341-7eb1-f035-209b-e7829b7c0354",
+    "title": "Urbana Perú proyecta crecimiento de 173% en ventas y prepara nuevos proyectos para 2027",
+    "snippet": "Economy coverage for Peru via Revista Construir on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQYWFJVEVvMG9GaTFudEFDMUt1eDZEbWgyVHlnRE5meHRqZk5keDdWUTd2UnFETURWRWUzalBxXy1Bd1ZlYUhCanB1eV93MUkyakI4UVl0T0JZQ0xBdmF3ZGpUM3FISDhWZ1NILXdtNGxydlZTQXlUUnV2N0tseUNxUGt0ZGF3d3c0RlBLal9XNWpWWjdwcXZLaV9fRm9ZdVF0V2oyWUkwbUNQLUhMbzNqWXZn?oc=5",
+    "sourceName": "Revista Construir",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-24T17:05:05.000Z"
+  },
+  {
+    "id": "29ab3d19-2e7f-0c92-153f-3783963615c7",
+    "title": "Perú acelera su crecimiento impulsado por la inversión privada y se encamina a superar el tamaño de la economía chilena",
+    "snippet": "Economy coverage for Peru via CNN Chile on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNd3Vtb1JrNTA4RXRYMWc0eU5mYkVNZVI0RmxjMHBPa0NCSmlqZURmYkxneDFQaUdsV3lxX1pkMzhobGRoZm9vdEpQejl6QkJSRW51VEhzcy1OQ2NUeVpLSVZyZXZhS2c0XzVxNE9wMWtzSUpQeUdlTjJ4RVROOWNXWmFHdkFlXzJtRGVKTXY0a0xsVjRL?oc=5",
+    "sourceName": "CNN Chile",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-24T16:21:47.000Z"
+  },
+  {
+    "id": "43570d93-5c68-e3d1-e97b-bffa4d156ec6",
+    "title": "Perú ve oportunidades para el crecimiento de Asia-Pacífico",
+    "snippet": "Economy coverage for Peru via MasContainer on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNTFlGQ0tfUUcxaU04eUM5dVRjNDdwN2JuRmd5emtoYjJkNXNjSUt6QzJVcXpyX29nRVdnSklmWWZmeUc4cHdaRXl1ajNsejZqWVFXLTFHZW5jRFNNcFVaTkJrZE1uX3dGQ1BMbG90UF9JdTNyaWc4UjEwalBxVGNWQ0k5OHBNZGdLWko2cQ?oc=5",
+    "sourceName": "MasContainer",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-24T16:08:29.000Z"
+  },
+  {
+    "id": "a512c12e-d827-1dfd-fd6b-a3f28bf55f1b",
+    "title": "Perú crece 3,1% en el tercer trimestre gracias a salto de la inversión y tamaño de su economía superaría al de Chile este año",
+    "snippet": "Economy coverage for Peru via La Tercera on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOV0ZVa2NPN1haQWhxcExvRDU0MUI2ODIwVlpUN1c1MWNfQlZfWkFub1ltZE9xblJZX2pDRWR1X3A1aV9OTjdNRFlqSW85amtJd3VZc0lwdjM4OHE5TTdkMnhrS05SQkF6VHIwZnZqTEdJRG9yalFudW1qaGkxejR3YURhT2kxNTR0RUpuWjRCNXlKYml3RUpwME5jaWM2VWhmaUlRaThZYWdrNFpaZEc1M29sQXRPd9IB1wFBVV95cUxQcmJfQlBnbG5GMXNHMU9SUGdnTS01YTdUMnJ5N0ZZcG04VDJmcVFjUzQ3LWZLb2J5MDhxZXBhSjZhXzVabXRHbVZlMzVDdnRLNkxBUHRnWXBzN21yUUZVdlh1MFBkdmlGOGdNVmN4MGdMYkFRMVJRbFRIanJ0V0NNUEZxcTlkMHVhc0N5a2ZQT204VFZWOVp1WXh6Qlc1NGdsNlBnSVRBTVAxSlRMQTdIZjFBSDRsUUpVWFlMdG9UbmoySVRGOGVqTmdZYW85VjNIclF0bG1IRQ?oc=5",
+    "sourceName": "La Tercera",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-24T14:35:24.000Z"
+  },
+  {
+    "id": "7a5b6d07-491a-8844-df8e-3482e92e703f",
+    "title": "Economía de Perú creció 3,1% en el tercer trimestre, impulsada por la inversión privada",
+    "snippet": "Economy coverage for Peru via ElOriente.com on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxNMFdYSnloaUstSnZLRmtHcEtETnBrazYyRkVIZk40QnZKVG1pT1d0a0I4T2tVTmpheXFfR2UxRG9QbmZObV8yMHpIR0lBV2NMZ2hCYUJhMmwxZk5XTHp1dzRYUmV2RXRCYmVLVWxMT0xNNmxnbUE4WEtieU1TZW9UcVFKYkw1RHgxZVMySlBrZ1dfUno3QW5QOWdDWFcydENxR3poTUd3YXJyUWpIa1FWYkFyZmtGTDNOeWZJeXJFR2NUaGs?oc=5",
+    "sourceName": "ElOriente.com",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-24T13:30:27.000Z"
+  },
+  {
+    "id": "79c1e3bb-b6e8-9151-9999-ecc72c38de24",
+    "title": "APEC 2026: Nuevas oportunidades para la economía peruana",
+    "snippet": "Economy coverage for Peru via El Montonero on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQbEVxZnp6QWVnanFuWTI3VVQxQzBWUXc3Z0dORXpBNVgwanlLYlA1eExrTVBZcXVCcE43NWc4blQ2OFRiVjVIbGQtVjFfWG9LQzV4TjlMNEVGOGRiYkNlMTEzbWZfQXptbXlMWVM3VWFoMUVKTUhhbWZjbUtIQTZqeVVPcDFvZW5vLTJQZFFxY3o?oc=5",
+    "sourceName": "El Montonero",
+    "sourceLogoURL": null,
+    "publishedAt": "2026-11-24T08:25:52.000Z"
+  },
+  {
+    "id": "060f8c9c-8e00-ffe6-e280-00b6f50e07a3",
+    "title": "APEC 2026: Perú recibió respaldo internacional confirmando la fortaleza de su economía",
+    "snippet": "Economy coverage for Peru via Agencia Andina on Google News. Curated from recent economy reporting.",
+    "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPN2FSTE82ckNSOUFhNzRnb0ZGSTdBSE9aenN3dDBRbXZvQ01wV0hXckVmVkVFeElJdG1IVlNuVWd0aWxITkhsVkxzYy1kM1llODVDSnd4a0N6Y1hUVm5RSkRpQVFCZVRjQ1c3QWpYVVFWbDZIX3k0bGp6ZDRZTnFoeTlBTkJhQWFKdngwMlBtQUhJbHdmRmh6T1ZCR0dYMFJhLVNLNmNwaTZGaUlhcWkweHhKU0hIR0x4NlN5aWcxUEFNVEN1?oc=5",
     "sourceName": "Agencia Andina",
     "sourceLogoURL": null,
-    "publishedAt": "2026-11-24T23:23:00.000Z"
-  },
-  {
-    "id": "3b991bfb-6c5e-8330-ec2c-3a9ba3f6bb69",
-    "title": "MEF reduce a 3.1% su proyección de crecimiento para Perú en 2026: ¿qué frenará al país?",
-    "snippet": "Economy reporting from Perú Retail.",
-    "url": "https://www.peru-retail.com/economia-peruana-creceria-menos-en-2026-mef-ajusta-sus-proyecciones-por-impacto-de-el-nino/",
-    "sourceName": "Perú Retail",
-    "sourceLogoURL": null,
-    "publishedAt": "2026-11-24T16:00:05.000Z"
-  },
-  {
-    "id": "24fd3116-9c52-82c5-efdd-55dd4a92beed",
-    "title": "Ripley eleva sus ganancias 53,2% en 3T26 con fuerte crecimiento de sus negocios en Perú",
-    "snippet": "Economy reporting from Perú Retail.",
-    "url": "https://www.peru-retail.com/ripley-corp-eleva-sus-ganancias-532-en-el-tercer-trimestre-peru-fue-clave-en-sus-resultados/",
-    "sourceName": "Perú Retail",
-    "sourceLogoURL": null,
-    "publishedAt": "2026-11-18T20:01:09.000Z"
-  },
-  {
-    "id": "2897f31b-8c83-7eb0-be8f-602378eaf35e",
-    "title": "Salarios pretendidos suben en Perú: ¿qué áreas concentran más ofertas de empleo y postulaciones?",
-    "snippet": "Economy reporting from Perú Retail.",
-    "url": "https://www.peru-retail.com/salarios-pretendidos-suben-en-peru-que-areas-concentran-mas-ofertas-de-empleo-y-postulaciones/",
-    "sourceName": "Perú Retail",
-    "sourceLogoURL": null,
-    "publishedAt": "2026-11-18T15:00:07.000Z"
+    "publishedAt": "2026-11-24T07:02:43.000Z"
   }
 ]

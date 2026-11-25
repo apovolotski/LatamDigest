@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-24T23:53:03.855Z",
+  "generatedAt": "2026-11-25T00:28:02.784Z",
   "source": "Google News RSS with direct publisher fallbacks",
   "feeds": [
     {
@@ -49,165 +49,143 @@
       "name": "Argentina",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:53:36.266Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:03.372Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
             "searches": 1,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "MercoPress",
-              "Buenos Aires Herald"
-            ]
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:54:01.780Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:03.424Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
             "searches": 1,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "MercoPress",
-              "Buenos Aires Herald"
-            ]
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:54:31.695Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:03.896Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
             "searches": 1,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Ámbito",
-              "MercoPress"
-            ]
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:55:08.148Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:04.521Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
             "searches": 1,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "iProfesional",
-              "Buenos Aires Herald",
-              "Agencia EFE"
-            ]
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:55:45.327Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:05.228Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
             "searches": 1,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Buenos Aires Herald",
-              "DPL News"
-            ]
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:55:47.017Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:05.731Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "DPL News",
-              "Buenos Aires Herald"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:55:48.564Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:06.149Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "LA NACION Argentina",
-              "Buenos Aires Herald"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:55:51.129Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:06.695Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "LA NACION Argentina",
-              "Buenos Aires Herald",
-              "Agencia EFE"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:55:52.023Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:07.252Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Buenos Aires Herald",
-              "LA NACION Argentina"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:55:52.228Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:07.753Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "LA NACION Argentina",
-              "Agencia EFE"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -217,166 +195,143 @@
       "name": "Bolivia",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:55:56.463Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:08.204Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Mundo Bolivia",
-              "Movida de Altura"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:55:56.478Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:08.254Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Mundo Bolivia",
-              "Movida de Altura"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:55:58.234Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:08.720Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Mundo Bolivia",
-              "Bolivia.com"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:56:00.533Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:09.039Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Deber",
-              "Bolivia.com",
-              "El Mundo Bolivia"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:56:03.887Z",
+          "count": 11,
+          "updatedAt": "2026-11-25T00:28:09.631Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Bolivia.com",
-              "El Mundo Bolivia"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:56:07.772Z",
+          "count": 11,
+          "updatedAt": "2026-11-25T00:28:09.928Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Mundo Bolivia",
-              "Agencia EFE",
-              "Bolivia.com"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:56:08.450Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:10.401Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Movida de Altura",
-              "Bolivia.com"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:56:14.625Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:10.686Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Bolivia.com",
-              "EL PAÍS",
-              "Resumen Latinoamericano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:56:16.506Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:10.959Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Bolivia.com",
-              "El Mundo Bolivia"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:56:17.998Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:11.491Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Movida de Altura",
-              "El Mundo Bolivia"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -386,163 +341,143 @@
       "name": "Brazil",
       "feeds": {
         "top": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:56:22.363Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:11.988Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNN Brasil",
-              "MercoPress"
-            ]
+            "languages": [
+              "pt"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:56:22.385Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:12.035Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNN Brasil",
-              "MercoPress"
-            ]
+            "languages": [
+              "pt"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:56:30.010Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:12.545Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNN Brasil",
-              "Brasil de Fato"
-            ]
+            "languages": [
+              "pt"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:56:40.109Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:12.934Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNN Brasil",
-              "DPL News",
-              "Brasil de Fato"
-            ]
+            "languages": [
+              "pt"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:56:42.290Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:13.460Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNN Brasil",
-              "Agencia EFE"
-            ]
+            "languages": [
+              "pt"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:56:42.689Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:14.048Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNN Brasil",
-              "Brasil de Fato"
-            ]
+            "languages": [
+              "pt"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:56:46.829Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:14.559Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Brasil de Fato"
-            ]
+            "languages": [
+              "pt"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:56:47.542Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:15.081Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNN Brasil",
-              "BBC News Brasil"
-            ]
+            "languages": [
+              "pt"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:56:47.600Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:15.486Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNN Brasil",
-              "MercoPress"
-            ]
+            "languages": [
+              "pt"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:56:48.414Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:16.157Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Agência Brasil",
-              "CNN Brasil"
-            ]
+            "languages": [
+              "pt"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -552,162 +487,143 @@
       "name": "Chile",
       "feeds": {
         "top": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:56:51.405Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:16.530Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Tercera",
-              "El Ciudadano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:56:51.410Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:16.556Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Tercera",
-              "El Ciudadano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:56:54.043Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:16.935Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Tercera",
-              "El Ciudadano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:57:01.125Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:17.467Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Resumen Latinoamericano",
-              "El Ciudadano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 1,
-          "updatedAt": "2026-11-24T23:57:04.485Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:17.965Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Tercera"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:57:04.649Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:18.519Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Tercera",
-              "El Ciudadano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:57:05.112Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:18.847Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Ciudadano",
-              "La Tercera"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:57:07.391Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:19.309Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Agencia EFE",
-              "Infobae",
-              "El Ciudadano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:57:09.145Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:19.717Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Ciudadano",
-              "France 24"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 2,
-          "updatedAt": "2026-11-24T23:57:10.221Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:20.273Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Ciudadano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -717,168 +633,143 @@
       "name": "Colombia",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:57:12.539Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:20.771Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Colombia Reports",
-              "El País Cali"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:57:12.544Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:20.801Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Colombia Reports",
-              "El País Cali"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:57:13.031Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:21.384Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El País Cali",
-              "Colombia Reports"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:57:20.984Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:21.949Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "DPL News",
-              "Agencia EFE",
-              "ENTER.CO"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:57:21.918Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:22.361Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El País Cali",
-              "Portal Geek"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:57:22.483Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:22.799Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "ENTER.CO",
-              "Portal Geek"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:57:23.828Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:23.101Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "Resumen Latinoamericano",
-              "El País Cali"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:57:25.907Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:23.640Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "Prensa Latina",
-              "Colombia Reports"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:57:26.109Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:24.110Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Portafolio",
-              "Infobae",
-              "El País Cali"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:57:26.470Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:24.616Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El País Cali",
-              "Portal Geek",
-              "Colombia Reports"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -888,163 +779,143 @@
       "name": "Costa Rica",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:57:31.612Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:25.093Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Mundo Costa Rica",
-              "Infobae"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:57:31.633Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:25.141Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Mundo Costa Rica",
-              "Infobae"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:57:33.370Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:25.641Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Mundo Costa Rica",
-              "Infobae"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:57:34.182Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:26.189Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "El Mundo Costa Rica"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:57:35.050Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:26.669Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "El Mundo Costa Rica"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:57:35.883Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:27.079Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "El Mundo Costa Rica"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:57:37.022Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:27.465Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "El Mundo Costa Rica"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:57:39.618Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:27.999Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Mundo Costa Rica",
-              "Infobae"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:57:41.463Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:28.490Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Mundo Costa Rica",
-              "Infobae"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:57:47.766Z",
+          "count": 9,
+          "updatedAt": "2026-11-25T00:28:28.952Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "Semanario Universidad"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -1054,164 +925,143 @@
       "name": "Cuba",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:58:03.484Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:29.309Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CiberCuba",
-              "Diario de Cuba"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:58:03.485Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:29.334Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CiberCuba",
-              "Diario de Cuba"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:58:06.268Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:29.715Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Escambray",
-              "OnCuba"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:58:07.154Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:30.186Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Diario de Cuba",
-              "OnCuba"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:58:08.332Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:30.558Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Latina",
-              "OnCuba"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:58:09.943Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:30.868Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "OnCuba"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:58:11.083Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:31.335Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Latina",
-              "OnCuba"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:58:11.977Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:31.685Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CiberCuba",
-              "Diario de Cuba",
-              "OnCuba"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:58:16.801Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:31.958Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Latina",
-              "OnCuba"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:58:18.699Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:32.381Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Latina",
-              "OnCuba"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -1221,161 +1071,143 @@
       "name": "Dominican Republic",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:58:20.915Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:32.814Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Dominican Today",
-              "Infobae"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:58:20.920Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:32.857Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Dominican Today",
-              "Infobae"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:58:31.409Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:33.326Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Dominican Today",
-              "Periódico Digital Centroamericano y del Caribe"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:58:32.393Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:33.815Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Dominican Today",
-              "Infobae"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:58:34.105Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:34.246Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Latina",
-              "Dominican Today"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:58:36.154Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:34.923Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Dominican Today",
-              "DPL News"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 2,
-          "updatedAt": "2026-11-24T23:58:38.627Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:35.234Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Dominican Today"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:58:41.378Z",
+          "count": 11,
+          "updatedAt": "2026-11-25T00:28:35.543Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Dominican Today"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:58:42.005Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:36.196Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "Dominican Today"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:58:42.593Z",
+          "count": 5,
+          "updatedAt": "2026-11-25T00:28:36.699Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Latina",
-              "Dominican Today"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -1385,154 +1217,144 @@
       "name": "Ecuador",
       "feeds": {
         "top": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:58:45.257Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:37.067Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Primicias",
-              "El Comercio Ecuador"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:58:45.272Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:37.111Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Primicias",
-              "El Comercio Ecuador"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:58:45.475Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:37.658Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Primicias",
-              "El Comercio Ecuador"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:58:46.008Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:37.982Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Primicias",
-              "El Universo"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:58:46.154Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:38.402Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Primicias",
-              "El Comercio Ecuador"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:58:46.292Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:38.815Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Primicias",
-              "El Comercio Ecuador"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:58:46.513Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:39.242Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Primicias",
-              "El Universo"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:58:46.708Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:39.644Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Primicias",
-              "El Comercio Ecuador"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:58:56.938Z",
+          "count": 8,
+          "updatedAt": "2026-11-25T00:28:39.975Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Latina",
-              "Primicias"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 11,
-          "updatedAt": "2026-11-24T23:17:05.057Z",
-          "stale": true,
-          "error": "Feed refresh unavailable."
+          "count": 8,
+          "updatedAt": "2026-11-25T00:28:40.372Z",
+          "stale": false,
+          "coverage": {
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
+          }
         }
       }
     },
@@ -1541,163 +1363,143 @@
       "name": "Guatemala",
       "feeds": {
         "top": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:59:10.962Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:40.800Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Hora Guatemala",
-              "Prensa Comunitaria"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:59:10.997Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:40.845Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Hora Guatemala",
-              "Prensa Comunitaria"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:59:12.016Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:41.478Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Hora Guatemala",
-              "Prensa Comunitaria"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:59:13.445Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:41.929Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Libre",
-              "La Hora Guatemala"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:59:15.529Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:42.473Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Hora Guatemala",
-              "Prensa Libre"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:59:17.964Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:42.831Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Libre",
-              "La Hora Guatemala"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:59:19.453Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:43.130Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Libre",
-              "La Hora Guatemala"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:59:20.150Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:43.713Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Hora Guatemala",
-              "Prensa Libre"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:59:22.794Z",
+          "count": 10,
+          "updatedAt": "2026-11-25T00:28:44.046Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Libre",
-              "La Hora Guatemala"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:59:24.450Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:44.541Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Hora Guatemala",
-              "Prensa Libre"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -1707,163 +1509,143 @@
       "name": "Honduras",
       "feeds": {
         "top": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:59:26.893Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:44.978Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Criterio",
-              "Hondudiario"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:59:26.894Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:45.022Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Criterio",
-              "Hondudiario"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:59:30.873Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:45.524Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Hondudiario",
-              "Criterio"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:59:35.350Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:45.940Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Hondudiario",
-              "Diario Roatán"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:59:37.506Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:46.368Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Hondudiario",
-              "Diario Roatán"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:59:40.629Z",
+          "count": 7,
+          "updatedAt": "2026-11-25T00:28:46.640Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Heraldo Honduras",
-              "Hondudiario"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:59:42.250Z",
+          "count": 7,
+          "updatedAt": "2026-11-25T00:28:46.918Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Diario Roatán",
-              "Honduras.com"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:59:44.617Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:47.469Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Hondudiario",
-              "Criterio"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:59:47.520Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:47.780Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Hondudiario",
-              "Diario Roatán"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 6,
-          "updatedAt": "2026-11-24T23:59:50.352Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:48.150Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Hondudiario",
-              "Diario Roatán"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -1873,163 +1655,143 @@
       "name": "Mexico",
       "feeds": {
         "top": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:59:54.838Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:48.636Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Mexico News Daily",
-              "France 24"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 5,
-          "updatedAt": "2026-11-24T23:59:54.844Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:48.660Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Mexico News Daily",
-              "France 24"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 3,
-          "updatedAt": "2026-11-24T23:59:57.855Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:48.961Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Latina",
-              "Mexico News Daily"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:59:59.490Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:49.426Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Mexico News Daily",
-              "IPS"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 2,
-          "updatedAt": "2026-11-25T00:00:06.513Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:49.797Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Agencia EFE",
-              "Mexico News Daily"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:00:08.910Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:50.276Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Mexico News Daily",
-              "Resumen Latinoamericano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:00:12.399Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:50.574Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Mexico News Daily",
-              "Agencia EFE"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:00:14.155Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:50.874Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Mexico News Daily",
-              "France 24"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:00:15.034Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:51.415Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Mexico News Daily",
-              "EL PAÍS"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:00:16.561Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:51.867Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Prensa Latina",
-              "Mexico News Daily"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -2039,163 +1801,143 @@
       "name": "Nicaragua",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:00:20.975Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:52.306Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Canal 4 Nicaragua",
-              "Barricada"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:00:20.987Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:52.353Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Canal 4 Nicaragua",
-              "Barricada"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:00:21.390Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:52.843Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Canal 4 Nicaragua",
-              "Confidencial"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:00:22.067Z",
+          "count": 6,
+          "updatedAt": "2026-11-25T00:28:53.228Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Barricada",
-              "Canal 4 Nicaragua"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:00:22.872Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:53.674Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Canal 4 Nicaragua",
-              "Barricada"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:00:23.536Z",
+          "count": 8,
+          "updatedAt": "2026-11-25T00:28:54.017Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Canal 4 Nicaragua",
-              "Barricada"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:00:24.236Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:54.521Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Canal 4 Nicaragua",
-              "Barricada"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:00:24.905Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:54.944Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Canal 4 Nicaragua",
-              "Barricada"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
           "count": 5,
-          "updatedAt": "2026-11-25T00:00:25.577Z",
+          "updatedAt": "2026-11-25T00:28:55.259Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Barricada",
-              "Canal 4 Nicaragua"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:00:26.629Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:55.788Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Canal 4 Nicaragua",
-              "Barricada"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -2205,162 +1947,143 @@
       "name": "Panama",
       "feeds": {
         "top": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:00:29.167Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:56.323Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Newsroom Panama",
-              "Panamá América"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:00:29.173Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:56.373Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Newsroom Panama",
-              "Panamá América"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:00:30.697Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:56.811Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TVN Panamá",
-              "Newsroom Panama"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:00:34.439Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:57.244Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Newsroom Panama",
-              "TVN Panamá"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:00:42.621Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:57.768Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TVN Panamá"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:00:44.110Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:58.146Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TVN Panamá",
-              "Newsroom Panama"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:00:44.522Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:58.532Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TVN Panamá",
-              "Newsroom Panama"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:00:45.308Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:58.809Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TVN Panamá",
-              "Newsroom Panama"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:00:46.197Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:59.080Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TVN Panamá",
-              "Newsroom Panama"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:00:46.915Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:59.519Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TVN Panamá",
-              "Newsroom Panama"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -2370,151 +2093,144 @@
       "name": "Paraguay",
       "feeds": {
         "top": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:00:52.154Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:28:59.992Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Última Hora",
-              "MercoPress"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:00:52.163Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:00.034Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Última Hora",
-              "MercoPress"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:01:02.481Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:00.378Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "MercoPress"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 2,
-          "updatedAt": "2026-11-25T00:01:16.143Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:00.824Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Agencia EFE",
-              "Resumen Latinoamericano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 1,
-          "updatedAt": "2026-11-25T00:01:20.617Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:01.367Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Nacional Paraguay"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:01:22.496Z",
+          "count": 11,
+          "updatedAt": "2026-11-25T00:29:01.836Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "DPL News"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 1,
-          "updatedAt": "2026-11-25T00:01:24.774Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:02.298Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Nacional Paraguay"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:01:28.037Z",
+          "count": 11,
+          "updatedAt": "2026-11-25T00:29:02.783Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Resumen Latinoamericano",
-              "Agencia EFE"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 2,
-          "updatedAt": "2026-11-25T00:01:29.887Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:03.282Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Nacional Paraguay",
-              "Agencia EFE"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 10,
-          "updatedAt": "2026-11-24T23:17:29.845Z",
-          "stale": true,
-          "error": "Feed refresh unavailable."
+          "count": 9,
+          "updatedAt": "2026-11-25T00:29:03.612Z",
+          "stale": false,
+          "coverage": {
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
+          }
         }
       }
     },
@@ -2523,164 +2239,143 @@
       "name": "Peru",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:01:33.913Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:04.075Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Agencia Andina",
-              "Perú Retail"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:01:33.918Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:04.102Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Agencia Andina",
-              "Perú Retail"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:01:35.299Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:04.347Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Agencia Andina",
-              "Infobae"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:01:35.414Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:04.720Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "RPP",
-              "Perú Retail"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:01:36.354Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:05.063Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "El Comercio Perú"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:01:36.618Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:05.493Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Gestión",
-              "Perú Retail"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:01:38.018Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:05.818Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "EL PAÍS",
-              "Agencia Andina"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:01:38.619Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:06.282Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "RPP",
-              "Agencia Andina"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:01:38.717Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:06.784Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Agencia Andina",
-              "Perú Retail"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:01:39.148Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:07.137Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Gestión",
-              "Agencia Andina"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -2690,145 +2385,149 @@
       "name": "Puerto Rico",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:01:40.934Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:07.666Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Perla del Sur",
-              "Metro Puerto Rico"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:01:40.942Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:07.710Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Perla del Sur",
-              "Metro Puerto Rico"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 2,
-          "updatedAt": "2026-11-25T00:02:02.610Z",
+          "count": 7,
+          "updatedAt": "2026-11-25T00:29:07.998Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Vocero",
-              "Sin Comillas"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:02:07.024Z",
+          "count": 9,
+          "updatedAt": "2026-11-25T00:29:08.275Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Nuevo Día",
-              "NotiCel"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:02:10.594Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:08.771Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "NotiCel",
-              "La Perla del Sur"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:02:10.680Z",
+          "count": 11,
+          "updatedAt": "2026-11-25T00:29:09.088Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "NotiCel",
-              "Sin Comillas"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:02:10.860Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:09.532Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Metro Puerto Rico",
-              "Fundación Nacional para la Cultura Popular"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 4,
-          "updatedAt": "2026-11-24T23:17:36.058Z",
-          "stale": true,
-          "error": "Feed refresh unavailable."
-        },
-        "economy": {
           "count": 3,
-          "updatedAt": "2026-11-25T00:02:11.005Z",
+          "updatedAt": "2026-11-25T00:29:09.812Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Perla del Sur",
-              "NotiCel"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
+          }
+        },
+        "economy": {
+          "count": 5,
+          "updatedAt": "2026-11-25T00:29:10.192Z",
+          "stale": false,
+          "coverage": {
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 1,
-          "updatedAt": "2026-11-24T23:18:05.604Z",
-          "stale": true,
-          "error": "Feed refresh unavailable."
+          "count": 2,
+          "updatedAt": "2026-11-25T00:29:49.564Z",
+          "stale": false,
+          "coverage": {
+            "languages": [
+              "es",
+              "en"
+            ],
+            "lookbackDays": 14,
+            "searches": 3,
+            "fallbackUsed": true,
+            "fallbackUnavailable": false,
+            "publishers": [
+              "RCC Noticias",
+              "Noticias SIN"
+            ]
+          }
         }
       }
     },
@@ -2837,164 +2536,143 @@
       "name": "El Salvador",
       "feeds": {
         "top": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:02:43.989Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:50.087Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Diario El Mundo",
-              "Diario Co Latino"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:02:43.994Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:50.135Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Diario El Mundo",
-              "Diario Co Latino"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:02:52.004Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:50.653Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Diario de Hoy",
-              "Diario Co Latino"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:03:34.305Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:50.996Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Diario de Hoy",
-              "Resumen Latinoamericano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:03:37.262Z",
+          "count": 7,
+          "updatedAt": "2026-11-25T00:29:51.285Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "El Diario de Hoy",
-              "Diario Co Latino"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:03:40.394Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:51.652Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "DPL News",
-              "El Diario de Hoy"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:03:41.688Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:52.015Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Diario de Hoy",
-              "Diario El Mundo"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 2,
-          "updatedAt": "2026-11-25T00:03:50.724Z",
+          "count": 11,
+          "updatedAt": "2026-11-25T00:29:52.348Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Diario El Mundo",
-              "El Diario de Hoy"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:03:51.537Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:52.708Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Infobae",
-              "El Diario de Hoy"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:03:57.460Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:53.193Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Diario de Hoy",
-              "Infobae"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -3004,162 +2682,143 @@
       "name": "Uruguay",
       "feeds": {
         "top": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:04:17.121Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:53.658Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "MercoPress",
-              "Doxa"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:04:17.123Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:53.714Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "MercoPress",
-              "Doxa"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:04:25.210Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:54.272Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Diaria",
-              "Doxa",
-              "Resumen Latinoamericano"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:04:27.406Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:54.586Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Diaria",
-              "MercoPress",
-              "DPL News"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:04:27.853Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:55.121Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Diaria",
-              "Caras y Caretas"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:04:28.258Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:55.366Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "DPL News",
-              "El Observador Uruguay"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 1,
-          "updatedAt": "2026-11-25T00:04:29.147Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:55.627Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Observador Uruguay"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 2,
-          "updatedAt": "2026-11-25T00:04:29.829Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:56.204Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "La Diaria",
-              "Uruguay al Día"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 1,
-          "updatedAt": "2026-11-25T00:04:29.958Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:56.773Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Observador Uruguay"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 1,
-          "updatedAt": "2026-11-25T00:04:30.052Z",
+          "count": 11,
+          "updatedAt": "2026-11-25T00:29:57.102Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "MercoPress"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -3169,163 +2828,143 @@
       "name": "Venezuela",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:04:42.190Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:57.477Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "EL NACIONAL",
-              "El Pitazo"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:04:42.197Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:57.508Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "EL NACIONAL",
-              "El Pitazo"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:04:43.873Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:58.059Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Pitazo",
-              "EL NACIONAL"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:04:45.070Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:58.562Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "EL NACIONAL",
-              "El Pitazo"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:04:47.810Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:59.081Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Pitazo",
-              "EL NACIONAL"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:04:48.306Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:59.557Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Pitazo",
-              "EL NACIONAL"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:04:49.645Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:29:59.854Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Pitazo",
-              "EL NACIONAL"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:04:50.670Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:30:00.340Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "El Pitazo",
-              "EL NACIONAL"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:04:52.115Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:30:01.530Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "EL NACIONAL",
-              "El Pitazo"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:04:52.916Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:30:02.154Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "EL NACIONAL",
-              "El Pitazo"
-            ]
+            "languages": [
+              "es"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -3335,145 +2974,129 @@
       "name": "Trinidad and Tobago",
       "feeds": {
         "top": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:04:55.933Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:30:02.482Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNC3",
-              "TTT News"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:04:55.934Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:30:02.497Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNC3",
-              "TTT News"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:05:03.941Z",
+          "count": 6,
+          "updatedAt": "2026-11-25T00:30:03.408Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 14,
+            "searches": 2,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TTT News",
-              "CNC3"
-            ]
+            "fallbackUnavailable": false
           }
         },
         "business": {
           "count": 4,
-          "updatedAt": "2026-11-25T00:05:12.830Z",
+          "updatedAt": "2026-11-25T00:30:03.878Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TTT News",
-              "Caribbean Times"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
           "count": 4,
-          "updatedAt": "2026-11-25T00:05:14.182Z",
+          "updatedAt": "2026-11-25T00:30:04.356Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNC3",
-              "TTT News"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:05:15.721Z",
+          "count": 3,
+          "updatedAt": "2026-11-25T00:30:05.312Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 14,
+            "searches": 3,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNC3",
-              "Caribbean News Global",
-              "TTT News"
-            ]
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:05:19.358Z",
+          "count": 7,
+          "updatedAt": "2026-11-25T00:30:05.795Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TTT News",
-              "Indo-Caribbean Diaspora News"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:05:20.877Z",
+          "count": 5,
+          "updatedAt": "2026-11-25T00:30:06.265Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "CNC3",
-              "TTT News",
-              "Caribbean Times"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 1,
-          "updatedAt": "2026-11-25T00:05:21.661Z",
+          "count": 2,
+          "updatedAt": "2026-11-25T00:30:42.881Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 14,
+            "searches": 2,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
+            "fallbackUnavailable": false,
             "publishers": [
               "Caribbean News Global"
             ]
@@ -3481,18 +3104,16 @@
         },
         "world": {
           "count": 3,
-          "updatedAt": "2026-11-25T00:05:24.088Z",
+          "updatedAt": "2026-11-25T00:30:43.424Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "TTT News",
-              "Caribbean National Weekly"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -3502,95 +3123,88 @@
       "name": "Suriname",
       "feeds": {
         "top": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:05:30.589Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:30:43.809Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Government of Suriname",
-              "Waterkant"
-            ]
+            "languages": [
+              "nl"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:05:30.591Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:30:43.833Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Government of Suriname",
-              "Waterkant"
-            ]
+            "languages": [
+              "nl"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
           "count": 4,
-          "updatedAt": "2026-11-25T00:05:34.816Z",
+          "updatedAt": "2026-11-25T00:30:44.561Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "nl"
+            ],
+            "lookbackDays": 14,
+            "searches": 2,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Government of Suriname",
-              "Waterkant"
-            ]
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:05:38.488Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:30:44.813Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Waterkant",
-              "Dagblad Suriname"
-            ]
+            "languages": [
+              "nl"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:05:41.838Z",
+          "count": 6,
+          "updatedAt": "2026-11-25T00:30:45.941Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "nl"
+            ],
+            "lookbackDays": 14,
+            "searches": 2,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Key News Suriname",
-              "Dagblad Suriname"
-            ]
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:05:45.317Z",
+          "count": 6,
+          "updatedAt": "2026-11-25T00:30:59.892Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "nl",
+              "en"
+            ],
+            "lookbackDays": 14,
+            "searches": 3,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
+            "fallbackUnavailable": false,
             "publishers": [
               "Key News Suriname",
               "Waterkant",
@@ -3599,66 +3213,59 @@
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:05:45.815Z",
+          "count": 5,
+          "updatedAt": "2026-11-25T00:31:00.598Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "nl"
+            ],
+            "lookbackDays": 14,
+            "searches": 2,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Waterkant",
-              "Government of Suriname"
-            ]
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:05:46.988Z",
+          "count": 5,
+          "updatedAt": "2026-11-25T00:31:01.104Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "nl"
+            ],
+            "lookbackDays": 14,
+            "searches": 2,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Waterkant",
-              "Dagblad Suriname"
-            ]
+            "fallbackUnavailable": false
           }
         },
         "economy": {
           "count": 3,
-          "updatedAt": "2026-11-25T00:05:55.163Z",
+          "updatedAt": "2026-11-25T00:31:01.748Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "nl"
+            ],
+            "lookbackDays": 14,
+            "searches": 2,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Key News Suriname"
-            ]
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:05:55.916Z",
+          "count": 11,
+          "updatedAt": "2026-11-25T00:31:02.081Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Dagblad Suriname",
-              "Government of Suriname"
-            ]
+            "languages": [
+              "nl"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -3668,164 +3275,143 @@
       "name": "Guyana",
       "feeds": {
         "top": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:06:00.098Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:31:02.397Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Kaieteur News",
-              "Demerara Waves Online News- Guyana"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:06:00.105Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:31:02.423Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Kaieteur News",
-              "Demerara Waves Online News- Guyana"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:06:03.733Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:31:02.847Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Kaieteur News",
-              "Demerara Waves Online News- Guyana"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 4,
-          "updatedAt": "2026-11-25T00:06:05.029Z",
+          "count": 8,
+          "updatedAt": "2026-11-25T00:31:03.213Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Kaieteur News",
-              "DPI Guyana"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:06:07.918Z",
+          "count": 6,
+          "updatedAt": "2026-11-25T00:31:03.436Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Kaieteur News",
-              "Guyana Times"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
           "count": 4,
-          "updatedAt": "2026-11-25T00:06:10.266Z",
+          "updatedAt": "2026-11-25T00:31:03.877Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 14,
+            "searches": 2,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Kaieteur News",
-              "DPI Guyana"
-            ]
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 2,
-          "updatedAt": "2026-11-25T00:06:17.099Z",
+          "count": 4,
+          "updatedAt": "2026-11-25T00:31:04.238Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "DPI Guyana",
-              "Guyana Times"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:06:17.679Z",
+          "count": 4,
+          "updatedAt": "2026-11-25T00:31:04.500Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Kaieteur News",
-              "DPI Guyana",
-              "Demerara Waves Online News- Guyana"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:06:17.996Z",
+          "count": 4,
+          "updatedAt": "2026-11-25T00:31:04.841Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Guyana Times",
-              "Kaieteur News"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "world": {
-          "count": 5,
-          "updatedAt": "2026-11-25T00:06:18.326Z",
+          "count": 7,
+          "updatedAt": "2026-11-25T00:31:05.233Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Guyana Times",
-              "DPI Guyana"
-            ]
+            "languages": [
+              "en"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         }
       }
@@ -3835,161 +3421,144 @@
       "name": "French Guiana",
       "feeds": {
         "top": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:06:22.815Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:31:05.572Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Outremers360",
-              "franceguyane.fr"
-            ]
+            "languages": [
+              "fr"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "latest": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:06:22.817Z",
+          "count": 12,
+          "updatedAt": "2026-11-25T00:31:05.599Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Outremers360",
-              "franceguyane.fr"
-            ]
+            "languages": [
+              "fr"
+            ],
+            "lookbackDays": 3,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "politics": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:06:36.748Z",
+          "count": 8,
+          "updatedAt": "2026-11-25T00:31:05.922Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Guyaweb",
-              "franceguyane.fr",
-              "PÉYI GUYANE"
-            ]
+            "languages": [
+              "fr"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "business": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:06:39.049Z",
+          "count": 9,
+          "updatedAt": "2026-11-25T00:31:07.806Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "fr"
+            ],
+            "lookbackDays": 14,
+            "searches": 2,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Outremers360",
-              "franceguyane.fr"
-            ]
+            "fallbackUnavailable": false
           }
         },
         "sports": {
-          "count": 6,
-          "updatedAt": "2026-11-25T00:06:40.492Z",
+          "count": 4,
+          "updatedAt": "2026-11-25T00:31:08.144Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "franceguyane.fr",
-              "PÉYI GUYANE"
-            ]
+            "languages": [
+              "fr"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "tech": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:06:41.231Z",
+          "count": 8,
+          "updatedAt": "2026-11-25T00:31:10.184Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Outremers360",
-              "Outre-mer La 1ère",
-              "PÉYI GUYANE"
-            ]
+            "languages": [
+              "fr"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "culture": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:06:44.624Z",
+          "count": 8,
+          "updatedAt": "2026-11-25T00:31:12.297Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Outre-mer La 1ère",
-              "KARIBINFO",
-              "Outremers360"
-            ]
+            "languages": [
+              "fr"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "crime": {
-          "count": 2,
-          "updatedAt": "2026-11-25T00:06:56.181Z",
+          "count": 5,
+          "updatedAt": "2026-11-25T00:31:12.517Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
-            "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "PÉYI GUYANE"
-            ]
+            "languages": [
+              "fr"
+            ],
+            "lookbackDays": 7,
+            "searches": 1,
+            "fallbackUsed": false,
+            "fallbackUnavailable": false
           }
         },
         "economy": {
-          "count": 3,
-          "updatedAt": "2026-11-25T00:06:56.185Z",
+          "count": 5,
+          "updatedAt": "2026-11-25T00:31:12.980Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "fr"
+            ],
+            "lookbackDays": 14,
+            "searches": 2,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
-            "publishers": [
-              "Outremers360",
-              "franceguyane.fr"
-            ]
+            "fallbackUnavailable": false
           }
         },
         "world": {
           "count": 1,
-          "updatedAt": "2026-11-25T00:06:58.367Z",
+          "updatedAt": "2026-11-25T00:31:49.835Z",
           "stale": false,
           "coverage": {
-            "languages": [],
-            "lookbackDays": 0,
-            "searches": 0,
+            "languages": [
+              "fr",
+              "en"
+            ],
+            "lookbackDays": 14,
+            "searches": 3,
             "fallbackUsed": true,
-            "fallbackUnavailable": true,
+            "fallbackUnavailable": false,
             "publishers": [
               "Université de Guyane"
             ]
@@ -4000,9 +3569,9 @@
   ],
   "coverage": {
     "totalFeeds": 240,
-    "freshFeeds": 236,
-    "staleFeeds": 4,
+    "freshFeeds": 240,
+    "staleFeeds": 0,
     "emptyFeeds": 0,
-    "sparseFeeds": 19
+    "sparseFeeds": 3
   }
 }
