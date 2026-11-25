@@ -459,6 +459,13 @@ export const countryPublisherFeeds = {
   ],
   "PY": [
     {
+      "url": "https://www.lanacion.com.py/",
+      "name": "La Nación Paraguay",
+      "hosts": ["www.lanacion.com.py"],
+      "kind": "publisher-index",
+      "articlePathPrefix": "/politica/"
+    },
+    {
       "url": "https://en.mercopress.com/rss/paraguay",
       "name": "MercoPress",
       "hosts": ["en.mercopress.com"]

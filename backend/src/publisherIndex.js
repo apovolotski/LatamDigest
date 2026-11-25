@@ -26,7 +26,10 @@ export function publisherIndexLinks(html,source){
   if(!href||!heading)continue;
   let url;try{url=new URL(href,source.url);}catch{continue;}
   const slug=url.pathname.slice(source.articlePathPrefix.length);
-  if(url.protocol!=='https:'||!source.hosts.includes(url.hostname)||url.username||url.password||url.port||url.search||url.hash||!url.pathname.startsWith(source.articlePathPrefix)||!slug||!/^[a-z0-9-]+$/.test(slug)||seen.has(url.href))continue;
+  const safeSlug = /^[a-z0-9-]+$/.test(slug) ||
+   (source.hosts.length === 1 && source.hosts[0] === 'www.lanacion.com.py' && source.articlePathPrefix === '/politica/' &&
+    /^\d{4}\/(?:0[1-9]|1[0-2])\/(?:0[1-9]|[12]\d|3[01])\/[a-z0-9-]+\/$/.test(slug));
+  if(url.protocol!=='https:'||!source.hosts.includes(url.hostname)||url.username||url.password||url.port||url.search||url.hash||!url.pathname.startsWith(source.articlePathPrefix)||!slug||!safeSlug||seen.has(url.href))continue;
   const title=heading.replace(/<[^>]+>/g,'').trim();if(!title)continue;
   seen.add(url.href);found.push({title,url:url.href});if(found.length===40)break;
  }

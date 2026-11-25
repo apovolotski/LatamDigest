@@ -496,6 +496,9 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     title = title.replace(/\bcongreso (?:mundial de ingenieros agronomos|de extension universitaria)\b/g, " ");
   }
   if (feed.key === "world") {
+    // Reviewed headline identifies Argentina's president travelling to
+    // Paraguay for a meeting with its president: explicit bilateral diplomacy.
+    if (/\bjavier milei visitara paraguay y se reunira con el presidente pedro alliana\b/.test(normalized(title))) terms.push("javier milei");
     // Negotiations on accepting deportees from a named foreign state are
     // migration diplomacy, not merely travel, visiting officials or branding.
     if (/\b(?:talks|agreement) with (?:the )?(?:us|united states)\b/.test(normalized(title)) &&
