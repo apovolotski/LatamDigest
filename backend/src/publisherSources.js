@@ -243,6 +243,12 @@ export const countryPublisherFeeds = {
   ],
   "EC": [
     {
+      "url": "https://elmercurio.com.ec/wp-json/wp/v2/posts?search=Ecuador",
+      "name": "El Mercurio Ecuador",
+      "hosts": ["elmercurio.com.ec"],
+      "kind": "wordpress"
+    },
+    {
       "url": "https://www.primicias.ec/sitemap-google-news.xml",
       "name": "Primicias",
       "hosts": ["www.primicias.ec"],
@@ -604,6 +610,12 @@ export const countryPublisherFeeds = {
     }
   ],
   "PR": [
+    {
+      "url": "https://noticiassin.com/wp-json/wp/v2/posts?search=Puerto%20Rico",
+      "name": "Noticias SIN",
+      "hosts": ["noticiassin.com"],
+      "kind": "wordpress"
+    },
     {
       "url": "https://pasquines.us/feed/",
       "pages": [
