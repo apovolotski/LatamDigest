@@ -217,7 +217,9 @@ export async function fetchPublisherArticles(country, feed, options = {}) {
   options = { ...options, requestContext: options.requestContext ?? createFeedRequestContext() };
   const selected = new Map();
   const minimumPublishers = Math.max(1, Math.min(3, Number(options.minimumPublishers) || 2));
-  const minimumHeadroomHours = Math.max(0, Math.min(72, Number(options.minimumHeadroomHours) || 0));
+  // Keep searching past technically current but nearly expiring stories.
+  // This discovery target never extends publication or cache age limits.
+  const minimumHeadroomHours = Math.max(0, Math.min(72, Number(options.minimumHeadroomHours ?? 48) || 0));
   const hasHeadroom = article => Date.parse(article.publishedAt) + MAX_PUBLICATION_AGE_MS - Date.now() >= minimumHeadroomHours * 3600000;
   const hasPublisher = source => [...selected.values()].some(a => a.sourceName === source.name && hasHeadroom(a));
   const enough = () => selected.size >= 3 && new Set([...selected.values()].filter(hasHeadroom).map(a => a.sourceName)).size >= minimumPublishers;
