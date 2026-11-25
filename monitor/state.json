@@ -30847,7 +30847,8 @@
       "due": "2026-11-25T18:17:00.000Z",
       "reason": "late_schedule",
       "reservedAt": "2026-11-25T20:08:26.585Z",
-      "status": "reserved"
+      "status": "dispatched",
+      "dispatchOutcome": "accepted"
     }
   },
   "alerts": {
