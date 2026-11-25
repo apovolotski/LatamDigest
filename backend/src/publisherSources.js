@@ -1062,6 +1062,12 @@ export const countryPublisherFeeds = {
   ],
   "TT": [
     {
+      "url": "https://www.cananews.com/category/business/feed/",
+      "pages": ["https://www.cananews.com/category/business/feed/?paged=2", "https://www.cananews.com/category/business/feed/?paged=3"],
+      "name": "Caribbean News Agency",
+      "hosts": ["www.cananews.com"]
+    },
+    {
       "url": "https://www.cnc3.co.tt/feed/",
       "pages": [
         "https://www.cnc3.co.tt/feed/?paged=2",
@@ -1510,6 +1516,20 @@ export const countryPublisherFeeds = {
 };
 
 export const regionalPublisherFeeds = [
+  {
+    "url": "https://www.cananews.com/feed/",
+    "pages": [
+      "https://www.cananews.com/feed/?paged=2",
+      "https://www.cananews.com/feed/?paged=3",
+      "https://www.cananews.com/feed/?paged=4",
+      "https://www.cananews.com/feed/?paged=5",
+      "https://www.cananews.com/feed/?paged=6",
+      "https://www.cananews.com/feed/?paged=7",
+      "https://www.cananews.com/feed/?paged=8"
+    ],
+    "name": "Caribbean News Agency",
+    "hosts": ["www.cananews.com"]
+  },
   {
     "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/america/america-latina/",
     "name": "Infobae",

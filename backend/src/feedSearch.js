@@ -289,6 +289,19 @@ function localeFor(countryCode, language) {
 export function isRelevantArticle(article, country, feed, plan, now = Date.now()) {
   const published = Date.parse(article.publishedAt);
   if (!Number.isFinite(published) || published < now - plan.lookbackDays * 86_400_000 || published > now + 3600_000) return false;
+  // These exact Google entries carry timestamps different from their primary
+  // pages. Only the reviewed direct publisher path may recover them, through
+  // the existing original-date verifier. Do not renew or invent a date, or
+  // exclude other reporting from either publisher.
+  const reviewedDateHosts = {
+    'trinidad and tobago denies talks with us to accept third country deportees': 'www.caribbeannationalweekly.com',
+    'german tourist alleges 11k fraud over undelivered tobago carnival package': 'www.guardian.co.tt'
+  };
+  const reviewedDateHost = reviewedDateHosts[normalized(article.title)];
+  if (reviewedDateHost) {
+    try { if (new URL(article.url).hostname !== reviewedDateHost) return false; }
+    catch { return false; }
+  }
   if (explicitVideoPromotion.test(normalized(article.title))) return false;
   // This observed standalone leak-video promotion supplies no news report.
   // Match the exact caption, leaving reporting about the incident eligible.
@@ -480,7 +493,8 @@ export function isRelevantArticle(article, country, feed, plan, now = Date.now()
     // This civil damages/advertising context cannot rely on justicia alone.
     const advertisingDispute = /\b(?:demanda|litigio|pleito)\b/.test(title) && /\b(?:comercial|publicidad|uso de (?:su |la )?imagen)\b/.test(title);
     const commemorativeDispute = /\bbatalha na justica\b/.test(title) && /\bapagar homenagem\b/.test(title);
-    if ((civilDispute.test(title) || regionalTreatyDispute || publishersInjunction || advertisingDispute || commemorativeDispute) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
+    const refereeJustice = /\b(?:arbitro|arbitraje|ivan barton)\b/.test(title) && /\b(?:partido|futbol|liga|mundial)\b/.test(title);
+    if ((civilDispute.test(title) || regionalTreatyDispute || publishersInjunction || advertisingDispute || commemorativeDispute || refereeJustice) && !terms.filter(term => !civilJusticeTerms.has(term)).some(term => matches(title, term))) return false;
     const sports = languages.flatMap(language => [...topics[language].sports.split("|"), ...(topicMatchTerms[`${language}/sports`] ?? "").split("|")]);
     if ((policeCommunityEvents.test(title) || /\bascensos?\b/.test(title) || sports.some(term => matches(title, term))) &&
         !terms.filter(term => !weakCrimeTerms.has(term)).some(term => matches(title, term))) return false;
